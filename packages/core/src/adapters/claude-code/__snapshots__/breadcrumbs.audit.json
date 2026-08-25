@@ -1,0 +1,4180 @@
+{
+  "schemaVersion": 0,
+  "generatedAt": "2026-08-26T12:00:00.000Z",
+  "moldig": {
+    "version": "0.0.0"
+  },
+  "scan": {
+    "home": "<HOME>",
+    "roots": ["<ROOT>"],
+    "cwd": "<ROOT>/project-a",
+    "platform": "darwin",
+    "caseFold": true,
+    "env": {},
+    "git": {
+      "available": false,
+      "version": null
+    },
+    "durationMs": 0
+  },
+  "tokenizer": {
+    "name": "gpt-tokenizer",
+    "version": "4.0.0",
+    "encoding": "o200k_base",
+    "fallbackUsed": false,
+    "multipliers": {
+      "openai": {
+        "low": 1,
+        "mid": 1,
+        "high": 1
+      },
+      "google": {
+        "low": 1,
+        "mid": 1,
+        "high": 1
+      },
+      "anthropic-46": {
+        "low": 1,
+        "mid": 1.15,
+        "high": 1.25
+      },
+      "anthropic-47plus": {
+        "low": 1.3,
+        "mid": 1.5,
+        "high": 1.65
+      }
+    }
+  },
+  "harnesses": [
+    {
+      "id": "harness:claude-code",
+      "harness": "claude-code",
+      "displayName": "Claude Code",
+      "surfaces": ["cli"],
+      "presence": "installed",
+      "version": "2.1.245",
+      "effectiveModel": "<redacted>",
+      "modelFamily": null,
+      "contextWindowTokens": null,
+      "capabilities": {
+        "memoryLocation": "file",
+        "memoryReadSignal": "exact",
+        "contextFileNames": ["CLAUDE.md", "CLAUDE.local.md"],
+        "sweepDocumented": true
+      },
+      "caps": {
+        "memoryIndexLines": 200,
+        "memoryIndexBytes": 25600,
+        "chainMaxBytes": null,
+        "skillDescriptionChars": 1536,
+        "importDepth": 4
+      },
+      "effectiveSettings": {
+        "model": "<redacted>",
+        "effortLevel": "<redacted>",
+        "outputStyle": "<redacted>",
+        "language": "<redacted>",
+        "cleanupPeriodDays": 20,
+        "autoMemoryEnabled": true,
+        "permissions": {
+          "allow": ["<redacted>"],
+          "ask": [],
+          "deny": [],
+          "additionalDirectories": [],
+          "defaultMode": "acceptEdits"
+        },
+        "hooks": {
+          "SessionStart": [
+            {
+              "matcher": "<redacted>",
+              "hooks": [
+                {
+                  "type": "command",
+                  "command": "<redacted>",
+                  "timeout": 60
+                }
+              ]
+            }
+          ],
+          "PreToolUse": [
+            {
+              "matcher": "Bash",
+              "hooks": [
+                {
+                  "type": "prompt",
+                  "prompt": "<redacted>"
+                }
+              ]
+            }
+          ]
+        },
+        "env": {
+          "EXAMPLE_VAR": "<redacted>"
+        },
+        "enabledPlugins": {
+          "plugin-a@marketplace-a": true,
+          "plugin-b@marketplace-a": false
+        },
+        "extraKnownMarketplaces": {
+          "marketplace-a": {
+            "source": {
+              "source": "github",
+              "repo": "<redacted>"
+            }
+          }
+        },
+        "modelSettings": {
+          "<redacted>-1": {
+            "effortLevel": "<redacted>"
+          }
+        },
+        "statusLine": {
+          "type": "command",
+          "command": "<redacted>"
+        },
+        "tui": "<redacted>",
+        "voice": {
+          "enabled": false,
+          "mode": "<redacted>"
+        },
+        "voiceEnabled": false,
+        "skipWorkflowUsageWarning": true,
+        "verbose": false,
+        "agentPushNotifEnabled": false,
+        "autoMode": {
+          "environment": ["<redacted>"]
+        }
+      },
+      "breadcrumbSources": [
+        {
+          "kind": "projects-entry",
+          "path": "<HOME>/.claude.json",
+          "readInV1": true
+        },
+        {
+          "kind": "slug-directory",
+          "path": "<HOME>/.claude/projects",
+          "readInV1": true
+        }
+      ],
+      "userScope": {
+        "paths": [
+          {
+            "path": "<HOME>/.claude",
+            "role": "data",
+            "source": "default",
+            "envVar": null
+          },
+          {
+            "path": "<HOME>/.claude.json",
+            "role": "state",
+            "source": "default",
+            "envVar": null
+          }
+        ],
+        "stray": [
+          "breadcrumb:claude-code:<HOME>/.claude.json#projects/<HOME>",
+          "breadcrumb:claude-code:<HOME>/.claude/projects/__HOME__"
+        ],
+        "baseline": {
+          "items": [
+            {
+              "entity": "context-file:<HOME>/.claude/claude.md",
+              "edge": "edge:loaded-by:context-file:<HOME>/.claude/claude.md:harness:claude-code",
+              "order": 0,
+              "tokens": 100
+            }
+          ],
+          "tokens": 100
+        }
+      }
+    }
+  ],
+  "projects": [
+    {
+      "id": "project:<ROOT>/gone",
+      "path": "<ROOT>/gone",
+      "displayName": "gone",
+      "kind": "unknown",
+      "reachability": "orphan",
+      "unreachableReason": null,
+      "enclosesCwd": false,
+      "discoveredBy": ["breadcrumb"],
+      "parent": null,
+      "members": [],
+      "breadcrumbs": [
+        "breadcrumb:claude-code:<HOME>/.claude.json#projects/<ROOT>/gone",
+        "breadcrumb:claude-code:<HOME>/.claude/projects/__ROOT__-gone"
+      ],
+      "nestedMarkers": [],
+      "perHarness": {
+        "claude-code": {
+          "trusted": true,
+          "effectiveSettings": {},
+          "sessionLoad": {
+            "items": [],
+            "tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "project:<ROOT>/project-a",
+      "path": "<ROOT>/project-a",
+      "displayName": "project-a",
+      "kind": "repository",
+      "reachability": "present",
+      "unreachableReason": null,
+      "enclosesCwd": true,
+      "discoveredBy": ["breadcrumb", "marker-walk", "cwd"],
+      "parent": null,
+      "members": [
+        {
+          "path": "<ROOT>/project-a",
+          "role": "repository",
+          "name": null,
+          "gitdir": null,
+          "reachability": "present"
+        },
+        {
+          "path": "<ROOT>/dead-wt",
+          "role": "worktree",
+          "name": "dead",
+          "gitdir": "<ROOT>/project-a/.git/worktrees/dead",
+          "reachability": "orphan"
+        },
+        {
+          "path": "<ROOT>/project-a-wt",
+          "role": "worktree",
+          "name": "project-a-wt",
+          "gitdir": "<ROOT>/project-a/.git/worktrees/project-a-wt",
+          "reachability": "present"
+        }
+      ],
+      "breadcrumbs": [
+        "breadcrumb:claude-code:<HOME>/.claude.json#projects/<ROOT>/project-a",
+        "breadcrumb:claude-code:<HOME>/.claude.json#projects/<ROOT>/project-a-wt",
+        "breadcrumb:claude-code:<HOME>/.claude.json#projects/<ROOT>/project-a/apps/web",
+        "breadcrumb:claude-code:<HOME>/.claude/projects/__ROOT__-project-a",
+        "breadcrumb:claude-code:<HOME>/.claude/projects/__ROOT__-project-a-apps-web",
+        "breadcrumb:claude-code:<HOME>/.claude/projects/__ROOT__-project-a-wt"
+      ],
+      "nestedMarkers": [
+        {
+          "relativePath": "apps/web/CLAUDE.md",
+          "marker": "CLAUDE.md",
+          "entity": "context-file:<ROOT>/project-a/apps/web/claude.md"
+        }
+      ],
+      "perHarness": {
+        "claude-code": {
+          "trusted": true,
+          "effectiveSettings": {
+            "enabledPlugins": {
+              "plugin-a@marketplace-a": true
+            },
+            "permissions": {
+              "allow": ["<redacted>"]
+            },
+            "enableAllProjectMcpServers": false,
+            "enabledMcpjsonServers": ["server-http"],
+            "disabledMcpjsonServers": ["server-sse"]
+          },
+          "sessionLoad": {
+            "items": [
+              {
+                "entity": "context-file:<ROOT>/project-a/claude.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/claude.md:harness:claude-code",
+                "order": 0,
+                "tokens": 78
+              },
+              {
+                "entity": "context-file:<ROOT>/project-a/.claude/rules/nested/rule-b.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/.claude/rules/nested/rule-b.md:harness:claude-code",
+                "order": 1,
+                "tokens": 40
+              },
+              {
+                "entity": "context-file:<ROOT>/project-a/claude.local.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/claude.local.md:harness:claude-code",
+                "order": 2,
+                "tokens": 36
+              },
+              {
+                "entity": "context-file:<ROOT>/project-a/docs/notes.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/docs/notes.md:harness:claude-code",
+                "order": 3,
+                "tokens": 30
+              },
+              {
+                "entity": "memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/memory.md",
+                "edge": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/memory.md:harness:claude-code",
+                "order": 4,
+                "tokens": 64
+              },
+              {
+                "entity": "skill:<ROOT>/project-a/.claude/commands/x.md",
+                "edge": "edge:loaded-by:skill:<ROOT>/project-a/.claude/commands/x.md:harness:claude-code",
+                "order": 5,
+                "tokens": 4
+              },
+              {
+                "entity": "agent-definition:<ROOT>/project-a/.claude/agents/reviewer.md",
+                "edge": "edge:loaded-by:agent-definition:<ROOT>/project-a/.claude/agents/reviewer.md:harness:claude-code",
+                "order": 6,
+                "tokens": 4
+              }
+            ],
+            "tokens": 256
+          }
+        }
+      }
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "id": "breadcrumb:claude-code:<HOME>/.claude.json#projects/<HOME>",
+      "harness": "claude-code",
+      "kind": "projects-entry",
+      "raw": "<HOME>",
+      "recordedForm": "path",
+      "path": "<HOME>",
+      "resolution": "direct",
+      "project": null,
+      "strayReason": "bare-directory",
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.claude.json",
+        "format": "json",
+        "keyPath": ["projects", "<HOME>"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": []
+    },
+    {
+      "id": "breadcrumb:claude-code:<HOME>/.claude.json#projects/<ROOT>/gone",
+      "harness": "claude-code",
+      "kind": "projects-entry",
+      "raw": "<ROOT>/gone",
+      "recordedForm": "path",
+      "path": "<ROOT>/gone",
+      "resolution": "direct",
+      "project": "project:<ROOT>/gone",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "orphan",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.claude.json",
+        "format": "json",
+        "keyPath": ["projects", "<ROOT>/gone"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {
+        "lastSessionId": "33333333-3333-4333-8333-333333333333"
+      },
+      "state": []
+    },
+    {
+      "id": "breadcrumb:claude-code:<HOME>/.claude.json#projects/<ROOT>/project-a",
+      "harness": "claude-code",
+      "kind": "projects-entry",
+      "raw": "<ROOT>/project-a",
+      "recordedForm": "path",
+      "path": "<ROOT>/project-a",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.claude.json",
+        "format": "json",
+        "keyPath": ["projects", "<ROOT>/project-a"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {
+        "lastSessionId": "11111111-1111-4111-8111-111111111111"
+      },
+      "state": [
+        "harness-cache:<HOME>/.claude/projects/__ROOT__-project-a/11111111-1111-4111-8111-111111111111.jsonl"
+      ]
+    },
+    {
+      "id": "breadcrumb:claude-code:<HOME>/.claude.json#projects/<ROOT>/project-a-wt",
+      "harness": "claude-code",
+      "kind": "projects-entry",
+      "raw": "<ROOT>/project-a-wt",
+      "recordedForm": "path",
+      "path": "<ROOT>/project-a-wt",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": "../project-a-wt",
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.claude.json",
+        "format": "json",
+        "keyPath": ["projects", "<ROOT>/project-a-wt"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": []
+    },
+    {
+      "id": "breadcrumb:claude-code:<HOME>/.claude.json#projects/<ROOT>/project-a/apps/web",
+      "harness": "claude-code",
+      "kind": "projects-entry",
+      "raw": "<ROOT>/project-a/apps/web",
+      "recordedForm": "path",
+      "path": "<ROOT>/project-a/apps/web",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": "apps/web",
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.claude.json",
+        "format": "json",
+        "keyPath": ["projects", "<ROOT>/project-a/apps/web"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {
+        "lastSessionId": "22222222-2222-4222-8222-222222222222"
+      },
+      "state": [
+        "harness-cache:<HOME>/.claude/projects/__ROOT__-project-a-apps-web/22222222-2222-4222-8222-222222222222.jsonl"
+      ]
+    },
+    {
+      "id": "breadcrumb:claude-code:<HOME>/.claude/projects/__HOME__",
+      "harness": "claude-code",
+      "kind": "slug-directory",
+      "raw": "__HOME__",
+      "recordedForm": "slug",
+      "path": "<HOME>",
+      "resolution": "slug-by-key",
+      "project": null,
+      "strayReason": "bare-directory",
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.claude/projects/__HOME__"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": [
+        "memory-file:<HOME>/.claude/projects/__HOME__/memory/memory.md",
+        "memory-file:<HOME>/.claude/projects/__HOME__/memory/topic-home.md"
+      ]
+    },
+    {
+      "id": "breadcrumb:claude-code:<HOME>/.claude/projects/__ROOT__-gone",
+      "harness": "claude-code",
+      "kind": "slug-directory",
+      "raw": "__ROOT__-gone",
+      "recordedForm": "slug",
+      "path": "<ROOT>/gone",
+      "resolution": "slug-by-key",
+      "project": "project:<ROOT>/gone",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "orphan",
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.claude/projects/__ROOT__-gone"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": [
+        "memory-file:<HOME>/.claude/projects/__ROOT__-gone/memory/memory.md",
+        "memory-file:<HOME>/.claude/projects/__ROOT__-gone/memory/topic-gone.md"
+      ]
+    },
+    {
+      "id": "breadcrumb:claude-code:<HOME>/.claude/projects/__ROOT__-project-a",
+      "harness": "claude-code",
+      "kind": "slug-directory",
+      "raw": "__ROOT__-project-a",
+      "recordedForm": "slug",
+      "path": "<ROOT>/project-a",
+      "resolution": "slug-by-key",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.claude/projects/__ROOT__-project-a"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": [
+        "harness-cache:<HOME>/.claude/projects/__ROOT__-project-a/11111111-1111-4111-8111-111111111111.jsonl",
+        "memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/memory.md",
+        "memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-a.md",
+        "memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-b.md",
+        "settings-file:<HOME>/.claude/projects/__ROOT__-project-a/sessions-index.json"
+      ]
+    },
+    {
+      "id": "breadcrumb:claude-code:<HOME>/.claude/projects/__ROOT__-project-a-apps-web",
+      "harness": "claude-code",
+      "kind": "slug-directory",
+      "raw": "__ROOT__-project-a-apps-web",
+      "recordedForm": "slug",
+      "path": "<ROOT>/project-a/apps/web",
+      "resolution": "slug-by-key",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": "apps/web",
+      "reachability": "present",
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.claude/projects/__ROOT__-project-a-apps-web"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": [
+        "harness-cache:<HOME>/.claude/projects/__ROOT__-project-a-apps-web/22222222-2222-4222-8222-222222222222.jsonl"
+      ]
+    },
+    {
+      "id": "breadcrumb:claude-code:<HOME>/.claude/projects/__ROOT__-project-a-wt",
+      "harness": "claude-code",
+      "kind": "slug-directory",
+      "raw": "__ROOT__-project-a-wt",
+      "recordedForm": "slug",
+      "path": "<ROOT>/project-a-wt",
+      "resolution": "slug-by-key",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": "../project-a-wt",
+      "reachability": "present",
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.claude/projects/__ROOT__-project-a-wt"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": [
+        "harness-cache:<HOME>/.claude/projects/__ROOT__-project-a-wt/44444444-4444-4444-8444-444444444444.jsonl"
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "id": "agent-definition:<ROOT>/project-a/.claude/agents/reviewer.md",
+      "kind": "agent-definition",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.claude/agents/reviewer.md",
+      "relativePath": ".claude/agents/reviewer.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.claude/agents/reviewer.md"
+      },
+      "format": "md",
+      "label": "reviewer",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 504,
+        "files": 1,
+        "lines": 15,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 114,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "name": "reviewer",
+      "form": "markdown",
+      "frontmatter": {
+        "name": "reviewer",
+        "description": "<redacted>",
+        "tools": "<redacted>",
+        "model": "inherit",
+        "memory": "project"
+      },
+      "hooks": []
+    },
+    {
+      "id": "context-file:<HOME>/.claude/claude.md",
+      "kind": "context-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/CLAUDE.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/CLAUDE.md"
+      },
+      "format": "md",
+      "label": "~/.claude/CLAUDE.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 441,
+        "files": 1,
+        "lines": 10,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 100,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "CLAUDE.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a-wt/claude.md",
+      "kind": "context-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a-wt/CLAUDE.md",
+      "relativePath": "../project-a-wt/CLAUDE.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a-wt/CLAUDE.md"
+      },
+      "format": "md",
+      "label": "../project-a-wt/CLAUDE.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 390,
+        "files": 1,
+        "lines": 6,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 78,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "CLAUDE.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/.claude/rules/nested/rule-b.md",
+      "kind": "context-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.claude/rules/nested/rule-b.md",
+      "relativePath": ".claude/rules/nested/rule-b.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.claude/rules/nested/rule-b.md"
+      },
+      "format": "md",
+      "label": ".claude/rules/nested/rule-b.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 176,
+        "files": 1,
+        "lines": 4,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 40,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "rule",
+      "fileName": "rule-b.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/.claude/rules/rule-a.md",
+      "kind": "context-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.claude/rules/rule-a.md",
+      "relativePath": ".claude/rules/rule-a.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.claude/rules/rule-a.md"
+      },
+      "format": "md",
+      "label": ".claude/rules/rule-a.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 297,
+        "files": 1,
+        "lines": 10,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 71,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "rule",
+      "fileName": "rule-a.md",
+      "frontmatter": {
+        "paths": ["apps/web/**"]
+      },
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/apps/web/claude.md",
+      "kind": "context-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/apps/web/CLAUDE.md",
+      "relativePath": "apps/web/CLAUDE.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/apps/web/CLAUDE.md"
+      },
+      "format": "md",
+      "label": "apps/web/CLAUDE.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 16,
+        "files": 1,
+        "lines": 1,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 6,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "CLAUDE.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/claude.local.md",
+      "kind": "context-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "local",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/CLAUDE.local.md",
+      "relativePath": "CLAUDE.local.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/CLAUDE.local.md"
+      },
+      "format": "md",
+      "label": "CLAUDE.local.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 147,
+        "files": 1,
+        "lines": 4,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 36,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "local",
+      "fileName": "CLAUDE.local.md",
+      "frontmatter": {},
+      "importCount": 1,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/claude.md",
+      "kind": "context-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/CLAUDE.md",
+      "relativePath": "CLAUDE.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/CLAUDE.md"
+      },
+      "format": "md",
+      "label": "CLAUDE.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 390,
+        "files": 1,
+        "lines": 6,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 78,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "CLAUDE.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/docs/notes.md",
+      "kind": "context-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/docs/notes.md",
+      "relativePath": "docs/notes.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/docs/notes.md"
+      },
+      "format": "md",
+      "label": "docs/notes.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 132,
+        "files": 1,
+        "lines": 3,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 30,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "notes.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "harness-cache:<HOME>/.claude/backups/.claude.json.backup.1700000000000",
+      "kind": "harness-cache",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/backups/.claude.json.backup.1700000000000",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/backups/.claude.json.backup.1700000000000"
+      },
+      "format": "other",
+      "label": ".claude.json.backup.1700000000000",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 98,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-08-21T12:00:00.000Z",
+        "ageDays": 5,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "config-backup",
+      "unit": "file",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "swept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": 5,
+        "source": "claude-directory"
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 98,
+        "oldest": "2026-08-21T12:00:00.000Z",
+        "newest": "2026-08-21T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.claude/history.jsonl",
+      "kind": "harness-cache",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/history.jsonl",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/history.jsonl"
+      },
+      "format": "jsonl",
+      "label": "history.jsonl",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 451,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "log",
+      "unit": "file",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": true,
+      "members": {
+        "files": 1,
+        "bytes": 451,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.claude/projects/__ROOT__-project-a-apps-web/22222222-2222-4222-8222-222222222222.jsonl",
+      "kind": "harness-cache",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/projects/__ROOT__-project-a-apps-web/22222222-2222-4222-8222-222222222222.jsonl",
+      "relativePath": null,
+      "locator": {
+        "type": "paths",
+        "paths": [
+          "<HOME>/.claude/projects/__ROOT__-project-a-apps-web/22222222-2222-4222-8222-222222222222.jsonl"
+        ]
+      },
+      "format": "jsonl",
+      "label": "session 22222222 · 2026-07-12",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 967,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-07-12T12:00:00.000Z",
+        "ageDays": 45,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": "cli",
+      "session": "22222222-2222-4222-8222-222222222222",
+      "slug": "__ROOT__-project-a-apps-web",
+      "rule": "swept",
+      "retention": {
+        "days": 20,
+        "bytes": null,
+        "count": null,
+        "source": "cleanupPeriodDays"
+      },
+      "liveGuard": {
+        "kind": "pid",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 967,
+        "oldest": "2026-07-12T12:00:00.000Z",
+        "newest": "2026-07-12T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.claude/projects/__ROOT__-project-a-wt/44444444-4444-4444-8444-444444444444.jsonl",
+      "kind": "harness-cache",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/projects/__ROOT__-project-a-wt/44444444-4444-4444-8444-444444444444.jsonl",
+      "relativePath": null,
+      "locator": {
+        "type": "paths",
+        "paths": [
+          "<HOME>/.claude/projects/__ROOT__-project-a-wt/44444444-4444-4444-8444-444444444444.jsonl"
+        ]
+      },
+      "format": "jsonl",
+      "label": "session 44444444 · <COPY-DATE>",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 363,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": "cli",
+      "session": "44444444-4444-4444-8444-444444444444",
+      "slug": "__ROOT__-project-a-wt",
+      "rule": "swept",
+      "retention": {
+        "days": 20,
+        "bytes": null,
+        "count": null,
+        "source": "cleanupPeriodDays"
+      },
+      "liveGuard": {
+        "kind": "pid",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 363,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.claude/projects/__ROOT__-project-a/11111111-1111-4111-8111-111111111111.jsonl",
+      "kind": "harness-cache",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/projects/__ROOT__-project-a/11111111-1111-4111-8111-111111111111.jsonl",
+      "relativePath": null,
+      "locator": {
+        "type": "paths",
+        "paths": [
+          "<HOME>/.claude/projects/__ROOT__-project-a/11111111-1111-4111-8111-111111111111.jsonl",
+          "<HOME>/.claude/projects/__ROOT__-project-a/11111111-1111-4111-8111-111111111111",
+          "<HOME>/.claude/tasks/11111111-1111-4111-8111-111111111111"
+        ]
+      },
+      "format": "jsonl",
+      "label": "session 11111111 · <COPY-DATE>",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 1388,
+        "files": 5,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": "cli",
+      "session": "11111111-1111-4111-8111-111111111111",
+      "slug": "__ROOT__-project-a",
+      "rule": "swept",
+      "retention": {
+        "days": 20,
+        "bytes": null,
+        "count": null,
+        "source": "cleanupPeriodDays"
+      },
+      "liveGuard": {
+        "kind": "pid",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 5,
+        "bytes": 1388,
+        "oldest": "2026-08-21T12:00:00.000Z",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.claude/shell-snapshots/snapshot-zsh-1700000000000-synth1.sh",
+      "kind": "harness-cache",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/shell-snapshots/snapshot-zsh-1700000000000-synth1.sh",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/shell-snapshots/snapshot-zsh-1700000000000-synth1.sh"
+      },
+      "format": "other",
+      "label": "snapshot-zsh-1700000000000-synth1.sh",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 1506,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-07-12T12:00:00.000Z",
+        "ageDays": 45,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "shell-snapshot",
+      "unit": "file",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "swept",
+      "retention": {
+        "days": 20,
+        "bytes": null,
+        "count": null,
+        "source": "cleanupPeriodDays"
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 1506,
+        "oldest": "2026-07-12T12:00:00.000Z",
+        "newest": "2026-07-12T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.claude/todos/11111111-1111-4111-8111-111111111111-agent-11111111-1111-4111-8111-111111111111.json",
+      "kind": "harness-cache",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/todos/11111111-1111-4111-8111-111111111111-agent-11111111-1111-4111-8111-111111111111.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/todos/11111111-1111-4111-8111-111111111111-agent-11111111-1111-4111-8111-111111111111.json"
+      },
+      "format": "json",
+      "label": "11111111-1111-4111-8111-111111111111-agent-11111111-1111-4111-8111-111111111111.json",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 106,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-07-12T12:00:00.000Z",
+        "ageDays": 45,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "task-list",
+      "unit": "file",
+      "surface": "cli",
+      "session": "11111111-1111-4111-8111-111111111111",
+      "slug": null,
+      "rule": "swept",
+      "retention": {
+        "days": 20,
+        "bytes": null,
+        "count": null,
+        "source": "cleanupPeriodDays"
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 106,
+        "oldest": "2026-07-12T12:00:00.000Z",
+        "newest": "2026-07-12T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "mcp-server:<HOME>/.claude.json#mcpServers/server-http",
+      "kind": "mcp-server",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude.json",
+      "relativePath": null,
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.claude.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-http"]
+      },
+      "format": "json",
+      "label": "server-http",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "delegate",
+        "command": "claude mcp remove server-http -s user"
+      },
+      "metrics": {
+        "bytes": 34,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-http",
+      "transport": "http",
+      "command": null,
+      "args": [],
+      "url": "<redacted>",
+      "envKeys": [],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "http:<redacted>",
+      "rawKeys": ["type", "url"]
+    },
+    {
+      "id": "mcp-server:<HOME>/.claude.json#mcpServers/server-stdio",
+      "kind": "mcp-server",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude.json",
+      "relativePath": null,
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.claude.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-stdio"]
+      },
+      "format": "json",
+      "label": "server-stdio",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "delegate",
+        "command": "claude mcp remove server-stdio -s user"
+      },
+      "metrics": {
+        "bytes": 86,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-stdio",
+      "transport": "stdio",
+      "command": "<redacted>",
+      "args": ["<redacted>"],
+      "url": null,
+      "envKeys": ["X"],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "stdio:<redacted> <redacted>",
+      "rawKeys": ["type", "command", "args", "env"]
+    },
+    {
+      "id": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-http",
+      "kind": "mcp-server",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/gone",
+      "scope": "local",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude.json",
+      "relativePath": null,
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.claude.json",
+        "format": "json",
+        "keyPath": ["projects", "<ROOT>/gone", "mcpServers", "server-http"]
+      },
+      "format": "json",
+      "label": "server-http",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 34,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-http",
+      "transport": "http",
+      "command": null,
+      "args": [],
+      "url": "<redacted>",
+      "envKeys": [],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "http:<redacted>",
+      "rawKeys": ["type", "url"]
+    },
+    {
+      "id": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-stdio",
+      "kind": "mcp-server",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/gone",
+      "scope": "local",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude.json",
+      "relativePath": null,
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.claude.json",
+        "format": "json",
+        "keyPath": ["projects", "<ROOT>/gone", "mcpServers", "server-stdio"]
+      },
+      "format": "json",
+      "label": "server-stdio",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 86,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-stdio",
+      "transport": "stdio",
+      "command": "<redacted>",
+      "args": ["<redacted>"],
+      "url": null,
+      "envKeys": ["X"],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "stdio:<redacted> <redacted>",
+      "rawKeys": ["type", "command", "args", "env"]
+    },
+    {
+      "id": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-http",
+      "kind": "mcp-server",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "local",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude.json",
+      "relativePath": null,
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.claude.json",
+        "format": "json",
+        "keyPath": ["projects", "<ROOT>/project-a", "mcpServers", "server-http"]
+      },
+      "format": "json",
+      "label": "server-http",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "delegate",
+        "command": "cd \"<ROOT>/project-a\" && claude mcp remove server-http -s local"
+      },
+      "metrics": {
+        "bytes": 34,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-http",
+      "transport": "http",
+      "command": null,
+      "args": [],
+      "url": "<redacted>",
+      "envKeys": [],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "http:<redacted>",
+      "rawKeys": ["type", "url"]
+    },
+    {
+      "id": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-stdio",
+      "kind": "mcp-server",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "local",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude.json",
+      "relativePath": null,
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.claude.json",
+        "format": "json",
+        "keyPath": ["projects", "<ROOT>/project-a", "mcpServers", "server-stdio"]
+      },
+      "format": "json",
+      "label": "server-stdio",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "delegate",
+        "command": "cd \"<ROOT>/project-a\" && claude mcp remove server-stdio -s local"
+      },
+      "metrics": {
+        "bytes": 86,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-stdio",
+      "transport": "stdio",
+      "command": "<redacted>",
+      "args": ["<redacted>"],
+      "url": null,
+      "envKeys": ["X"],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": false,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "stdio:<redacted> <redacted>",
+      "rawKeys": ["type", "command", "args", "env"]
+    },
+    {
+      "id": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-broken",
+      "kind": "mcp-server",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.mcp.json",
+      "relativePath": ".mcp.json",
+      "locator": {
+        "type": "entry",
+        "file": "<ROOT>/project-a/.mcp.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-broken"]
+      },
+      "format": "json",
+      "label": "server-broken",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 20,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-broken",
+      "transport": "unknown",
+      "command": null,
+      "args": [],
+      "url": "<redacted>",
+      "envKeys": [],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "pending",
+      "invalid": "url without type",
+      "endpointKey": "unknown:<redacted>",
+      "rawKeys": ["url"]
+    },
+    {
+      "id": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-http",
+      "kind": "mcp-server",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.mcp.json",
+      "relativePath": ".mcp.json",
+      "locator": {
+        "type": "entry",
+        "file": "<ROOT>/project-a/.mcp.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-http"]
+      },
+      "format": "json",
+      "label": "server-http",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 79,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-http",
+      "transport": "http",
+      "command": null,
+      "args": [],
+      "url": "<redacted>",
+      "envKeys": [],
+      "headerKeys": ["Authorization"],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": true,
+      "enabled": null,
+      "approval": "approved",
+      "invalid": null,
+      "endpointKey": "http:<redacted>",
+      "rawKeys": ["type", "url", "headers"]
+    },
+    {
+      "id": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-sse",
+      "kind": "mcp-server",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.mcp.json",
+      "relativePath": ".mcp.json",
+      "locator": {
+        "type": "entry",
+        "file": "<ROOT>/project-a/.mcp.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-sse"]
+      },
+      "format": "json",
+      "label": "server-sse",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 33,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-sse",
+      "transport": "sse",
+      "command": null,
+      "args": [],
+      "url": "<redacted>",
+      "envKeys": [],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "rejected",
+      "invalid": null,
+      "endpointKey": "sse:<redacted>",
+      "rawKeys": ["type", "url"]
+    },
+    {
+      "id": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-stdio-implicit",
+      "kind": "mcp-server",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.mcp.json",
+      "relativePath": ".mcp.json",
+      "locator": {
+        "type": "entry",
+        "file": "<ROOT>/project-a/.mcp.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-stdio-implicit"]
+      },
+      "format": "json",
+      "label": "server-stdio-implicit",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 46,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-stdio-implicit",
+      "transport": "stdio",
+      "command": "<redacted>",
+      "args": ["<redacted>"],
+      "url": null,
+      "envKeys": [],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "pending",
+      "invalid": null,
+      "endpointKey": "stdio:<redacted> <redacted>",
+      "rawKeys": ["command", "args"]
+    },
+    {
+      "id": "memory-file:<HOME>/.claude/projects/__HOME__/memory/memory.md",
+      "kind": "memory-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/projects/__HOME__/memory/MEMORY.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/projects/__HOME__/memory/MEMORY.md"
+      },
+      "format": "md",
+      "label": "MEMORY.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 204,
+        "files": 1,
+        "lines": 4,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 44,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "role": "index",
+      "unit": "<HOME>/.claude/projects/__HOME__/memory",
+      "owner": "global",
+      "frontmatter": {},
+      "loadedPortion": {
+        "lines": 4,
+        "bytes": 204,
+        "tokens": 44,
+        "confidence": "certain"
+      },
+      "reads": {
+        "count": 0,
+        "first": null,
+        "last": null
+      },
+      "writes": {
+        "count": 0,
+        "last": null
+      },
+      "neverRead": null,
+      "readSignal": {
+        "source": "transcript-tool-use",
+        "exact": true,
+        "bashParsed": false
+      }
+    },
+    {
+      "id": "memory-file:<HOME>/.claude/projects/__HOME__/memory/topic-home.md",
+      "kind": "memory-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/projects/__HOME__/memory/topic-home.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/projects/__HOME__/memory/topic-home.md"
+      },
+      "format": "md",
+      "label": "topic-home.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 366,
+        "files": 1,
+        "lines": 11,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 84,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "role": "fact",
+      "unit": "<HOME>/.claude/projects/__HOME__/memory",
+      "owner": "global",
+      "frontmatter": {
+        "name": "<redacted>",
+        "description": "<redacted>",
+        "type": "user"
+      },
+      "loadedPortion": null,
+      "reads": {
+        "count": 0,
+        "first": null,
+        "last": null
+      },
+      "writes": {
+        "count": 0,
+        "last": null
+      },
+      "neverRead": true,
+      "readSignal": {
+        "source": "transcript-tool-use",
+        "exact": true,
+        "bashParsed": false
+      }
+    },
+    {
+      "id": "memory-file:<HOME>/.claude/projects/__ROOT__-gone/memory/memory.md",
+      "kind": "memory-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/gone",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/projects/__ROOT__-gone/memory/MEMORY.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/projects/__ROOT__-gone/memory/MEMORY.md"
+      },
+      "format": "md",
+      "label": "MEMORY.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 255,
+        "files": 1,
+        "lines": 5,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 55,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "role": "index",
+      "unit": "<HOME>/.claude/projects/__ROOT__-gone/memory",
+      "owner": "project",
+      "frontmatter": {},
+      "loadedPortion": {
+        "lines": 5,
+        "bytes": 255,
+        "tokens": 55,
+        "confidence": "certain"
+      },
+      "reads": {
+        "count": 0,
+        "first": null,
+        "last": null
+      },
+      "writes": {
+        "count": 0,
+        "last": null
+      },
+      "neverRead": null,
+      "readSignal": {
+        "source": "transcript-tool-use",
+        "exact": true,
+        "bashParsed": false
+      }
+    },
+    {
+      "id": "memory-file:<HOME>/.claude/projects/__ROOT__-gone/memory/topic-gone.md",
+      "kind": "memory-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/gone",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/projects/__ROOT__-gone/memory/topic-gone.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/projects/__ROOT__-gone/memory/topic-gone.md"
+      },
+      "format": "md",
+      "label": "topic-gone.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 465,
+        "files": 1,
+        "lines": 12,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 113,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "role": "fact",
+      "unit": "<HOME>/.claude/projects/__ROOT__-gone/memory",
+      "owner": "project",
+      "frontmatter": {
+        "type": "project",
+        "modified": "2023-11-14T22:13:20.000Z"
+      },
+      "loadedPortion": null,
+      "reads": {
+        "count": 0,
+        "first": null,
+        "last": null
+      },
+      "writes": {
+        "count": 0,
+        "last": null
+      },
+      "neverRead": true,
+      "readSignal": {
+        "source": "transcript-tool-use",
+        "exact": true,
+        "bashParsed": false
+      }
+    },
+    {
+      "id": "memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/memory.md",
+      "kind": "memory-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/projects/__ROOT__-project-a/memory/MEMORY.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/projects/__ROOT__-project-a/memory/MEMORY.md"
+      },
+      "format": "md",
+      "label": "MEMORY.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 396,
+        "files": 1,
+        "lines": 2,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 64,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "role": "index",
+      "unit": "<HOME>/.claude/projects/__ROOT__-project-a/memory",
+      "owner": "project",
+      "frontmatter": {},
+      "loadedPortion": {
+        "lines": 2,
+        "bytes": 396,
+        "tokens": 64,
+        "confidence": "certain"
+      },
+      "reads": {
+        "count": 1,
+        "first": "2023-11-14T22:13:20.000Z",
+        "last": "2023-11-14T22:13:20.000Z"
+      },
+      "writes": {
+        "count": 0,
+        "last": null
+      },
+      "neverRead": null,
+      "readSignal": {
+        "source": "transcript-tool-use",
+        "exact": true,
+        "bashParsed": false
+      }
+    },
+    {
+      "id": "memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-a.md",
+      "kind": "memory-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-a.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-a.md"
+      },
+      "format": "md",
+      "label": "topic-a.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 922,
+        "files": 1,
+        "lines": 11,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 164,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "role": "fact",
+      "unit": "<HOME>/.claude/projects/__ROOT__-project-a/memory",
+      "owner": "project",
+      "frontmatter": {
+        "name": "<redacted>",
+        "description": "<redacted>",
+        "metadata": "<redacted>"
+      },
+      "loadedPortion": null,
+      "reads": {
+        "count": 0,
+        "first": null,
+        "last": null
+      },
+      "writes": {
+        "count": 0,
+        "last": null
+      },
+      "neverRead": true,
+      "readSignal": {
+        "source": "transcript-tool-use",
+        "exact": true,
+        "bashParsed": false
+      }
+    },
+    {
+      "id": "memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-b.md",
+      "kind": "memory-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-b.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-b.md"
+      },
+      "format": "md",
+      "label": "topic-b.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 2606,
+        "files": 1,
+        "lines": 13,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 412,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "role": "fact",
+      "unit": "<HOME>/.claude/projects/__ROOT__-project-a/memory",
+      "owner": "project",
+      "frontmatter": {
+        "name": "<redacted>",
+        "description": "<redacted>",
+        "metadata": "<redacted>"
+      },
+      "loadedPortion": null,
+      "reads": {
+        "count": 0,
+        "first": null,
+        "last": null
+      },
+      "writes": {
+        "count": 0,
+        "last": null
+      },
+      "neverRead": true,
+      "readSignal": {
+        "source": "transcript-tool-use",
+        "exact": true,
+        "bashParsed": false
+      }
+    },
+    {
+      "id": "memory-file:<ROOT>/project-a/.claude/agent-memory/reviewer/memory.md",
+      "kind": "memory-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.claude/agent-memory/reviewer/MEMORY.md",
+      "relativePath": ".claude/agent-memory/reviewer/MEMORY.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.claude/agent-memory/reviewer/MEMORY.md"
+      },
+      "format": "md",
+      "label": "MEMORY.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 204,
+        "files": 1,
+        "lines": 4,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 44,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "role": "index",
+      "unit": "<ROOT>/project-a/.claude/agent-memory/reviewer",
+      "owner": "agent:reviewer",
+      "frontmatter": {},
+      "loadedPortion": {
+        "lines": 4,
+        "bytes": 204,
+        "tokens": 44,
+        "confidence": "certain"
+      },
+      "reads": {
+        "count": 0,
+        "first": null,
+        "last": null
+      },
+      "writes": {
+        "count": 0,
+        "last": null
+      },
+      "neverRead": null,
+      "readSignal": {
+        "source": "transcript-tool-use",
+        "exact": true,
+        "bashParsed": false
+      }
+    },
+    {
+      "id": "settings-file:<HOME>/.claude.json",
+      "kind": "settings-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude.json"
+      },
+      "format": "json",
+      "label": "~/.claude.json",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 15444,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "state",
+      "topLevelKeys": [
+        "numStartups",
+        "installMethod",
+        "autoUpdates",
+        "verbose",
+        "hasSeenTasksHint",
+        "tipsHistory",
+        "promptQueueUseCount",
+        "btwUseCount",
+        "cachedDynamicConfigs",
+        "cachedGrowthBookFeatures",
+        "unpinOpus47LaunchEffort",
+        "unpinOpus48LaunchEffort",
+        "unpinFable5LaunchEffort",
+        "cachedStatsigGates",
+        "firstStartTime",
+        "userID",
+        "claudeCodeFirstTokenDate",
+        "s1mAccessCache",
+        "fallbackAvailableWarningThreshold",
+        "sonnet45MigrationComplete",
+        "opus45MigrationComplete",
+        "changelogLastFetched",
+        "officialMarketplaceAutoInstallAttempted",
+        "officialMarketplaceAutoInstalled",
+        "autoUpdatesProtectedForNative",
+        "thinkingMigrationComplete",
+        "shiftEnterKeyBindingInstalled",
+        "hasCompletedOnboarding",
+        "lastOnboardingVersion",
+        "lastReleaseNotesSeen",
+        "hasShownOpus45Notice",
+        "githubRepoPaths",
+        "groveConfigCache",
+        "claudeInChromeDefaultEnabled",
+        "hasCompletedClaudeInChromeOnboarding",
+        "lastPlanModeUse",
+        "hasIdeOnboardingBeenShown",
+        "hasUsedBackslashReturn",
+        "feedbackSurveyState",
+        "skillUsage",
+        "opusProMigrationComplete",
+        "cachedChromeExtensionInstalled",
+        "passesEligibilityCache",
+        "passesUpsellSeenCount",
+        "mcpServers",
+        "anonymousId",
+        "hasVisitedPasses",
+        "passesLastSeenRemaining",
+        "hasShownOpus46Notice",
+        "opus46FeedSeenCount",
+        "penguinModeOrgEnabled",
+        "showSpinnerTree",
+        "effortCalloutDismissed",
+        "sonnet1m45MigrationComplete",
+        "cachedExtraUsageDisabledReason",
+        "birthdayHatAnimationCount",
+        "toolUsage",
+        "remoteDialogSeen",
+        "effortCalloutV2Dismissed",
+        "claudeAiMcpEverConnected",
+        "overageCreditGrantCache",
+        "migrationVersion",
+        "companion",
+        "overageCreditUpsellSeenCount",
+        "hasSeenUltraplanTerms",
+        "autoPermissionsNotificationCount",
+        "remoteControlUpsellSeenCount",
+        "closedIssuesLastChecked",
+        "hasResetAutoModeOptInForDefaultOffer",
+        "cachedExperimentFeatures",
+        "seenNotifications",
+        "routineFiredWatermark",
+        "cachedGrowthBookFeaturesAt",
+        "tipLifetimeShownCounts",
+        "hasSeenAutoModeEntryWarning",
+        "pluginUsage",
+        "lastShownEmergencyTip",
+        "claudeCodeHints",
+        "machineID",
+        "hasUsedRemoteControl",
+        "fullscreenUpsellSeenCount",
+        "announcementImpressions",
+        "hasOpenedAgentsView",
+        "agentLastUsed",
+        "cachedExperimentData",
+        "rcLongTurnNudgeSeenCount",
+        "rcLongTurnNudgeSeenKey",
+        "remoteControlReadyPushCount",
+        "remoteControlReadyPushKey",
+        "chromeExtension",
+        "rcPermissionNudgeSeenCount",
+        "voiceLangHintShownCount",
+        "voiceLangHintLastLanguage",
+        "voiceFooterHintSeenCount",
+        "oauthAccount",
+        "clientDataCacheSlots",
+        "additionalModelOptionsCache",
+        "additionalModelCostsCache",
+        "modelAccessCache",
+        "orgModelDefaultCache",
+        "autoCompactWindowsCache",
+        "replBridgePlaceholders",
+        "hasSeenAutoDefaultNotice",
+        "projects"
+      ],
+      "entries": 6,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.claude/projects/__ROOT__-project-a/sessions-index.json",
+      "kind": "settings-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/projects/__ROOT__-project-a/sessions-index.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/projects/__ROOT__-project-a/sessions-index.json"
+      },
+      "format": "json",
+      "label": "~/.claude/projects/__ROOT__-project-a/sessions-index.json",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 726,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "state",
+      "topLevelKeys": ["version", "entries"],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.claude/settings.json",
+      "kind": "settings-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/settings.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/settings.json"
+      },
+      "format": "json",
+      "label": "~/.claude/settings.json",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 1492,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": [
+        "model",
+        "effortLevel",
+        "outputStyle",
+        "language",
+        "cleanupPeriodDays",
+        "autoMemoryEnabled",
+        "permissions",
+        "hooks",
+        "env",
+        "enabledPlugins",
+        "extraKnownMarketplaces",
+        "modelSettings",
+        "statusLine",
+        "tui",
+        "voice",
+        "voiceEnabled",
+        "skipWorkflowUsageWarning",
+        "verbose",
+        "agentPushNotifEnabled",
+        "autoMode"
+      ],
+      "entries": null,
+      "hooks": [
+        {
+          "event": "SessionStart",
+          "type": "command",
+          "command": "<redacted>",
+          "matcher": "<redacted>"
+        },
+        {
+          "event": "PreToolUse",
+          "type": "prompt",
+          "command": null,
+          "matcher": "Bash"
+        }
+      ]
+    },
+    {
+      "id": "settings-file:<HOME>/.claude/settings.local.json",
+      "kind": "settings-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/settings.local.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/settings.local.json"
+      },
+      "format": "json",
+      "label": "~/.claude/settings.local.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 87,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": ["permissions"],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<ROOT>/project-a/.claude/settings.json",
+      "kind": "settings-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.claude/settings.json",
+      "relativePath": ".claude/settings.json",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.claude/settings.json"
+      },
+      "format": "json",
+      "label": ".claude/settings.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 129,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": ["enabledPlugins", "permissions"],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<ROOT>/project-a/.claude/settings.local.json",
+      "kind": "settings-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "local",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.claude/settings.local.json",
+      "relativePath": ".claude/settings.local.json",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.claude/settings.local.json"
+      },
+      "format": "json",
+      "label": ".claude/settings.local.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 230,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": [
+        "permissions",
+        "enableAllProjectMcpServers",
+        "enabledMcpjsonServers",
+        "disabledMcpjsonServers"
+      ],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<ROOT>/project-a/.mcp.json",
+      "kind": "settings-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.mcp.json",
+      "relativePath": ".mcp.json",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.mcp.json"
+      },
+      "format": "json",
+      "label": ".mcp.json",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 415,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "mcp-config",
+      "topLevelKeys": ["mcpServers"],
+      "entries": 4,
+      "hooks": []
+    },
+    {
+      "id": "skill:<ROOT>/project-a/.claude/commands/x.md",
+      "kind": "skill",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.claude/commands/x.md",
+      "relativePath": ".claude/commands/x.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.claude/commands/x.md"
+      },
+      "format": "md",
+      "label": "x",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 252,
+        "files": 1,
+        "lines": 8,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 58,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "command-file",
+      "name": "x",
+      "dirName": "x",
+      "frontmatterName": null,
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<ROOT>/project-a/.claude/commands/x.md",
+          "harness": "claude-code",
+          "surface": "cli",
+          "scope": "project",
+          "project": "project:<ROOT>/project-a",
+          "gitStatus": null,
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "f9d9a1ae23d9f350e99aaadfae649695ad4862d65f79b52d70352dcb1f16e6bf"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge:duplicates:mcp-server:<HOME>/.claude.json#mcpServers/server-http:mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-http",
+      "kind": "duplicates",
+      "from": "mcp-server:<HOME>/.claude.json#mcpServers/server-http",
+      "to": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-http",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "http:<redacted>"
+        }
+      ],
+      "same": "endpoint"
+    },
+    {
+      "id": "edge:duplicates:mcp-server:<HOME>/.claude.json#mcpServers/server-http:mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-http",
+      "kind": "duplicates",
+      "from": "mcp-server:<HOME>/.claude.json#mcpServers/server-http",
+      "to": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-http",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "http:<redacted>"
+        }
+      ],
+      "same": "endpoint"
+    },
+    {
+      "id": "edge:duplicates:mcp-server:<HOME>/.claude.json#mcpServers/server-http:mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-http",
+      "kind": "duplicates",
+      "from": "mcp-server:<HOME>/.claude.json#mcpServers/server-http",
+      "to": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-http",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "http:<redacted>"
+        }
+      ],
+      "same": "endpoint"
+    },
+    {
+      "id": "edge:duplicates:mcp-server:<HOME>/.claude.json#mcpServers/server-stdio:mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-stdio",
+      "kind": "duplicates",
+      "from": "mcp-server:<HOME>/.claude.json#mcpServers/server-stdio",
+      "to": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-stdio",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "stdio:<redacted> <redacted>"
+        }
+      ],
+      "same": "endpoint"
+    },
+    {
+      "id": "edge:duplicates:mcp-server:<HOME>/.claude.json#mcpServers/server-stdio:mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-stdio",
+      "kind": "duplicates",
+      "from": "mcp-server:<HOME>/.claude.json#mcpServers/server-stdio",
+      "to": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-stdio",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "stdio:<redacted> <redacted>"
+        }
+      ],
+      "same": "endpoint"
+    },
+    {
+      "id": "edge:duplicates:mcp-server:<HOME>/.claude.json#mcpServers/server-stdio:mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-stdio-implicit",
+      "kind": "duplicates",
+      "from": "mcp-server:<HOME>/.claude.json#mcpServers/server-stdio",
+      "to": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-stdio-implicit",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "stdio:<redacted> <redacted>"
+        }
+      ],
+      "same": "endpoint"
+    },
+    {
+      "id": "edge:duplicates:mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-http:mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-http",
+      "kind": "duplicates",
+      "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-http",
+      "to": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-http",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "http:<redacted>"
+        }
+      ],
+      "same": "endpoint"
+    },
+    {
+      "id": "edge:duplicates:mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-http:mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-http",
+      "kind": "duplicates",
+      "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-http",
+      "to": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-http",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "http:<redacted>"
+        }
+      ],
+      "same": "endpoint"
+    },
+    {
+      "id": "edge:duplicates:mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-stdio:mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-stdio",
+      "kind": "duplicates",
+      "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-stdio",
+      "to": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-stdio",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "stdio:<redacted> <redacted>"
+        }
+      ],
+      "same": "endpoint"
+    },
+    {
+      "id": "edge:duplicates:mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-stdio:mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-stdio-implicit",
+      "kind": "duplicates",
+      "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-stdio",
+      "to": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-stdio-implicit",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "stdio:<redacted> <redacted>"
+        }
+      ],
+      "same": "endpoint"
+    },
+    {
+      "id": "edge:duplicates:mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-http:mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-http",
+      "kind": "duplicates",
+      "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-http",
+      "to": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-http",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "http:<redacted>"
+        }
+      ],
+      "same": "endpoint"
+    },
+    {
+      "id": "edge:duplicates:mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-stdio:mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-stdio-implicit",
+      "kind": "duplicates",
+      "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-stdio",
+      "to": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-stdio-implicit",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "stdio:<redacted> <redacted>"
+        }
+      ],
+      "same": "endpoint"
+    },
+    {
+      "id": "edge:imports:context-file:<ROOT>/project-a/claude.local.md:context-file:<ROOT>/project-a/docs/notes.md",
+      "kind": "imports",
+      "from": "context-file:<ROOT>/project-a/claude.local.md",
+      "to": "context-file:<ROOT>/project-a/docs/notes.md",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "import-statement",
+          "detail": "line 1: @docs/notes.md"
+        }
+      ],
+      "hop": 1,
+      "external": false,
+      "syntax": "at-import"
+    },
+    {
+      "id": "edge:loaded-by:agent-definition:<ROOT>/project-a/.claude/agents/reviewer.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "agent-definition:<ROOT>/project-a/.claude/agents/reviewer.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "subagent descriptions are listed so Claude can delegate"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "description-only",
+      "reason": "project agent definition: description listed for delegation, body when spawned",
+      "placement": "<ROOT>/project-a/.claude/agents/reviewer.md",
+      "effectiveName": "reviewer",
+      "order": 6,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<HOME>/.claude/claude.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "context-file:<HOME>/.claude/claude.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "user scope: read in every session"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "user scope: read in every session",
+      "placement": "<HOME>/.claude/CLAUDE.md",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 441,
+      "importsResolved": 0,
+      "tokensLoaded": 100,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a-wt/claude.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a-wt/claude.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "in linked worktree project-a-wt: loaded by sessions started there"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "in linked worktree project-a-wt: loaded by sessions started there",
+      "placement": "<ROOT>/project-a-wt/CLAUDE.md",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 390,
+      "importsResolved": 0,
+      "tokensLoaded": 78,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/.claude/rules/nested/rule-b.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/.claude/rules/nested/rule-b.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "rule of the ancestor of the session directory"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "rule of the ancestor of the session directory",
+      "placement": "<ROOT>/project-a/.claude/rules/nested/rule-b.md",
+      "effectiveName": null,
+      "order": 1,
+      "charsLoaded": 176,
+      "importsResolved": 0,
+      "tokensLoaded": 40,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/.claude/rules/rule-a.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/.claude/rules/rule-a.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "paths-scoped rule"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "on-demand",
+      "reason": "paths-scoped rule",
+      "placement": "<ROOT>/project-a/.claude/rules/rule-a.md",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 264,
+      "importsResolved": 0,
+      "tokensLoaded": 60,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/apps/web/claude.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/apps/web/claude.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "subdirectory below the session directory: loaded when Claude reads files there"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "on-demand",
+      "reason": "subdirectory below the session directory: loaded when Claude reads files there",
+      "placement": "<ROOT>/project-a/apps/web/CLAUDE.md",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 16,
+      "importsResolved": 0,
+      "tokensLoaded": 6,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/claude.local.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/claude.local.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "CLAUDE.local.md of the session directory"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "CLAUDE.local.md of the session directory",
+      "placement": "<ROOT>/project-a/CLAUDE.local.md",
+      "effectiveName": null,
+      "order": 2,
+      "charsLoaded": 147,
+      "importsResolved": 1,
+      "tokensLoaded": 36,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/claude.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/claude.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "CLAUDE.md of the session directory"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "CLAUDE.md of the session directory",
+      "placement": "<ROOT>/project-a/CLAUDE.md",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 390,
+      "importsResolved": 0,
+      "tokensLoaded": 78,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/docs/notes.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/docs/notes.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "imported by CLAUDE.local.md (hop 1)"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "imported by CLAUDE.local.md (hop 1)",
+      "placement": "<ROOT>/project-a/docs/notes.md",
+      "effectiveName": null,
+      "order": 3,
+      "charsLoaded": 132,
+      "importsResolved": 0,
+      "tokensLoaded": 30,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<HOME>/.claude.json#mcpServers/server-http:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "mcp-server:<HOME>/.claude.json#mcpServers/server-http",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "user scope: available in every session"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "user scope: available in every session",
+      "placement": null,
+      "effectiveName": "server-http",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<HOME>/.claude.json#mcpServers/server-stdio:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "mcp-server:<HOME>/.claude.json#mcpServers/server-stdio",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "user scope: available in every session"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "user scope: available in every session",
+      "placement": null,
+      "effectiveName": "server-stdio",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-http:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-http",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "local scope: sessions started in <ROOT>/gone"
+        }
+      ],
+      "project": "project:<ROOT>/gone",
+      "mode": "full",
+      "reason": "local scope: sessions started in <ROOT>/gone",
+      "placement": null,
+      "effectiveName": "server-http",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-stdio:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-stdio",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "local scope: sessions started in <ROOT>/gone"
+        }
+      ],
+      "project": "project:<ROOT>/gone",
+      "mode": "full",
+      "reason": "local scope: sessions started in <ROOT>/gone",
+      "placement": null,
+      "effectiveName": "server-stdio",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-http:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-http",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "local scope: sessions started in <ROOT>/project-a"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "local scope: sessions started in <ROOT>/project-a",
+      "placement": null,
+      "effectiveName": "server-http",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-stdio:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-stdio",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "disabled with /mcp for this project"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "disabled",
+      "reason": "disabled with /mcp for this project",
+      "placement": null,
+      "effectiveName": "server-stdio",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-broken:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-broken",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "url without type: the harness skips this entry"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "never",
+      "reason": "url without type: the harness skips this entry",
+      "placement": null,
+      "effectiveName": "server-broken",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-http:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-http",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "project scope: approved for this project"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "shadowed",
+      "reason": "a local-scope entry of the same name wins",
+      "placement": null,
+      "effectiveName": "server-http",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-sse:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-sse",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "rejected in the project approval list"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "disabled",
+      "reason": "rejected in the project approval list",
+      "placement": null,
+      "effectiveName": "server-sse",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-stdio-implicit:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-stdio-implicit",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "awaiting the per-server approval prompt"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "unknown",
+      "reason": "awaiting the per-server approval prompt",
+      "placement": null,
+      "effectiveName": "server-stdio-implicit",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__HOME__/memory/memory.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "memory-file:<HOME>/.claude/projects/__HOME__/memory/memory.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "index injected at session start, min(200 lines, 25 KB)"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "auto-memory index of a bare directory: loaded by sessions started there",
+      "placement": null,
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 204,
+      "importsResolved": null,
+      "tokensLoaded": 44,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__HOME__/memory/topic-home.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "memory-file:<HOME>/.claude/projects/__HOME__/memory/topic-home.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "topic files are never loaded at startup"
+        }
+      ],
+      "project": null,
+      "mode": "on-demand",
+      "reason": "topic file: read on demand, never at session start",
+      "placement": null,
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 306,
+      "importsResolved": null,
+      "tokensLoaded": 84,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__ROOT__-gone/memory/memory.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "memory-file:<HOME>/.claude/projects/__ROOT__-gone/memory/memory.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "index injected at session start, min(200 lines, 25 KB)"
+        }
+      ],
+      "project": "project:<ROOT>/gone",
+      "mode": "full",
+      "reason": "auto-memory index; the Project directory is gone",
+      "placement": null,
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 255,
+      "importsResolved": null,
+      "tokensLoaded": 55,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__ROOT__-gone/memory/topic-gone.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "memory-file:<HOME>/.claude/projects/__ROOT__-gone/memory/topic-gone.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "topic files are never loaded at startup"
+        }
+      ],
+      "project": "project:<ROOT>/gone",
+      "mode": "on-demand",
+      "reason": "topic file: read on demand, never at session start",
+      "placement": null,
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 408,
+      "importsResolved": null,
+      "tokensLoaded": 113,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/memory.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/memory.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "index injected at session start, min(200 lines, 25 KB)"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "auto-memory index: injected at session start, min(200 lines, 25 KB)",
+      "placement": null,
+      "effectiveName": null,
+      "order": 4,
+      "charsLoaded": 396,
+      "importsResolved": null,
+      "tokensLoaded": 64,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-a.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-a.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "topic files are never loaded at startup"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "on-demand",
+      "reason": "topic file: read on demand, never at session start",
+      "placement": null,
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 852,
+      "importsResolved": null,
+      "tokensLoaded": 164,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-b.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-b.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "topic files are never loaded at startup"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "on-demand",
+      "reason": "topic file: read on demand, never at session start",
+      "placement": null,
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 2536,
+      "importsResolved": null,
+      "tokensLoaded": 412,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:memory-file:<ROOT>/project-a/.claude/agent-memory/reviewer/memory.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "memory-file:<ROOT>/project-a/.claude/agent-memory/reviewer/memory.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "index injected at session start, min(200 lines, 25 KB)"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "on-demand",
+      "reason": "loaded into the reviewer subagent's system prompt when it spawns",
+      "placement": null,
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 204,
+      "importsResolved": null,
+      "tokensLoaded": 44,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:skill:<ROOT>/project-a/.claude/commands/x.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "skill:<ROOT>/project-a/.claude/commands/x.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "command file: description listed, body on demand"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "description-only",
+      "reason": "project skill",
+      "placement": "<ROOT>/project-a/.claude/commands/x.md",
+      "effectiveName": "/x",
+      "order": 5,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": false,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:shadows:mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-http:mcp-server:<HOME>/.claude.json#mcpServers/server-http",
+      "kind": "shadows",
+      "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-http",
+      "to": "mcp-server:<HOME>/.claude.json#mcpServers/server-http",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "precedence-rule",
+          "detail": "local scope wins over user scope for the name server-http"
+        }
+      ],
+      "rule": "local > project > user"
+    },
+    {
+      "id": "edge:shadows:mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-stdio:mcp-server:<HOME>/.claude.json#mcpServers/server-stdio",
+      "kind": "shadows",
+      "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-stdio",
+      "to": "mcp-server:<HOME>/.claude.json#mcpServers/server-stdio",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "precedence-rule",
+          "detail": "local scope wins over user scope for the name server-stdio"
+        }
+      ],
+      "rule": "local > project > user"
+    },
+    {
+      "id": "edge:shadows:mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-http:mcp-server:<HOME>/.claude.json#mcpServers/server-http",
+      "kind": "shadows",
+      "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-http",
+      "to": "mcp-server:<HOME>/.claude.json#mcpServers/server-http",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "precedence-rule",
+          "detail": "local scope wins over user scope for the name server-http"
+        }
+      ],
+      "rule": "local > project > user"
+    },
+    {
+      "id": "edge:shadows:mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-http:mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-http",
+      "kind": "shadows",
+      "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-http",
+      "to": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-http",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "precedence-rule",
+          "detail": "local scope wins over project scope for the name server-http"
+        }
+      ],
+      "rule": "local > project > user"
+    },
+    {
+      "id": "edge:shadows:mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-stdio:mcp-server:<HOME>/.claude.json#mcpServers/server-stdio",
+      "kind": "shadows",
+      "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-stdio",
+      "to": "mcp-server:<HOME>/.claude.json#mcpServers/server-stdio",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "precedence-rule",
+          "detail": "local scope wins over user scope for the name server-stdio"
+        }
+      ],
+      "rule": "local > project > user"
+    }
+  ],
+  "warnings": [
+    {
+      "code": "git-missing",
+      "message": "git not run (git: false): git-tracked status unknown",
+      "harness": null,
+      "path": null,
+      "effect": "degraded"
+    }
+  ],
+  "totals": {
+    "entities": 42,
+    "files": 36,
+    "bytes": 32103,
+    "harnessCacheBytes": 4879,
+    "memoryBytes": 5418,
+    "tokens": 1591
+  },
+  "findings": [
+    {
+      "id": "finding:duplicate:mcp-server:<HOME>/.claude.json#mcpServers/server-http",
+      "category": "duplicate",
+      "severity": "low",
+      "container": "harness:claude-code",
+      "targets": [
+        {
+          "id": "mcp-server:<HOME>/.claude.json#mcpServers/server-http",
+          "role": "subject"
+        },
+        {
+          "id": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-http",
+          "role": "counterpart"
+        },
+        {
+          "id": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-http",
+          "role": "counterpart"
+        },
+        {
+          "id": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-http",
+          "role": "counterpart"
+        }
+      ],
+      "message": "MCP server server-http is configured 4 times with the same endpoint (user scope, local scope of gone, local scope of project-a, project scope of project-a)",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "http:<redacted>"
+        }
+      ],
+      "confidence": "high",
+      "impact": {
+        "bytes": 147,
+        "tokens": null,
+        "files": 0
+      },
+      "flags": ["sensitive"],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": {
+          "type": "entry",
+          "file": "<HOME>/.claude.json",
+          "format": "json",
+          "keyPath": ["mcpServers", "server-http"]
+        }
+      }
+    },
+    {
+      "id": "finding:duplicate:mcp-server:<HOME>/.claude.json#mcpServers/server-stdio",
+      "category": "duplicate",
+      "severity": "low",
+      "container": "harness:claude-code",
+      "targets": [
+        {
+          "id": "mcp-server:<HOME>/.claude.json#mcpServers/server-stdio",
+          "role": "subject"
+        },
+        {
+          "id": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-stdio",
+          "role": "counterpart"
+        },
+        {
+          "id": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-stdio",
+          "role": "counterpart"
+        },
+        {
+          "id": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-stdio-implicit",
+          "role": "counterpart"
+        }
+      ],
+      "message": "MCP server server-stdio is configured 4 times with the same endpoint (user scope, local scope of gone, local scope of project-a, project scope of project-a)",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "stdio:<redacted> <redacted>"
+        }
+      ],
+      "confidence": "high",
+      "impact": {
+        "bytes": 218,
+        "tokens": null,
+        "files": 0
+      },
+      "flags": ["sensitive"],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": {
+          "type": "entry",
+          "file": "<HOME>/.claude.json",
+          "format": "json",
+          "keyPath": ["mcpServers", "server-stdio"]
+        }
+      }
+    },
+    {
+      "id": "finding:harness-cache:harness:claude-code:config-backup",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "harness:claude-code",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.claude/backups/.claude.json.backup.1700000000000",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 config backup (98 B); Claude Code keeps the 5 newest",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "claude-directory keeps 5"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 98,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": ["sensitive"],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:harness-cache:project:<ROOT>/project-a:transcript",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "project:<ROOT>/project-a",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.claude/projects/__ROOT__-project-a-apps-web/22222222-2222-4222-8222-222222222222.jsonl",
+          "role": "subject",
+          "preselect": true
+        },
+        {
+          "id": "harness-cache:<HOME>/.claude/projects/__ROOT__-project-a-wt/44444444-4444-4444-8444-444444444444.jsonl",
+          "role": "subject",
+          "preselect": false
+        },
+        {
+          "id": "harness-cache:<HOME>/.claude/projects/__ROOT__-project-a/11111111-1111-4111-8111-111111111111.jsonl",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 session older than the 20-day retention Claude Code sweeps itself (3 sessions, 2.7 KB)",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "cleanupPeriodDays = 20; oldest unit 45 days old"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 2718,
+        "tokens": null,
+        "files": 7
+      },
+      "flags": ["sensitive"],
+      "action": {
+        "kind": "clean",
+        "preselect": true,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:harness-cache:harness:claude-code:shell-snapshot",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "harness:claude-code",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.claude/shell-snapshots/snapshot-zsh-1700000000000-synth1.sh",
+          "role": "subject",
+          "preselect": true
+        }
+      ],
+      "message": "1 shell snapshot older than the 20-day retention Claude Code sweeps itself (1 shell snapshot, 1.5 KB)",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "cleanupPeriodDays = 20; oldest unit 45 days old"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 1506,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": ["sensitive"],
+      "action": {
+        "kind": "clean",
+        "preselect": true,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:harness-cache:harness:claude-code:task-list",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "harness:claude-code",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.claude/todos/11111111-1111-4111-8111-111111111111-agent-11111111-1111-4111-8111-111111111111.json",
+          "role": "subject",
+          "preselect": true
+        }
+      ],
+      "message": "1 task list older than the 20-day retention Claude Code sweeps itself (1 task list, 106 B)",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "cleanupPeriodDays = 20; oldest unit 45 days old"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 106,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": [],
+      "action": {
+        "kind": "clean",
+        "preselect": true,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:orphan:project:<ROOT>/gone",
+      "category": "orphan",
+      "severity": "medium",
+      "container": "project:<ROOT>/gone",
+      "targets": [
+        {
+          "id": "breadcrumb:claude-code:<HOME>/.claude.json#projects/<ROOT>/gone",
+          "role": "breadcrumb"
+        },
+        {
+          "id": "breadcrumb:claude-code:<HOME>/.claude/projects/__ROOT__-gone",
+          "role": "breadcrumb"
+        },
+        {
+          "id": "memory-file:<HOME>/.claude/projects/__ROOT__-gone/memory/memory.md",
+          "role": "state",
+          "preselect": false
+        },
+        {
+          "id": "memory-file:<HOME>/.claude/projects/__ROOT__-gone/memory/topic-gone.md",
+          "role": "state",
+          "preselect": false
+        }
+      ],
+      "message": "gone: directory gone; 2 breadcrumbs, 2 memory files left behind by Claude Code",
+      "evidence": [
+        {
+          "kind": "path-missing",
+          "detail": "<ROOT>/gone"
+        },
+        {
+          "kind": "breadcrumb-ref",
+          "detail": "lastSessionId 33333333-3333-4333-8333-333333333333 names a transcript that exists in no slug directory"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 720,
+        "tokens": 168,
+        "files": 2
+      },
+      "flags": ["memory"],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:shadow-memory:memory-file:<HOME>/.claude/projects/__ROOT__-gone/memory/memory.md",
+      "category": "shadow-memory",
+      "severity": "medium",
+      "container": "project:<ROOT>/gone",
+      "targets": [
+        {
+          "id": "memory-file:<HOME>/.claude/projects/__ROOT__-gone/memory/memory.md",
+          "role": "subject",
+          "preselect": false
+        },
+        {
+          "id": "memory-file:<HOME>/.claude/projects/__ROOT__-gone/memory/topic-gone.md",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 memory unit (2 files, 168 tokens) kept under Claude Code's user scope, invisible from gone; 1 fact never read",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "auto-memory unit <HOME>/.claude/projects/__ROOT__-gone/memory lives under the harness's user scope, not in the repository"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 720,
+        "tokens": 168,
+        "files": 2
+      },
+      "flags": ["memory"],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:shadow-memory:memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/memory.md",
+      "category": "shadow-memory",
+      "severity": "medium",
+      "container": "project:<ROOT>/project-a",
+      "targets": [
+        {
+          "id": "memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/memory.md",
+          "role": "subject",
+          "preselect": false
+        },
+        {
+          "id": "memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-a.md",
+          "role": "subject",
+          "preselect": false
+        },
+        {
+          "id": "memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-b.md",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 memory unit (3 files, 640 tokens) kept under Claude Code's user scope, invisible from project-a; 2 facts never read",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "auto-memory unit <HOME>/.claude/projects/__ROOT__-project-a/memory lives under the harness's user scope, not in the repository"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 3924,
+        "tokens": 640,
+        "files": 3
+      },
+      "flags": ["memory"],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    }
+  ],
+  "headline": {
+    "scope": "user-controllable",
+    "focus": {
+      "project": "project:<ROOT>/project-a",
+      "reason": "cwd"
+    },
+    "perHarness": [
+      {
+        "harness": "claude-code",
+        "modelFamily": null,
+        "contextWindowTokens": null,
+        "baseline": {
+          "low": 100,
+          "mid": 100,
+          "high": 100
+        },
+        "project": {
+          "low": 256,
+          "mid": 256,
+          "high": 256
+        },
+        "total": {
+          "low": 356,
+          "mid": 356,
+          "high": 356
+        },
+        "pctOfContext": null
+      }
+    ]
+  }
+}

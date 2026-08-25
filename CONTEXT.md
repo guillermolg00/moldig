@@ -63,11 +63,11 @@ Where a removed item goes, decided before anything moves: the trash, a backup fo
 _Avoid_: destination, strategy, mode
 
 **Delete**:
-Removing one explicitly selected item, human-owned included, after confirmation; always recoverable (trash, or a backup when a config entry is removed).
+Removing one explicitly selected item, human-owned included, after confirmation; always recoverable: the trash for files, directories and links, a backup before a config or lock entry is edited, or the harness's own command when moldig never edits that file. Removing a skill for one harness trashes that link; removing the skill takes every link and its lock entry with it.
 _Avoid_: remove, clean, uninstall
 
 **Update**:
-Bringing an installed skill to its origin's current state, with a preview of what changes.
+Bringing an installed skill or plugin to its origin's current state by delegating to its installer, with a preview of what changes; a locally modified copy is backed up first.
 _Avoid_: upgrade, sync, refresh
 
 **Headline number**:
@@ -154,7 +154,11 @@ _Avoid_: committed, team, collaborative
 
 **Origin**:
 Where a skill or plugin was installed from — a git ref, a marketplace entry, an npm package, a well-known URL or a local path — as recorded in the lock file.
-_Avoid_: source, upstream (upstream is the origin's current state), provenance, installer
+_Avoid_: source, upstream (upstream is the origin's current state), provenance, installer (the tool that recorded it)
+
+**Installer**:
+The tool that recorded an item's origin and owns its lock or registry: Vercel's skills CLI, Claude Code's plugin command, Gemini's extensions command, or a plain git clone. Update delegates to it; an item without one cannot be updated.
+_Avoid_: package manager, source (source is where the origin points)
 
 **Drift**:
 The distance between an installed copy of a skill and its origin's current state. Offline, moldig can only tell unknown, none, locally modified or copies differ; the distance to upstream needs the network.

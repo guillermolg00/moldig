@@ -12,6 +12,10 @@
   "symlinks": [],
   "ages": [
     {
+      "path": "home/.claude/projects/__ROOT__-project-a-apps-web/22222222-2222-4222-8222-222222222222.jsonl",
+      "ageDays": 45
+    },
+    {
       "path": "home/.claude/shell-snapshots/snapshot-zsh-1700000000000-synth1.sh",
       "ageDays": 45
     },

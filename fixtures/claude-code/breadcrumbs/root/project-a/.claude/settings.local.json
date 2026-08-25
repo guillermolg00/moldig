@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "<redacted>",
+      "<redacted>"
+    ]
+  },
+  "enableAllProjectMcpServers": false,
+  "enabledMcpjsonServers": [
+    "server-http"
+  ],
+  "disabledMcpjsonServers": [
+    "server-sse"
+  ]
+}

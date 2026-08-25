@@ -81,6 +81,13 @@ The contract:
   or paths used as keys become `<redacted>-N`, nested maps of user-named entries are capped at
   3 entries and renamed `entry-N` (TOML) or anonymised.
 
+- **Ignored names.** A case may carry files whose names match a `.gitignore` inside the case
+  (`claude-code/breadcrumbs/root/project-a/.gitignore` ignores `CLAUDE.local.md` and
+  `.claude/settings.local.json`) or the machine's global git ignore; a plain `git add` then drops them
+  silently (the first capture commit lost three). They are force-added: after regenerating a case run
+  `git add -f fixtures/<harness>/<case>` and check `git status --ignored` for the case. A later
+  contract change may commit such files as `_gitignore` and rename them at copy time, like `_git`.
+
 ## Regenerating a case
 
 Every case is produced by `fixtures/_capture/<harness>.mjs` (dependency-free, Node 24, idempotent:
