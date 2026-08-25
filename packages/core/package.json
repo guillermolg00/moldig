@@ -1,0 +1,36 @@
+{
+  "name": "@moldig/core",
+  "version": "0.0.0",
+  "description": "The moldig engine: the index, adapters, detectors and graph for the files AI coding harnesses leave across your projects.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guillermolg00/moldig.git",
+    "directory": "packages/core"
+  },
+  "files": [
+    "dist",
+    "src",
+    "!src/**/*.test.ts"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "@moldig/source": "./src/index.ts",
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsdown"
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  }
+}

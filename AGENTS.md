@@ -1,8 +1,12 @@
 # moldig
 
-CleanMyMac for your AI setup: a terminal tool that scans, shows and cleans the skills, MCP servers, context files and memories that AI coding harnesses leave across every project on a machine. Read `.scratch/moldig-v1/map.md` for where the effort stands (destination, decisions, open tickets) and `CONTEXT.md` for the vocabulary. The original vision document (`moldig-plan.md`) is kept by Guillermo outside the repo.
+CleanMyMac for your AI setup: a terminal tool that scans, shows and cleans the skills, MCP servers, context files and memories that AI coding harnesses leave across every project on a machine. Read `.scratch/moldig-v1/map.md` for where the effort stands (destination, decisions, open tickets) and `CONTEXT.md` for the vocabulary. `.scratch/` and `docs/` are local-only for now (gitignored); a fresh clone has `CONTEXT.md` and this file. The original vision document (`moldig-plan.md`) is kept by Guillermo outside the repo.
 
 Conventions: repo docs, tickets, specs and code comments are written in English; conversation with Guillermo is in Spanish. Keep this file minimal — moldig's own thesis is that bloated context files hurt.
+
+## Working in the repo
+
+Bun manages the workspace (`bun install`, `bun run <script>`) but everything executes on Node: `bun run test`, never `bun test` (ADR-0005). `bun run check` = typecheck + lint + format check; then `bun run test`, `bun run build`, and `node packages/cli/dist/cli.mjs` runs the built CLI. `packages/core` must stay free of terminal dependencies (ADR-0003); `packages/cli` bundles it.
 
 ## Agent skills
 

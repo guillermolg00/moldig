@@ -1,0 +1,41 @@
+{
+  "name": "moldig-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "check": "bun run typecheck && bun run lint && bun run fmt:check",
+    "typecheck": "tsc --noEmit && bun run --filter './packages/*' typecheck",
+    "lint": "oxlint --type-aware --deny-warnings",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "dev": "bun run --filter moldig dev",
+    "build": "bun run --filter './packages/*' build",
+    "clean": "rm -rf packages/*/dist coverage",
+    "release": "bumpp -r --execute 'bun install'"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/core": "0.18.5",
+    "@types/node": "22.20.1",
+    "@vitest/coverage-v8": "4.1.11",
+    "bumpp": "12.2.1",
+    "changelogithub": "15.0.4",
+    "oxfmt": "0.65.0",
+    "oxlint": "1.80.0",
+    "oxlint-tsgolint": "7.0.2001",
+    "publint": "0.3.24",
+    "tsdown": "0.22.14",
+    "typescript": "7.0.2",
+    "vite": "8.2.2",
+    "vitest": "4.1.11"
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "packageManager": "bun@1.4.0"
+}

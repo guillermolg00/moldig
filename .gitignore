@@ -1,8 +1,13 @@
 # Kept out of git for now (2026-08-25): planning scratch and docs stay local
-.scratch/
-docs/
+/.scratch/
+/docs/
 
-# Tooling
-node_modules/
-dist/
+# Tooling (anchored so committed fixture trees can contain these names)
+/node_modules/
+/packages/*/node_modules/
+/apps/*/node_modules/
+/packages/*/dist/
+/apps/*/dist/
+/coverage/
+/packages/*/*.tgz
 .DS_Store

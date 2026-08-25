@@ -1,0 +1,43 @@
+{
+  "name": "moldig",
+  "version": "0.0.0",
+  "description": "CleanMyMac for your AI setup: scan, review and clean the skills, MCP servers, context files, memories and cache that AI coding harnesses leave across your projects.",
+  "keywords": [
+    "ai",
+    "claude-code",
+    "cleanup",
+    "cli",
+    "codex",
+    "copilot",
+    "cursor",
+    "gemini-cli",
+    "mcp",
+    "opencode",
+    "skills"
+  ],
+  "homepage": "https://github.com/guillermolg00/moldig#readme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guillermolg00/moldig.git",
+    "directory": "packages/cli"
+  },
+  "bin": {
+    "moldig": "./dist/cli.mjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsdown",
+    "dev": "tsdown --watch"
+  },
+  "devDependencies": {
+    "@moldig/core": "workspace:*"
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  }
+}

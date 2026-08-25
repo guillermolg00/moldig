@@ -1,0 +1,63 @@
+name: release
+
+# Lockstep release: `bun run release` (bumpp -r) bumps every package, refreshes bun.lock, commits
+# and pushes a `v*` tag; this workflow verifies, builds and publishes both packages with npm
+# trusted publishing (no tokens), then writes the GitHub release notes.
+# It only works once each package exists on npm with this repo + workflow configured as its
+# trusted publisher (see the npm reservation checklist). Provenance is attached automatically
+# by npm once the GitHub repository is public; while it is private, publishing still works.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24" # bundles npm >= 11.5.1, required for trusted publishing
+      - run: bun install --frozen-lockfile
+      - name: the tag must match the lockstep version
+        run: |
+          version="$(node -p "require('./packages/cli/package.json').version")"
+          test "v$version" = "$GITHUB_REF_NAME" || { echo "tag $GITHUB_REF_NAME != v$version"; exit 1; }
+          test "$(node -p "require('./packages/core/package.json').version")" = "$version"
+          case "$version" in *-*) echo "NPM_TAG=next" >> "$GITHUB_ENV" ;; *) echo "NPM_TAG=latest" >> "$GITHUB_ENV" ;; esac
+      - run: bun run check
+      - run: bun run test
+      - run: bun run build
+      - run: node packages/cli/dist/cli.mjs
+      - name: pack both packages before publishing either
+        run: |
+          (cd packages/core && bun pm pack)
+          (cd packages/cli && bun pm pack)
+      - name: publish @moldig/core
+        working-directory: packages/core
+        run: ../../.github/publish-if-missing.sh
+      - name: publish moldig
+        working-directory: packages/cli
+        run: ../../.github/publish-if-missing.sh
+
+  github-release:
+    needs: publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # changelogithub reads the history between tags
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bunx changelogithub # the pinned devDependency, not the registry's latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,3 @@
+[install]
+# pnpm-style layout: packages only see what they declare (Bun's default for new workspaces).
+linker = "isolated"
