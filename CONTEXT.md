@@ -22,6 +22,10 @@ _Avoid_: database, catalog, inventory
 The read-only pass that runs every adapter and builds the index. It never executes a harness, an agent or an MCP server.
 _Avoid_: analyze, crawl, audit (audit is what the detectors do on top of a scan)
 
+**Root**:
+A directory the user points moldig at. The scan is limited to the projects under it, breadcrumbs included, and it is walked for project markers. Without a root, moldig scans every project the breadcrumbs name. Reserved for this meaning: the top directory of a git repository is called the repository directory, never the root.
+_Avoid_: path, folder, workspace, scope, target
+
 **Finding**:
 One thing moldig thinks you should look at, filed under exactly one category and pointing at one or more entities.
 _Avoid_: issue, warning, problem, result
@@ -81,8 +85,16 @@ State a harness keeps for its own operation and documents as safe to sweep: sess
 _Avoid_: junk, temp files, logs, state
 
 **Project**:
-A directory on disk that a harness has worked in and that carries its own configuration. Not necessarily a git repository.
-_Avoid_: repo, workspace, codebase
+A directory on disk that a harness has worked in and that is a git repository (or a worktree of one) or carries its own harness configuration. One project per real directory, whichever harnesses name it. Configuration nested inside a repository belongs to the repository's project; a linked worktree belongs to its main repository's project. A bare directory such as the home directory is never a project, even when a harness has worked there.
+_Avoid_: repo, workspace, codebase, folder
+
+**Breadcrumb**:
+A harness's own record that it worked in a directory: an absolute path kept in the harness's user-scope state (a projects entry, a trust entry, a workspace record, a session's working directory, a slug directory). Each breadcrumb carries its kind.
+_Avoid_: trace, entry, history, record, reference
+
+**Stray**:
+Harness-owned state whose breadcrumb names no project: a bare directory such as the home directory, or a slug that cannot be resolved. Listed under the harness's user scope and cleanable like any harness-owned item.
+_Avoid_: orphan (reserved for targets that are gone), homeless, junk, misc
 
 **Scope**:
 Where a configuration item applies: user (global, under `~`), project (inside the project, shared) or local (inside the project, personal).
@@ -119,6 +131,10 @@ _Avoid_: copy, clone
 **Orphan**:
 A configured item that nothing references, or whose target no longer exists on disk (a project breadcrumb whose directory is gone counts).
 _Avoid_: dead, broken, unused, ghost
+
+**Unreachable**:
+A breadcrumb target that sits on a volume that is not mounted right now. Not an orphan: nothing is suggested for it until the volume is back.
+_Avoid_: missing, offline, gone, disconnected
 
 **Bloat**:
 Context or memory that costs tokens every session without adding actionable guidance.

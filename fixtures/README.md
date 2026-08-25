@@ -14,5 +14,5 @@ The contract:
   with `utimes`, so "older than 30 days" rules are testable).
 - Tests never touch the real home directory: the helper copies the case into a fresh temp
   directory (`mkdtemp` + `realpath`) and the scanner receives the home directory, the
-  directories to scan, the working directory, the platform and the environment explicitly.
+  roots, the working directory, the platform and the environment explicitly (see `CONTEXT.md`).
   Snapshot serialisers normalise `<ROOT>`, path separators and ordering.
