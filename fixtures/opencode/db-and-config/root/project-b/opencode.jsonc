@@ -1,0 +1,5 @@
+{
+  // JSONC: comments and a trailing comma are legal here
+  "$schema": "<redacted>",
+  "instructions": ["CONTRIBUTING.md"],
+}

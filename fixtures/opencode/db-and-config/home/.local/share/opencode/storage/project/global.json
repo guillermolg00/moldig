@@ -1,0 +1,9 @@
+{
+  "id": "global",
+  "worktree": "/",
+  "time": {
+    "created": 1700000000000,
+    "updated": 1700000000000
+  },
+  "sandboxes": []
+}

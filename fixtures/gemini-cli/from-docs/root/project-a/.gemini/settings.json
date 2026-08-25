@@ -1,0 +1,50 @@
+{
+  "context": {
+    "fileName": "GEMINI.md"
+  },
+  "mcpServers": {
+    "server-b": {
+      "httpUrl": "<redacted>",
+      "headers": {
+        "Authorization": "<redacted>"
+      },
+      "timeout": 600000,
+      "trust": false,
+      "oauth": {
+        "enabled": true,
+        "clientId": "<redacted>",
+        "clientSecret": "<redacted>",
+        "authorizationUrl": "<redacted>",
+        "tokenUrl": "<redacted>",
+        "scopes": [
+          "<redacted>"
+        ],
+        "redirectUri": "<redacted>",
+        "tokenParamName": "<redacted>",
+        "audiences": [
+          "<redacted>"
+        ]
+      }
+    },
+    "server-c": {
+      "url": "<redacted>",
+      "authProviderType": "<redacted>",
+      "targetAudience": "<redacted>",
+      "targetServiceAccount": "<redacted>"
+    }
+  },
+  "hooks": {
+    "AfterTool": [
+      {
+        "matcher": "<redacted>",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "<redacted>",
+            "timeout": 5000
+          }
+        ]
+      }
+    ]
+  }
+}

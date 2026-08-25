@@ -1,0 +1,5 @@
+{
+  "enabledPlugins": {
+    "plugin-b@marketplace-a": true
+  }
+}

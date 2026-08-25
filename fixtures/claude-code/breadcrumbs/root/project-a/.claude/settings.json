@@ -1,0 +1,10 @@
+{
+  "enabledPlugins": {
+    "plugin-a@marketplace-a": true
+  },
+  "permissions": {
+    "allow": [
+      "<redacted>"
+    ]
+  }
+}

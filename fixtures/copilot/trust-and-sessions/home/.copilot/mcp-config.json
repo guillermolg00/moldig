@@ -1,0 +1,29 @@
+{
+  "mcpServers": {
+    "server-local": {
+      "type": "local",
+      "command": "<redacted>",
+      "args": [
+        "<redacted>",
+        "<redacted>"
+      ],
+      "env": {
+        "EXAMPLE_VAR": "<redacted>"
+      },
+      "tools": [
+        "*"
+      ]
+    },
+    "server-http": {
+      "type": "http",
+      "url": "<redacted>",
+      "headers": {
+        "Authorization": "<redacted>"
+      },
+      "tools": [
+        "*"
+      ],
+      "timeout": 30000
+    }
+  }
+}

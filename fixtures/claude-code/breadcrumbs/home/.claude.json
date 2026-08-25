@@ -1,0 +1,558 @@
+{
+  "numStartups": 1000,
+  "installMethod": "<redacted>",
+  "autoUpdates": false,
+  "verbose": true,
+  "hasSeenTasksHint": true,
+  "tipsHistory": {
+    "<redacted>-1": 7,
+    "<redacted>-2": 1000,
+    "<redacted>-3": 1000
+  },
+  "promptQueueUseCount": 1000,
+  "btwUseCount": 4,
+  "cachedDynamicConfigs": {
+    "<redacted>-1": {
+      "<redacted>-1": 1000,
+      "<redacted>-2": 200,
+      "<redacted>-3": 1000
+    },
+    "<redacted>-2": {
+      "<redacted>-1": "<redacted>",
+      "<redacted>-2": "<redacted>"
+    }
+  },
+  "cachedGrowthBookFeatures": {
+    "<redacted>-1": "<redacted>",
+    "<redacted>-2": true,
+    "<redacted>-3": {
+      "<redacted>-1": 1000,
+      "<redacted>-2": 1000,
+      "<redacted>-3": 1000
+    }
+  },
+  "unpinOpus47LaunchEffort": true,
+  "unpinOpus48LaunchEffort": true,
+  "unpinFable5LaunchEffort": true,
+  "cachedStatsigGates": {
+    "<redacted>-1": false,
+    "<redacted>-2": true,
+    "<redacted>-3": false
+  },
+  "firstStartTime": "<redacted>",
+  "userID": "<redacted>",
+  "claudeCodeFirstTokenDate": "<redacted>",
+  "s1mAccessCache": {
+    "<redacted>-1": {
+      "<redacted>-1": false,
+      "<redacted>-2": false,
+      "<redacted>-3": 1700000000000
+    }
+  },
+  "fallbackAvailableWarningThreshold": 0.5,
+  "sonnet45MigrationComplete": true,
+  "opus45MigrationComplete": true,
+  "changelogLastFetched": 1700000000000,
+  "officialMarketplaceAutoInstallAttempted": true,
+  "officialMarketplaceAutoInstalled": true,
+  "autoUpdatesProtectedForNative": true,
+  "thinkingMigrationComplete": true,
+  "shiftEnterKeyBindingInstalled": true,
+  "hasCompletedOnboarding": true,
+  "lastOnboardingVersion": "<redacted>",
+  "lastReleaseNotesSeen": "<redacted>",
+  "hasShownOpus45Notice": {
+    "<redacted>-1": true
+  },
+  "githubRepoPaths": {
+    "<redacted>-1": [
+      "<ROOT>/project-a",
+      "<ROOT>/project-a-wt"
+    ],
+    "<redacted>-2": [
+      "<ROOT>/moved"
+    ]
+  },
+  "groveConfigCache": {
+    "<redacted>-1": {
+      "<redacted>-1": true,
+      "<redacted>-2": 1700000000000
+    }
+  },
+  "claudeInChromeDefaultEnabled": true,
+  "hasCompletedClaudeInChromeOnboarding": true,
+  "lastPlanModeUse": 1700000000000,
+  "hasIdeOnboardingBeenShown": {
+    "<redacted>-1": true
+  },
+  "hasUsedBackslashReturn": true,
+  "feedbackSurveyState": {
+    "<redacted>-1": 1700000000000
+  },
+  "skillUsage": {
+    "<redacted>-1": {
+      "<redacted>-1": 13,
+      "<redacted>-2": 1700000000000
+    },
+    "<redacted>-2": {
+      "<redacted>-1": 9,
+      "<redacted>-2": 1700000000000
+    },
+    "<redacted>-3": {
+      "<redacted>-1": 1,
+      "<redacted>-2": 1700000000000
+    }
+  },
+  "opusProMigrationComplete": true,
+  "cachedChromeExtensionInstalled": true,
+  "passesEligibilityCache": {
+    "<redacted>-1": {
+      "<redacted>-1": true,
+      "<redacted>-2": {
+        "<redacted>-1": "<redacted>",
+        "<redacted>-2": "<redacted>",
+        "<redacted>-3": "<redacted>"
+      },
+      "<redacted>-3": {
+        "<redacted>-1": 1000,
+        "<redacted>-2": "<redacted>"
+      }
+    }
+  },
+  "passesUpsellSeenCount": 4,
+  "mcpServers": {
+    "server-stdio": {
+      "type": "stdio",
+      "command": "<redacted>",
+      "args": [
+        "<redacted>"
+      ],
+      "env": {
+        "X": "<redacted>"
+      }
+    },
+    "server-http": {
+      "type": "http",
+      "url": "<redacted>"
+    }
+  },
+  "anonymousId": "<redacted>",
+  "hasVisitedPasses": false,
+  "passesLastSeenRemaining": 3,
+  "hasShownOpus46Notice": {
+    "<redacted>-1": true
+  },
+  "opus46FeedSeenCount": 181,
+  "penguinModeOrgEnabled": false,
+  "showSpinnerTree": false,
+  "effortCalloutDismissed": true,
+  "sonnet1m45MigrationComplete": true,
+  "cachedExtraUsageDisabledReason": "<redacted>",
+  "birthdayHatAnimationCount": 3,
+  "toolUsage": {
+    "<redacted>-1": {
+      "<redacted>-1": 312,
+      "<redacted>-2": 1700000000000
+    },
+    "<redacted>-2": {
+      "<redacted>-1": 33,
+      "<redacted>-2": 1700000000000
+    },
+    "<redacted>-3": {
+      "<redacted>-1": 617,
+      "<redacted>-2": 1700000000000
+    }
+  },
+  "remoteDialogSeen": true,
+  "effortCalloutV2Dismissed": true,
+  "claudeAiMcpEverConnected": [],
+  "overageCreditGrantCache": {
+    "<redacted>-1": {
+      "<redacted>-1": {
+        "<redacted>-1": false,
+        "<redacted>-2": false,
+        "<redacted>-3": false
+      },
+      "<redacted>-2": 1700000000000
+    }
+  },
+  "migrationVersion": 13,
+  "companion": {
+    "<redacted>-1": "<redacted>",
+    "<redacted>-2": "<redacted>",
+    "<redacted>-3": 1700000000000
+  },
+  "overageCreditUpsellSeenCount": 3,
+  "hasSeenUltraplanTerms": true,
+  "autoPermissionsNotificationCount": 3,
+  "remoteControlUpsellSeenCount": 3,
+  "closedIssuesLastChecked": 1700000000000,
+  "hasResetAutoModeOptInForDefaultOffer": true,
+  "cachedExperimentFeatures": [
+    "<redacted>",
+    "<redacted>",
+    "<redacted>"
+  ],
+  "seenNotifications": {
+    "<redacted>-1": 5,
+    "<redacted>-2": 3
+  },
+  "routineFiredWatermark": "<redacted>",
+  "cachedGrowthBookFeaturesAt": 1700000000000,
+  "tipLifetimeShownCounts": {
+    "<redacted>-1": 16,
+    "<redacted>-2": 16,
+    "<redacted>-3": 28
+  },
+  "hasSeenAutoModeEntryWarning": true,
+  "pluginUsage": {
+    "<redacted>-1": {
+      "<redacted>-1": 0,
+      "<redacted>-2": 1700000000000,
+      "<redacted>-3": 1000
+    },
+    "<redacted>-2": {
+      "<redacted>-1": 1000,
+      "<redacted>-2": 1700000000000,
+      "<redacted>-3": 1000
+    },
+    "<redacted>-3": {
+      "<redacted>-1": 1,
+      "<redacted>-2": 1700000000000,
+      "<redacted>-3": 1000
+    }
+  },
+  "lastShownEmergencyTip": "<redacted>",
+  "claudeCodeHints": {
+    "<redacted>-1": [
+      "<redacted>"
+    ]
+  },
+  "machineID": "<redacted>",
+  "hasUsedRemoteControl": true,
+  "fullscreenUpsellSeenCount": 3,
+  "announcementImpressions": {
+    "<redacted>-1": 16,
+    "<redacted>-2": 10,
+    "<redacted>-3": 10
+  },
+  "hasOpenedAgentsView": true,
+  "agentLastUsed": {
+    "<redacted>-1": 1700000000000
+  },
+  "cachedExperimentData": {
+    "<redacted>-1": {
+      "<redacted>-1": "<redacted>",
+      "<redacted>-2": 0,
+      "<redacted>-3": "<redacted>"
+    },
+    "<redacted>-2": {
+      "<redacted>-1": "<redacted>",
+      "<redacted>-2": 1,
+      "<redacted>-3": true
+    },
+    "<redacted>-3": {
+      "<redacted>-1": "<redacted>",
+      "<redacted>-2": 0,
+      "<redacted>-3": false
+    }
+  },
+  "rcLongTurnNudgeSeenCount": 5,
+  "rcLongTurnNudgeSeenKey": "<redacted>",
+  "remoteControlReadyPushCount": 5,
+  "remoteControlReadyPushKey": "<redacted>",
+  "chromeExtension": {
+    "<redacted>-1": "<redacted>",
+    "<redacted>-2": "<redacted>"
+  },
+  "rcPermissionNudgeSeenCount": 3,
+  "voiceLangHintShownCount": 2,
+  "voiceLangHintLastLanguage": "<redacted>",
+  "voiceFooterHintSeenCount": 3,
+  "oauthAccount": {
+    "<redacted>-1": "<redacted>",
+    "<redacted>-2": "<redacted>",
+    "<redacted>-3": "<redacted>"
+  },
+  "clientDataCacheSlots": {
+    "<redacted>-1": {
+      "<redacted>-1": {
+        "<redacted>-1": {
+          "<redacted>-1": true,
+          "<redacted>-2": true
+        },
+        "<redacted>-2": "<redacted>",
+        "<redacted>-3": true
+      },
+      "<redacted>-2": 1700000000000,
+      "<redacted>-3": "<redacted>"
+    },
+    "<redacted>-2": {
+      "<redacted>-1": {
+        "<redacted>-1": {
+          "<redacted>-1": true,
+          "<redacted>-2": true
+        },
+        "<redacted>-2": "<redacted>"
+      },
+      "<redacted>-2": 1700000000000,
+      "<redacted>-3": "<redacted>"
+    },
+    "<redacted>-3": {
+      "<redacted>-1": {
+        "<redacted>-1": {
+          "<redacted>-1": true,
+          "<redacted>-2": true
+        },
+        "<redacted>-2": "<redacted>",
+        "<redacted>-3": true
+      },
+      "<redacted>-2": 1700000000000,
+      "<redacted>-3": "<redacted>"
+    }
+  },
+  "additionalModelOptionsCache": [
+    {
+      "<redacted>-1": "<redacted>",
+      "<redacted>-2": "<redacted>",
+      "<redacted>-3": "<redacted>"
+    }
+  ],
+  "additionalModelCostsCache": {},
+  "modelAccessCache": [],
+  "orgModelDefaultCache": null,
+  "autoCompactWindowsCache": null,
+  "replBridgePlaceholders": {
+    "<redacted>-1": {
+      "<redacted>-1": 1000,
+      "<redacted>-2": "<redacted>",
+      "<redacted>-3": 1700000000000
+    },
+    "<redacted>-2": {
+      "<redacted>-1": 1000,
+      "<redacted>-2": "<redacted>",
+      "<redacted>-3": 1700000000000
+    },
+    "<redacted>-3": {
+      "<redacted>-1": 1000,
+      "<redacted>-2": "<redacted>",
+      "<redacted>-3": 1700000000000
+    }
+  },
+  "hasSeenAutoDefaultNotice": true,
+  "projects": {
+    "<ROOT>/project-a": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {
+        "server-stdio": {
+          "type": "stdio",
+          "command": "<redacted>",
+          "args": [
+            "<redacted>"
+          ],
+          "env": {
+            "X": "<redacted>"
+          }
+        },
+        "server-http": {
+          "type": "http",
+          "url": "<redacted>"
+        }
+      },
+      "enabledMcpjsonServers": [
+        "server-http"
+      ],
+      "disabledMcpjsonServers": [
+        "server-sse"
+      ],
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "<redacted>",
+        "<redacted>",
+        "<redacted>"
+      ],
+      "exampleFilesGeneratedAt": 1700000000000,
+      "reactVulnerabilityCache": {
+        "<redacted>-1": false,
+        "<redacted>-2": null,
+        "<redacted>-3": null
+      },
+      "lastCost": 0.5,
+      "lastAPIDuration": 1000,
+      "lastAPIDurationWithoutRetries": 1000,
+      "lastToolDuration": 1000,
+      "lastDuration": 1000,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 1000,
+      "lastTotalOutputTokens": 1000,
+      "lastTotalCacheCreationInputTokens": 1000,
+      "lastTotalCacheReadInputTokens": 1000,
+      "lastTotalWebSearchRequests": 0,
+      "lastModelUsage": {
+        "<redacted>-1": {
+          "<redacted>-1": 1000,
+          "<redacted>-2": 36,
+          "<redacted>-3": 0
+        },
+        "<redacted>-2": {
+          "<redacted>-1": 1000,
+          "<redacted>-2": 1000,
+          "<redacted>-3": 1000
+        }
+      },
+      "lastSessionId": "11111111-1111-4111-8111-111111111111",
+      "lastGracefulShutdown": true,
+      "lastVersionBase": "<redacted>",
+      "lastSessionMetrics": {
+        "<redacted>-1": 1000,
+        "<redacted>-2": 0.5,
+        "<redacted>-3": 0.5
+      },
+      "lastStartTime": 1700000000000,
+      "lastFpsAverage": 0.5,
+      "lastFpsLow1Pct": 0.5,
+      "lastHintSessionId": "<redacted>",
+      "lastSessionFirstPrompt": "<redacted>",
+      "lastSessionModified": 1700000000000,
+      "hasCompletedProjectOnboarding": true,
+      "hasUnseenTeamArtifacts": false,
+      "disabledMcpServers": [
+        "server-stdio"
+      ],
+      "loggedAuthoredArtifactPaths": [
+        "<redacted>"
+      ],
+      "enabledMcpServers": []
+    },
+    "<ROOT>/project-a/apps/web": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "lastSessionId": "22222222-2222-4222-8222-222222222222"
+    },
+    "<ROOT>/project-a-wt": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false
+    },
+    "<ROOT>/gone": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {
+        "server-stdio": {
+          "type": "stdio",
+          "command": "<redacted>",
+          "args": [
+            "<redacted>"
+          ],
+          "env": {
+            "X": "<redacted>"
+          }
+        },
+        "server-http": {
+          "type": "http",
+          "url": "<redacted>"
+        }
+      },
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "<redacted>",
+        "<redacted>",
+        "<redacted>"
+      ],
+      "exampleFilesGeneratedAt": 1700000000000,
+      "reactVulnerabilityCache": {
+        "<redacted>-1": false,
+        "<redacted>-2": null,
+        "<redacted>-3": null
+      },
+      "lastCost": 0.5,
+      "lastAPIDuration": 1000,
+      "lastAPIDurationWithoutRetries": 1000,
+      "lastToolDuration": 1000,
+      "lastDuration": 1000,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 1000,
+      "lastTotalOutputTokens": 1000,
+      "lastTotalCacheCreationInputTokens": 1000,
+      "lastTotalCacheReadInputTokens": 1000,
+      "lastTotalWebSearchRequests": 0,
+      "lastModelUsage": {
+        "<redacted>-1": {
+          "<redacted>-1": 1000,
+          "<redacted>-2": 36,
+          "<redacted>-3": 0
+        },
+        "<redacted>-2": {
+          "<redacted>-1": 1000,
+          "<redacted>-2": 1000,
+          "<redacted>-3": 1000
+        }
+      },
+      "lastSessionId": "33333333-3333-4333-8333-333333333333",
+      "lastGracefulShutdown": true,
+      "lastVersionBase": "<redacted>",
+      "lastSessionMetrics": {
+        "<redacted>-1": 1000,
+        "<redacted>-2": 0.5,
+        "<redacted>-3": 0.5
+      },
+      "lastStartTime": 1700000000000,
+      "lastFpsAverage": 0.5,
+      "lastFpsLow1Pct": 0.5,
+      "lastHintSessionId": "<redacted>",
+      "lastSessionFirstPrompt": "<redacted>",
+      "lastSessionModified": 1700000000000,
+      "hasCompletedProjectOnboarding": true,
+      "hasUnseenTeamArtifacts": false,
+      "disabledMcpServers": [
+        "<redacted>"
+      ],
+      "loggedAuthoredArtifactPaths": [
+        "<redacted>"
+      ]
+    },
+    "<HOME>": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "hasCompletedProjectOnboarding": true
+    },
+    "/Volumes/Backup/old": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false
+    }
+  }
+}

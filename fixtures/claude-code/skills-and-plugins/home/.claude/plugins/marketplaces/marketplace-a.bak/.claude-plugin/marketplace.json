@@ -1,0 +1,17 @@
+{
+  "$schema": "<redacted>",
+  "name": "marketplace-a",
+  "version": "<redacted>",
+  "description": "<redacted>",
+  "owner": {
+    "name": "<redacted>"
+  },
+  "plugins": [
+    {
+      "name": "plugin-a",
+      "source": "./plugins/plugin-a",
+      "description": "<redacted>",
+      "version": "1.0.0"
+    }
+  ]
+}

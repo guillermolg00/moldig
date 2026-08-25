@@ -1,0 +1,30 @@
+{
+  "$schema": "<redacted>",
+  "mcp": {
+    "server-local": {
+      "type": "local",
+      "command": [
+        "<redacted>",
+        "<redacted>"
+      ],
+      "cwd": "<HOME>",
+      "environment": {
+        "EXAMPLE_VAR": "<redacted>"
+      },
+      "enabled": true
+    },
+    "server-remote": {
+      "type": "remote",
+      "url": "<redacted>",
+      "headers": {
+        "Authorization": "<redacted>"
+      },
+      "enabled": true,
+      "timeout": 5000
+    }
+  },
+  "instructions": [
+    "<HOME>/.config/opencode/rules/*.md",
+    "<HOME>/.config/opencode/style.md"
+  ]
+}

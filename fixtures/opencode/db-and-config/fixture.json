@@ -1,0 +1,85 @@
+{
+  "renames": [
+    {
+      "from": "root/project-a/_git",
+      "to": "root/project-a/.git"
+    },
+    {
+      "from": "root/project-b/_git",
+      "to": "root/project-b/.git"
+    }
+  ],
+  "symlinks": [
+    {
+      "path": "home/.config/opencode/skills/find-skills",
+      "target": "../../../.agents/skills/find-skills",
+      "kind": "dir"
+    }
+  ],
+  "ages": [
+    {
+      "path": "home/.local/share/opencode/storage/project/global.json",
+      "ageDays": 155
+    },
+    {
+      "path": "home/.local/share/opencode/storage/project/1111111111111111111111111111111111111111.json",
+      "ageDays": 155
+    },
+    {
+      "path": "home/.local/share/opencode/storage/session/1111111111111111111111111111111111111111/ses_synthetic0001.json",
+      "ageDays": 155
+    },
+    {
+      "path": "home/.local/share/opencode/storage/message/ses_synthetic0001/msg_synthetic0001.json",
+      "ageDays": 155
+    },
+    {
+      "path": "home/.config/opencode/skill/vercel-react-best-practices/SKILL.md",
+      "ageDays": 200
+    },
+    {
+      "path": "home/.config/opencode/skill/web-design-guidelines/SKILL.md",
+      "ageDays": 200
+    },
+    {
+      "path": "home/.local/share/opencode/opencode.db",
+      "ageDays": 0
+    }
+  ],
+  "dirs": [
+    "home/.config/opencode/skills",
+    "home/.config/opencode/context-mode/sessions",
+    "home/.cache/opencode/bin",
+    "home/.local/share/opencode/bin",
+    "home/.local/share/opencode/log",
+    "home/.local/share/opencode/repos",
+    "home/.local/share/opencode/snapshot",
+    "home/.local/share/opencode/tool-output",
+    "home/.local/share/opencode/storage/part",
+    "home/.local/share/opencode/storage/session_diff",
+    "home/.local/share/opencode/storage/migration"
+  ],
+  "sqlite": [
+    {
+      "path": "home/.local/share/opencode/opencode.db",
+      "rewrite": [
+        {
+          "table": "project",
+          "column": "worktree"
+        },
+        {
+          "table": "session",
+          "column": "directory"
+        },
+        {
+          "table": "project_directory",
+          "column": "directory"
+        },
+        {
+          "table": "workspace",
+          "column": "directory"
+        }
+      ]
+    }
+  ]
+}

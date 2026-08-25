@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "server-stdio": {
+      "type": "stdio",
+      "command": "<redacted>",
+      "args": [
+        "<redacted>",
+        "<redacted>"
+      ],
+      "env": {
+        "VAR_A": "<redacted>"
+      }
+    },
+    "server-url": {
+      "type": "http",
+      "url": "<redacted>",
+      "headers": {
+        "Header-A": "<redacted>"
+      }
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "renames": [
+    {
+      "from": "root/project-a/_git",
+      "to": "root/project-a/.git"
+    },
+    {
+      "from": "root/project-b/_git",
+      "to": "root/project-b/.git"
+    }
+  ],
+  "symlinks": [
+    {
+      "path": "home/.copilot/skills/skill-a",
+      "target": "../../.agents/skills/skill-a",
+      "kind": "dir"
+    }
+  ],
+  "ages": [
+    {
+      "path": "home/.copilot/session-state/00000000-0000-4000-8000-000000000001",
+      "ageDays": 3
+    },
+    {
+      "path": "home/.copilot/session-state/00000000-0000-4000-8000-000000000001/workspace.yaml",
+      "ageDays": 3
+    },
+    {
+      "path": "home/.copilot/session-state/00000000-0000-4000-8000-000000000001/events.jsonl",
+      "ageDays": 3
+    },
+    {
+      "path": "home/.copilot/session-state/00000000-0000-4000-8000-000000000001/session.db",
+      "ageDays": 3
+    },
+    {
+      "path": "home/.copilot/session-state/00000000-0000-4000-8000-000000000001/plan.md",
+      "ageDays": 3
+    },
+    {
+      "path": "home/.copilot/session-state/00000000-0000-4000-8000-000000000001/checkpoints/index.md",
+      "ageDays": 3
+    },
+    {
+      "path": "home/.copilot/session-state/00000000-0000-4000-8000-000000000001/checkpoints/001-checkpoint.md",
+      "ageDays": 3
+    },
+    {
+      "path": "home/.copilot/session-state/00000000-0000-4000-8000-000000000002",
+      "ageDays": 200
+    },
+    {
+      "path": "home/.copilot/session-state/00000000-0000-4000-8000-000000000002/workspace.yaml",
+      "ageDays": 200
+    },
+    {
+      "path": "home/.copilot/session-state/00000000-0000-4000-8000-000000000002/checkpoints/index.md",
+      "ageDays": 200
+    },
+    {
+      "path": "home/.copilot/session-state/00000000-0000-4000-8000-000000000003",
+      "ageDays": 40
+    },
+    {
+      "path": "home/.copilot/session-state/00000000-0000-4000-8000-000000000003/workspace.yaml",
+      "ageDays": 40
+    },
+    {
+      "path": "home/.copilot/session-state/00000000-0000-4000-8000-000000000003/events.jsonl",
+      "ageDays": 40
+    },
+    {
+      "path": "home/.copilot/session-state/00000000-0000-4000-8000-000000000003/checkpoints/index.md",
+      "ageDays": 40
+    },
+    {
+      "path": "home/Library/Application Support/Code/User/workspaceStorage/44444444444444444444444444444444/workspace.json",
+      "ageDays": 200
+    },
+    {
+      "path": "home/Library/Application Support/Code/User/workspaceStorage/22222222222222222222222222222222/workspace.json",
+      "ageDays": 120
+    },
+    {
+      "path": "home/.copilot/logs/process-1700000000000-1.log",
+      "ageDays": 90
+    }
+  ],
+  "dirs": [
+    "home/.copilot/session-state/00000000-0000-4000-8000-000000000001/files",
+    "home/.copilot/session-state/00000000-0000-4000-8000-000000000001/rewind-snapshots",
+    "home/.copilot/session-state/00000000-0000-4000-8000-000000000002/files",
+    "home/.copilot/session-state/00000000-0000-4000-8000-000000000003/files",
+    "home/.copilot/ide",
+    "home/.copilot/pkg"
+  ],
+  "sqlite": [
+    {
+      "path": "home/Library/Application Support/Code/User/globalStorage/state.vscdb",
+      "rewrite": [
+        {
+          "table": "ItemTable",
+          "column": "value"
+        }
+      ]
+    }
+  ]
+}

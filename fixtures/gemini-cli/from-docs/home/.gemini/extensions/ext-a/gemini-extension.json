@@ -1,0 +1,25 @@
+{
+  "name": "ext-a",
+  "version": "1.0.0",
+  "description": "<redacted>",
+  "mcpServers": {
+    "ext-server": {
+      "command": "<redacted>",
+      "args": [
+        "${extensionPath}/<redacted>"
+      ]
+    }
+  },
+  "contextFileName": "GEMINI.md",
+  "excludeTools": [
+    "<redacted>"
+  ],
+  "settings": [
+    {
+      "name": "<redacted>",
+      "description": "<redacted>",
+      "envVar": "VAR_A",
+      "sensitive": true
+    }
+  ]
+}

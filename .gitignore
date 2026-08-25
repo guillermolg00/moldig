@@ -11,3 +11,6 @@
 /coverage/
 /packages/*/*.tgz
 .DS_Store
+
+# Capture sources (real directory names of this machine; see fixtures/_capture/sources.example.json)
+/fixtures/_capture/sources.local.json

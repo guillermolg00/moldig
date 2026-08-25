@@ -1,0 +1,6 @@
+{
+  "<ROOT>/project-a": "TRUST_FOLDER",
+  "<ROOT>/gone": "TRUST_FOLDER",
+  "<ROOT>/project-c": "DO_NOT_TRUST",
+  "<ROOT>/nested/project-b": "TRUST_PARENT"
+}

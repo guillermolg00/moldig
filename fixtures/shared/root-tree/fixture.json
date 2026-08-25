@@ -1,0 +1,32 @@
+{
+  "renames": [
+    {
+      "from": "root/monorepo/_git",
+      "to": "root/monorepo/.git"
+    },
+    {
+      "from": "root/monorepo/vendor/lib/_git",
+      "to": "root/monorepo/vendor/lib/.git"
+    },
+    {
+      "from": "root/wt-main/_git",
+      "to": "root/wt-main/.git"
+    },
+    {
+      "from": "root/wt-feature/_git",
+      "to": "root/wt-feature/.git"
+    },
+    {
+      "from": "root/wt-detached/_git",
+      "to": "root/wt-detached/.git"
+    }
+  ],
+  "symlinks": [
+    {
+      "path": "root/link-to-monorepo",
+      "target": "monorepo",
+      "kind": "dir"
+    }
+  ],
+  "ages": []
+}

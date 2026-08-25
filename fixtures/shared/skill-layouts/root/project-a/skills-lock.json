@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "skill-a": {
+      "source": "<redacted>",
+      "sourceUrl": "<redacted>",
+      "sourceType": "github",
+      "skillPath": "<redacted>",
+      "computedHash": "<redacted-hash>"
+    },
+    "skill-c": {
+      "source": "<redacted>",
+      "sourceType": "local",
+      "computedHash": "<redacted-hash>"
+    }
+  }
+}

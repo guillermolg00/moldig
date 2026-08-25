@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "skills": {
+    "find-skills": {
+      "source": "<redacted>",
+      "sourceType": "<redacted>",
+      "sourceUrl": "<redacted>",
+      "skillPath": "<redacted>",
+      "skillFolderHash": "<redacted>",
+      "installedAt": "<redacted>",
+      "updatedAt": "<redacted>"
+    },
+    "next-best-practices": {
+      "source": "<redacted>",
+      "sourceType": "<redacted>",
+      "sourceUrl": "<redacted>",
+      "skillPath": "<redacted>",
+      "skillFolderHash": "<redacted>",
+      "installedAt": "<redacted>",
+      "updatedAt": "<redacted>"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "gemini-cli",
+    "claude-code"
+  ]
+}

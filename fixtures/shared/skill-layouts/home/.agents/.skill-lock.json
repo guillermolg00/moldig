@@ -1,0 +1,27 @@
+{
+  "version": 3,
+  "skills": {
+    "skill-a": {
+      "source": "<redacted>",
+      "sourceType": "github",
+      "sourceUrl": "<redacted>",
+      "skillPath": "<redacted>",
+      "skillFolderHash": "<redacted-hash>",
+      "installedAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-02-01T00:00:00.000Z"
+    },
+    "skill-c": {
+      "source": "<redacted>",
+      "sourceType": "local",
+      "sourceUrl": "<redacted>",
+      "skillFolderHash": "<redacted-hash>",
+      "installedAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    }
+  },
+  "lastSelectedAgents": [
+    "claude-code",
+    "codex",
+    "cursor"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "contextFileName": "GEMINI.md",
+  "theme": "<redacted>",
+  "checkpointing": {
+    "enabled": true
+  },
+  "mcpServers": {
+    "server-d": {
+      "command": "<redacted>",
+      "args": [
+        "<redacted>"
+      ]
+    }
+  }
+}

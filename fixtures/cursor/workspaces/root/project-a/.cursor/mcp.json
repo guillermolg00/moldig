@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "server-stdio": {
+      "command": "<redacted>",
+      "args": [
+        "<redacted>",
+        "<redacted>"
+      ]
+    }
+  }
+}

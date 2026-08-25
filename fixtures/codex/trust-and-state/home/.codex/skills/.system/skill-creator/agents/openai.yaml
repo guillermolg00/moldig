@@ -1,0 +1,5 @@
+interface:
+  display_name: <redacted>
+  short_description: <redacted>
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,19 @@
+{
+  "servers": {
+    "server-http": {
+      "type": "http",
+      "url": "<redacted>",
+      "headers": {
+        "Authorization": "<redacted>"
+      }
+    }
+  },
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "<redacted>",
+      "description": "<redacted>",
+      "password": true
+    }
+  ]
+}

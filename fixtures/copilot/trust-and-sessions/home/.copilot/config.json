@@ -1,0 +1,27 @@
+{
+  "banner": "<redacted>",
+  "last_logged_in_user": {
+    "host": "<redacted>",
+    "login": "<redacted>"
+  },
+  "logged_in_users": [
+    {
+      "host": "<redacted>",
+      "login": "<redacted>"
+    }
+  ],
+  "model": "<redacted>",
+  "render_markdown": true,
+  "trusted_folders": [
+    "<ROOT>/project-a",
+    "<ROOT>/gone",
+    "<HOME>"
+  ],
+  "allowed_urls": [
+    "<redacted>",
+    "<redacted>",
+    "<redacted>"
+  ],
+  "disabled_skills": [],
+  "show_reasoning": false
+}

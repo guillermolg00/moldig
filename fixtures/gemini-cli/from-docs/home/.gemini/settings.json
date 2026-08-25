@@ -1,0 +1,119 @@
+{
+  "general": {
+    "checkpointing": {
+      "enabled": true
+    },
+    "sessionRetention": {}
+  },
+  "output": {},
+  "ui": {
+    "theme": "<redacted>",
+    "customThemes": {}
+  },
+  "ide": {
+    "hasSeenNudge": true
+  },
+  "privacy": {},
+  "telemetry": {
+    "enabled": false
+  },
+  "billing": {},
+  "model": {},
+  "modelConfigs": {},
+  "agents": {},
+  "context": {
+    "fileName": [
+      "GEMINI.md",
+      "AGENTS.md"
+    ],
+    "importFormat": "tree",
+    "includeDirectoryTree": true,
+    "discoveryMaxDirs": 200,
+    "memoryBoundaryMarkers": [
+      ".git"
+    ],
+    "includeDirectories": [
+      "<ROOT>/project-b"
+    ],
+    "loadMemoryFromIncludeDirectories": false,
+    "fileFiltering": {
+      "respectGitIgnore": true,
+      "respectGeminiIgnore": true,
+      "enableFileWatcher": false,
+      "enableRecursiveFileSearch": true,
+      "enableFuzzySearch": true,
+      "customIgnoreFilePaths": []
+    }
+  },
+  "tools": {},
+  "mcp": {
+    "allowed": [
+      "server-a"
+    ],
+    "excluded": []
+  },
+  "useWriteTodos": false,
+  "security": {
+    "auth": {
+      "selectedType": "<redacted>"
+    }
+  },
+  "admin": {},
+  "advanced": {},
+  "experimental": {
+    "autoMemory": true
+  },
+  "extensions": {},
+  "skills": {
+    "enabled": true,
+    "disabled": [
+      "skill-c"
+    ]
+  },
+  "hooksConfig": {},
+  "hooks": {
+    "BeforeTool": [
+      {
+        "matcher": "<redacted>",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "<redacted>",
+            "name": "<redacted>",
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "<redacted>"
+          }
+        ]
+      }
+    ]
+  },
+  "contextManagement": {},
+  "mcpServers": {
+    "server-a": {
+      "command": "<redacted>",
+      "args": [
+        "<redacted>",
+        "<redacted>"
+      ],
+      "env": {
+        "VAR_A": "<redacted>"
+      },
+      "cwd": "<ROOT>/project-a",
+      "timeout": 600000,
+      "trust": false,
+      "includeTools": [
+        "<redacted>"
+      ],
+      "excludeTools": []
+    }
+  }
+}

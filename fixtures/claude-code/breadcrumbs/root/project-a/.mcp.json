@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "server-stdio-implicit": {
+      "command": "<redacted>",
+      "args": [
+        "<redacted>"
+      ]
+    },
+    "server-http": {
+      "type": "http",
+      "url": "<redacted>",
+      "headers": {
+        "Authorization": "${EXAMPLE_VAR}"
+      }
+    },
+    "server-sse": {
+      "type": "sse",
+      "url": "<redacted>"
+    },
+    "server-broken": {
+      "url": "<redacted>"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "servers": {
+    "server-stdio": {
+      "type": "stdio",
+      "command": "<redacted>",
+      "args": [
+        "<redacted>"
+      ],
+      "env": {
+        "EXAMPLE_VAR": "<redacted>"
+      },
+      "sandboxEnabled": false
+    },
+    "server-sse": {
+      "type": "sse",
+      "url": "<redacted>"
+    }
+  },
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "<redacted>",
+      "description": "<redacted>",
+      "password": true
+    }
+  ]
+}

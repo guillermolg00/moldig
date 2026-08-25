@@ -1,0 +1,30 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "<redacted>",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "<redacted>",
+            "timeout": 30,
+            "statusMessage": "<redacted>",
+            "async": false
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "<redacted>",
+        "hooks": [
+          {
+            "type": "mcp_tool",
+            "command": "<redacted>",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

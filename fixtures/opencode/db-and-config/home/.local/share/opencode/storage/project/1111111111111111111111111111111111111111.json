@@ -1,0 +1,11 @@
+{
+  "id": "1111111111111111111111111111111111111111",
+  "worktree": "<ROOT>/project-a",
+  "vcs": "git",
+  "time": {
+    "created": 1700000000000,
+    "updated": 1700000000000,
+    "initialized": 1700000000000
+  },
+  "sandboxes": []
+}

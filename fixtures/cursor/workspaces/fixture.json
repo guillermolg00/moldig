@@ -1,0 +1,105 @@
+{
+  "renames": [
+    {
+      "from": "root/project-a/_git",
+      "to": "root/project-a/.git"
+    },
+    {
+      "from": "root/API-NESTJS/_git",
+      "to": "root/API-NESTJS/.git"
+    },
+    {
+      "from": "home/.cursor/worktrees/project-a/abc/_git",
+      "to": "home/.cursor/worktrees/project-a/abc/.git"
+    },
+    {
+      "from": "home/.cursor/worktrees/gone/xyz/_git",
+      "to": "home/.cursor/worktrees/gone/xyz/.git"
+    }
+  ],
+  "symlinks": [
+    {
+      "path": "home/.cursor/skills/find-skills",
+      "target": "../../.agents/skills/find-skills",
+      "kind": "dir"
+    }
+  ],
+  "ages": [
+    {
+      "path": "home/Library/Application Support/Cursor/User/workspaceStorage/42d0ae0d01ed151eed33107f4ae83a3a/workspace.json",
+      "ageDays": 200
+    },
+    {
+      "path": "home/Library/Application Support/Cursor/User/workspaceStorage/42d0ae0d01ed151eed33107f4ae83a3a/state.vscdb",
+      "ageDays": 200
+    },
+    {
+      "path": "home/Library/Application Support/Cursor/User/workspaceStorage/a3b19f678ec5de0c22b6fb40f1563bcd/workspace.json",
+      "ageDays": 90
+    },
+    {
+      "path": "home/Library/Application Support/Cursor/User/workspaceStorage/d9fd13a22662fcf2edd0cbc8861280f1/workspace.json",
+      "ageDays": 10
+    },
+    {
+      "path": "home/Library/Application Support/Cursor/User/workspaceStorage/f3eb0056c6efb562233aa653b172cb84/workspace.json",
+      "ageDays": 150
+    },
+    {
+      "path": "home/.cursor/projects/__ROOT__-api-nestjs/agent-transcripts/00000000-0000-4000-8000-000000000001.txt",
+      "ageDays": 45
+    },
+    {
+      "path": "home/.cursor/projects/__ROOT__-api-nestjs/agent-transcripts/00000000-0000-4000-8000-000000000002.txt",
+      "ageDays": 45
+    },
+    {
+      "path": "home/.cursor/mcp.json.backup",
+      "ageDays": 120
+    },
+    {
+      "path": "home/.cursor/plans/plan_a_00000000.plan.md",
+      "ageDays": 90
+    }
+  ],
+  "dirs": [
+    "home/Library/Application Support/Cursor/Workspaces",
+    "home/Library/Application Support/Cursor/logs",
+    "home/Library/Application Support/Cursor/User/workspaceStorage/a395ef5c679da40a8c8f31e20faabf8b/anysphere.cursor-retrieval",
+    "home/Library/Application Support/Cursor/User/workspaceStorage/a395ef5c679da40a8c8f31e20faabf8b/images",
+    "home/Library/Application Support/Cursor/User/workspaceStorage/a395ef5c679da40a8c8f31e20faabf8b/obsolete",
+    "home/.cursor/projects/__ROOT__-api-nestjs/rules",
+    "home/.cursor/projects/__ROOT__-api-nestjs/terminals",
+    "home/.cursor/projects/__ROOT__-api-nestjs/mcps/user-server-stdio/tools",
+    "home/.cursor/projects/__ROOT__-project-a/rules",
+    "home/.cursor/projects/__ROOT__-project-a/terminals",
+    "home/.cursor/projects/__ROOT__-project-a/agent-tools",
+    "home/.cursor/projects/__ROOT__-project-a/canvases",
+    "home/.cursor/projects/__ROOT__-project-a/assets",
+    "home/.cursor/projects/__ROOT__-gone/rules",
+    "home/.cursor/projects/1700000000000/canvases",
+    "home/.cursor/ai-tracking",
+    "home/.cursor/browser-logs",
+    "home/.cursor/extensions"
+  ],
+  "sqlite": [
+    {
+      "path": "home/Library/Application Support/Cursor/User/globalStorage/state.vscdb",
+      "rewrite": [
+        {
+          "table": "ItemTable",
+          "column": "value"
+        }
+      ]
+    },
+    {
+      "path": "home/Library/Application Support/Cursor/User/globalStorage/state.vscdb.backup",
+      "rewrite": [
+        {
+          "table": "ItemTable",
+          "column": "value"
+        }
+      ]
+    }
+  ]
+}

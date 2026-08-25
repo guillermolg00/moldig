@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "server-stdio": {
+      "type": "stdio",
+      "command": "<redacted>",
+      "args": [
+        "<redacted>"
+      ],
+      "tools": [
+        "*"
+      ]
+    },
+    "server-sse": {
+      "type": "sse",
+      "url": "<redacted>",
+      "tools": [
+        "*"
+      ]
+    }
+  }
+}

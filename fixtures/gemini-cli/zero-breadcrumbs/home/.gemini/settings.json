@@ -1,0 +1,19 @@
+{
+  "ide": {
+    "hasSeenNudge": true
+  },
+  "security": {
+    "auth": {
+      "selectedType": "<redacted>"
+    }
+  },
+  "mcpServers": {
+    "server-a": {
+      "type": "<redacted>",
+      "url": "<redacted>",
+      "headers": {
+        "Authorization": "<redacted>"
+      }
+    }
+  }
+}

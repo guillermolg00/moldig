@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "plugins": {
+    "plugin-a@marketplace-a": [
+      {
+        "scope": "user",
+        "installPath": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2023-11-14T22:13:20.000Z",
+        "lastUpdated": "2023-11-14T22:13:20.000Z",
+        "gitCommitSha": "<redacted-hash>"
+      }
+    ],
+    "plugin-b@marketplace-a": [
+      {
+        "scope": "project",
+        "projectPath": "<ROOT>/project-b",
+        "installPath": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-b/2.0.0",
+        "version": "2.0.0",
+        "installedAt": "2023-11-14T22:13:20.000Z",
+        "lastUpdated": "2023-11-14T22:13:20.000Z",
+        "gitCommitSha": "<redacted-hash>"
+      }
+    ]
+  }
+}

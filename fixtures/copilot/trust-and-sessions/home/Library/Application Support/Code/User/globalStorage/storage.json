@@ -1,0 +1,677 @@
+{
+  "telemetry.sqmId": "<redacted>",
+  "telemetry.machineId": "<redacted>",
+  "telemetry.devDeviceId": "<redacted>",
+  "backupWorkspaces": {
+    "workspaces": [],
+    "folders": [
+      {
+        "folderUri": "<redacted>"
+      }
+    ],
+    "emptyWindows": []
+  },
+  "windowControlHeight": 35,
+  "profileAssociations": {
+    "workspaces": {
+      "file://<ROOT>/project-a": "<redacted>",
+      "file://<HOME>": "<redacted>",
+      "file://<ROOT>/gone": "<redacted>"
+    },
+    "emptyWindows": {}
+  },
+  "lastKnownMenubarData": {
+    "menus": {
+      "File": {
+        "items": [
+          {
+            "id": "<redacted>",
+            "label": "<redacted>"
+          },
+          {
+            "id": "<redacted>",
+            "label": "<redacted>"
+          },
+          {
+            "id": "<redacted>",
+            "label": "<redacted>"
+          }
+        ]
+      },
+      "Edit": {
+        "items": [
+          {
+            "id": "<redacted>",
+            "label": "<redacted>"
+          },
+          {
+            "id": "<redacted>",
+            "label": "<redacted>"
+          },
+          {
+            "id": "<redacted>"
+          }
+        ]
+      },
+      "Selection": {
+        "items": [
+          {
+            "id": "<redacted>",
+            "label": "<redacted>"
+          },
+          {
+            "id": "<redacted>",
+            "label": "<redacted>"
+          },
+          {
+            "id": "<redacted>",
+            "label": "<redacted>"
+          }
+        ]
+      },
+      "View": {
+        "items": [
+          {
+            "id": "<redacted>",
+            "label": "<redacted>"
+          },
+          {
+            "id": "<redacted>",
+            "label": "<redacted>"
+          },
+          {
+            "id": "<redacted>"
+          }
+        ]
+      },
+      "Go": {
+        "items": [
+          {
+            "id": "<redacted>",
+            "label": "<redacted>",
+            "enabled": false
+          },
+          {
+            "id": "<redacted>",
+            "label": "<redacted>",
+            "enabled": false
+          },
+          {
+            "id": "<redacted>",
+            "label": "<redacted>",
+            "enabled": false
+          }
+        ]
+      },
+      "Run": {
+        "items": [
+          {
+            "id": "<redacted>",
+            "label": "<redacted>"
+          },
+          {
+            "id": "<redacted>",
+            "label": "<redacted>"
+          },
+          {
+            "id": "<redacted>",
+            "label": "<redacted>",
+            "enabled": false
+          }
+        ]
+      },
+      "Terminal": {
+        "items": [
+          {
+            "id": "<redacted>",
+            "label": "<redacted>"
+          },
+          {
+            "id": "<redacted>",
+            "label": "<redacted>",
+            "enabled": false
+          },
+          {
+            "id": "<redacted>",
+            "label": "<redacted>",
+            "enabled": false
+          }
+        ]
+      },
+      "Help": {
+        "items": [
+          {
+            "id": "<redacted>",
+            "label": "<redacted>"
+          },
+          {
+            "id": "<redacted>",
+            "label": "<redacted>"
+          },
+          {
+            "id": "<redacted>",
+            "label": "<redacted>"
+          }
+        ]
+      },
+      "Preferences": {
+        "items": [
+          {
+            "id": "<redacted>",
+            "label": "<redacted>"
+          },
+          {
+            "id": "<redacted>",
+            "label": "<redacted>"
+          },
+          {
+            "id": "<redacted>",
+            "label": "<redacted>"
+          }
+        ]
+      }
+    },
+    "keybindings": {
+      "workbench.action.quit": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.files.newUntitledFile": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "welcome.showNewFileEntries": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.newWindow": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.files.openFileFolder": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.reopenClosedEditor": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.openRecent": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.files.save": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.files.saveAs": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "saveAll": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.closeActiveEditor": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.closeFolder": {
+        "label": "<redacted>",
+        "isNative": false,
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.closeWindow": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "undo": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "redo": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.clipboardCutAction": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.clipboardCopyAction": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.clipboardPasteAction": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "actions.find": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.startFindReplaceAction": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.findInFiles": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.replaceInFiles": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.commentLine": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.blockComment": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.emmet.action.expandAbbreviation": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.selectAll": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.smartSelect.expand": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.smartSelect.shrink": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.copyLinesUpAction": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.copyLinesDownAction": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.moveLinesUpAction": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.moveLinesDownAction": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.insertCursorAbove": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.insertCursorBelow": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.insertCursorAtEndOfEachLineSelected": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.addSelectionToNextFindMatch": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.selectHighlights": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.showCommands": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.toggleFullScreen": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.toggleZenMode": {
+        "label": "<redacted>",
+        "isNative": false,
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.toggleSidebarVisibility": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.toggleAuxiliaryBar": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.togglePanel": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.zoomIn": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.zoomOut": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.zoomReset": {
+        "label": "<redacted>",
+        "isNative": false,
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.splitEditorUp": {
+        "label": "<redacted>",
+        "isNative": false,
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.splitEditorInGroup": {
+        "label": "<redacted>",
+        "isNative": false,
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.copyEditorToNewWindow": {
+        "label": "<redacted>",
+        "isNative": false,
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.toggleEditorGroupLayout": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.view.explorer": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.view.search": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.view.scm": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.view.debug": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.view.extensions": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.panel.chat": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.actions.view.problems": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.output.toggleOutput": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.debug.action.toggleRepl": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.terminal.toggleTerminal": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.toggleWordWrap": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.navigateBack": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.navigateForward": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.navigateToLastEditLocation": {
+        "label": "<redacted>",
+        "isNative": false,
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.nextEditor": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.previousEditor": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.nextEditorInGroup": {
+        "label": "<redacted>",
+        "isNative": false,
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.previousEditorInGroup": {
+        "label": "<redacted>",
+        "isNative": false,
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.focusFirstEditorGroup": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.focusSecondEditorGroup": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.focusThirdEditorGroup": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.focusFourthEditorGroup": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.focusFifthEditorGroup": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.focusLeftGroup": {
+        "label": "<redacted>",
+        "isNative": false,
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.focusRightGroup": {
+        "label": "<redacted>",
+        "isNative": false,
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.focusAboveGroup": {
+        "label": "<redacted>",
+        "isNative": false,
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.focusBelowGroup": {
+        "label": "<redacted>",
+        "isNative": false,
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.quickOpen": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.showAllSymbols": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.gotoSymbol": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.revealDefinition": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.goToImplementation": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.goToReferences": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.gotoLine": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.jumpToBracket": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.marker.nextInFiles": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.marker.prevInFiles": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.dirtydiff.next": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.action.dirtydiff.previous": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.debug.start": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.debug.run": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.debug.stop": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.debug.restart": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.debug.stepOver": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.debug.stepInto": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.debug.stepOut": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.debug.continue": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.debug.action.toggleBreakpoint": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "editor.debug.action.toggleInlineBreakpoint": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.terminal.new": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.terminal.split": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.terminal.newInNewWindow": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.tasks.build": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.keybindingsReference": {
+        "label": "<redacted>",
+        "isNative": false,
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.openSettings": {
+        "label": "<redacted>",
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.openGlobalKeybindings": {
+        "label": "<redacted>",
+        "isNative": false,
+        "userSettingsLabel": "<redacted>"
+      },
+      "workbench.action.selectTheme": {
+        "label": "<redacted>",
+        "isNative": false,
+        "userSettingsLabel": "<redacted>"
+      }
+    }
+  },
+  "theme": "<redacted>",
+  "themeBackground": "<redacted>",
+  "windowSplash": {
+    "zoomLevel": 0,
+    "baseTheme": "<redacted>",
+    "colorInfo": {
+      "foreground": "<redacted>",
+      "background": "<redacted>",
+      "editorBackground": "<redacted>",
+      "titleBarBackground": "<redacted>",
+      "activityBarBackground": "<redacted>",
+      "sideBarBackground": "<redacted>",
+      "statusBarBackground": "<redacted>",
+      "statusBarNoFolderBackground": "<redacted>"
+    },
+    "layoutInfo": {
+      "sideBarSide": "<redacted>",
+      "editorPartMinWidth": 220,
+      "titleBarHeight": 35,
+      "activityBarWidth": 48,
+      "sideBarWidth": 295,
+      "auxiliaryBarWidth": 0,
+      "statusBarHeight": 22,
+      "windowBorder": false
+    }
+  },
+  "windowsState": {
+    "lastActiveWindow": {
+      "folder": "file://<HOME>",
+      "backupPath": "<redacted>",
+      "uiState": {
+        "mode": 1,
+        "x": 332,
+        "y": 349,
+        "width": 1180,
+        "height": 633
+      }
+    },
+    "openedWindows": []
+  },
+  "windowSplashWorkspaceOverride": {
+    "layoutInfo": {
+      "auxiliarySideBarWidth": [
+        506,
+        []
+      ],
+      "sideBarWidth": 295,
+      "auxiliaryBarWidth": 295,
+      "workspaces": {
+        "<redacted>-1": {
+          "sideBarVisible": true,
+          "auxiliaryBarVisible": false
+        }
+      }
+    }
+  }
+}

@@ -1,1 +1,13 @@
 * text=auto eol=lf
+
+# Fixture databases and compressed transcripts are binary (git's auto detection agrees; this makes it explicit)
+*.sqlite binary
+*.sqlite-wal binary
+*.sqlite-shm binary
+*.db binary
+*.db-wal binary
+*.db-shm binary
+*.vscdb binary
+*.vscdb-wal binary
+*.vscdb.backup binary
+*.zst binary

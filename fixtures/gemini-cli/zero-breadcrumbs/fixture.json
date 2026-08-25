@@ -1,0 +1,36 @@
+{
+  "renames": [
+    {
+      "from": "root/project-a/_git",
+      "to": "root/project-a/.git"
+    }
+  ],
+  "symlinks": [
+    {
+      "path": "home/.gemini/skills/find-skills",
+      "target": "../../.agents/skills/find-skills",
+      "kind": "dir"
+    },
+    {
+      "path": "home/.gemini/skills/next-best-practices",
+      "target": "../../.agents/skills/next-best-practices",
+      "kind": "dir"
+    },
+    {
+      "path": "home/.gemini/skills/skill-gone",
+      "target": "../../.agents/skills/skill-gone",
+      "kind": "dir"
+    }
+  ],
+  "ages": [
+    {
+      "path": "home/.gemini/settings.json.orig",
+      "ageDays": 200
+    }
+  ],
+  "dirs": [
+    "home/.gemini/tmp",
+    "home/.gemini/antigravity/brain/00000000-0000-4000-8000-000000000002",
+    "home/.gemini/antigravity/conversations"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "renames": [
+    {
+      "from": "home/.claude/plugins/marketplaces/marketplace-a/_git",
+      "to": "home/.claude/plugins/marketplaces/marketplace-a/.git"
+    },
+    {
+      "from": "root/project-b/_git",
+      "to": "root/project-b/.git"
+    }
+  ],
+  "symlinks": [
+    {
+      "path": "home/.claude/skills/skill-a",
+      "target": "../../.agents/skills/skill-a",
+      "kind": "dir"
+    },
+    {
+      "path": "home/.claude/skills/skill-dangling",
+      "target": "../../.agents/skills/skill-dangling",
+      "kind": "dir"
+    },
+    {
+      "path": "root/project-b/.claude/skills/skill-c",
+      "target": "../../.agents/skills/skill-c",
+      "kind": "dir"
+    }
+  ],
+  "ages": [
+    {
+      "path": "home/.claude/plugins/marketplaces/marketplace-a.bak/.claude-plugin/marketplace.json",
+      "ageDays": 90
+    },
+    {
+      "path": "home/.claude/plugins/cache/marketplace-a/plugin-a/0.9.0/.claude-plugin/plugin.json",
+      "ageDays": 60
+    }
+  ],
+  "dirs": [
+    "home/.claude/plugins/repos",
+    "home/.claude/plugins/data/plugin-a-marketplace-a"
+  ]
+}

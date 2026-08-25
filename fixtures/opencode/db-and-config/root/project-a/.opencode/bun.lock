@@ -1,0 +1,11 @@
+{
+  "lockfileVersion": 1,
+  "workspaces": {
+    "": {
+      "dependencies": {
+        "@opencode-ai/plugin": "<redacted>"
+      }
+    }
+  },
+  "packages": {}
+}

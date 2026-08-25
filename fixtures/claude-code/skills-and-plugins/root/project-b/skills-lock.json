@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "skill-b": {
+      "source": "<redacted>",
+      "sourceType": "github",
+      "skillPath": "<redacted>",
+      "computedHash": "<redacted-hash>"
+    },
+    "skill-c": {
+      "source": "<redacted>",
+      "sourceType": "github",
+      "skillPath": "<redacted>",
+      "computedHash": "<redacted-hash>"
+    },
+    "skill-missing": {
+      "source": "<redacted>",
+      "sourceType": "github",
+      "skillPath": "<redacted>",
+      "computedHash": "<redacted-hash>"
+    }
+  }
+}

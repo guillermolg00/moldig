@@ -1,0 +1,55 @@
+---
+name: skill-a
+description: <redacted>
+allowed-tools: <redacted>
+hidden: true
+---
+- filler line 1 filler filler filler filler filler
+- filler line 2 filler filler filler filler filler
+- filler line 3 filler filler filler filler filler
+- filler line 4 filler filler filler filler filler
+- filler line 5 filler filler filler filler filler
+- filler line 6 filler filler filler filler filler
+- filler line 7 filler filler filler filler filler
+- filler line 8 filler filler filler filler filler
+- filler line 9 filler filler filler filler filler
+- filler line 10 filler filler filler filler
+- filler line 11 filler filler filler filler
+- filler line 12 filler filler filler filler
+- filler line 13 filler filler filler filler
+- filler line 14 filler filler filler filler
+- filler line 15 filler filler filler filler
+- filler line 16 filler filler filler filler
+- filler line 17 filler filler filler filler
+- filler line 18 filler filler filler filler
+- filler line 19 filler filler filler filler
+- filler line 20 filler filler filler filler
+- filler line 21 filler filler filler filler
+- filler line 22 filler filler filler filler
+- filler line 23 filler filler filler filler
+- filler line 24 filler filler filler filler
+- filler line 25 filler filler filler filler
+- filler line 26 filler filler filler filler
+- filler line 27 filler filler filler filler
+- filler line 28 filler filler filler filler
+- filler line 29 filler filler filler filler
+- filler line 30 filler filler filler filler
+- filler line 31 filler filler filler filler
+- filler line 32 filler filler filler filler
+- filler line 33 filler filler filler filler
+- filler line 34 filler filler filler filler
+- filler line 35 filler filler filler filler
+- filler line 36 filler filler filler filler
+- filler line 37 filler filler filler filler
+- filler line 38 filler filler filler filler
+- filler line 39 filler filler filler filler
+- filler line 40 filler filler filler filler
+- filler line 41 filler filler filler filler
+- filler line 42 filler filler filler filler
+- filler line 43 filler filler filler filler
+- filler line 44 filler filler filler filler
+- filler line 45 filler filler filler filler
+- filler line 46 filler filler filler filler
+- filler line 47 filler filler filler filler
+- filler line 48 filler filler filler filler
+- filler line 49 filler filler filler filler

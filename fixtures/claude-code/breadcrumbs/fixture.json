@@ -1,0 +1,32 @@
+{
+  "renames": [
+    {
+      "from": "root/project-a/_git",
+      "to": "root/project-a/.git"
+    },
+    {
+      "from": "root/project-a-wt/_git",
+      "to": "root/project-a-wt/.git"
+    }
+  ],
+  "symlinks": [],
+  "ages": [
+    {
+      "path": "home/.claude/shell-snapshots/snapshot-zsh-1700000000000-synth1.sh",
+      "ageDays": 45
+    },
+    {
+      "path": "home/.claude/todos/11111111-1111-4111-8111-111111111111-agent-11111111-1111-4111-8111-111111111111.json",
+      "ageDays": 45
+    },
+    {
+      "path": "home/.claude/tasks/11111111-1111-4111-8111-111111111111/1.json",
+      "ageDays": 5
+    },
+    {
+      "path": "home/.claude/backups/.claude.json.backup.1700000000000",
+      "ageDays": 5
+    }
+  ],
+  "dirs": []
+}

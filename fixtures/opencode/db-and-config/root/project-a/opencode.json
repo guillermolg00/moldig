@@ -1,0 +1,19 @@
+{
+  "$schema": "<redacted>",
+  "instructions": [
+    "docs/*.md",
+    "<ROOT>/project-a/docs/rules.md"
+  ],
+  "mcp": {
+    "project-server": {
+      "type": "local",
+      "command": [
+        "<redacted>"
+      ],
+      "enabled": true
+    }
+  },
+  "permission": {
+    "skill": "allow"
+  }
+}

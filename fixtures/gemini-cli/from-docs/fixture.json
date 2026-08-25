@@ -1,0 +1,54 @@
+{
+  "renames": [
+    {
+      "from": "home/.gemini/history/project-a/_git",
+      "to": "home/.gemini/history/project-a/.git"
+    },
+    {
+      "from": "root/project-a/_git",
+      "to": "root/project-a/.git"
+    },
+    {
+      "from": "root/project-b/_git",
+      "to": "root/project-b/.git"
+    },
+    {
+      "from": "root/nested/project-b/_git",
+      "to": "root/nested/project-b/.git"
+    },
+    {
+      "from": "root/project-c/_git",
+      "to": "root/project-c/.git"
+    }
+  ],
+  "symlinks": [
+    {
+      "path": "home/.gemini/skills/skill-d",
+      "target": "../../.agents/skills/skill-d",
+      "kind": "dir"
+    }
+  ],
+  "ages": [
+    {
+      "path": "home/.gemini/tmp/project-a/chats/session-2026-08-20T10-00-00-0a1b2c3d.jsonl",
+      "ageDays": 3
+    },
+    {
+      "path": "home/.gemini/tmp/gone/chats/session-2026-04-01T09-00-00-2c3d4e5f.jsonl",
+      "ageDays": 120
+    },
+    {
+      "path": "home/.gemini/tmp/0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef/chats/session-2025-06-01T09-00-00-3d4e5f6a.json",
+      "ageDays": 400
+    },
+    {
+      "path": "home/.gemini/history/project-a/.gitconfig",
+      "ageDays": 90
+    }
+  ],
+  "dirs": [
+    "home/.gemini/tmp/project-a/00000000-0000-4000-8000-000000000001/tasks",
+    "home/.gemini/tmp/project-a/00000000-0000-4000-8000-000000000001/tracker",
+    "home/.gemini/tmp/bin"
+  ]
+}

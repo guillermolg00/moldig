@@ -1,0 +1,18 @@
+{
+  "marketplace-a": {
+    "source": {
+      "source": "github",
+      "repo": "<redacted>"
+    },
+    "installLocation": "<HOME>/.claude/plugins/marketplaces/marketplace-a",
+    "lastUpdated": "2023-11-14T22:13:20.000Z"
+  },
+  "marketplace-gone": {
+    "source": {
+      "source": "github",
+      "repo": "<redacted>"
+    },
+    "installLocation": "<HOME>/.claude/plugins/marketplaces/marketplace-gone",
+    "lastUpdated": "2023-11-14T22:13:20.000Z"
+  }
+}

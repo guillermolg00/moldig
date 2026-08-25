@@ -1,0 +1,39 @@
+{
+  "version": 3,
+  "skills": {
+    "skill-a": {
+      "source": "<redacted>",
+      "sourceType": "github",
+      "sourceUrl": "<redacted>",
+      "skillPath": "<redacted>",
+      "skillFolderHash": "<redacted-hash>",
+      "installedAt": "2023-11-14T22:13:20.000Z",
+      "updatedAt": "2023-11-14T22:13:20.000Z"
+    },
+    "skill-orphan": {
+      "source": "<redacted>",
+      "sourceType": "github",
+      "sourceUrl": "<redacted>",
+      "skillPath": "<redacted>",
+      "skillFolderHash": "<redacted-hash>",
+      "installedAt": "2023-11-14T22:13:20.000Z",
+      "updatedAt": "2023-11-14T22:13:20.000Z"
+    },
+    "skill-dangling": {
+      "source": "<redacted>",
+      "sourceType": "github",
+      "sourceUrl": "<redacted>",
+      "skillPath": "<redacted>",
+      "skillFolderHash": "<redacted-hash>",
+      "installedAt": "2023-11-14T22:13:20.000Z",
+      "updatedAt": "2023-11-14T22:13:20.000Z"
+    }
+  },
+  "dismissed": {
+    "<redacted>-1": true
+  },
+  "lastSelectedAgents": [
+    "claude-code",
+    "cursor"
+  ]
+}

@@ -1,0 +1,8 @@
+# project layer (loaded for every directory root->cwd, only when the project is trusted)
+model_reasoning_effort = "<redacted>"
+project_doc_max_bytes = 32768
+
+[mcp_servers.project-server]
+command = "<redacted>"
+args = ["<redacted>"]
+enabled = true

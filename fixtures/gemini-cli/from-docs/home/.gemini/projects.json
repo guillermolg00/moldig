@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "<ROOT>/project-a": "project-a",
+    "<ROOT>/gone": "gone",
+    "<ROOT>/project-b": "project-b",
+    "<ROOT>/nested/project-b": "project-b-1"
+  }
+}

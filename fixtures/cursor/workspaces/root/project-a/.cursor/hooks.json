@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeShellExecution": [
+      {
+        "command": "<redacted>",
+        "type": "command",
+        "timeout": 30
+      }
+    ]
+  }
+}

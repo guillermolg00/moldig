@@ -1,0 +1,80 @@
+{
+  "model": "<redacted>",
+  "effortLevel": "<redacted>",
+  "outputStyle": "<redacted>",
+  "language": "<redacted>",
+  "cleanupPeriodDays": 20,
+  "autoMemoryEnabled": true,
+  "permissions": {
+    "allow": [
+      "<redacted>"
+    ],
+    "ask": [],
+    "deny": [],
+    "additionalDirectories": [],
+    "defaultMode": "acceptEdits"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "<redacted>",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "<redacted>",
+            "timeout": 60
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "<redacted>"
+          }
+        ]
+      }
+    ]
+  },
+  "env": {
+    "EXAMPLE_VAR": "<redacted>"
+  },
+  "enabledPlugins": {
+    "plugin-a@marketplace-a": true,
+    "plugin-b@marketplace-a": false
+  },
+  "extraKnownMarketplaces": {
+    "marketplace-a": {
+      "source": {
+        "source": "github",
+        "repo": "<redacted>"
+      }
+    }
+  },
+  "modelSettings": {
+    "<redacted>-1": {
+      "effortLevel": "<redacted>"
+    }
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "<redacted>"
+  },
+  "tui": "<redacted>",
+  "voice": {
+    "enabled": false,
+    "mode": "<redacted>"
+  },
+  "voiceEnabled": false,
+  "skipWorkflowUsageWarning": true,
+  "verbose": false,
+  "agentPushNotifEnabled": false,
+  "autoMode": {
+    "environment": [
+      "<redacted>"
+    ]
+  }
+}

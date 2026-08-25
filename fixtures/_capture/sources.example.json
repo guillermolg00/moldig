@@ -1,0 +1,6 @@
+{
+  "claudeCode": { "contextProject": "Work/<dir with CLAUDE.md>", "skillsProject": "Work/<dir with .claude/skills and skills-lock.json>", "nestedContextProject": "Work/<dir with apps/web/CLAUDE.md>" },
+  "copilot": { "instructionsProject": "Work/<dir with .github/copilot-instructions.md>" },
+  "cursor": { "rulesProject": "Work/<dir with .cursor/rules>", "cursorrulesProject": "Work/<dir with .cursorrules>" },
+  "leakNeedles": ["<every source directory name, matched case-insensitively by the leak check>"]
+}

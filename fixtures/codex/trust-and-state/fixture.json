@@ -1,0 +1,96 @@
+{
+  "renames": [
+    {
+      "from": "root/project-a/_git",
+      "to": "root/project-a/.git"
+    },
+    {
+      "from": "root/project-b/_git",
+      "to": "root/project-b/.git"
+    }
+  ],
+  "symlinks": [
+    {
+      "path": "home/.codex/skills/find-skills",
+      "target": "../../.agents/skills/find-skills",
+      "kind": "dir"
+    }
+  ],
+  "ages": [
+    {
+      "path": "home/.codex/sessions/2026/08/20/rollout-2026-08-20T10-00-00-00000000-0000-4000-8000-000000000001.jsonl",
+      "ageDays": 5
+    },
+    {
+      "path": "home/.codex/sessions/2026/08/21/rollout-2026-08-21T10-00-00-00000000-0000-4000-8000-000000000002.jsonl",
+      "ageDays": 4
+    },
+    {
+      "path": "home/.codex/sessions/2026/02/01/rollout-2026-02-01T10-00-00-00000000-0000-4000-8000-000000000003.jsonl",
+      "ageDays": 205
+    },
+    {
+      "path": "home/.codex/sessions/2026/02/02/rollout-2026-02-02T10-00-00-00000000-0000-4000-8000-000000000004.jsonl",
+      "ageDays": 204
+    },
+    {
+      "path": "home/.codex/sessions/2025/09/01/rollout-2025-09-01T10-00-00-00000000-0000-4000-8000-000000000005.jsonl",
+      "ageDays": 358
+    },
+    {
+      "path": "home/.codex/sessions/2026/03/01/rollout-2026-03-01T10-00-00-00000000-0000-4000-8000-000000000007.jsonl.zst",
+      "ageDays": 177
+    },
+    {
+      "path": "home/.codex/archived_sessions/rollout-2026-01-15T10-00-00-00000000-0000-4000-8000-000000000006.jsonl",
+      "ageDays": 222
+    },
+    {
+      "path": "home/.codex/memories/memory-a.md",
+      "ageDays": 90
+    },
+    {
+      "path": "home/.codex/.codex-global-state.json.bak",
+      "ageDays": 40
+    },
+    {
+      "path": "home/.codex/..codex-global-state.json.tmp-1700000000000-00000000-0000-4000-8000-000000000009",
+      "ageDays": 40
+    },
+    {
+      "path": "home/.codex/state_5.sqlite",
+      "ageDays": 0
+    },
+    {
+      "path": "home/.codex/history.jsonl",
+      "ageDays": 0
+    }
+  ],
+  "dirs": [
+    "home/.codex/log",
+    "home/.codex/memories/rollout_summaries"
+  ],
+  "sqlite": [
+    {
+      "path": "home/.codex/state_5.sqlite",
+      "rewrite": [
+        {
+          "table": "threads",
+          "column": "rollout_path"
+        },
+        {
+          "table": "threads",
+          "column": "cwd"
+        },
+        {
+          "table": "threads",
+          "column": "agent_path"
+        },
+        {
+          "table": "project_roots",
+          "column": "path"
+        }
+      ]
+    }
+  ]
+}

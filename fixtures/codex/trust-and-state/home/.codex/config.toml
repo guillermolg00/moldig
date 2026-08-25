@@ -1,0 +1,111 @@
+# fixture: key names mirrored from a real ~/.codex/config.toml, every value "<redacted>";
+# [features], [mcp_servers.*] and [projects.*] are synthetic (documented shape, placeholder paths).
+model = "<redacted>"
+model_reasoning_effort = "<redacted>"
+personality = "<redacted>"
+notify = ["<redacted>", "<redacted>"]
+plan_mode_reasoning_effort = "<redacted>"
+service_tier = "<redacted>"
+
+[notice.model_migrations]
+entry-1 = "<redacted>"
+
+[plugins.entry-1]
+enabled = true
+
+[plugins.entry-2]
+enabled = true
+
+[plugins.entry-3]
+enabled = true
+
+[tui.model_availability_nux]
+entry-1 = 4
+entry-2 = 1
+
+[marketplaces.entry-1]
+source_type = "<redacted>"
+source = "<redacted>"
+
+[marketplaces.entry-2]
+last_updated = "<redacted>"
+source_type = "<redacted>"
+source = "<redacted>"
+
+[marketplaces.entry-3]
+last_updated = "<redacted>"
+last_revision = "<redacted>"
+source_type = "<redacted>"
+source = "<redacted>"
+
+[desktop]
+entry-1 = true
+entry-2 = true
+entry-3 = "<redacted>"
+entry-4 = "<redacted>"
+entry-5 = "<redacted>"
+entry-6 = "<redacted>"
+
+[desktop.entry-1]
+global = "<redacted>"
+
+[desktop.entry-1.entry-1]
+entry-1 = "<redacted>"
+
+[features]
+js_repl = false
+memories = true
+hooks = true
+
+[hooks.entry-1]
+
+[hooks.entry-1.entry-1]
+trusted_hash = "<redacted>"
+
+[shell_environment_policy.set]
+entry-1 = "<redacted>"
+
+[mcp_servers.x]
+command = "<redacted>"
+args = ["<redacted>", "<redacted>"]
+cwd = "<ROOT>/project-a"
+enabled = true
+required = false
+startup_timeout_sec = 10
+tool_timeout_sec = 60
+enabled_tools = ["<redacted>"]
+default_tools_approval_mode = "prompt"
+
+[mcp_servers.x.env]
+EXAMPLE_VAR = "<redacted>"
+
+[mcp_servers.x.tools.tool-a]
+approval_mode = "approve"
+
+[mcp_servers.y]
+url = "<redacted>"
+auth = "oauth"
+enabled = true
+startup_timeout_sec = 10
+scopes = ["<redacted>"]
+
+[mcp_servers.y.http_headers]
+Authorization = "<redacted>"
+
+[projects."<ROOT>/project-a"]
+trust_level = "trusted"
+
+[projects."<ROOT>/project-b"]
+trust_level = "untrusted"
+
+[projects."<ROOT>/gone"]
+trust_level = "trusted"
+
+[projects."<ROOT>"]
+trust_level = "trusted"
+
+[projects."<HOME>"]
+trust_level = "trusted"
+
+[projects."/"]
+trust_level = "trusted"

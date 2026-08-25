@@ -1,0 +1,11 @@
+{
+  "renames": [],
+  "symlinks": [
+    {
+      "path": "home/.claude/skills/skill-a",
+      "target": "../../.agents/skills/skill-a",
+      "kind": "dir"
+    }
+  ],
+  "ages": []
+}

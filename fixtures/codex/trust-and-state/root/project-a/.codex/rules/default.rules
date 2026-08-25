@@ -1,0 +1,8 @@
+# synthetic Starlark rules (documented keys only); the real rules files are never copied
+prefix_rule(
+    pattern = ["<redacted>"],
+    decision = "allow",
+    justification = "<redacted>",
+)
+prefix_rule(pattern = ["<redacted>", "<redacted>"], decision = "prompt", match = ["<redacted>"], not_match = ["<redacted>"])
+prefix_rule(pattern = ["<redacted>"], decision = "forbidden")
