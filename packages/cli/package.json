@@ -32,10 +32,15 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "build": "tsdown",
-    "dev": "tsdown --watch"
+    "dev": "tsdown --watch",
+    "proto": "tsdown --config tsdown.proto.config.ts -l silent && node dist-proto/proto.mjs"
   },
   "devDependencies": {
-    "@moldig/core": "workspace:*"
+    "@moldig/core": "workspace:*",
+    "@types/react": "^19.2.18",
+    "ink": "^7.1.1",
+    "ink-testing-library": "^4.0.0",
+    "react": "^19.2.8"
   },
   "engines": {
     "node": ">=22.18.0"

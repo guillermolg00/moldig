@@ -17,7 +17,8 @@
     "dev": "bun run --filter moldig dev",
     "build": "bun run --filter './packages/*' build",
     "clean": "rm -rf packages/*/dist coverage",
-    "release": "bumpp -r --execute 'bun install'"
+    "release": "bumpp -r --execute 'bun install'",
+    "proto": "bun run --cwd packages/cli proto"
   },
   "devDependencies": {
     "@arethetypeswrong/core": "0.18.5",

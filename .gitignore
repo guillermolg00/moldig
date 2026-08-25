@@ -14,3 +14,4 @@
 
 # Capture sources (real directory names of this machine; see fixtures/_capture/sources.example.json)
 /fixtures/_capture/sources.local.json
+/packages/*/dist-proto/
