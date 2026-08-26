@@ -16,6 +16,8 @@ prepare, rehearse and verify; it never pushes, never tags and never publishes.**
   "Require 2FA and disallow tokens". There is no `NPM_TOKEN` anywhere, and `release.yml` sets no
   `registry-url`: authentication is the OIDC id-token.
 - `main` is green on all five CI legs (ubuntu 22.18 / 24 / 26, macOS 24, Windows 24).
+- No npm login is needed on this machine: `release.yml` authenticates through OIDC, so
+  `npm whoami` returning 401 locally is expected and changes nothing.
 
 ## The steps for `v0.1.0`
 
@@ -38,28 +40,23 @@ gh run list --branch main --limit 5
 gh run watch
 ```
 
-### 3. Decide whether `docs/` enters git
+### 3. The documentation split (already decided)
 
-`/docs/` is in `.gitignore` today; only this runbook is tracked (force-added). Before the
-repository goes public, decide whether the ADRs and the research notes join it.
+`docs/adr/`, `docs/agents/` and this runbook are tracked: the README links to them and a landing
+that links to decisions nobody can open is worse than one that does not link at all. Nothing in
+them names a directory, a login or a key of this machine — only Guillermo's own name in ADR-0005,
+which is the same name on the licence.
 
-If yes:
+`docs/research/` stays ignored: those notes describe one machine in detail (real directory
+layouts, per-harness counts, project names). `.scratch/` stays ignored too — it is the planning
+effort, not documentation.
+
+If that is ever revisited, the redaction rule is: names, keys, paths and counts of *structure*
+only. Check before tracking anything new under `docs/`:
 
 ```sh
-# grep the research notes for anything machine-specific first
-grep -rniE '/Users/[a-z]|guillermo|@gmail|ssh-|sk-|ghp_' docs/
+grep -rniE '/Users/[a-z]|@gmail|ssh-|sk-|ghp_' docs/
 ```
-
-The redaction rule is: names, keys, paths and counts of *structure* only — no real directory
-names of this machine, no logins, no tokens. Then:
-
-```sh
-# replace the `/docs/` line in .gitignore with nothing, keeping /.scratch/
-git add docs .gitignore
-git commit -m "docs: track the ADRs and research notes"
-```
-
-`.scratch/` stays ignored either way — it is the planning effort, not documentation.
 
 ### 4. Rehearse the bump (optional now; see "What `bun run release` actually does")
 
