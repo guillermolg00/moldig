@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { scan, type ScanProgress } from "../index.js";
-import { loadFixture, treePaths, type FixtureTree } from "../testing/index.js";
+import { loadFixture, POSIX_FIXTURE_HOST, treePaths, type FixtureTree } from "../testing/index.js";
 
 const NOW = new Date("2026-08-26T12:00:00.000Z");
 const trees: FixtureTree[] = [];
@@ -39,36 +39,41 @@ describe("scan", () => {
     expect(memory?.kind === "memory-file" && memory.readSignal.source).toBe("not-computed");
   });
 
-  it("without a Root keeps the unreachable volume and the gone directory as Projects", async () => {
-    // Ticket 06 §5/§7: a Root narrows the scan; without one every breadcrumb names a Project.
-    const tree = await loadFixture("claude-code/breadcrumbs", {
-      cwd: "root/project-a",
-      now: NOW,
-      platform: "darwin",
-    });
-    trees.push(tree);
-    const index = await scan({
-      home: tree.home,
-      roots: [],
-      cwd: tree.cwd,
-      platform: "darwin",
-      env: tree.env,
-      git: false,
-      now: NOW,
-    });
-    const volume = index.projects.find((project) => project.path === "/Volumes/Backup/old");
-    expect(volume).toMatchObject({
-      kind: "unknown",
-      reachability: "unreachable",
-      unreachableReason: "mount-root",
-    });
-    const volumeCrumb = index.breadcrumbs.find((crumb) => crumb.raw === "/Volumes/Backup/old");
-    expect(volumeCrumb?.project).toBe(volume?.id);
-    expect(volumeCrumb?.reachability).toBe("unreachable");
-    const gone = index.projects.find((project) => project.path === treePaths(tree).root("gone"));
-    expect(gone?.reachability).toBe("orphan");
-    expect(index.projects.some((project) => project.path === tree.home)).toBe(false);
-  });
+  // The one test in this file that reads the fixture tree as a POSIX tree: it names
+  // `/Volumes/Backup/old` and the case's own directories by path.
+  it.runIf(POSIX_FIXTURE_HOST)(
+    "without a Root keeps the unreachable volume and the gone directory as Projects",
+    async () => {
+      // Ticket 06 §5/§7: a Root narrows the scan; without one every breadcrumb names a Project.
+      const tree = await loadFixture("claude-code/breadcrumbs", {
+        cwd: "root/project-a",
+        now: NOW,
+        platform: "darwin",
+      });
+      trees.push(tree);
+      const index = await scan({
+        home: tree.home,
+        roots: [],
+        cwd: tree.cwd,
+        platform: "darwin",
+        env: tree.env,
+        git: false,
+        now: NOW,
+      });
+      const volume = index.projects.find((project) => project.path === "/Volumes/Backup/old");
+      expect(volume).toMatchObject({
+        kind: "unknown",
+        reachability: "unreachable",
+        unreachableReason: "mount-root",
+      });
+      const volumeCrumb = index.breadcrumbs.find((crumb) => crumb.raw === "/Volumes/Backup/old");
+      expect(volumeCrumb?.project).toBe(volume?.id);
+      expect(volumeCrumb?.reachability).toBe("unreachable");
+      const gone = index.projects.find((project) => project.path === treePaths(tree).root("gone"));
+      expect(gone?.reachability).toBe("orphan");
+      expect(index.projects.some((project) => project.path === tree.home)).toBe(false);
+    },
+  );
 
   it("rejects a platform it does not scan instead of recording it as darwin (D125)", async () => {
     const tree = await loadFixture("shared/root-tree", { platform: "darwin" });

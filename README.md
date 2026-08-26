@@ -190,9 +190,12 @@ The index is a stable, harness-agnostic document ([`@moldig/core`](packages/core
 ## Status
 
 v1 is implemented: the six adapters, the eight detectors, the actions engine, the four commands
-and the terminal experience, with 460 tests running against the fixture trees, and a CI matrix
-that runs the whole gate on macOS, Linux and Windows. What is not here yet: screenshots, a
-Homebrew tap, and a website.
+and the terminal experience, with 469 tests running against the fixture trees, and a CI matrix
+across macOS, Linux and Windows. The fixture trees are POSIX trees, so the suites that assert one
+byte for byte run on the macOS and Linux legs; Windows path behaviour is covered from every leg by
+the suites that pin `platform: "win32"` over win32 spellings, and the Windows leg runs those with
+the typecheck, the lint and the build ([the rule, in full](fixtures/README.md)). What is not here
+yet: screenshots, a Homebrew tap, and a website.
 
 ## Working on it
 

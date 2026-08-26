@@ -1,7 +1,13 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { AuditIndex, Entity, HarnessCache } from "../index/types.js";
 import { audit, scan } from "../index.js";
-import { loadFixture, normaliseSnapshot, treePaths, type FixtureTree } from "../testing/index.js";
+import {
+  loadFixture,
+  normaliseSnapshot,
+  POSIX_FIXTURE_HOST,
+  treePaths,
+  type FixtureTree,
+} from "../testing/index.js";
 import { dataDirFor, encodePath } from "./data-dir.js";
 import { plan } from "./plan.js";
 import { selectionFrom } from "./selection.js";
@@ -192,7 +198,7 @@ function everySelection(): Selection {
   ];
 }
 
-describe("plan() over the breadcrumbs case", () => {
+describe.runIf(POSIX_FIXTURE_HOST)("plan() over the breadcrumbs case", () => {
   it("preselects exactly what the audit marked", () => {
     const selection = selectionFrom(index);
     expect(selection.map((target) => target.id)).toEqual([

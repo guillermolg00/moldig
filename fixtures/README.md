@@ -12,10 +12,28 @@ The contract:
 - Each case carries a `fixture.json` describing what git cannot: symlinks (created at run time,
   with `"junction"` for directories on Windows) and file ages (`{ "path", "ageDays" }`, applied
   with `utimes`, so "older than 30 days" rules are testable).
+- Every entry the case does not age — files *and* directories — carries one timestamp,
+  `fixtureCopyTime(now)`, a minute before the injected clock. Nothing in a tree is stamped by the
+  wall clock, so a snapshot is a function of the case and `now` alone: the same bytes today, next
+  month and on every host. Snapshots write that value as `<COPY-TIME>` and its day as
+  `<COPY-DATE>`, matched exactly rather than through a window around "now".
 - Tests never touch the real home directory: the helper copies the case into a fresh temp
   directory (`mkdtemp` + `realpath`) and the scanner receives the home directory, the
   roots, the working directory, the platform and the environment explicitly (see `CONTEXT.md`).
   Snapshot serialisers normalise `<ROOT>`, path separators and ordering.
+- **A case is a POSIX tree, and the suites that assert one run on POSIX hosts.** Its paths, its
+  `.claude.json` keys, its symlinks and the size of every file whose `<HOME>` / `<ROOT>`
+  placeholders are rewritten with real paths all assume `/`; a suite then pins
+  `platform: "darwin"` so one snapshot serves every host. On a Windows host the two halves
+  contradict each other — the tree the host writes is `C:\…\home\.claude`, a JSON file
+  embedding a path is longer by one byte per separator it escapes, and a directory symlink is a
+  junction whose target is absolute. Those suites carry `describe.runIf(POSIX_FIXTURE_HOST)`
+  (`@moldig/core/testing`), because the mismatch says nothing about whether moldig reads a real
+  Windows machine correctly. What does say it, from every host, because paths are strings: the
+  suites that pin `platform: "win32"` over win32 spellings — `pathEngine`, `pathIdentity`,
+  `presenceOf` and the mount-root rule, the user-scope table, `discovery`. Those never skip, and
+  the Windows leg of CI runs them with the typecheck, the lint and the build. A new suite that
+  asserts a tree's exact content belongs behind the same guard.
 - A test never spells a path inside the tree by hand. `treePaths(tree)` from `@moldig/core/testing`
   composes them — `home(rel)`, `root(rel)`, `dir(rel)`, `slugDir(rel)`, `homeSlug()`, `rootSlug()`
   and `id(kind, path)` — with the rules the tree's own path implies, and `id` folds the way the

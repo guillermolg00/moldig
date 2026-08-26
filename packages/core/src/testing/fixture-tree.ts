@@ -145,6 +145,17 @@ function hostPlatform(): ScanPlatform {
 const UNAGED_OFFSET_MS = 60_000;
 const DAY_MS = 86_400_000;
 
+/**
+ * The single timestamp every entry the case does not age carries: a minute before the injected
+ * clock. A minute, not an hour, because a `recent-activity` live guard asks whether the unit
+ * changed inside the harness's activity window, and a case that exercises a live unit must keep
+ * doing so. Snapshots name this value `<COPY-TIME>`; it is a function of `now` alone, so a
+ * snapshot taken today still matches next month.
+ */
+export function fixtureCopyTime(now: Date): Date {
+  return new Date(now.getTime() - UNAGED_OFFSET_MS);
+}
+
 /** Files never rewritten textually: databases and their sidecars, compressed transcripts. */
 const BINARY_NAME =
   /\.(?:sqlite3?|db|vscdb)(?:-wal|-shm|-journal|\.backup)?$|\.(?:zst|gz|zip|tar|png|jpe?g|gif|pb|bin)$/i;
@@ -470,15 +481,21 @@ async function createSymlink(
  * A host whose temp directory is already longer than the target keeps its own length; the
  * snapshots then differ, and the error a mismatch produces says so.
  */
-/** Every regular file below `dir`, deepest last; symlinks are never followed nor touched. */
-async function filesUnder(dir: string): Promise<string[]> {
+/**
+ * Every regular file and directory below `dir`, deepest last; symlinks are never followed nor
+ * touched. Directories are in the walk because a directory's mtime is a timestamp a unit can
+ * report: left at the moment the copy ran, it is the one value in the tree that still depends on
+ * the wall clock, and a snapshot that hides it behind a window around "now" goes red on its own
+ * once the window drifts past the day the snapshot was taken.
+ */
+async function entriesUnder(dir: string): Promise<string[]> {
   const entries = await readdir(dir, { withFileTypes: true });
   const found: string[] = [];
   for (const entry of entries) {
     const path = join(dir, entry.name);
     if (entry.isSymbolicLink()) continue;
     // eslint-disable-next-line no-await-in-loop -- a bounded walk over a fixture tree
-    if (entry.isDirectory()) found.push(...(await filesUnder(path)));
+    if (entry.isDirectory()) found.push(...(await entriesUnder(path)), path);
     else if (entry.isFile()) found.push(path);
   }
   return found;
@@ -550,8 +567,8 @@ export async function loadFixture(
     // so their own timestamps win.
     // A minute, not an hour: a `recent-activity` live guard asks whether the unit changed inside
     // the harness's activity window, and a case that exercises a live unit must keep doing so.
-    const unaged = new Date(now.getTime() - UNAGED_OFFSET_MS);
-    await sequentially(await filesUnder(dir), (path) => utimes(path, unaged, unaged));
+    const unaged = fixtureCopyTime(now);
+    await sequentially([...(await entriesUnder(dir)), dir], (path) => utimes(path, unaged, unaged));
     await Promise.all(
       manifest.ages.map(({ path, ageDays }) => {
         const when = new Date(now.getTime() - ageDays * DAY_MS);

@@ -4,7 +4,8 @@
  * `treePaths` is how a test names a path inside that tree: never `${tree.home}/…` by hand, or
  * the string is `C:\…\home/.claude/…` on Windows and no id matches.
  */
-export { loadFixture, normaliseSnapshot } from "./fixture-tree.js";
+export { fixtureCopyTime, loadFixture, normaliseSnapshot } from "./fixture-tree.js";
 export type { FixtureOptions, FixtureTree } from "./fixture-tree.js";
+export { POSIX_FIXTURE_HOST } from "./posix-fixtures.js";
 export { treePaths } from "./tree-paths.js";
 export type { PathTree, TreePaths } from "./tree-paths.js";

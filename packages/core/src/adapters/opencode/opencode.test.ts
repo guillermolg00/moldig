@@ -15,13 +15,14 @@ import {
   normaliseSnapshot,
   treePaths,
   type FixtureTree,
+  fixtureCopyTime,
+  POSIX_FIXTURE_HOST,
 } from "../../testing/index.js";
 
 /** After the fixture's synthetic timestamps (2023-11-14); `ages` are relative to it. */
 const NOW = new Date("2026-08-26T12:00:00.000Z");
 const ISO_ANYWHERE = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/g;
 const DATE_ANYWHERE = /(?<![\dT:-])\d{4}-\d{2}-\d{2}(?![\dT])/g;
-const THREE_DAYS_MS = 3 * 86_400_000;
 const PLATFORM = "darwin";
 const DB = "home/.local/share/opencode/opencode.db";
 
@@ -90,16 +91,11 @@ async function mtimes(
 
 /** Copy-time stamps differ per run; stamps derived from `NOW` lie on its whole-day grid. */
 function stableTimes(json: string): string {
-  const now = Date.now();
+  const copy = fixtureCopyTime(NOW).toISOString();
+  const copyDate = copy.slice(0, 10);
   return json
-    .replaceAll(ISO_ANYWHERE, (stampText) => {
-      const ms = Date.parse(stampText);
-      const onGrid = (NOW.getTime() - ms) % 86_400_000 === 0;
-      return !onGrid && Math.abs(ms - now) < THREE_DAYS_MS ? "<COPY-TIME>" : stampText;
-    })
-    .replaceAll(DATE_ANYWHERE, (date) =>
-      Math.abs(Date.parse(`${date}T00:00:00.000Z`) - now) < THREE_DAYS_MS ? "<COPY-DATE>" : date,
-    );
+    .replaceAll(ISO_ANYWHERE, (stamp) => (stamp === copy ? "<COPY-TIME>" : stamp))
+    .replaceAll(DATE_ANYWHERE, (date) => (date === copyDate ? "<COPY-DATE>" : date));
 }
 
 /** JSON in the shape the repo's formatter keeps (`oxfmt --check` runs over `__snapshots__`). */
@@ -153,7 +149,7 @@ afterAll(async () => {
   await tree.cleanup();
 });
 
-describe("opencode adapter over the db-and-config case", () => {
+describe.runIf(POSIX_FIXTURE_HOST)("opencode adapter over the db-and-config case", () => {
   it("describes the harness from what it wrote to disk", () => {
     const harness = result.harnesses.find((item) => item.harness === "opencode");
     expect(harness?.id).toBe("harness:opencode");
@@ -675,103 +671,108 @@ describe("opencode adapter with an unreadable database", () => {
   });
 });
 
-describe("opencode adapter over the branches the fixture does not carry", () => {
-  it("warns about an inline configuration and a URL instruction, and records neither as a file", async () => {
-    const extra = await loadFixture("opencode/db-and-config", { now: NOW, platform: PLATFORM });
-    try {
-      const file = extra.path("home/.config/opencode/extra.json");
-      await writeFile(
-        file,
-        JSON.stringify({ instructions: ["https://example.com/rules.md", "style.md"] }),
-      );
-      const index = await scanTree(extra, {
-        env: { OPENCODE_CONFIG: file, OPENCODE_CONFIG_CONTENT: '{"model":"x/y"}' },
-      });
-      const shapes = index.warnings.filter(
-        (item) => item.code === "unsupported-shape" && item.harness === "opencode",
-      );
-      expect(shapes.map((item) => item.message).toSorted((a, b) => (a < b ? -1 : 1))).toEqual([
-        "OPENCODE_CONFIG_CONTENT holds inline configuration: not read",
-        "instructions entry is a URL: not fetched",
-      ]);
-      // D110: `scan.env` carries only the overrides moldig honoured — never the inline one.
-      expect(index.scan.env).toEqual({ OPENCODE_CONFIG: file });
-      expect(index.entities.some((item) => item.path.includes("example.com"))).toBe(false);
-      // The relative entry resolved against the extra file's own directory.
-      expect(
-        index.entities.some(
-          (item) => item.path === treePaths(extra).home(".config/opencode/style.md"),
-        ),
-      ).toBe(true);
-    } finally {
-      await extra.cleanup();
-    }
-  });
-
-  it("disables the skills of a Project whose permission.skill is deny", async () => {
-    const denied = await loadFixture("opencode/db-and-config", { now: NOW, platform: PLATFORM });
-    try {
-      const path = denied.path("root/project-a/opencode.json");
-      const data = (await readFile(path, "utf8")).replace('"skill": "allow"', '"skill": "deny"');
-      await writeFile(path, data);
-      const index = await scanTree(denied);
-      const deniedPaths = treePaths(denied);
-      const projectA = deniedPaths.id("project", deniedPaths.root("project-a"));
-      const verdicts = index.edges.filter(
-        (edge): edge is LoadedByEdge =>
-          edge.kind === "loaded-by" &&
-          edge.to === "harness:opencode" &&
-          edge.project === projectA &&
-          edge.from.includes("skills/skill-a"),
-      );
-      expect(verdicts).toHaveLength(1);
-      expect(verdicts[0]).toMatchObject({
-        mode: "disabled",
-        reason: "permission.skill: deny",
-        tokensLoaded: 0,
-        countsTowardHeadline: false,
-        order: null,
-      });
-    } finally {
-      await denied.cleanup();
-    }
-  });
-
-  it("falls back to ~/.claude/CLAUDE.md only when the user AGENTS.md is absent and the switch is unset", async () => {
-    const compat = await loadFixture("opencode/db-and-config", { now: NOW, platform: PLATFORM });
-    try {
-      const fallback = compat.path("home/.claude/CLAUDE.md");
-      await mkdir(dirname(fallback), { recursive: true });
-      await writeFile(fallback, "- user rules\n");
-      const fallbackId = `context-file:${fallback.toLowerCase()}`;
-      const verdict = (index: Index): LoadedByEdge => {
-        const edge = index.edges.find(
-          (item) =>
-            item.kind === "loaded-by" && item.from === fallbackId && item.to === "harness:opencode",
+describe.runIf(POSIX_FIXTURE_HOST)(
+  "opencode adapter over the branches the fixture does not carry",
+  () => {
+    it("warns about an inline configuration and a URL instruction, and records neither as a file", async () => {
+      const extra = await loadFixture("opencode/db-and-config", { now: NOW, platform: PLATFORM });
+      try {
+        const file = extra.path("home/.config/opencode/extra.json");
+        await writeFile(
+          file,
+          JSON.stringify({ instructions: ["https://example.com/rules.md", "style.md"] }),
         );
-        if (edge === undefined || edge.kind !== "loaded-by") throw new Error("no fallback edge");
-        return edge;
-      };
-      // Both present: the OpenCode file wins and the Claude one is never read.
-      expect(verdict(await scanTree(compat))).toMatchObject({
-        mode: "never",
-        reason: "not read: ~/.config/opencode/AGENTS.md takes precedence",
-        tokensLoaded: 0,
-      });
-      // The documented switch turns the compatibility off whatever else exists.
-      expect(
-        verdict(await scanTree(compat, { env: { OPENCODE_DISABLE_CLAUDE_CODE: "1" } })),
-      ).toMatchObject({ mode: "never", reason: "OPENCODE_DISABLE_CLAUDE_CODE is set" });
-      // Without the OpenCode file the Claude one is the baseline.
-      await rm(compat.path("home/.config/opencode/AGENTS.md"));
-      expect(verdict(await scanTree(compat))).toMatchObject({
-        mode: "full",
-        order: 0,
-        reason: "fallback: no ~/.config/opencode/AGENTS.md (Claude Code compat)",
-        countsTowardHeadline: true,
-      });
-    } finally {
-      await compat.cleanup();
-    }
-  });
-});
+        const index = await scanTree(extra, {
+          env: { OPENCODE_CONFIG: file, OPENCODE_CONFIG_CONTENT: '{"model":"x/y"}' },
+        });
+        const shapes = index.warnings.filter(
+          (item) => item.code === "unsupported-shape" && item.harness === "opencode",
+        );
+        expect(shapes.map((item) => item.message).toSorted((a, b) => (a < b ? -1 : 1))).toEqual([
+          "OPENCODE_CONFIG_CONTENT holds inline configuration: not read",
+          "instructions entry is a URL: not fetched",
+        ]);
+        // D110: `scan.env` carries only the overrides moldig honoured — never the inline one.
+        expect(index.scan.env).toEqual({ OPENCODE_CONFIG: file });
+        expect(index.entities.some((item) => item.path.includes("example.com"))).toBe(false);
+        // The relative entry resolved against the extra file's own directory.
+        expect(
+          index.entities.some(
+            (item) => item.path === treePaths(extra).home(".config/opencode/style.md"),
+          ),
+        ).toBe(true);
+      } finally {
+        await extra.cleanup();
+      }
+    });
+
+    it("disables the skills of a Project whose permission.skill is deny", async () => {
+      const denied = await loadFixture("opencode/db-and-config", { now: NOW, platform: PLATFORM });
+      try {
+        const path = denied.path("root/project-a/opencode.json");
+        const data = (await readFile(path, "utf8")).replace('"skill": "allow"', '"skill": "deny"');
+        await writeFile(path, data);
+        const index = await scanTree(denied);
+        const deniedPaths = treePaths(denied);
+        const projectA = deniedPaths.id("project", deniedPaths.root("project-a"));
+        const verdicts = index.edges.filter(
+          (edge): edge is LoadedByEdge =>
+            edge.kind === "loaded-by" &&
+            edge.to === "harness:opencode" &&
+            edge.project === projectA &&
+            edge.from.includes("skills/skill-a"),
+        );
+        expect(verdicts).toHaveLength(1);
+        expect(verdicts[0]).toMatchObject({
+          mode: "disabled",
+          reason: "permission.skill: deny",
+          tokensLoaded: 0,
+          countsTowardHeadline: false,
+          order: null,
+        });
+      } finally {
+        await denied.cleanup();
+      }
+    });
+
+    it("falls back to ~/.claude/CLAUDE.md only when the user AGENTS.md is absent and the switch is unset", async () => {
+      const compat = await loadFixture("opencode/db-and-config", { now: NOW, platform: PLATFORM });
+      try {
+        const fallback = compat.path("home/.claude/CLAUDE.md");
+        await mkdir(dirname(fallback), { recursive: true });
+        await writeFile(fallback, "- user rules\n");
+        const fallbackId = `context-file:${fallback.toLowerCase()}`;
+        const verdict = (index: Index): LoadedByEdge => {
+          const edge = index.edges.find(
+            (item) =>
+              item.kind === "loaded-by" &&
+              item.from === fallbackId &&
+              item.to === "harness:opencode",
+          );
+          if (edge === undefined || edge.kind !== "loaded-by") throw new Error("no fallback edge");
+          return edge;
+        };
+        // Both present: the OpenCode file wins and the Claude one is never read.
+        expect(verdict(await scanTree(compat))).toMatchObject({
+          mode: "never",
+          reason: "not read: ~/.config/opencode/AGENTS.md takes precedence",
+          tokensLoaded: 0,
+        });
+        // The documented switch turns the compatibility off whatever else exists.
+        expect(
+          verdict(await scanTree(compat, { env: { OPENCODE_DISABLE_CLAUDE_CODE: "1" } })),
+        ).toMatchObject({ mode: "never", reason: "OPENCODE_DISABLE_CLAUDE_CODE is set" });
+        // Without the OpenCode file the Claude one is the baseline.
+        await rm(compat.path("home/.config/opencode/AGENTS.md"));
+        expect(verdict(await scanTree(compat))).toMatchObject({
+          mode: "full",
+          order: 0,
+          reason: "fallback: no ~/.config/opencode/AGENTS.md (Claude Code compat)",
+          countsTowardHeadline: true,
+        });
+      } finally {
+        await compat.cleanup();
+      }
+    });
+  },
+);

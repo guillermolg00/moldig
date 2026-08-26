@@ -2,7 +2,13 @@ import { existsSync } from "node:fs";
 import { readFile, readdir } from "node:fs/promises";
 import { join, sep } from "node:path";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { loadFixture, normaliseSnapshot, treePaths, type FixtureTree } from "@moldig/core/testing";
+import {
+  loadFixture,
+  normaliseSnapshot,
+  POSIX_FIXTURE_HOST,
+  treePaths,
+  type FixtureTree,
+} from "@moldig/core/testing";
 import { createFakeExecutors, type FakeExecutors } from "./executors/fake.js";
 import { runCli, type Io } from "./run.js";
 import type { OpenTui, TuiRequest } from "./tui/index.js";
@@ -125,7 +131,7 @@ afterAll(async () => {
   await tree.cleanup();
 });
 
-describe("moldig scan", () => {
+describe.runIf(POSIX_FIXTURE_HOST)("moldig scan", () => {
   it("prints the Harness, a Project and the totals, and exits 0", async () => {
     const { code, out } = await run(["scan", "--no-git", tree.root]);
     expect(code).toBe(0);
@@ -383,7 +389,7 @@ describe("moldig clean --dry-run", () => {
   });
 });
 
-describe("moldig clean --yes", () => {
+describe.runIf(POSIX_FIXTURE_HOST)("moldig clean --yes", () => {
   let own: FixtureTree;
 
   beforeEach(async () => {

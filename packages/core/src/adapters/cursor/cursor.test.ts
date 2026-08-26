@@ -15,6 +15,8 @@ import {
   normaliseSnapshot,
   treePaths,
   type FixtureTree,
+  fixtureCopyTime,
+  POSIX_FIXTURE_HOST,
 } from "../../testing/index.js";
 
 /** After the fixture's synthetic timestamps; `ages` are relative to it (the same `now` for both). */
@@ -22,7 +24,6 @@ const NOW = new Date("2026-08-26T12:00:00.000Z");
 const PLATFORM = "darwin";
 const ISO_ANYWHERE = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/g;
 const DATE_ANYWHERE = /(?<![\dT:-])\d{4}-\d{2}-\d{2}(?![\dT])/g;
-const THREE_DAYS_MS = 3 * 86_400_000;
 
 const APP_SUPPORT = "home/Library/Application Support/Cursor";
 const STORAGE = `${APP_SUPPORT}/User/workspaceStorage`;
@@ -92,16 +93,11 @@ function linuxSlug(): Breadcrumb {
 
 /** Files the fixture does not age carry the copy's mtime; those stamps differ per run. */
 function stableTimes(json: string): string {
-  const now = Date.now();
+  const copy = fixtureCopyTime(NOW).toISOString();
+  const copyDate = copy.slice(0, 10);
   return json
-    .replaceAll(ISO_ANYWHERE, (stamp) => {
-      const ms = Date.parse(stamp);
-      const onGrid = (NOW.getTime() - ms) % 86_400_000 === 0;
-      return !onGrid && Math.abs(ms - now) < THREE_DAYS_MS ? "<COPY-TIME>" : stamp;
-    })
-    .replaceAll(DATE_ANYWHERE, (date) =>
-      Math.abs(Date.parse(`${date}T00:00:00.000Z`) - now) < THREE_DAYS_MS ? "<COPY-DATE>" : date,
-    );
+    .replaceAll(ISO_ANYWHERE, (stamp) => (stamp === copy ? "<COPY-TIME>" : stamp))
+    .replaceAll(DATE_ANYWHERE, (date) => (date === copyDate ? "<COPY-DATE>" : date));
 }
 
 /** JSON in the shape the repo's formatter keeps (`oxfmt --check` runs over `__snapshots__`). */
@@ -205,7 +201,7 @@ afterAll(async () => {
   await linuxTree.cleanup();
 });
 
-describe("cursor adapter over the workspaces case", () => {
+describe.runIf(POSIX_FIXTURE_HOST)("cursor adapter over the workspaces case", () => {
   it("describes the harness from what it wrote to disk, running no binary", () => {
     const harness = result.harnesses[0];
     expect(result.harnesses).toHaveLength(1);

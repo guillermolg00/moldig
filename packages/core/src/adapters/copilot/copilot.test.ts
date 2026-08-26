@@ -18,6 +18,8 @@ import {
   normaliseSnapshot,
   treePaths,
   type FixtureTree,
+  fixtureCopyTime,
+  POSIX_FIXTURE_HOST,
 } from "../../testing/index.js";
 
 /** After the case's synthetic timestamps (2023-11-14); its `ages` are relative to it. */
@@ -28,7 +30,6 @@ const SESSION_SUBDIR = "00000000-0000-4000-8000-000000000003";
 const STORAGE = ["1", "2", "3", "4"].map((digit) => digit.repeat(32));
 const ISO_ANYWHERE = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/g;
 const DATE_ANYWHERE = /(?<![\dT:-])\d{4}-\d{2}-\d{2}(?![\dT])/g;
-const THREE_DAYS_MS = 3 * 86_400_000;
 /** Copilot has no path-derived slug directories, so the scan is pinned to one platform. */
 const PLATFORM = "darwin";
 
@@ -85,16 +86,11 @@ function crumb(predicate: (crumb: Breadcrumb) => boolean): Breadcrumb {
 
 /** Copy-time stamps (files the case does not age) differ per run; stamps on `NOW`'s day grid stay. */
 function stableTimes(json: string): string {
-  const now = Date.now();
+  const copy = fixtureCopyTime(NOW).toISOString();
+  const copyDate = copy.slice(0, 10);
   return json
-    .replaceAll(ISO_ANYWHERE, (stamp) => {
-      const ms = Date.parse(stamp);
-      const onGrid = (NOW.getTime() - ms) % 86_400_000 === 0;
-      return !onGrid && Math.abs(ms - now) < THREE_DAYS_MS ? "<COPY-TIME>" : stamp;
-    })
-    .replaceAll(DATE_ANYWHERE, (date) =>
-      Math.abs(Date.parse(`${date}T00:00:00.000Z`) - now) < THREE_DAYS_MS ? "<COPY-DATE>" : date,
-    );
+    .replaceAll(ISO_ANYWHERE, (stamp) => (stamp === copy ? "<COPY-TIME>" : stamp))
+    .replaceAll(DATE_ANYWHERE, (date) => (date === copyDate ? "<COPY-DATE>" : date));
 }
 
 /** JSON in the shape the repo's formatter keeps (`oxfmt --check` runs over `__snapshots__`). */
@@ -148,7 +144,7 @@ afterAll(async () => {
   await tree.cleanup();
 });
 
-describe("copilot adapter over the trust-and-sessions case", () => {
+describe.runIf(POSIX_FIXTURE_HOST)("copilot adapter over the trust-and-sessions case", () => {
   it("describes one harness with two surfaces and no local memory", () => {
     const harness = result.harnesses[0];
     expect(result.harnesses).toHaveLength(1);
@@ -729,7 +725,7 @@ describe("copilot on a machine that never ran it (D147)", () => {
  * augmented with the material the README leaves out on purpose: a `session-store.db`, the two
  * credential stores, and a Copilot subdirectory inside a VS Code workspace-storage directory.
  */
-describe("copilot never opens a database or a credential store", () => {
+describe.runIf(POSIX_FIXTURE_HOST)("copilot never opens a database or a credential store", () => {
   it("leaves every byte, every mtime and every sidecar as it found them", async () => {
     const augmented = await loadFixture("copilot/trust-and-sessions", {
       cwd: "root/project-a",

@@ -8,6 +8,8 @@ Conventions: repo docs, tickets, specs and code comments are written in English;
 
 Bun manages the workspace (`bun install`, `bun run <script>`) but everything executes on Node: `bun run test`, never `bun test` (ADR-0005). `bun run check` = typecheck + lint + format check; then `bun run test`, `bun run build`, and `node packages/cli/dist/cli.mjs` runs the built CLI. `packages/core` must stay free of terminal dependencies (ADR-0003); `packages/cli` bundles it.
 
+Run the suite once with a short `TMPDIR` too (`TMPDIR=/tmp bun run test`): a fixture tree pads its own path to a fixed length precisely so a snapshot cannot depend on the host's temp directory, and that is the check which proves it still holds. Fixture cases are POSIX trees; a suite that asserts one byte for byte carries `describe.runIf(POSIX_FIXTURE_HOST)` and the Windows leg skips it — `fixtures/README.md` says why, and what covers win32 instead.
+
 ## Agent skills
 
 ### Issue tracker

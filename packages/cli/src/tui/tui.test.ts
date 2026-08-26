@@ -7,7 +7,7 @@
  * does the same job.
  */
 import { audit, dataDirFor, scan, type AuditIndex, type Entity } from "@moldig/core";
-import { loadFixture, type FixtureTree } from "@moldig/core/testing";
+import { loadFixture, POSIX_FIXTURE_HOST, type FixtureTree } from "@moldig/core/testing";
 import { join } from "node:path";
 import { PassThrough } from "node:stream";
 import { render } from "ink-testing-library";
@@ -269,7 +269,7 @@ describe("projects", () => {
   });
 });
 
-describe("items", () => {
+describe.runIf(POSIX_FIXTURE_HOST)("items", () => {
   it("groups the sections, marks human-owned rows as advice and shows the cache groups", () => {
     const screen = open({ screen: "items", container: harnessId(), title: "user" });
     const frame = screen.frame();
@@ -435,7 +435,7 @@ describe("category findings", () => {
   });
 });
 
-describe("item detail", () => {
+describe.runIf(POSIX_FIXTURE_HOST)("item detail", () => {
   it("shows the path, the loaded-by verdict, the memory cap and the actions", () => {
     // The user-scope index, named by what the assertions below say — never by whichever
     // memory index `entities` happens to sort first.

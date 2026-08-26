@@ -261,8 +261,14 @@ describe("discovery on win32 (paths are strings; no real drive needed)", () => {
   it("calls an absent drive letter unreachable through the mount-root rule (D35)", async () => {
     const presence = await presenceOf("D:\\proj\\app", "win32", 2000, realpathOrSelf);
     expect(presence).toEqual({ kind: "unreachable", reason: "mount-root" });
+    // A UNC share nothing serves is unreachable on every host, though not always for the same
+    // reason: a POSIX host has no `\\\\server` to walk to and the mount-root rule answers, while a
+    // Windows host really tries to resolve the server and the deadline answers first. Both say
+    // the volume is not there, which is the fact the rule exists to state.
     const share = await presenceOf("\\\\server\\share\\proj", "win32", 2000, realpathOrSelf);
-    expect(share).toEqual({ kind: "unreachable", reason: "mount-root" });
+    const reasons = process.platform === "win32" ? ["mount-root", "stat-timeout"] : ["mount-root"];
+    expect(share.kind).toBe("unreachable");
+    expect(reasons).toContain(share.kind === "unreachable" ? share.reason : share.kind);
   });
 
   it("keeps a POSIX ghost an orphan, so the rule is about mount roots and not about win32", async () => {

@@ -6,6 +6,8 @@ import {
   normaliseSnapshot,
   treePaths,
   type FixtureTree,
+  fixtureCopyTime,
+  POSIX_FIXTURE_HOST,
 } from "../../testing/index.js";
 
 /** After the fixture's synthetic timestamps (2023-11-14); `ages` are relative to it (same `now` for both). */
@@ -15,7 +17,6 @@ const SESSION_B = "22222222-2222-4222-8222-222222222222";
 const SESSION_WT = "44444444-4444-4444-8444-444444444444";
 const ISO_ANYWHERE = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/g;
 const DATE_ANYWHERE = /(?<![\dT:-])\d{4}-\d{2}-\d{2}(?![\dT])/g;
-const THREE_DAYS_MS = 3 * 86_400_000;
 
 let tree: FixtureTree;
 let result: AuditIndex;
@@ -54,16 +55,11 @@ function crumb(predicate: (crumb: Breadcrumb) => boolean): Breadcrumb {
  * member's day) follows the same rule. Applied to the serialised snapshot.
  */
 function stableTimes(json: string): string {
-  const now = Date.now();
+  const copy = fixtureCopyTime(NOW).toISOString();
+  const copyDate = copy.slice(0, 10);
   return json
-    .replaceAll(ISO_ANYWHERE, (stamp) => {
-      const ms = Date.parse(stamp);
-      const onGrid = (NOW.getTime() - ms) % 86_400_000 === 0;
-      return !onGrid && Math.abs(ms - now) < THREE_DAYS_MS ? "<COPY-TIME>" : stamp;
-    })
-    .replaceAll(DATE_ANYWHERE, (date) =>
-      Math.abs(Date.parse(`${date}T00:00:00.000Z`) - now) < THREE_DAYS_MS ? "<COPY-DATE>" : date,
-    );
+    .replaceAll(ISO_ANYWHERE, (stamp) => (stamp === copy ? "<COPY-TIME>" : stamp))
+    .replaceAll(DATE_ANYWHERE, (date) => (date === copyDate ? "<COPY-DATE>" : date));
 }
 
 /**
@@ -119,7 +115,7 @@ afterAll(async () => {
   await tree.cleanup();
 });
 
-describe("claude-code adapter over the breadcrumbs case", () => {
+describe.runIf(POSIX_FIXTURE_HOST)("claude-code adapter over the breadcrumbs case", () => {
   it("describes the harness from what it wrote to disk", () => {
     const harness = result.harnesses[0];
     expect(result.harnesses).toHaveLength(1);

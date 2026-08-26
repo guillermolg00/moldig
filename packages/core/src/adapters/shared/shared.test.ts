@@ -34,6 +34,8 @@ import {
   treePaths,
   type FixtureTree,
   type TreePaths,
+  fixtureCopyTime,
+  POSIX_FIXTURE_HOST,
 } from "../../testing/index.js";
 import type { AdapterOutput } from "../adapter.js";
 import { gitTreeSha1 } from "./hashes.js";
@@ -43,20 +45,14 @@ const NOW = new Date("2026-08-26T12:00:00.000Z");
 const PLATFORM = "darwin";
 const ISO_ANYWHERE = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/g;
 const DATE_ANYWHERE = /(?<![\dT:-])\d{4}-\d{2}-\d{2}(?![\dT])/g;
-const THREE_DAYS_MS = 3 * 86_400_000;
 
 /** Copy-time stamps differ per run; stamps the case fixed on `NOW`'s day grid stay. */
 function stableTimes(json: string): string {
-  const now = Date.now();
+  const copy = fixtureCopyTime(NOW).toISOString();
+  const copyDate = copy.slice(0, 10);
   return json
-    .replaceAll(ISO_ANYWHERE, (stamp) => {
-      const ms = Date.parse(stamp);
-      const onGrid = (NOW.getTime() - ms) % 86_400_000 === 0;
-      return !onGrid && Math.abs(ms - now) < THREE_DAYS_MS ? "<COPY-TIME>" : stamp;
-    })
-    .replaceAll(DATE_ANYWHERE, (date) =>
-      Math.abs(Date.parse(`${date}T00:00:00.000Z`) - now) < THREE_DAYS_MS ? "<COPY-DATE>" : date,
-    );
+    .replaceAll(ISO_ANYWHERE, (stamp) => (stamp === copy ? "<COPY-TIME>" : stamp))
+    .replaceAll(DATE_ANYWHERE, (date) => (date === copyDate ? "<COPY-DATE>" : date));
 }
 
 /** JSON in the shape the repo's formatter keeps (`oxfmt --check` runs over `__snapshots__`). */
@@ -133,7 +129,7 @@ const placementView = (item: Placement): unknown[] => [
   item.dangling,
 ];
 
-describe("the shared stores over the skill-layouts case", () => {
+describe.runIf(POSIX_FIXTURE_HOST)("the shared stores over the skill-layouts case", () => {
   let tree: FixtureTree;
   let result: AuditIndex;
   const find = finder(
@@ -366,7 +362,7 @@ describe("the shared stores over the root-tree case", () => {
   });
 });
 
-describe("the shared stores beside a harness adapter", () => {
+describe.runIf(POSIX_FIXTURE_HOST)("the shared stores beside a harness adapter", () => {
   let tree: FixtureTree;
   let result: AuditIndex;
   const find = finder(

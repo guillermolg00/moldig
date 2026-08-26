@@ -10,6 +10,8 @@ import {
   normaliseSnapshot,
   treePaths,
   type FixtureTree,
+  fixtureCopyTime,
+  POSIX_FIXTURE_HOST,
 } from "../../testing/index.js";
 import { geminiFindings } from "./findings.js";
 
@@ -38,22 +40,16 @@ const NOW = new Date("2026-08-26T12:00:00.000Z");
 const PLATFORM = "darwin";
 const ISO_ANYWHERE = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/g;
 const DATE_ANYWHERE = /(?<![\dT:-])\d{4}-\d{2}-\d{2}(?![\dT])/g;
-const THREE_DAYS_MS = 3 * 86_400_000;
 
 /** The paths moldig must never open: credential stores and token caches (D65). */
 const SECRET_PATH = /mcp|auth|oauth|cred|secret|token|\.key$|\.env|google_accounts/;
 
 function stableTimes(json: string): string {
-  const now = Date.now();
+  const copy = fixtureCopyTime(NOW).toISOString();
+  const copyDate = copy.slice(0, 10);
   return json
-    .replaceAll(ISO_ANYWHERE, (stamp) => {
-      const ms = Date.parse(stamp);
-      const onGrid = (NOW.getTime() - ms) % 86_400_000 === 0;
-      return !onGrid && Math.abs(ms - now) < THREE_DAYS_MS ? "<COPY-TIME>" : stamp;
-    })
-    .replaceAll(DATE_ANYWHERE, (date) =>
-      Math.abs(Date.parse(`${date}T00:00:00.000Z`) - now) < THREE_DAYS_MS ? "<COPY-DATE>" : date,
-    );
+    .replaceAll(ISO_ANYWHERE, (stamp) => (stamp === copy ? "<COPY-TIME>" : stamp))
+    .replaceAll(DATE_ANYWHERE, (date) => (date === copyDate ? "<COPY-DATE>" : date));
 }
 
 /** JSON in the shape the repo's formatter keeps (`oxfmt --check` runs over `__snapshots__`). */
@@ -134,7 +130,7 @@ describe("gemini-cli adapter on a machine that never ran it (D147)", () => {
 
 // ---------------------------------------------------------------- from-docs
 
-describe("gemini-cli adapter over the from-docs case", () => {
+describe.runIf(POSIX_FIXTURE_HOST)("gemini-cli adapter over the from-docs case", () => {
   let tree: FixtureTree;
   let result: AuditIndex;
   const { home, root, slugDir: slug, id } = treePaths(() => tree);
@@ -743,7 +739,7 @@ describe("gemini-cli adapter over the from-docs case", () => {
 
 // ---------------------------------------------------------- zero-breadcrumbs
 
-describe("gemini-cli adapter over the zero-breadcrumbs case", () => {
+describe.runIf(POSIX_FIXTURE_HOST)("gemini-cli adapter over the zero-breadcrumbs case", () => {
   let tree: FixtureTree;
   let result: AuditIndex;
   const { home, root, id } = treePaths(() => tree);
