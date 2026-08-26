@@ -26,6 +26,7 @@ import {
   countLines,
   isFile,
   listDir,
+  mapConcurrent,
   lstatOrNull,
   readText,
   realpathOrSelf,
@@ -34,8 +35,8 @@ import {
 } from "../../scan/fs.js";
 import { parseFrontmatter } from "../../scan/markdown.js";
 import { ageDays, toIso } from "../../scan/fs.js";
+import { nestedProjectDirs } from "../../scan/descend.js";
 import { addEntity, baseEntity, evidence, loadedBy, HARNESS, type CursorScan } from "./model.js";
-import { nestedDirs } from "./context-files.js";
 
 export interface SkillSource {
   scope: "user" | "project";
@@ -476,7 +477,12 @@ export async function collectProjectSkills(
     ];
     for (const source of sources) await collectFrom(scan, source);
     // Research 02 [22]: project skills are discovered recursively (`apps/web/.cursor/skills/`).
-    for (const dir of await nestedDirs(member.path)) {
+    const nested = await nestedProjectDirs(member.path);
+    // Whether a directory has a `.cursor/skills` at all is a question for the disk alone: it is
+    // asked for all of them at once, through a bounded pool, and the loop below finds every
+    // listing in the scan's memo (ticket 28).
+    await mapConcurrent(nested, (dir) => listDir(join(dir, ".cursor", "skills")));
+    for (const dir of nested) {
       await collectFrom(
         scan,
         {

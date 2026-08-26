@@ -14,7 +14,7 @@ export const HARNESSES = [
 ] as const;
 
 export { scan } from "./scan/scan.js";
-export type { ScanOptions } from "./scan/scan.js";
+export type { ScanOptions, ScanProgress } from "./scan/scan.js";
 /** D125: the CLI validates `--platform`/`process.platform` with these before it calls `scan`. */
 export { assertScanPlatform, isScanPlatform, SCAN_PLATFORMS } from "./scan/paths.js";
 export type { ScanPlatform } from "./scan/paths.js";

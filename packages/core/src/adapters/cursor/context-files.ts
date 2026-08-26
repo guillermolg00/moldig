@@ -13,21 +13,10 @@
 import { basename, join } from "node:path";
 import type { ContextFile, Format, LoadedByEdge } from "../../index/types.js";
 import type { DiscoveredProject, Member } from "../../scan/discovery.js";
-import { isFile, listDir, readText } from "../../scan/fs.js";
+import { NESTED_DEPTH, nestedProjectDirs } from "../../scan/descend.js";
+import { isFile, listDir, mapConcurrent, readText } from "../../scan/fs.js";
 import { parseFrontmatter } from "../../scan/markdown.js";
 import { addEntity, baseEntity, evidence, loadedBy, type CursorScan } from "./model.js";
-
-const NESTED_DEPTH = 6;
-const PRUNED = new Set([
-  "node_modules",
-  "dist",
-  "build",
-  "out",
-  "target",
-  "vendor",
-  "__pycache__",
-  "coverage",
-]);
 
 /** The four rule types of `.mdc` frontmatter, in the precedence research 02 documents. */
 export type RuleType = "always" | "auto-attached" | "agent-requested" | "manual";
@@ -175,25 +164,6 @@ async function rulesUnder(dir: string, depth = 0): Promise<string[]> {
   return found.flat();
 }
 
-/** Directories below `dir` (never `dir` itself), pruned, never below a `SKILL.md`. */
-export async function nestedDirs(dir: string, depth = 0): Promise<string[]> {
-  if (depth >= NESTED_DEPTH) return [];
-  const children = (await listDir(dir))
-    .filter((entry) => entry.isDirectory() && !entry.isSymbolicLink())
-    .filter((entry) => !PRUNED.has(entry.name) && !entry.name.startsWith("."))
-    .toSorted((a, b) => a.name.localeCompare(b.name));
-  const found = await Promise.all(
-    children.map(async (entry) => {
-      const child = join(dir, entry.name);
-      if ((await listDir(child)).some((item) => item.name === "SKILL.md")) return [];
-      const below = await nestedDirs(child, depth + 1);
-      below.unshift(child);
-      return below;
-    }),
-  );
-  return found.flat();
-}
-
 /** `~/.cursor/rules/*.mdc`: the same four verdicts at user scope (the session baseline). */
 export async function collectUserContextFiles(scan: CursorScan): Promise<void> {
   for (const path of await rulesUnder(join(scan.paths.configDir, "rules"))) {
@@ -321,7 +291,15 @@ async function collectMember(
     );
   }
 
-  for (const dir of await nestedDirs(member.path)) {
+  const nested = await nestedProjectDirs(member.path);
+  // Which directories hold one of the two names is a question for the disk alone, so all of them
+  // are asked at once through a bounded pool; the rows below are still emitted in walk order and
+  // every `isFile` there is answered from the scan's memo (ticket 28).
+  await mapConcurrent(
+    nested.flatMap((dir) => [join(dir, "AGENTS.md"), join(dir, "CLAUDE.md")]),
+    (path) => isFile(path),
+  );
+  for (const dir of nested) {
     for (const name of ["AGENTS.md", "CLAUDE.md"]) {
       const path = join(dir, name);
       if (!(await isFile(path))) continue;

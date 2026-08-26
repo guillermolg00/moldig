@@ -14,7 +14,8 @@
 import { basename, dirname, isAbsolute, join, resolve } from "node:path";
 import type { ContextFile, ImportsEdge } from "../../index/types.js";
 import type { DiscoveredProject } from "../../scan/discovery.js";
-import { isFile, listDir, readText, realpathOrSelf } from "../../scan/fs.js";
+import { nestedProjectDirs } from "../../scan/descend.js";
+import { isFile, listDir, mapConcurrent, readText, realpathOrSelf } from "../../scan/fs.js";
 import { findImports, type ImportStatement } from "../../scan/markdown.js";
 import { ancestors, edgeId, isUnder, relativeUnder, tildify } from "../../scan/paths.js";
 import {
@@ -31,17 +32,6 @@ import {
 import { boundaryMarkers, contextFileNames, nested, stringList } from "./settings.js";
 
 const IMPORT_DEPTH = 5;
-const NESTED_DEPTH = 6;
-const PRUNED = new Set([
-  "node_modules",
-  "dist",
-  "build",
-  "out",
-  "target",
-  "vendor",
-  "__pycache__",
-  "coverage",
-]);
 
 const MEMORY_SECTION = /^## Gemini Added Memories/m;
 
@@ -186,14 +176,27 @@ export async function emitLoad(
   }
 }
 
-/** Every configured name present in `dir`, in the order `context.fileName` lists them. */
+/**
+ * Every configured name present in `dir`, in the order `context.fileName` lists them. The names
+ * are asked for at once — which of them exist is a question for the disk alone — and the answers
+ * are read back in the configured order (ticket 28).
+ */
 async function namesIn(dir: string, names: readonly string[]): Promise<string[]> {
-  const out: string[] = [];
-  for (const name of names) {
-    const path = join(dir, name);
-    if (await isFile(path)) out.push(path);
-  }
-  return out;
+  const paths = names.map((name) => join(dir, name));
+  const present = await Promise.all(paths.map((path) => isFile(path)));
+  return paths.filter((_, index) => present[index] === true);
+}
+
+/**
+ * Asks the disk, through a bounded pool, which of the configured names exist anywhere under
+ * `dirs` (ticket 28). It decides nothing: `namesIn` still asks the same questions per directory,
+ * in order, and finds every answer in the scan's `stat` memo.
+ */
+function warmNames(dirs: readonly string[], names: readonly string[]): Promise<boolean[]> {
+  return mapConcurrent(
+    dirs.flatMap((dir) => names.map((name) => join(dir, name))),
+    (path) => isFile(path),
+  );
 }
 
 /**
@@ -219,24 +222,6 @@ async function chainOf(
 }
 
 /** Directories below `dir` (never `dir` itself), bounded, pruned, never inside a skill. */
-async function nestedLevels(dir: string, depth: number): Promise<string[]> {
-  if (depth >= NESTED_DEPTH) return [];
-  const entries = await listDir(dir);
-  const children = entries
-    .filter((entry) => entry.isDirectory() && !entry.isSymbolicLink())
-    .filter((entry) => !PRUNED.has(entry.name) && !entry.name.startsWith("."))
-    .toSorted((a, b) => a.name.localeCompare(b.name));
-  const found: string[][] = [];
-  for (const entry of children) {
-    const child = join(dir, entry.name);
-    if ((await listDir(child)).some((item) => item.name === "SKILL.md")) continue;
-    const below = await nestedLevels(child, depth + 1);
-    below.unshift(child);
-    found.push(below);
-  }
-  return found.flat();
-}
-
 /** User scope: `~/.gemini/<name>` for every configured name — the baseline of every session. */
 export async function collectUserContextFiles(scan: GeminiScan): Promise<void> {
   const { names } = contextFileNames(scan.harnessSettings);
@@ -347,7 +332,9 @@ export async function collectProjectContextFiles(
       });
     }
   }
-  for (const dir of await nestedLevels(session.dir, 0)) {
+  const below = await nestedProjectDirs(session.dir);
+  await warmNames(below, names);
+  for (const dir of below) {
     for (const path of await namesIn(dir, names)) {
       await emit(
         path,
@@ -392,7 +379,9 @@ export async function collectProjectContextFiles(
   const dropped = [...new Set([...userNames, "AGENTS.md"])].filter((name) => !names.includes(name));
   if (dropped.length === 0) return;
   const reason = `file not read by the harness: context.fileName = [${names.join(", ")}]`;
-  for (const level of [...chain, ...(await nestedLevels(session.dir, 0))]) {
+  const dirs = [...chain, ...below];
+  await warmNames(dirs, dropped);
+  for (const level of dirs) {
     for (const path of await namesIn(level, dropped)) {
       await emit(path, {
         project: project.id,

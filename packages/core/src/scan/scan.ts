@@ -34,7 +34,7 @@ import { loadTokenizer, MULTIPLIERS } from "../tokens/tokenizer.js";
 import { byId, mergeOutputs, oneEdgePerFact, parentIdOf } from "./assemble.js";
 import { createContext, warning, type GitLookup, type ResolvedOptions } from "./context.js";
 import { createDiscovery, type DiscoveredProject } from "./discovery.js";
-import { isFile, isRecord, readText, realpathOrSelf } from "./fs.js";
+import { isFile, isRecord, readText, realpathOrSelf, withFsMemo } from "./fs.js";
 import { assertScanPlatform, pathIdentity, type ScanPlatform } from "./paths.js";
 
 export interface ScanOptions {
@@ -52,6 +52,21 @@ export interface ScanOptions {
   now?: Date;
   /** D50: PID liveness behind the `pid` and `in-use-marker` guards; default `process.kill(pid, 0)`. */
   isProcessAlive?: (pid: number) => boolean;
+  /**
+   * D145: what the pipeline is doing, so a caller can show real progress instead of an
+   * animation. Called synchronously and never awaited; a callback that throws is the caller's
+   * bug and is left to propagate. Absent by default, and `scan` behaves identically without it.
+   */
+  onProgress?: (event: ScanProgress) => void;
+}
+
+/** D145: one step of the pipeline. `done`/`total` count the units of that phase. */
+export interface ScanProgress {
+  phase: "discover" | "collect" | "git" | "assemble";
+  /** The adapter the step belongs to, for `discover` and `collect`. */
+  harness?: HarnessId;
+  done: number;
+  total: number;
 }
 
 const STAT_DEADLINE_MS = 2000;
@@ -200,8 +215,18 @@ function projectOf(
   };
 }
 
-export async function scan(options: ScanOptions): Promise<Index> {
+/**
+ * One scan of the machine. The whole pipeline runs inside one filesystem memo (`withFsMemo`):
+ * every adapter walks the same Project trees looking for its own context files, and without the
+ * memo each of them re-read every directory.
+ */
+export function scan(options: ScanOptions): Promise<Index> {
+  return withFsMemo(() => runScan(options));
+}
+
+async function runScan(options: ScanOptions): Promise<Index> {
   const started = Date.now();
+  const progress = options.onProgress ?? ((): void => {});
   const now = options.now ?? new Date();
   const platform = assertScanPlatform(options.platform);
   const identity = pathIdentity(platform);
@@ -254,7 +279,11 @@ export async function scan(options: ScanOptions): Promise<Index> {
       .filter((adapter): adapter is Adapter => adapter !== undefined),
   ];
 
-  for (const adapter of adapters) await adapter.discover(ctx);
+  for (const [index, adapter] of adapters.entries()) {
+    progress({ phase: "discover", harness: adapter.id, done: index, total: adapters.length });
+    await adapter.discover(ctx);
+  }
+  progress({ phase: "discover", done: adapters.length, total: adapters.length });
   await discovery.walkRoots();
   await discovery.includeCwd();
   // D28: everything located before its Project existed gets a second chance now.
@@ -262,10 +291,13 @@ export async function scan(options: ScanOptions): Promise<Index> {
 
   let gitAvailable = false;
   let gitVersionText: string | null = null;
+  // A phase that runs no repository still reports itself, so a caller sees every phase once.
+  if (!resolved.git) progress({ phase: "git", done: 0, total: 0 });
   if (resolved.git) {
     gitVersionText = await gitVersion();
     gitAvailable = gitVersionText !== null;
     if (!gitAvailable) {
+      progress({ phase: "git", done: 0, total: 0 });
       ctx.warn(
         warning(
           "git-missing",
@@ -286,9 +318,13 @@ export async function scan(options: ScanOptions): Promise<Index> {
             .filter((member) => member.reachability === "present")
             .map((member) => member.path),
         );
+      let reposDone = 0;
+      progress({ phase: "git", done: 0, total: dirs.length });
       await Promise.all(
         dirs.map(async (dir) => {
           const result = await repoGitStatus(dir);
+          reposDone += 1;
+          progress({ phase: "git", done: reposDone, total: dirs.length });
           const status: RepoGitStatus | null = result.ok ? result.status : null;
           gitLookup.repos.set(identity.fold(dir), status);
           if (!result.ok) {
@@ -318,13 +354,18 @@ export async function scan(options: ScanOptions): Promise<Index> {
   }
 
   const outputs: AdapterOutput[] = [];
-  for (const adapter of adapters) outputs.push(await adapter.collect(ctx));
+  for (const [index, adapter] of adapters.entries()) {
+    progress({ phase: "collect", harness: adapter.id, done: index, total: adapters.length });
+    outputs.push(await adapter.collect(ctx));
+  }
+  progress({ phase: "collect", done: adapters.length, total: adapters.length });
   if (tokenizer.fallbackUsed && !ctx.warnings.some((item) => item.code === "tokenizer-fallback")) {
     ctx.warn(
       warning("tokenizer-fallback", "a token count fell back to bytes/4", null, null, "degraded"),
     );
   }
 
+  progress({ phase: "assemble", done: 0, total: 1 });
   // D38: one entity per real thing, whatever number of adapters saw it. D79/D80: the duplicate
   // pairs and the copies-differ verdict need every adapter's skills at once, so they follow.
   const merged = withSharedSkillFacts(mergeOutputs(outputs, identity.fold));
@@ -364,10 +405,12 @@ export async function scan(options: ScanOptions): Promise<Index> {
     tokens: entities.reduce((sum, entity) => sum + (entity.metrics.tokens?.o200k ?? 0), 0),
   };
 
+  const version = await moldigVersion();
+  progress({ phase: "assemble", done: 1, total: 1 });
   return {
     schemaVersion: 0,
     generatedAt: now.toISOString(),
-    moldig: { version: await moldigVersion() },
+    moldig: { version },
     scan: {
       home,
       roots,

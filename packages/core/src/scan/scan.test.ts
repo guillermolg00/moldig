@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { scan } from "../index.js";
+import { scan, type ScanProgress } from "../index.js";
 import { loadFixture, type FixtureTree } from "../testing/index.js";
 
 const NOW = new Date("2026-08-26T12:00:00.000Z");
@@ -155,5 +155,45 @@ describe("scan", () => {
     expect(first.entities.map((entity) => entity.id)).toEqual(
       first.entities.map((entity) => entity.id).toSorted(),
     );
+  });
+
+  it("reports every phase through onProgress and produces the same index without it", async () => {
+    // D145: the hook is additive. It is called synchronously, never awaited, and a scan that
+    // does not pass one behaves identically — which is what the second scan here checks.
+    const tree = await loadFixture("claude-code/breadcrumbs", { cwd: "root/project-a", now: NOW });
+    trees.push(tree);
+    const options = {
+      home: tree.home,
+      roots: tree.roots,
+      cwd: tree.cwd,
+      platform: tree.platform,
+      env: tree.env,
+      git: false,
+      now: NOW,
+    };
+    const events: ScanProgress[] = [];
+    const withHook = await scan({ ...options, onProgress: (event) => events.push(event) });
+    const withoutHook = await scan(options);
+    expect(JSON.stringify({ ...withHook, scan: { ...withHook.scan, durationMs: 0 } })).toBe(
+      JSON.stringify({ ...withoutHook, scan: { ...withoutHook.scan, durationMs: 0 } }),
+    );
+    expect(new Set(events.map((event) => event.phase))).toEqual(
+      new Set(["discover", "git", "collect", "assemble"]),
+    );
+    // Every adapter announces itself before it runs, and each phase ends on `done === total`.
+    const collect = events.filter((event) => event.phase === "collect");
+    expect(collect.map((event) => event.harness).filter((id) => id !== undefined)).toContain(
+      "claude-code",
+    );
+    expect(collect.at(-1)).toEqual({
+      phase: "collect",
+      done: collect.length - 1,
+      total: collect.length - 1,
+    });
+    expect(events.every((event) => event.done <= event.total)).toBe(true);
+    // `git: false` runs no repository, and the phase still reports itself once.
+    expect(events.filter((event) => event.phase === "git")).toEqual([
+      { phase: "git", done: 0, total: 0 },
+    ]);
   });
 });

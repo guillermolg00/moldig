@@ -15,43 +15,15 @@
 import { join } from "node:path";
 import type { ContextFile } from "../../index/types.js";
 import type { DiscoveredProject } from "../../scan/discovery.js";
-import { isFile, listDir, readText, sha256 } from "../../scan/fs.js";
+import { nestedProjectDirs } from "../../scan/descend.js";
+import { isFile, mapConcurrent, readText, sha256 } from "../../scan/fs.js";
 import { findImports, parseFrontmatter, stripBlockComments } from "../../scan/markdown.js";
 import { addEntity, baseEntity, type SharedScan } from "./model.js";
 
 export const AGENTS_FILE = "AGENTS.md";
 
-const NESTED_DEPTH = 6;
-const PRUNED = new Set([
-  "node_modules",
-  "dist",
-  "build",
-  "out",
-  "target",
-  "vendor",
-  "__pycache__",
-  "coverage",
-]);
-
 /** Content hashes of every `AGENTS.md`, so a later pass can pair identical files. */
 export const agentsMdHashes: WeakMap<ContextFile, string> = new WeakMap();
-
-/** Directories below `dir` (never `dir` itself), bounded, pruned, and never a skill's payload. */
-async function nestedDirs(dir: string, depth: number): Promise<string[]> {
-  if (depth >= NESTED_DEPTH) return [];
-  const entries = await listDir(dir);
-  const children = entries
-    .filter((entry) => entry.isDirectory() && !entry.isSymbolicLink())
-    .filter((entry) => !PRUNED.has(entry.name) && !entry.name.startsWith("."))
-    .toSorted((a, b) => a.name.localeCompare(b.name));
-  const found: string[] = [];
-  for (const entry of children) {
-    const child = join(dir, entry.name);
-    if ((await listDir(child)).some((item) => item.name === "SKILL.md")) continue;
-    found.push(child, ...(await nestedDirs(child, depth + 1)));
-  }
-  return found;
-}
 
 async function agentsFileEntity(
   scan: SharedScan,
@@ -88,14 +60,28 @@ async function agentsFileEntity(
 }
 
 export async function collectAgentsFiles(scan: SharedScan): Promise<void> {
-  for (const project of scan.ctx.discovery.projects()) {
-    if (project.reachability !== "present") continue;
-    for (const member of project.members) {
-      if (member.reachability !== "present") continue;
-      for (const dir of [member.path, ...(await nestedDirs(member.path, 0))]) {
-        const path = join(dir, AGENTS_FILE);
-        if (await isFile(path)) await agentsFileEntity(scan, path, project);
-      }
+  const members = scan.ctx.discovery
+    .projects()
+    .filter((project) => project.reachability === "present")
+    .flatMap((project) =>
+      project.members
+        .filter((member) => member.reachability === "present")
+        .map((member) => ({ project, path: member.path })),
+    );
+  // Walking a member and asking whether a directory holds an `AGENTS.md` are questions for the
+  // disk alone, so the members are walked through a bounded pool and every directory found is
+  // asked at once. This is the first walk of every Project on the machine — the adapters that
+  // follow read it from the scan's memo — and doing it one member at a time was most of what a
+  // scan spent waiting (ticket 28). The entities are still emitted one at a time, in walk order.
+  const dirs = await mapConcurrent(members, async (member) => [
+    member.path,
+    ...(await nestedProjectDirs(member.path)),
+  ]);
+  await mapConcurrent(dirs.flat(), (dir) => isFile(join(dir, AGENTS_FILE)));
+  for (const [index, member] of members.entries()) {
+    for (const dir of dirs[index] ?? []) {
+      const path = join(dir, AGENTS_FILE);
+      if (await isFile(path)) await agentsFileEntity(scan, path, member.project);
     }
   }
 }

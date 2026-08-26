@@ -12,7 +12,8 @@ import { basename, dirname, join } from "node:path";
 import type { ContextFile, LoadedByEdge } from "../../index/types.js";
 import { formatOf, warning } from "../../scan/context.js";
 import type { DiscoveredProject } from "../../scan/discovery.js";
-import { isFile, listDir, readText } from "../../scan/fs.js";
+import { nestedProjectDirs } from "../../scan/descend.js";
+import { isFile, mapConcurrent, readText } from "../../scan/fs.js";
 import { ancestors, isUnder, relativeUnder } from "../../scan/paths.js";
 import type { ConfigFile } from "./config.js";
 import { expandInstruction, instructionsOf, isUrlEntry } from "./config.js";
@@ -25,18 +26,6 @@ import {
   sessionDirOf,
   type OpenCodeScan,
 } from "./model.js";
-
-const NESTED_DEPTH = 6;
-const PRUNED = new Set([
-  "node_modules",
-  "dist",
-  "build",
-  "out",
-  "target",
-  "vendor",
-  "__pycache__",
-  "coverage",
-]);
 
 export const AGENTS_FILE = "AGENTS.md";
 export const CLAUDE_FILE = "CLAUDE.md";
@@ -169,25 +158,6 @@ export async function collectUserContextFiles(scan: OpenCodeScan): Promise<void>
   await emitFile(scan, fallback, "context", null, verdict);
 }
 
-/** Directories below `dir`, bounded and pruned; a skill directory is payload, never context. */
-async function nestedDirs(dir: string, depth: number): Promise<string[]> {
-  if (depth >= NESTED_DEPTH) return [];
-  const children = (await listDir(dir))
-    .filter((entry) => entry.isDirectory() && !entry.isSymbolicLink())
-    .filter((entry) => !PRUNED.has(entry.name) && !entry.name.startsWith("."))
-    .toSorted((a, b) => a.name.localeCompare(b.name));
-  const found = await Promise.all(
-    children.map(async (entry) => {
-      const child = join(dir, entry.name);
-      if ((await listDir(child)).some((item) => item.name === "SKILL.md")) return [];
-      const below = await nestedDirs(child, depth + 1);
-      below.unshift(child);
-      return below;
-    }),
-  );
-  return found.flat();
-}
-
 /**
  * Rule 2: the chain a session started in the Project pays, root-first, and everything else the
  * Project holds — subdirectories below the session directory and the other members — as
@@ -250,20 +220,27 @@ export async function collectProjectContextFiles(
     );
   }
 
-  const others: { dir: string; reason: () => string }[] = (await nestedDirs(session.dir, 0)).map(
-    (dir) => ({
-      dir,
-      reason: () =>
-        `loaded by sessions started in ${relativeUnder(dir, session.member) ?? basename(dir)}`,
-    }),
-  );
+  const others: { dir: string; reason: () => string }[] = (
+    await nestedProjectDirs(session.dir)
+  ).map((dir) => ({
+    dir,
+    reason: () =>
+      `loaded by sessions started in ${relativeUnder(dir, session.member) ?? basename(dir)}`,
+  }));
   for (const member of project.members) {
     if (member.reachability !== "present" || fold(member.path) === fold(session.member)) continue;
     const name = member.name ?? basename(member.path);
     const reason = (): string => `in linked worktree ${name}: loaded by sessions started there`;
     others.push({ dir: member.path, reason });
-    for (const dir of await nestedDirs(member.path, 0)) others.push({ dir, reason });
+    for (const dir of await nestedProjectDirs(member.path)) others.push({ dir, reason });
   }
+  // Which of the two names each directory holds is a question for the disk alone, so all of them
+  // are asked at once through a bounded pool; the rows below are emitted in walk order and every
+  // `isFile` there is answered from the scan's memo (ticket 28).
+  await mapConcurrent(
+    others.flatMap(({ dir }) => [join(dir, AGENTS_FILE), join(dir, CLAUDE_FILE)]),
+    (path) => isFile(path),
+  );
   for (const { dir, reason } of others) {
     const agents = join(dir, AGENTS_FILE);
     const claude = join(dir, CLAUDE_FILE);

@@ -13,7 +13,8 @@
 import { basename, dirname, join } from "node:path";
 import type { ContextFile, ShadowsEdge } from "../../index/types.js";
 import type { DiscoveredProject } from "../../scan/discovery.js";
-import { byteLength, listDir, readText, sha256 } from "../../scan/fs.js";
+import { nestedProjectDirs } from "../../scan/descend.js";
+import { byteLength, isFile, listDir, mapConcurrent, readText, sha256 } from "../../scan/fs.js";
 import { parseFrontmatter } from "../../scan/markdown.js";
 import { ancestors, edgeId, isUnder, relativeUnder } from "../../scan/paths.js";
 import {
@@ -27,18 +28,6 @@ import {
   type CodexScan,
 } from "./model.js";
 import { DEFAULT_DOC_MAX_BYTES, docMaxBytes, fallbackDocNames, rootMarkers } from "./state.js";
-
-const NESTED_DEPTH = 6;
-const PRUNED = new Set([
-  "node_modules",
-  "dist",
-  "build",
-  "out",
-  "target",
-  "vendor",
-  "__pycache__",
-  "coverage",
-]);
 
 const OVERRIDE = "AGENTS.override.md";
 const PRIMARY = "AGENTS.md";
@@ -129,6 +118,19 @@ function namesFor(scan: CodexScan): string[] {
 }
 
 /**
+ * Asks the disk, through a bounded pool, which of the instruction files exist anywhere under
+ * `dirs` (ticket 28). It decides nothing: `levelOf` still walks the directories in order and
+ * asks the same questions, and every answer is already in the scan's `stat` memo by then.
+ */
+function warmLevels(scan: CodexScan, dirs: readonly string[]): Promise<boolean[]> {
+  const names = namesFor(scan);
+  return mapConcurrent(
+    dirs.flatMap((dir) => names.map((name) => join(dir, name))),
+    (path) => isFile(path),
+  );
+}
+
+/**
  * The candidates of one directory. The winner is the first non-empty one; every other candidate
  * that exists is emitted too — a scanner shows what is on disk — and told why it does not load.
  */
@@ -137,8 +139,14 @@ async function levelOf(
   dir: string,
   project: DiscoveredProject | null,
 ): Promise<{ winner: Candidate | null; losers: Candidate[] }> {
+  // Which of the names exist is a question for the disk alone, so the names are probed at once;
+  // the entities are still created in precedence order below (ticket 28). Most directories hold
+  // none of them, and asking for three in sequence is three round trips per directory walked.
+  const names = namesFor(scan);
+  const present = await Promise.all(names.map((name) => isFile(join(dir, name))));
   const found: Candidate[] = [];
-  for (const name of namesFor(scan)) {
+  for (const [index, name] of names.entries()) {
+    if (present[index] !== true) continue;
     const candidate = await candidateOf(scan, join(dir, name), project);
     if (candidate !== null) found.push(candidate);
   }
@@ -266,22 +274,6 @@ async function projectRootOf(scan: CodexScan, member: string, sessionDir: string
 }
 
 /** Directories below `dir` (never `dir` itself), bounded, pruned, never inside a skill directory. */
-async function nestedLevels(dir: string, depth: number): Promise<string[]> {
-  if (depth >= NESTED_DEPTH) return [];
-  const entries = (await listDir(dir))
-    .filter((entry) => entry.isDirectory() && !entry.isSymbolicLink())
-    .filter((entry) => !PRUNED.has(entry.name) && !entry.name.startsWith("."))
-    .toSorted((a, b) => a.name.localeCompare(b.name));
-  const found: string[][] = [];
-  for (const entry of entries) {
-    const child = join(dir, entry.name);
-    // A skill's payload `AGENTS.md` is part of the skill's bytes, never a context file (edge case 9).
-    if ((await listDir(child)).some((item) => item.name === "SKILL.md")) continue;
-    found.push([child, ...(await nestedLevels(child, depth + 1))]);
-  }
-  return found.flat();
-}
-
 /** Project scope: the chain root→session directory, then the directories below it. */
 export async function collectProjectContextFiles(
   scan: CodexScan,
@@ -327,7 +319,9 @@ export async function collectProjectContextFiles(
 
   // Below the session directory: Codex walks root→cwd once per session, so these files are read
   // only by a session started there — visible, never part of this session's chain.
-  for (const dir of await nestedLevels(session.dir, 0)) {
+  const below = await nestedProjectDirs(session.dir);
+  await warmLevels(scan, below);
+  for (const dir of below) {
     const { winner, losers } = await levelOf(scan, dir, project);
     for (const loser of losers) emitLoser(scan, loser, winner);
     if (winner === null) continue;
@@ -346,7 +340,9 @@ export async function collectProjectContextFiles(
     if (member.reachability !== "present" || fold(member.path) === fold(session.member)) continue;
     const name = member.name ?? basename(member.path);
     const reason = `in linked worktree ${name}: loaded by sessions started there`;
-    for (const dir of [member.path, ...(await nestedLevels(member.path, 0))]) {
+    const dirs = [member.path, ...(await nestedProjectDirs(member.path))];
+    await warmLevels(scan, dirs);
+    for (const dir of dirs) {
       const { winner, losers } = await levelOf(scan, dir, project);
       for (const loser of losers) emitLoser(scan, loser, winner);
       if (winner !== null) {

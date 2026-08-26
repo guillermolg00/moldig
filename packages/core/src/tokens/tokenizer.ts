@@ -93,7 +93,16 @@ function packageVersion(): string {
   return TOKENIZER_VERSION;
 }
 
-/** Loads the o200k encoding once; a load failure yields a tokenizer that counts `bytes/4`. */
+/** How many characters of counted text one tokenizer remembers (ticket 28). */
+const MEMO_BUDGET_CHARS = 32_000_000;
+
+/**
+ * Loads the o200k encoding once; a load failure yields a tokenizer that counts `bytes/4`.
+ *
+ * The returned tokenizer remembers what it has counted, under a budget. One tokenizer is built
+ * per `scan`, so the memo lives and dies with that scan; counting is a pure function of the text,
+ * and one `AGENTS.md` is counted once per harness that reads it — five times on a real machine.
+ */
 export async function loadTokenizer(): Promise<Tokenizer> {
   let countTokens: ((text: string) => number) | null = null;
   try {
@@ -104,6 +113,19 @@ export async function loadTokenizer(): Promise<Tokenizer> {
   }
   let fallbackUsed = countTokens === null;
   const counter = countTokens;
+  const memo = new Map<string, TokenCount>();
+  let spent = 0;
+  const countOf = (text: string): TokenCount => {
+    if (counter !== null) {
+      try {
+        return { o200k: counter(text), method: "o200k_base" };
+      } catch {
+        fallbackUsed = true;
+      }
+    }
+    fallbackUsed = true;
+    return { o200k: bytesOver4(text), method: "bytes/4" };
+  };
   return {
     name: "gpt-tokenizer",
     version: packageVersion(),
@@ -112,15 +134,14 @@ export async function loadTokenizer(): Promise<Tokenizer> {
       return fallbackUsed;
     },
     count(text) {
-      if (counter !== null) {
-        try {
-          return { o200k: counter(text), method: "o200k_base" };
-        } catch {
-          fallbackUsed = true;
-        }
+      const held = memo.get(text);
+      if (held !== undefined) return held;
+      const count = countOf(text);
+      if (spent < MEMO_BUDGET_CHARS) {
+        memo.set(text, count);
+        spent += text.length;
       }
-      fallbackUsed = true;
-      return { o200k: bytesOver4(text), method: "bytes/4" };
+      return count;
     },
   };
 }

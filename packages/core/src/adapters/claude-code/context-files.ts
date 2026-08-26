@@ -10,7 +10,8 @@
 import { basename, dirname, isAbsolute, join, resolve } from "node:path";
 import type { ContextFile, ImportsEdge } from "../../index/types.js";
 import type { DiscoveredProject } from "../../scan/discovery.js";
-import { isFile, listDir, readText, realpathOrSelf, sha256 } from "../../scan/fs.js";
+import { NESTED_DEPTH, nestedProjectDirs } from "../../scan/descend.js";
+import { isFile, listDir, mapConcurrent, readText, realpathOrSelf, sha256 } from "../../scan/fs.js";
 import { findImports, parseFrontmatter, stripBlockComments } from "../../scan/markdown.js";
 import { ancestors, edgeId, isUnder, relativeUnder } from "../../scan/paths.js";
 import {
@@ -24,17 +25,6 @@ import {
 } from "./model.js";
 
 const IMPORT_DEPTH = 4;
-const NESTED_DEPTH = 6;
-const PRUNED = new Set([
-  "node_modules",
-  "dist",
-  "build",
-  "out",
-  "target",
-  "vendor",
-  "__pycache__",
-  "coverage",
-]);
 
 export interface ContextFileFacts {
   entity: ContextFile;
@@ -228,36 +218,33 @@ async function rulesUnder(dir: string, depth: number): Promise<string[]> {
   return nested.flat();
 }
 
-/** Context files in directories below `dir` (never `dir` itself), bounded and pruned. */
-async function nestedLevels(dir: string, depth: number): Promise<string[]> {
-  if (depth >= NESTED_DEPTH) return [];
-  const entries = await listDir(dir);
-  const children = entries
-    .filter((entry) => entry.isDirectory() && !entry.isSymbolicLink())
-    .filter((entry) => !PRUNED.has(entry.name) && !entry.name.startsWith("."))
-    .toSorted((a, b) => a.name.localeCompare(b.name));
-  const found = await Promise.all(
-    children.map(async (entry) => {
-      const child = join(dir, entry.name);
-      if ((await listDir(child)).some((item) => item.name === "SKILL.md")) return [];
-      const below = await nestedLevels(child, depth + 1);
-      below.unshift(child);
-      return below;
-    }),
-  );
-  return found.flat();
-}
-
-async function loadLevel(
+function loadLevel(
   scan: ClaudeScan,
   dir: string,
   project: DiscoveredProject | null,
   verdictOf: (file: LevelFile, entity: ContextFile) => LoadVerdict,
 ): Promise<void> {
-  for (const file of await levelFiles(dir)) {
-    const facts = await contextFileEntity(scan, file.path, file.form, project);
-    if (facts === null) continue;
-    await emitLoad(scan, facts, verdictOf(file, facts.entity), project, 0, new Set());
+  return loadLevels(scan, [dir], project, verdictOf);
+}
+
+/**
+ * The levels of `dirs`, in order. Which files a level holds is a question for the disk alone, so
+ * every level is probed through a bounded pool at once (ticket 28); emitting them stays strictly
+ * sequential, because the chain order and the per-Project `order` numbers depend on it.
+ */
+async function loadLevels(
+  scan: ClaudeScan,
+  dirs: readonly string[],
+  project: DiscoveredProject | null,
+  verdictOf: (file: LevelFile, entity: ContextFile) => LoadVerdict,
+): Promise<void> {
+  const levels = await mapConcurrent(dirs, (dir) => levelFiles(dir));
+  for (const files of levels) {
+    for (const file of files) {
+      const facts = await contextFileEntity(scan, file.path, file.form, project);
+      if (facts === null) continue;
+      await emitLoad(scan, facts, verdictOf(file, facts.entity), project, 0, new Set());
+    }
   }
 }
 
@@ -358,14 +345,12 @@ export async function collectProjectContextFiles(
     countsTowardHeadline: false,
     ordered: false,
   });
-  for (const dir of await nestedLevels(session.dir, 0)) {
-    await loadLevel(
-      scan,
-      dir,
-      project,
-      onDemand("subdirectory below the session directory: loaded when Claude reads files there"),
-    );
-  }
+  await loadLevels(
+    scan,
+    await nestedProjectDirs(session.dir),
+    project,
+    onDemand("subdirectory below the session directory: loaded when Claude reads files there"),
+  );
   for (const member of project.members) {
     if (member.reachability !== "present" || fold(member.path) === fold(session.member)) continue;
     const name = member.name ?? basename(member.path);
@@ -376,13 +361,11 @@ export async function collectProjectContextFiles(
       countsTowardHeadline: false,
       ordered: false,
     }));
-    for (const dir of await nestedLevels(member.path, 0)) {
-      await loadLevel(
-        scan,
-        dir,
-        project,
-        onDemand(`subdirectory of linked worktree ${name}: loaded on demand there`),
-      );
-    }
+    await loadLevels(
+      scan,
+      await nestedProjectDirs(member.path),
+      project,
+      onDemand(`subdirectory of linked worktree ${name}: loaded on demand there`),
+    );
   }
 }
