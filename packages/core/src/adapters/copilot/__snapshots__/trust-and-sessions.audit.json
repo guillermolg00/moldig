@@ -1,0 +1,3224 @@
+{
+  "schemaVersion": 0,
+  "generatedAt": "2026-08-26T12:00:00.000Z",
+  "moldig": {
+    "version": "0.0.0"
+  },
+  "scan": {
+    "home": "<HOME>",
+    "roots": ["<ROOT>"],
+    "cwd": "<ROOT>/project-a",
+    "platform": "darwin",
+    "caseFold": true,
+    "env": {},
+    "git": {
+      "available": false,
+      "version": null
+    },
+    "durationMs": 0
+  },
+  "tokenizer": {
+    "name": "gpt-tokenizer",
+    "version": "4.0.0",
+    "encoding": "o200k_base",
+    "fallbackUsed": false,
+    "multipliers": {
+      "openai": {
+        "low": 1,
+        "mid": 1,
+        "high": 1
+      },
+      "google": {
+        "low": 1,
+        "mid": 1,
+        "high": 1
+      },
+      "anthropic-46": {
+        "low": 1,
+        "mid": 1.15,
+        "high": 1.25
+      },
+      "anthropic-47plus": {
+        "low": 1.3,
+        "mid": 1.5,
+        "high": 1.65
+      }
+    }
+  },
+  "harnesses": [
+    {
+      "id": "harness:copilot",
+      "harness": "copilot",
+      "displayName": "Copilot",
+      "surfaces": ["cli", "vscode"],
+      "presence": "installed",
+      "version": null,
+      "effectiveModel": null,
+      "modelFamily": null,
+      "contextWindowTokens": null,
+      "capabilities": {
+        "memoryLocation": "server-side",
+        "memoryReadSignal": "not-applicable",
+        "contextFileNames": ["copilot-instructions.md", "AGENTS.md", "CLAUDE.md", "GEMINI.md"],
+        "sweepDocumented": false
+      },
+      "caps": {
+        "memoryIndexLines": null,
+        "memoryIndexBytes": null,
+        "chainMaxBytes": null,
+        "skillDescriptionChars": null,
+        "importDepth": null
+      },
+      "effectiveSettings": {
+        "banner": "<redacted>",
+        "last_logged_in_user": "<redacted>",
+        "logged_in_users": "<redacted>",
+        "model": "<redacted>",
+        "render_markdown": true,
+        "trusted_folders": ["<redacted>", "<redacted>", "<redacted>"],
+        "allowed_urls": "<redacted>",
+        "disabled_skills": [],
+        "show_reasoning": false,
+        "github.copilot.enable": {
+          "<redacted>-1": true,
+          "yaml": true,
+          "plaintext": true,
+          "markdown": false,
+          "typescriptreact": true,
+          "typescript": true
+        },
+        "github.copilot.editor.enableAutoCompletions": true,
+        "github.copilot.nextEditSuggestions.enabled": true,
+        "chat.useAgentsMdFile": true,
+        "chat.useNestedAgentsMdFiles": true,
+        "chat.useClaudeMdFile": true,
+        "chat.instructionsFilesLocations": {
+          ".github/instructions": true,
+          "~/.copilot/instructions": true,
+          "docs/instructions": false
+        },
+        "chat.agentFilesLocations": {
+          ".github/agents": true,
+          "~/.copilot/agents": true
+        },
+        "chat.promptFilesLocations": {
+          ".github/prompts": true
+        },
+        "chat.agentSkillsLocations": {
+          ".github/skills": true,
+          ".claude/skills": true,
+          "~/.copilot/skills": true,
+          "~/.claude/skills": true
+        }
+      },
+      "breadcrumbSources": [
+        {
+          "kind": "trust-entry",
+          "path": "<HOME>/.copilot/config.json",
+          "readInV1": true
+        },
+        {
+          "kind": "session-cwd",
+          "path": "<HOME>/.copilot/session-state",
+          "readInV1": true
+        },
+        {
+          "kind": "workspace-record",
+          "path": "<HOME>/Library/Application Support/Code/User/workspaceStorage",
+          "readInV1": true
+        },
+        {
+          "kind": "workspace-record",
+          "path": "<HOME>/Library/Application Support/Code/User/globalStorage/state.vscdb",
+          "readInV1": false
+        },
+        {
+          "kind": "trust-entry",
+          "path": "<HOME>/Library/Application Support/Code/User/globalStorage/state.vscdb",
+          "readInV1": false
+        },
+        {
+          "kind": "workspace-record",
+          "path": "<HOME>/Library/Application Support/Code/User/globalStorage/storage.json",
+          "readInV1": false
+        }
+      ],
+      "userScope": {
+        "paths": [
+          {
+            "path": "<HOME>/.copilot",
+            "role": "data",
+            "source": "default",
+            "envVar": null
+          },
+          {
+            "path": "<HOME>/Library/Application Support/Code",
+            "role": "app-support",
+            "source": "default",
+            "envVar": null
+          }
+        ],
+        "stray": [
+          "breadcrumb:copilot:<HOME>/.copilot/config.json#trusted_folders/<HOME>",
+          "breadcrumb:copilot:<HOME>/library/application support/code/user/workspacestorage/33333333333333333333333333333333/workspace.json"
+        ],
+        "baseline": {
+          "items": [
+            {
+              "entity": "context-file:<HOME>/.copilot/copilot-instructions.md",
+              "edge": "edge:loaded-by:context-file:<HOME>/.copilot/copilot-instructions.md:harness:copilot",
+              "order": 0,
+              "tokens": 54
+            },
+            {
+              "entity": "context-file:<HOME>/.copilot/instructions/global.instructions.md",
+              "edge": "edge:loaded-by:context-file:<HOME>/.copilot/instructions/global.instructions.md:harness:copilot",
+              "order": 1,
+              "tokens": 37
+            },
+            {
+              "entity": "skill:<HOME>/.agents/skills/skill-a",
+              "edge": "edge:loaded-by:skill:<HOME>/.agents/skills/skill-a:harness:copilot",
+              "order": 2,
+              "tokens": 4
+            }
+          ],
+          "tokens": 95
+        }
+      }
+    }
+  ],
+  "projects": [
+    {
+      "id": "project:<ROOT>/gone",
+      "path": "<ROOT>/gone",
+      "displayName": "gone",
+      "kind": "unknown",
+      "reachability": "orphan",
+      "unreachableReason": null,
+      "enclosesCwd": false,
+      "discoveredBy": ["breadcrumb"],
+      "parent": null,
+      "members": [],
+      "breadcrumbs": [
+        "breadcrumb:copilot:<HOME>/.copilot/config.json#trusted_folders/<ROOT>/gone",
+        "breadcrumb:copilot:<HOME>/.copilot/session-state#cwd/<ROOT>/gone",
+        "breadcrumb:copilot:<HOME>/library/application support/code/user/workspacestorage/44444444444444444444444444444444/workspace.json"
+      ],
+      "nestedMarkers": [],
+      "perHarness": {
+        "copilot": {
+          "trusted": true,
+          "effectiveSettings": {},
+          "sessionLoad": {
+            "items": [],
+            "tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "project:<ROOT>/project-a",
+      "path": "<ROOT>/project-a",
+      "displayName": "project-a",
+      "kind": "repository",
+      "reachability": "present",
+      "unreachableReason": null,
+      "enclosesCwd": true,
+      "discoveredBy": ["breadcrumb", "marker-walk", "cwd"],
+      "parent": null,
+      "members": [
+        {
+          "path": "<ROOT>/project-a",
+          "role": "repository",
+          "name": null,
+          "gitdir": null,
+          "reachability": "present"
+        }
+      ],
+      "breadcrumbs": [
+        "breadcrumb:copilot:<HOME>/.copilot/config.json#trusted_folders/<ROOT>/project-a",
+        "breadcrumb:copilot:<HOME>/.copilot/session-state#cwd/<ROOT>/project-a",
+        "breadcrumb:copilot:<HOME>/.copilot/session-state#cwd/<ROOT>/project-a/packages/api",
+        "breadcrumb:copilot:<HOME>/library/application support/code/user/workspacestorage/11111111111111111111111111111111/workspace.json",
+        "breadcrumb:copilot:<HOME>/library/application support/code/user/workspacestorage/22222222222222222222222222222222/workspace.json"
+      ],
+      "nestedMarkers": [
+        {
+          "relativePath": "packages/api/AGENTS.md",
+          "marker": "AGENTS.md",
+          "entity": "context-file:<ROOT>/project-a/packages/api/agents.md"
+        }
+      ],
+      "perHarness": {
+        "copilot": {
+          "trusted": true,
+          "effectiveSettings": {
+            "chat.useAgentsMdFile": true,
+            "chat.instructionsFilesLocations": {
+              ".github/instructions": true,
+              "docs/instructions": true
+            }
+          },
+          "sessionLoad": {
+            "items": [
+              {
+                "entity": "context-file:<ROOT>/project-a/.github/copilot-instructions.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/.github/copilot-instructions.md:harness:copilot:project:<ROOT>/project-a",
+                "order": 0,
+                "tokens": 744
+              },
+              {
+                "entity": "context-file:<ROOT>/project-a/agents.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/agents.md:harness:copilot:project:<ROOT>/project-a",
+                "order": 1,
+                "tokens": 100
+              },
+              {
+                "entity": "skill:<ROOT>/project-a/.github/skills/skill-a",
+                "edge": "edge:loaded-by:skill:<ROOT>/project-a/.github/skills/skill-a:harness:copilot:project:<ROOT>/project-a",
+                "order": 2,
+                "tokens": 4
+              }
+            ],
+            "tokens": 848
+          }
+        }
+      }
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "id": "breadcrumb:copilot:<HOME>/.copilot/config.json#trusted_folders/<HOME>",
+      "harness": "copilot",
+      "kind": "trust-entry",
+      "raw": "<HOME>",
+      "recordedForm": "path",
+      "path": "<HOME>",
+      "resolution": "direct",
+      "project": null,
+      "strayReason": "bare-directory",
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "array-value",
+        "file": "<HOME>/.copilot/config.json",
+        "format": "json",
+        "keyPath": ["trusted_folders"],
+        "value": "<HOME>"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": []
+    },
+    {
+      "id": "breadcrumb:copilot:<HOME>/.copilot/config.json#trusted_folders/<ROOT>/gone",
+      "harness": "copilot",
+      "kind": "trust-entry",
+      "raw": "<ROOT>/gone",
+      "recordedForm": "path",
+      "path": "<ROOT>/gone",
+      "resolution": "direct",
+      "project": "project:<ROOT>/gone",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "orphan",
+      "locator": {
+        "type": "array-value",
+        "file": "<HOME>/.copilot/config.json",
+        "format": "json",
+        "keyPath": ["trusted_folders"],
+        "value": "<ROOT>/gone"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": []
+    },
+    {
+      "id": "breadcrumb:copilot:<HOME>/.copilot/config.json#trusted_folders/<ROOT>/project-a",
+      "harness": "copilot",
+      "kind": "trust-entry",
+      "raw": "<ROOT>/project-a",
+      "recordedForm": "path",
+      "path": "<ROOT>/project-a",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "array-value",
+        "file": "<HOME>/.copilot/config.json",
+        "format": "json",
+        "keyPath": ["trusted_folders"],
+        "value": "<ROOT>/project-a"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": []
+    },
+    {
+      "id": "breadcrumb:copilot:<HOME>/.copilot/session-state#cwd/<ROOT>/gone",
+      "harness": "copilot",
+      "kind": "session-cwd",
+      "raw": "<ROOT>/gone",
+      "recordedForm": "path",
+      "path": "<ROOT>/gone",
+      "resolution": "direct",
+      "project": "project:<ROOT>/gone",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "orphan",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.copilot/session-state/00000000-0000-4000-8000-000000000002/workspace.yaml",
+        "format": "yaml",
+        "keyPath": ["cwd"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "2025-06-01T12:00:00.000Z",
+        "last": "2025-06-01T12:00:00.000Z"
+      },
+      "refs": {
+        "lastSessionId": "00000000-0000-4000-8000-000000000002"
+      },
+      "state": ["harness-cache:<HOME>/.copilot/session-state/00000000-0000-4000-8000-000000000002"]
+    },
+    {
+      "id": "breadcrumb:copilot:<HOME>/.copilot/session-state#cwd/<ROOT>/project-a",
+      "harness": "copilot",
+      "kind": "session-cwd",
+      "raw": "<ROOT>/project-a",
+      "recordedForm": "path",
+      "path": "<ROOT>/project-a",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.copilot/session-state/00000000-0000-4000-8000-000000000001/workspace.yaml",
+        "format": "yaml",
+        "keyPath": ["cwd"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "2026-01-15T12:00:00.000Z",
+        "last": "2026-01-15T12:00:00.000Z"
+      },
+      "refs": {
+        "lastSessionId": "00000000-0000-4000-8000-000000000001"
+      },
+      "state": ["harness-cache:<HOME>/.copilot/session-state/00000000-0000-4000-8000-000000000001"]
+    },
+    {
+      "id": "breadcrumb:copilot:<HOME>/.copilot/session-state#cwd/<ROOT>/project-a/packages/api",
+      "harness": "copilot",
+      "kind": "session-cwd",
+      "raw": "<ROOT>/project-a/packages/api",
+      "recordedForm": "path",
+      "path": "<ROOT>/project-a/packages/api",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": "packages/api",
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.copilot/session-state/00000000-0000-4000-8000-000000000003/workspace.yaml",
+        "format": "yaml",
+        "keyPath": ["cwd"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "2026-01-15T12:00:00.000Z",
+        "last": "2026-01-15T12:00:00.000Z"
+      },
+      "refs": {
+        "lastSessionId": "00000000-0000-4000-8000-000000000003"
+      },
+      "state": ["harness-cache:<HOME>/.copilot/session-state/00000000-0000-4000-8000-000000000003"]
+    },
+    {
+      "id": "breadcrumb:copilot:<HOME>/library/application support/code/user/workspacestorage/11111111111111111111111111111111/workspace.json",
+      "harness": "copilot",
+      "kind": "workspace-record",
+      "raw": "file://<ROOT>/project-a",
+      "recordedForm": "file-uri",
+      "path": "<ROOT>/project-a",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/Library/Application Support/Code/User/workspaceStorage/11111111111111111111111111111111/workspace.json",
+        "format": "json",
+        "keyPath": ["folder"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {
+        "workspaceStorageId": "11111111111111111111111111111111"
+      },
+      "state": [
+        "harness-cache:<HOME>/library/application support/code/user/workspacestorage/11111111111111111111111111111111"
+      ]
+    },
+    {
+      "id": "breadcrumb:copilot:<HOME>/library/application support/code/user/workspacestorage/22222222222222222222222222222222/workspace.json",
+      "harness": "copilot",
+      "kind": "workspace-record",
+      "raw": "file://<ROOT>/project-a",
+      "recordedForm": "file-uri",
+      "path": "<ROOT>/project-a",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/Library/Application Support/Code/User/workspaceStorage/22222222222222222222222222222222/workspace.json",
+        "format": "json",
+        "keyPath": ["folder"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {
+        "workspaceStorageId": "22222222222222222222222222222222"
+      },
+      "state": [
+        "harness-cache:<HOME>/library/application support/code/user/workspacestorage/22222222222222222222222222222222"
+      ]
+    },
+    {
+      "id": "breadcrumb:copilot:<HOME>/library/application support/code/user/workspacestorage/33333333333333333333333333333333/workspace.json",
+      "harness": "copilot",
+      "kind": "workspace-record",
+      "raw": "file://<HOME>",
+      "recordedForm": "file-uri",
+      "path": "<HOME>",
+      "resolution": "direct",
+      "project": null,
+      "strayReason": "bare-directory",
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/Library/Application Support/Code/User/workspaceStorage/33333333333333333333333333333333/workspace.json",
+        "format": "json",
+        "keyPath": ["folder"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {
+        "workspaceStorageId": "33333333333333333333333333333333"
+      },
+      "state": [
+        "harness-cache:<HOME>/library/application support/code/user/workspacestorage/33333333333333333333333333333333"
+      ]
+    },
+    {
+      "id": "breadcrumb:copilot:<HOME>/library/application support/code/user/workspacestorage/44444444444444444444444444444444/workspace.json",
+      "harness": "copilot",
+      "kind": "workspace-record",
+      "raw": "file://<ROOT>/gone",
+      "recordedForm": "file-uri",
+      "path": "<ROOT>/gone",
+      "resolution": "direct",
+      "project": "project:<ROOT>/gone",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "orphan",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/Library/Application Support/Code/User/workspaceStorage/44444444444444444444444444444444/workspace.json",
+        "format": "json",
+        "keyPath": ["folder"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {
+        "workspaceStorageId": "44444444444444444444444444444444"
+      },
+      "state": [
+        "harness-cache:<HOME>/library/application support/code/user/workspacestorage/44444444444444444444444444444444"
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "id": "agent-definition:<ROOT>/project-a/.github/agents/planner.agent.md",
+      "kind": "agent-definition",
+      "harness": "copilot",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.github/agents/planner.agent.md",
+      "relativePath": ".github/agents/planner.agent.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.github/agents/planner.agent.md"
+      },
+      "format": "md",
+      "label": "<redacted>",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 386,
+        "files": 1,
+        "lines": 15,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 100,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "name": "<redacted>",
+      "form": "markdown",
+      "frontmatter": {
+        "name": "<redacted>",
+        "description": "<redacted>",
+        "tools": ["<redacted>"],
+        "model": "<redacted>"
+      },
+      "hooks": []
+    },
+    {
+      "id": "agent-definition:<ROOT>/project-a/.github/agents/reviewer.md",
+      "kind": "agent-definition",
+      "harness": "copilot",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.github/agents/reviewer.md",
+      "relativePath": ".github/agents/reviewer.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.github/agents/reviewer.md"
+      },
+      "format": "md",
+      "label": "<redacted>",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 368,
+        "files": 1,
+        "lines": 14,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 94,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "name": "<redacted>",
+      "form": "markdown",
+      "frontmatter": {
+        "name": "<redacted>",
+        "description": "<redacted>",
+        "tools": ["<redacted>"]
+      },
+      "hooks": []
+    },
+    {
+      "id": "context-file:<HOME>/.copilot/copilot-instructions.md",
+      "kind": "context-file",
+      "harness": "copilot",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.copilot/copilot-instructions.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.copilot/copilot-instructions.md"
+      },
+      "format": "md",
+      "label": "~/.copilot/copilot-instructions.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 222,
+        "files": 1,
+        "lines": 6,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 54,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "instructions",
+      "fileName": "copilot-instructions.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<HOME>/.copilot/instructions/global.instructions.md",
+      "kind": "context-file",
+      "harness": "copilot",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.copilot/instructions/global.instructions.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.copilot/instructions/global.instructions.md"
+      },
+      "format": "md",
+      "label": "~/.copilot/instructions/global.instructions.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 195,
+        "files": 1,
+        "lines": 9,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 49,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "rule",
+      "fileName": "global.instructions.md",
+      "frontmatter": {
+        "applyTo": "**",
+        "description": "<redacted>"
+      },
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/.github/copilot-instructions.md",
+      "kind": "context-file",
+      "harness": "copilot",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.github/copilot-instructions.md",
+      "relativePath": ".github/copilot-instructions.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.github/copilot-instructions.md"
+      },
+      "format": "md",
+      "label": ".github/copilot-instructions.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 3649,
+        "files": 1,
+        "lines": 62,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 744,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "instructions",
+      "fileName": "copilot-instructions.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/.github/instructions/api.instructions.md",
+      "kind": "context-file",
+      "harness": "copilot",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.github/instructions/api.instructions.md",
+      "relativePath": ".github/instructions/api.instructions.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.github/instructions/api.instructions.md"
+      },
+      "format": "md",
+      "label": ".github/instructions/api.instructions.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 287,
+        "files": 1,
+        "lines": 11,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 71,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "rule",
+      "fileName": "api.instructions.md",
+      "frontmatter": {
+        "applyTo": "packages/api/**/*.ts",
+        "description": "<redacted>"
+      },
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/agents.md",
+      "kind": "context-file",
+      "harness": "copilot",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/AGENTS.md",
+      "relativePath": "AGENTS.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/AGENTS.md"
+      },
+      "format": "md",
+      "label": "AGENTS.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 441,
+        "files": 1,
+        "lines": 10,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 100,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "AGENTS.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/docs/instructions/db.instructions.md",
+      "kind": "context-file",
+      "harness": "copilot",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/docs/instructions/db.instructions.md",
+      "relativePath": "docs/instructions/db.instructions.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/docs/instructions/db.instructions.md"
+      },
+      "format": "md",
+      "label": "docs/instructions/db.instructions.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 140,
+        "files": 1,
+        "lines": 7,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 36,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "rule",
+      "fileName": "db.instructions.md",
+      "frontmatter": {
+        "applyTo": "**/*.sql"
+      },
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/packages/api/agents.md",
+      "kind": "context-file",
+      "harness": "copilot",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/packages/api/AGENTS.md",
+      "relativePath": "packages/api/AGENTS.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/packages/api/AGENTS.md"
+      },
+      "format": "md",
+      "label": "packages/api/AGENTS.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 148,
+        "files": 1,
+        "lines": 4,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 36,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "AGENTS.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "harness-cache:<HOME>/.copilot/ide",
+      "kind": "harness-cache",
+      "harness": "copilot",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.copilot/ide",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.copilot/ide"
+      },
+      "format": "dir",
+      "label": "ide",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.copilot/logs/process-1700000000000-1.log",
+      "kind": "harness-cache",
+      "harness": "copilot",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.copilot/logs/process-1700000000000-1.log",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.copilot/logs/process-1700000000000-1.log"
+      },
+      "format": "other",
+      "label": "process-1700000000000-1.log",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 325,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-05-28T12:00:00.000Z",
+        "ageDays": 90,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "log",
+      "unit": "file",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "swept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": "changelog 1.0.55"
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 325,
+        "oldest": "2026-05-28T12:00:00.000Z",
+        "newest": "2026-05-28T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.copilot/pkg",
+      "kind": "harness-cache",
+      "harness": "copilot",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.copilot/pkg",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.copilot/pkg"
+      },
+      "format": "dir",
+      "label": "pkg",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.copilot/session-state/00000000-0000-4000-8000-000000000001",
+      "kind": "harness-cache",
+      "harness": "copilot",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.copilot/session-state/00000000-0000-4000-8000-000000000001",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.copilot/session-state/00000000-0000-4000-8000-000000000001"
+      },
+      "format": "dir",
+      "label": "session 00000000 · 2026-08-23",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 6845,
+        "files": 6,
+        "lines": null,
+        "mtime": "2026-08-23T12:00:00.000Z",
+        "ageDays": 3,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": "cli",
+      "session": "00000000-0000-4000-8000-000000000001",
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 6,
+        "bytes": 6845,
+        "oldest": "2026-08-23T12:00:00.000Z",
+        "newest": "2026-08-23T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.copilot/session-state/00000000-0000-4000-8000-000000000002",
+      "kind": "harness-cache",
+      "harness": "copilot",
+      "producer": null,
+      "project": "project:<ROOT>/gone",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.copilot/session-state/00000000-0000-4000-8000-000000000002",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.copilot/session-state/00000000-0000-4000-8000-000000000002"
+      },
+      "format": "dir",
+      "label": "session 00000000 · 2026-02-07",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 286,
+        "files": 2,
+        "lines": null,
+        "mtime": "2026-02-07T12:00:00.000Z",
+        "ageDays": 200,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": "cli",
+      "session": "00000000-0000-4000-8000-000000000002",
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 2,
+        "bytes": 286,
+        "oldest": "2026-02-07T12:00:00.000Z",
+        "newest": "2026-02-07T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.copilot/session-state/00000000-0000-4000-8000-000000000003",
+      "kind": "harness-cache",
+      "harness": "copilot",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.copilot/session-state/00000000-0000-4000-8000-000000000003",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.copilot/session-state/00000000-0000-4000-8000-000000000003"
+      },
+      "format": "dir",
+      "label": "session 00000000 · 2026-07-17",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 864,
+        "files": 3,
+        "lines": null,
+        "mtime": "2026-07-17T12:00:00.000Z",
+        "ageDays": 40,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": "cli",
+      "session": "00000000-0000-4000-8000-000000000003",
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 3,
+        "bytes": 864,
+        "oldest": "2026-07-17T12:00:00.000Z",
+        "newest": "2026-07-17T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/library/application support/code/user/globalstorage/state.vscdb",
+      "kind": "harness-cache",
+      "harness": "copilot",
+      "producer": {
+        "harness": "other-app",
+        "surface": "vscode"
+      },
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Code/User/globalStorage/state.vscdb",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/Library/Application Support/Code/User/globalStorage/state.vscdb"
+      },
+      "format": "sqlite",
+      "label": "state.vscdb",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 5120,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "database",
+      "unit": "database",
+      "surface": "vscode",
+      "session": null,
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 5120,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/library/application support/code/user/workspacestorage/11111111111111111111111111111111",
+      "kind": "harness-cache",
+      "harness": "copilot",
+      "producer": {
+        "harness": "other-app",
+        "surface": "vscode"
+      },
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Code/User/workspaceStorage/11111111111111111111111111111111",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/Library/Application Support/Code/User/workspaceStorage/11111111111111111111111111111111"
+      },
+      "format": "dir",
+      "label": "11111111111111111111111111111111",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 119,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "workspace",
+      "unit": "dir",
+      "surface": "vscode",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 119,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/library/application support/code/user/workspacestorage/22222222222222222222222222222222",
+      "kind": "harness-cache",
+      "harness": "copilot",
+      "producer": {
+        "harness": "other-app",
+        "surface": "vscode"
+      },
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Code/User/workspaceStorage/22222222222222222222222222222222",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/Library/Application Support/Code/User/workspaceStorage/22222222222222222222222222222222"
+      },
+      "format": "dir",
+      "label": "22222222222222222222222222222222",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 119,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-04-28T12:00:00.000Z",
+        "ageDays": 120,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "workspace",
+      "unit": "dir",
+      "surface": "vscode",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 119,
+        "oldest": "2026-04-28T12:00:00.000Z",
+        "newest": "2026-04-28T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/library/application support/code/user/workspacestorage/33333333333333333333333333333333",
+      "kind": "harness-cache",
+      "harness": "copilot",
+      "producer": {
+        "harness": "other-app",
+        "surface": "vscode"
+      },
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Code/User/workspaceStorage/33333333333333333333333333333333",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/Library/Application Support/Code/User/workspaceStorage/33333333333333333333333333333333"
+      },
+      "format": "dir",
+      "label": "33333333333333333333333333333333",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 109,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "workspace",
+      "unit": "dir",
+      "surface": "vscode",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 109,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/library/application support/code/user/workspacestorage/44444444444444444444444444444444",
+      "kind": "harness-cache",
+      "harness": "copilot",
+      "producer": {
+        "harness": "other-app",
+        "surface": "vscode"
+      },
+      "project": "project:<ROOT>/gone",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Code/User/workspaceStorage/44444444444444444444444444444444",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/Library/Application Support/Code/User/workspaceStorage/44444444444444444444444444444444"
+      },
+      "format": "dir",
+      "label": "44444444444444444444444444444444",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 114,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-02-07T12:00:00.000Z",
+        "ageDays": 200,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "workspace",
+      "unit": "dir",
+      "surface": "vscode",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 114,
+        "oldest": "2026-02-07T12:00:00.000Z",
+        "newest": "2026-02-07T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "mcp-server:<HOME>/.copilot/mcp-config.json#mcpServers/server-http",
+      "kind": "mcp-server",
+      "harness": "copilot",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.copilot/mcp-config.json",
+      "relativePath": null,
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.copilot/mcp-config.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-http"]
+      },
+      "format": "json",
+      "label": "server-http",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 105,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-http",
+      "transport": "http",
+      "command": null,
+      "args": [],
+      "url": "<redacted>",
+      "envKeys": [],
+      "headerKeys": ["Authorization"],
+      "secretKeys": ["Authorization"],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "http:<redacted>",
+      "rawKeys": ["type", "url", "headers", "tools", "timeout"]
+    },
+    {
+      "id": "mcp-server:<HOME>/.copilot/mcp-config.json#mcpServers/server-local",
+      "kind": "mcp-server",
+      "harness": "copilot",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.copilot/mcp-config.json",
+      "relativePath": null,
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.copilot/mcp-config.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-local"]
+      },
+      "format": "json",
+      "label": "server-local",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 123,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-local",
+      "transport": "stdio",
+      "command": "<redacted>",
+      "args": ["<redacted>", "<redacted>"],
+      "url": null,
+      "envKeys": ["EXAMPLE_VAR"],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "stdio:<redacted> <redacted> <redacted>",
+      "rawKeys": ["type", "command", "args", "env", "tools"]
+    },
+    {
+      "id": "mcp-server:<HOME>/library/application support/code/user/mcp.json#servers/server-http",
+      "kind": "mcp-server",
+      "harness": "copilot",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Code/User/mcp.json",
+      "relativePath": null,
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/Library/Application Support/Code/User/mcp.json",
+        "format": "jsonc",
+        "keyPath": ["servers", "server-http"]
+      },
+      "format": "jsonc",
+      "label": "server-http",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 75,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-http",
+      "transport": "http",
+      "command": null,
+      "args": [],
+      "url": "<redacted>",
+      "envKeys": [],
+      "headerKeys": ["Authorization"],
+      "secretKeys": ["Authorization"],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "http:<redacted>",
+      "rawKeys": ["type", "url", "headers"]
+    },
+    {
+      "id": "mcp-server:<ROOT>/project-a/.github/mcp.json#mcpServers/server-sse",
+      "kind": "mcp-server",
+      "harness": "copilot",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.github/mcp.json",
+      "relativePath": ".github/mcp.json",
+      "locator": {
+        "type": "entry",
+        "file": "<ROOT>/project-a/.github/mcp.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-sse"]
+      },
+      "format": "json",
+      "label": "server-sse",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 47,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-sse",
+      "transport": "sse",
+      "command": null,
+      "args": [],
+      "url": "<redacted>",
+      "envKeys": [],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "unknown",
+      "invalid": null,
+      "endpointKey": "sse:<redacted>",
+      "rawKeys": ["type", "url", "tools"]
+    },
+    {
+      "id": "mcp-server:<ROOT>/project-a/.github/mcp.json#mcpServers/server-stdio",
+      "kind": "mcp-server",
+      "harness": "copilot",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.github/mcp.json",
+      "relativePath": ".github/mcp.json",
+      "locator": {
+        "type": "entry",
+        "file": "<ROOT>/project-a/.github/mcp.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-stdio"]
+      },
+      "format": "json",
+      "label": "server-stdio",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 75,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-stdio",
+      "transport": "stdio",
+      "command": "<redacted>",
+      "args": ["<redacted>"],
+      "url": null,
+      "envKeys": [],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "unknown",
+      "invalid": null,
+      "endpointKey": "stdio:<redacted> <redacted>",
+      "rawKeys": ["type", "command", "args", "tools"]
+    },
+    {
+      "id": "mcp-server:<ROOT>/project-a/.vscode/mcp.json#servers/server-sse",
+      "kind": "mcp-server",
+      "harness": "copilot",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.vscode/mcp.json",
+      "relativePath": ".vscode/mcp.json",
+      "locator": {
+        "type": "entry",
+        "file": "<ROOT>/project-a/.vscode/mcp.json",
+        "format": "jsonc",
+        "keyPath": ["servers", "server-sse"]
+      },
+      "format": "jsonc",
+      "label": "server-sse",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 33,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-sse",
+      "transport": "sse",
+      "command": null,
+      "args": [],
+      "url": "<redacted>",
+      "envKeys": [],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "unknown",
+      "invalid": null,
+      "endpointKey": "sse:<redacted>",
+      "rawKeys": ["type", "url"]
+    },
+    {
+      "id": "mcp-server:<ROOT>/project-a/.vscode/mcp.json#servers/server-stdio",
+      "kind": "mcp-server",
+      "harness": "copilot",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.vscode/mcp.json",
+      "relativePath": ".vscode/mcp.json",
+      "locator": {
+        "type": "entry",
+        "file": "<ROOT>/project-a/.vscode/mcp.json",
+        "format": "jsonc",
+        "keyPath": ["servers", "server-stdio"]
+      },
+      "format": "jsonc",
+      "label": "server-stdio",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 119,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-stdio",
+      "transport": "stdio",
+      "command": "<redacted>",
+      "args": ["<redacted>"],
+      "url": null,
+      "envKeys": ["EXAMPLE_VAR"],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "unknown",
+      "invalid": null,
+      "endpointKey": "stdio:<redacted> <redacted>",
+      "rawKeys": ["type", "command", "args", "env", "sandboxEnabled"]
+    },
+    {
+      "id": "settings-file:<HOME>/.copilot/config.json",
+      "kind": "settings-file",
+      "harness": "copilot",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.copilot/config.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.copilot/config.json"
+      },
+      "format": "json",
+      "label": "~/.copilot/config.json",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 706,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": [
+        "banner",
+        "last_logged_in_user",
+        "logged_in_users",
+        "model",
+        "render_markdown",
+        "trusted_folders",
+        "allowed_urls",
+        "disabled_skills",
+        "show_reasoning"
+      ],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.copilot/mcp-config.json",
+      "kind": "settings-file",
+      "harness": "copilot",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.copilot/mcp-config.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.copilot/mcp-config.json"
+      },
+      "format": "json",
+      "label": "~/.copilot/mcp-config.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 477,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "mcp-config",
+      "topLevelKeys": ["mcpServers"],
+      "entries": 2,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/library/application support/code/user/globalstorage/storage.json",
+      "kind": "settings-file",
+      "harness": "copilot",
+      "producer": {
+        "harness": "other-app",
+        "surface": "vscode"
+      },
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Code/User/globalStorage/storage.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/Library/Application Support/Code/User/globalStorage/storage.json"
+      },
+      "format": "json",
+      "label": "~/Library/Application Support/Code/User/globalStorage/storage.json",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 19046,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "state",
+      "topLevelKeys": [
+        "telemetry.sqmId",
+        "telemetry.machineId",
+        "telemetry.devDeviceId",
+        "backupWorkspaces",
+        "windowControlHeight",
+        "profileAssociations",
+        "lastKnownMenubarData",
+        "theme",
+        "themeBackground",
+        "windowSplash",
+        "windowsState",
+        "windowSplashWorkspaceOverride"
+      ],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/library/application support/code/user/mcp.json",
+      "kind": "settings-file",
+      "harness": "copilot",
+      "producer": {
+        "harness": "other-app",
+        "surface": "vscode"
+      },
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Code/User/mcp.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/Library/Application Support/Code/User/mcp.json"
+      },
+      "format": "jsonc",
+      "label": "~/Library/Application Support/Code/User/mcp.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 309,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "mcp-config",
+      "topLevelKeys": ["servers", "inputs"],
+      "entries": 1,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/library/application support/code/user/settings.json",
+      "kind": "settings-file",
+      "harness": "copilot",
+      "producer": {
+        "harness": "other-app",
+        "surface": "vscode"
+      },
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Code/User/settings.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/Library/Application Support/Code/User/settings.json"
+      },
+      "format": "jsonc",
+      "label": "~/Library/Application Support/Code/User/settings.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 852,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": [
+        "github.copilot.enable",
+        "github.copilot.editor.enableAutoCompletions",
+        "github.copilot.nextEditSuggestions.enabled",
+        "chat.useAgentsMdFile",
+        "chat.useNestedAgentsMdFiles",
+        "chat.useClaudeMdFile",
+        "chat.instructionsFilesLocations",
+        "chat.agentFilesLocations",
+        "chat.promptFilesLocations",
+        "chat.agentSkillsLocations"
+      ],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<ROOT>/project-a/.github/mcp.json",
+      "kind": "settings-file",
+      "harness": "copilot",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.github/mcp.json",
+      "relativePath": ".github/mcp.json",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.github/mcp.json"
+      },
+      "format": "json",
+      "label": ".github/mcp.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 303,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "mcp-config",
+      "topLevelKeys": ["mcpServers"],
+      "entries": 2,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<ROOT>/project-a/.vscode/mcp.json",
+      "kind": "settings-file",
+      "harness": "copilot",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.vscode/mcp.json",
+      "relativePath": ".vscode/mcp.json",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.vscode/mcp.json"
+      },
+      "format": "jsonc",
+      "label": ".vscode/mcp.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 460,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "mcp-config",
+      "topLevelKeys": ["servers", "inputs"],
+      "entries": 2,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<ROOT>/project-a/.vscode/settings.json",
+      "kind": "settings-file",
+      "harness": "copilot",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.vscode/settings.json",
+      "relativePath": ".vscode/settings.json",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.vscode/settings.json"
+      },
+      "format": "jsonc",
+      "label": ".vscode/settings.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 143,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": ["chat.useAgentsMdFile", "chat.instructionsFilesLocations"],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "skill:<HOME>/.agents/skills/skill-a",
+      "kind": "skill",
+      "harness": null,
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.agents/skills/skill-a",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.agents/skills/skill-a"
+      },
+      "format": "dir",
+      "label": "skill-a",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 418,
+        "files": 1,
+        "lines": 15,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 103,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-a",
+      "dirName": "skill-a",
+      "frontmatterName": "skill-a",
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<HOME>/.agents/skills/skill-a",
+          "harness": null,
+          "surface": null,
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        },
+        {
+          "path": "<HOME>/.copilot/skills/skill-a",
+          "harness": "copilot",
+          "surface": null,
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": true,
+          "linkTarget": "../../.agents/skills/skill-a",
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "skill-a",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "eb4f47be33fa81b440dc8d2c3a3c226984999d1a817a583adc43792854ba7b1e"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<ROOT>/project-a/.github/prompts/x.prompt.md",
+      "kind": "skill",
+      "harness": "copilot",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.github/prompts/x.prompt.md",
+      "relativePath": ".github/prompts/x.prompt.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.github/prompts/x.prompt.md"
+      },
+      "format": "md",
+      "label": "x",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 253,
+        "files": 1,
+        "lines": 11,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 65,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "command-file",
+      "name": "x",
+      "dirName": "x",
+      "frontmatterName": null,
+      "layout": "copy",
+      "placements": [
+        {
+          "path": "<ROOT>/project-a/.github/prompts/x.prompt.md",
+          "harness": "copilot",
+          "surface": null,
+          "scope": "project",
+          "project": "project:<ROOT>/project-a",
+          "gitStatus": null,
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "description": "<redacted>",
+        "agent": "agent",
+        "tools": ["<redacted>"]
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "d34fedb417c5c2b3629c7fa9d25011be60bd0a476cef5ffebd6f6b77336881cc"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<ROOT>/project-a/.github/skills/skill-a",
+      "kind": "skill",
+      "harness": "copilot",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.github/skills/skill-a",
+      "relativePath": ".github/skills/skill-a",
+      "locator": {
+        "type": "dir",
+        "path": "<ROOT>/project-a/.github/skills/skill-a"
+      },
+      "format": "dir",
+      "label": "skill-a",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 570,
+        "files": 1,
+        "lines": 19,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 139,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-a",
+      "dirName": "skill-a",
+      "frontmatterName": "skill-a",
+      "layout": "copy",
+      "placements": [
+        {
+          "path": "<ROOT>/project-a/.github/skills/skill-a",
+          "harness": "copilot",
+          "surface": null,
+          "scope": "project",
+          "project": "project:<ROOT>/project-a",
+          "gitStatus": null,
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "skill-a",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "7eef91ee86d5b06d5c0e39d0c50e07529dbf3547e62f6cb1eb9a7c47fe015de9"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge:duplicates:mcp-server:<HOME>/.copilot/mcp-config.json#mcpServers/server-http:mcp-server:<HOME>/library/application support/code/user/mcp.json#servers/server-http",
+      "kind": "duplicates",
+      "from": "mcp-server:<HOME>/.copilot/mcp-config.json#mcpServers/server-http",
+      "to": "mcp-server:<HOME>/library/application support/code/user/mcp.json#servers/server-http",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "http:<redacted>"
+        }
+      ],
+      "same": "endpoint"
+    },
+    {
+      "id": "edge:duplicates:mcp-server:<ROOT>/project-a/.github/mcp.json#mcpServers/server-sse:mcp-server:<ROOT>/project-a/.vscode/mcp.json#servers/server-sse",
+      "kind": "duplicates",
+      "from": "mcp-server:<ROOT>/project-a/.github/mcp.json#mcpServers/server-sse",
+      "to": "mcp-server:<ROOT>/project-a/.vscode/mcp.json#servers/server-sse",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "sse:<redacted>"
+        }
+      ],
+      "same": "endpoint"
+    },
+    {
+      "id": "edge:duplicates:mcp-server:<ROOT>/project-a/.github/mcp.json#mcpServers/server-stdio:mcp-server:<ROOT>/project-a/.vscode/mcp.json#servers/server-stdio",
+      "kind": "duplicates",
+      "from": "mcp-server:<ROOT>/project-a/.github/mcp.json#mcpServers/server-stdio",
+      "to": "mcp-server:<ROOT>/project-a/.vscode/mcp.json#servers/server-stdio",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "stdio:<redacted> <redacted>"
+        }
+      ],
+      "same": "endpoint"
+    },
+    {
+      "id": "edge:loaded-by:agent-definition:<ROOT>/project-a/.github/agents/planner.agent.md:harness:copilot:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "agent-definition:<ROOT>/project-a/.github/agents/planner.agent.md",
+      "to": "harness:copilot",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "spawned on demand; no documented session cost"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "on-demand",
+      "reason": "spawned on demand; no documented session cost",
+      "placement": "<ROOT>/project-a/.github/agents/planner.agent.md",
+      "effectiveName": "<redacted>",
+      "order": null,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:agent-definition:<ROOT>/project-a/.github/agents/reviewer.md:harness:copilot:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "agent-definition:<ROOT>/project-a/.github/agents/reviewer.md",
+      "to": "harness:copilot",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "no .agent.md suffix: not a documented agent file name"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "unknown",
+      "reason": "no .agent.md suffix: not a documented agent file name",
+      "placement": "<ROOT>/project-a/.github/agents/reviewer.md",
+      "effectiveName": "<redacted>",
+      "order": null,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<HOME>/.copilot/copilot-instructions.md:harness:copilot",
+      "kind": "loaded-by",
+      "from": "context-file:<HOME>/.copilot/copilot-instructions.md",
+      "to": "harness:copilot",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "user instructions: included in every Copilot CLI session"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "user instructions: included in every Copilot CLI session",
+      "placement": "<HOME>/.copilot/copilot-instructions.md",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 222,
+      "importsResolved": null,
+      "tokensLoaded": 54,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<HOME>/.copilot/instructions/global.instructions.md:harness:copilot",
+      "kind": "loaded-by",
+      "from": "context-file:<HOME>/.copilot/instructions/global.instructions.md",
+      "to": "harness:copilot",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "applyTo: ** — included in every request"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "applyTo: ** — included in every request",
+      "placement": "<HOME>/.copilot/instructions/global.instructions.md",
+      "effectiveName": null,
+      "order": 1,
+      "charsLoaded": 149,
+      "importsResolved": null,
+      "tokensLoaded": 37,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/.github/copilot-instructions.md:harness:copilot:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/.github/copilot-instructions.md",
+      "to": "harness:copilot",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "repository instructions: included in every request (CLI and VS Code)"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "repository instructions: included in every request (CLI and VS Code)",
+      "placement": "<ROOT>/project-a/.github/copilot-instructions.md",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 3649,
+      "importsResolved": null,
+      "tokensLoaded": 744,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/.github/instructions/api.instructions.md:harness:copilot:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/.github/instructions/api.instructions.md",
+      "to": "harness:copilot",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "applyTo-scoped rule: included when matching files are in context"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "on-demand",
+      "reason": "applyTo-scoped rule: included when matching files are in context",
+      "placement": "<ROOT>/project-a/.github/instructions/api.instructions.md",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 223,
+      "importsResolved": null,
+      "tokensLoaded": 55,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/agents.md:harness:copilot:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/agents.md",
+      "to": "harness:copilot",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "AGENTS.md of the repository root: nearest wins (CLI and VS Code)"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "AGENTS.md of the repository root: nearest wins (CLI and VS Code)",
+      "placement": "<ROOT>/project-a/AGENTS.md",
+      "effectiveName": null,
+      "order": 1,
+      "charsLoaded": 441,
+      "importsResolved": null,
+      "tokensLoaded": 100,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/docs/instructions/db.instructions.md:harness:copilot:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/docs/instructions/db.instructions.md",
+      "to": "harness:copilot",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "applyTo-scoped rule: included when matching files are in context"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "on-demand",
+      "reason": "applyTo-scoped rule: included when matching files are in context",
+      "placement": "<ROOT>/project-a/docs/instructions/db.instructions.md",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 112,
+      "importsResolved": null,
+      "tokensLoaded": 28,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/packages/api/agents.md:harness:copilot:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/packages/api/agents.md",
+      "to": "harness:copilot",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "nested AGENTS.md: nearest wins when working in that subtree"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "on-demand",
+      "reason": "nested AGENTS.md: nearest wins when working in that subtree",
+      "placement": "<ROOT>/project-a/packages/api/AGENTS.md",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 148,
+      "importsResolved": null,
+      "tokensLoaded": 36,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<HOME>/.copilot/mcp-config.json#mcpServers/server-http:harness:copilot",
+      "kind": "loaded-by",
+      "from": "mcp-server:<HOME>/.copilot/mcp-config.json#mcpServers/server-http",
+      "to": "harness:copilot",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "user scope (the CLI): available in every session"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "user scope (the CLI): available in every session",
+      "placement": null,
+      "effectiveName": "server-http",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<HOME>/.copilot/mcp-config.json#mcpServers/server-local:harness:copilot",
+      "kind": "loaded-by",
+      "from": "mcp-server:<HOME>/.copilot/mcp-config.json#mcpServers/server-local",
+      "to": "harness:copilot",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "user scope (the CLI): available in every session"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "user scope (the CLI): available in every session",
+      "placement": null,
+      "effectiveName": "server-local",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<HOME>/library/application support/code/user/mcp.json#servers/server-http:harness:copilot",
+      "kind": "loaded-by",
+      "from": "mcp-server:<HOME>/library/application support/code/user/mcp.json#servers/server-http",
+      "to": "harness:copilot",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "user scope (VS Code): available in every session"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "user scope (VS Code): available in every session",
+      "placement": null,
+      "effectiveName": "server-http",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.github/mcp.json#mcpServers/server-sse:harness:copilot:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "mcp-server:<ROOT>/project-a/.github/mcp.json#mcpServers/server-sse",
+      "to": "harness:copilot",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "project scope (the CLI): trusted folder"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "project scope (the CLI): trusted folder",
+      "placement": null,
+      "effectiveName": "server-sse",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.github/mcp.json#mcpServers/server-stdio:harness:copilot:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "mcp-server:<ROOT>/project-a/.github/mcp.json#mcpServers/server-stdio",
+      "to": "harness:copilot",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "project scope (the CLI): trusted folder"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "project scope (the CLI): trusted folder",
+      "placement": null,
+      "effectiveName": "server-stdio",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.vscode/mcp.json#servers/server-sse:harness:copilot:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "mcp-server:<ROOT>/project-a/.vscode/mcp.json#servers/server-sse",
+      "to": "harness:copilot",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "VS Code workspace trust recorded in state.vscdb, which moldig never opens"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "unknown",
+      "reason": "VS Code workspace trust recorded in state.vscdb, which moldig never opens",
+      "placement": null,
+      "effectiveName": "server-sse",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.vscode/mcp.json#servers/server-stdio:harness:copilot:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "mcp-server:<ROOT>/project-a/.vscode/mcp.json#servers/server-stdio",
+      "to": "harness:copilot",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "VS Code workspace trust recorded in state.vscdb, which moldig never opens"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "unknown",
+      "reason": "VS Code workspace trust recorded in state.vscdb, which moldig never opens",
+      "placement": null,
+      "effectiveName": "server-stdio",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.agents/skills/skill-a:harness:copilot",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.agents/skills/skill-a",
+      "to": "harness:copilot",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "skills are listed by description; the body is read on demand"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "user skill: description listed, body on demand",
+      "placement": "<HOME>/.copilot/skills/skill-a",
+      "effectiveName": "skill-a",
+      "order": 2,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<ROOT>/project-a/.github/prompts/x.prompt.md:harness:copilot:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "skill:<ROOT>/project-a/.github/prompts/x.prompt.md",
+      "to": "harness:copilot",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "prompt files are invoked by name, not injected"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "on-demand",
+      "reason": "prompt file: run as /x",
+      "placement": "<ROOT>/project-a/.github/prompts/x.prompt.md",
+      "effectiveName": "/x",
+      "order": null,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:skill:<ROOT>/project-a/.github/skills/skill-a:harness:copilot:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "skill:<ROOT>/project-a/.github/skills/skill-a",
+      "to": "harness:copilot",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "skills are listed by description; the body is read on demand"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "description-only",
+      "reason": "project skill: description listed, body on demand",
+      "placement": "<ROOT>/project-a/.github/skills/skill-a",
+      "effectiveName": "skill-a",
+      "order": 2,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    }
+  ],
+  "warnings": [
+    {
+      "code": "git-missing",
+      "message": "git not run (git: false): git-tracked status unknown",
+      "harness": null,
+      "path": null,
+      "effect": "degraded"
+    }
+  ],
+  "totals": {
+    "entities": 38,
+    "files": 37,
+    "bytes": 43851,
+    "harnessCacheBytes": 13901,
+    "memoryBytes": 0,
+    "tokens": 1591
+  },
+  "findings": [
+    {
+      "id": "finding:duplicate:mcp-server:<HOME>/.copilot/mcp-config.json#mcpServers/server-http",
+      "category": "duplicate",
+      "severity": "low",
+      "container": "harness:copilot",
+      "targets": [
+        {
+          "id": "mcp-server:<HOME>/.copilot/mcp-config.json#mcpServers/server-http",
+          "role": "subject"
+        },
+        {
+          "id": "mcp-server:<HOME>/library/application support/code/user/mcp.json#servers/server-http",
+          "role": "counterpart"
+        }
+      ],
+      "message": "MCP server server-http is configured 2 times with the same endpoint (user scope)",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "http:<redacted>"
+        }
+      ],
+      "confidence": "high",
+      "impact": {
+        "bytes": 75,
+        "tokens": null,
+        "files": 0
+      },
+      "flags": ["sensitive"],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": {
+          "type": "entry",
+          "file": "<HOME>/.copilot/mcp-config.json",
+          "format": "json",
+          "keyPath": ["mcpServers", "server-http"]
+        }
+      }
+    },
+    {
+      "id": "finding:duplicate:mcp-server:<ROOT>/project-a/.github/mcp.json#mcpServers/server-sse",
+      "category": "duplicate",
+      "severity": "low",
+      "container": "project:<ROOT>/project-a",
+      "targets": [
+        {
+          "id": "mcp-server:<ROOT>/project-a/.github/mcp.json#mcpServers/server-sse",
+          "role": "subject"
+        },
+        {
+          "id": "mcp-server:<ROOT>/project-a/.vscode/mcp.json#servers/server-sse",
+          "role": "counterpart"
+        }
+      ],
+      "message": "MCP server server-sse is configured 2 times with the same endpoint (project scope of project-a)",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "sse:<redacted>"
+        }
+      ],
+      "confidence": "high",
+      "impact": {
+        "bytes": 33,
+        "tokens": null,
+        "files": 0
+      },
+      "flags": [],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": {
+          "type": "entry",
+          "file": "<ROOT>/project-a/.github/mcp.json",
+          "format": "json",
+          "keyPath": ["mcpServers", "server-sse"]
+        }
+      }
+    },
+    {
+      "id": "finding:duplicate:mcp-server:<ROOT>/project-a/.github/mcp.json#mcpServers/server-stdio",
+      "category": "duplicate",
+      "severity": "low",
+      "container": "project:<ROOT>/project-a",
+      "targets": [
+        {
+          "id": "mcp-server:<ROOT>/project-a/.github/mcp.json#mcpServers/server-stdio",
+          "role": "subject"
+        },
+        {
+          "id": "mcp-server:<ROOT>/project-a/.vscode/mcp.json#servers/server-stdio",
+          "role": "counterpart"
+        }
+      ],
+      "message": "MCP server server-stdio is configured 2 times with the same endpoint (project scope of project-a)",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "stdio:<redacted> <redacted>"
+        }
+      ],
+      "confidence": "high",
+      "impact": {
+        "bytes": 119,
+        "tokens": null,
+        "files": 0
+      },
+      "flags": ["sensitive"],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": {
+          "type": "entry",
+          "file": "<ROOT>/project-a/.github/mcp.json",
+          "format": "json",
+          "keyPath": ["mcpServers", "server-stdio"]
+        }
+      }
+    },
+    {
+      "id": "finding:harness-cache:harness:copilot:log",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "harness:copilot",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.copilot/logs/process-1700000000000-1.log",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 log (325 B) Copilot documents no sweep for",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "no documented sweep"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 325,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": [],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:orphan:project:<ROOT>/gone",
+      "category": "orphan",
+      "severity": "medium",
+      "container": "project:<ROOT>/gone",
+      "targets": [
+        {
+          "id": "breadcrumb:copilot:<HOME>/.copilot/config.json#trusted_folders/<ROOT>/gone",
+          "role": "breadcrumb"
+        },
+        {
+          "id": "breadcrumb:copilot:<HOME>/.copilot/session-state#cwd/<ROOT>/gone",
+          "role": "breadcrumb"
+        },
+        {
+          "id": "breadcrumb:copilot:<HOME>/library/application support/code/user/workspacestorage/44444444444444444444444444444444/workspace.json",
+          "role": "breadcrumb"
+        },
+        {
+          "id": "harness-cache:<HOME>/.copilot/session-state/00000000-0000-4000-8000-000000000002",
+          "role": "state",
+          "preselect": false
+        }
+      ],
+      "message": "gone: directory gone; 3 breadcrumbs, 1 harness cache unit left behind by Copilot",
+      "evidence": [
+        {
+          "kind": "path-missing",
+          "detail": "<ROOT>/gone"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 286,
+        "tokens": null,
+        "files": 2
+      },
+      "flags": ["sensitive"],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    }
+  ],
+  "headline": {
+    "scope": "user-controllable",
+    "focus": {
+      "project": "project:<ROOT>/project-a",
+      "reason": "cwd"
+    },
+    "perHarness": [
+      {
+        "harness": "copilot",
+        "modelFamily": null,
+        "contextWindowTokens": null,
+        "baseline": {
+          "low": 95,
+          "mid": 95,
+          "high": 95
+        },
+        "project": {
+          "low": 848,
+          "mid": 848,
+          "high": 848
+        },
+        "total": {
+          "low": 943,
+          "mid": 943,
+          "high": 943
+        },
+        "pctOfContext": null
+      }
+    ]
+  }
+}
