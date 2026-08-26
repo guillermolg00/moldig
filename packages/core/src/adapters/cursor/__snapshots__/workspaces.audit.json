@@ -1,0 +1,4295 @@
+{
+  "schemaVersion": 0,
+  "generatedAt": "2026-08-26T12:00:00.000Z",
+  "moldig": {
+    "version": "0.0.0"
+  },
+  "scan": {
+    "home": "<HOME>",
+    "roots": ["<ROOT>"],
+    "cwd": "<ROOT>/project-a",
+    "platform": "darwin",
+    "caseFold": true,
+    "env": {},
+    "git": {
+      "available": false,
+      "version": null
+    },
+    "durationMs": 0
+  },
+  "tokenizer": {
+    "name": "gpt-tokenizer",
+    "version": "4.0.0",
+    "encoding": "o200k_base",
+    "fallbackUsed": false,
+    "multipliers": {
+      "openai": {
+        "low": 1,
+        "mid": 1,
+        "high": 1
+      },
+      "google": {
+        "low": 1,
+        "mid": 1,
+        "high": 1
+      },
+      "anthropic-46": {
+        "low": 1,
+        "mid": 1.15,
+        "high": 1.25
+      },
+      "anthropic-47plus": {
+        "low": 1.3,
+        "mid": 1.5,
+        "high": 1.65
+      }
+    }
+  },
+  "harnesses": [
+    {
+      "id": "harness:cursor",
+      "harness": "cursor",
+      "displayName": "Cursor",
+      "surfaces": ["ide", "cli"],
+      "presence": "installed",
+      "version": null,
+      "effectiveModel": null,
+      "modelFamily": null,
+      "contextWindowTokens": null,
+      "capabilities": {
+        "memoryLocation": "server-side",
+        "memoryReadSignal": "not-applicable",
+        "contextFileNames": ["AGENTS.md", "CLAUDE.md", ".cursorrules"],
+        "sweepDocumented": false
+      },
+      "caps": {
+        "memoryIndexLines": null,
+        "memoryIndexBytes": null,
+        "chainMaxBytes": null,
+        "skillDescriptionChars": null,
+        "importDepth": null
+      },
+      "effectiveSettings": {
+        "version": 1,
+        "editor": {
+          "vimMode": false
+        },
+        "hasChangedDefaultModel": false,
+        "permissions": {
+          "allow": ["<redacted>"],
+          "deny": []
+        }
+      },
+      "breadcrumbSources": [
+        {
+          "kind": "workspace-record",
+          "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage",
+          "readInV1": true
+        },
+        {
+          "kind": "slug-directory",
+          "path": "<HOME>/.cursor/projects",
+          "readInV1": true
+        },
+        {
+          "kind": "worktree-directory",
+          "path": "<HOME>/.cursor/worktrees",
+          "readInV1": true
+        },
+        {
+          "kind": "workspace-record",
+          "path": "<HOME>/Library/Application Support/Cursor/User/globalStorage/state.vscdb",
+          "readInV1": false
+        }
+      ],
+      "userScope": {
+        "paths": [
+          {
+            "path": "<HOME>/.cursor",
+            "role": "config",
+            "source": "default",
+            "envVar": null
+          },
+          {
+            "path": "<HOME>/Library/Application Support/Cursor",
+            "role": "app-support",
+            "source": "default",
+            "envVar": null
+          }
+        ],
+        "stray": [
+          "breadcrumb:cursor:<HOME>/.cursor/projects/1700000000000",
+          "breadcrumb:cursor:<HOME>/.cursor/projects/__HOME__",
+          "breadcrumb:cursor:<HOME>/library/application support/cursor/user/workspacestorage/05309d04e4b91c8adfb3415e99ef759f/workspace.json",
+          "breadcrumb:cursor:<HOME>/library/application support/cursor/user/workspacestorage/f3eb0056c6efb562233aa653b172cb84/workspace.json"
+        ],
+        "baseline": {
+          "items": [
+            {
+              "entity": "context-file:<HOME>/.cursor/rules/user-rule.mdc",
+              "edge": "edge:loaded-by:context-file:<HOME>/.cursor/rules/user-rule.mdc:harness:cursor",
+              "order": 0,
+              "tokens": 36
+            },
+            {
+              "entity": "skill:<HOME>/.agents/skills/find-skills",
+              "edge": "edge:loaded-by:skill:<HOME>/.agents/skills/find-skills:harness:cursor",
+              "order": 1,
+              "tokens": 4
+            },
+            {
+              "entity": "skill:<HOME>/.cursor/skills/web-design-guidelines",
+              "edge": "edge:loaded-by:skill:<HOME>/.cursor/skills/web-design-guidelines:harness:cursor",
+              "order": 2,
+              "tokens": 4
+            },
+            {
+              "entity": "skill:<HOME>/.cursor/skills-cursor/create-rule",
+              "edge": "edge:loaded-by:skill:<HOME>/.cursor/skills-cursor/create-rule:harness:cursor",
+              "order": 3,
+              "tokens": 4
+            },
+            {
+              "entity": "skill:<HOME>/.cursor/skills-cursor/migrate-to-skills",
+              "edge": "edge:loaded-by:skill:<HOME>/.cursor/skills-cursor/migrate-to-skills:harness:cursor",
+              "order": 4,
+              "tokens": 4
+            }
+          ],
+          "tokens": 52
+        }
+      }
+    }
+  ],
+  "projects": [
+    {
+      "id": "project:<ROOT>/api-nestjs",
+      "path": "<ROOT>/API-NESTJS",
+      "displayName": "API-NESTJS",
+      "kind": "repository",
+      "reachability": "present",
+      "unreachableReason": null,
+      "enclosesCwd": false,
+      "discoveredBy": ["breadcrumb", "marker-walk"],
+      "parent": null,
+      "members": [
+        {
+          "path": "<ROOT>/API-NESTJS",
+          "role": "repository",
+          "name": null,
+          "gitdir": null,
+          "reachability": "present"
+        }
+      ],
+      "breadcrumbs": [
+        "breadcrumb:cursor:<HOME>/.cursor/projects/__ROOT__-api-nestjs",
+        "breadcrumb:cursor:<HOME>/library/application support/cursor/user/workspacestorage/a3b19f678ec5de0c22b6fb40f1563bcd/workspace.json",
+        "breadcrumb:cursor:<HOME>/library/application support/cursor/user/workspacestorage/d9fd13a22662fcf2edd0cbc8861280f1/workspace.json"
+      ],
+      "nestedMarkers": [],
+      "perHarness": {
+        "cursor": {
+          "trusted": null,
+          "effectiveSettings": {},
+          "sessionLoad": {
+            "items": [
+              {
+                "entity": "context-file:<ROOT>/api-nestjs/agents.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/api-nestjs/agents.md:harness:cursor:project:<ROOT>/api-nestjs",
+                "order": 0,
+                "tokens": 72
+              }
+            ],
+            "tokens": 72
+          }
+        }
+      }
+    },
+    {
+      "id": "project:<ROOT>/gone",
+      "path": "<ROOT>/gone",
+      "displayName": "gone",
+      "kind": "unknown",
+      "reachability": "orphan",
+      "unreachableReason": null,
+      "enclosesCwd": false,
+      "discoveredBy": ["breadcrumb"],
+      "parent": null,
+      "members": [],
+      "breadcrumbs": [
+        "breadcrumb:cursor:<HOME>/.cursor/projects/__ROOT__-gone",
+        "breadcrumb:cursor:<HOME>/.cursor/worktrees/gone/xyz",
+        "breadcrumb:cursor:<HOME>/library/application support/cursor/user/workspacestorage/42d0ae0d01ed151eed33107f4ae83a3a/workspace.json"
+      ],
+      "nestedMarkers": [],
+      "perHarness": {
+        "cursor": {
+          "trusted": null,
+          "effectiveSettings": {},
+          "sessionLoad": {
+            "items": [],
+            "tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "project:<ROOT>/project-a",
+      "path": "<ROOT>/project-a",
+      "displayName": "project-a",
+      "kind": "repository",
+      "reachability": "present",
+      "unreachableReason": null,
+      "enclosesCwd": true,
+      "discoveredBy": ["breadcrumb", "marker-walk", "cwd"],
+      "parent": null,
+      "members": [
+        {
+          "path": "<ROOT>/project-a",
+          "role": "repository",
+          "name": null,
+          "gitdir": null,
+          "reachability": "present"
+        },
+        {
+          "path": "<HOME>/.cursor/worktrees/project-a/abc",
+          "role": "worktree",
+          "name": "abc",
+          "gitdir": "<ROOT>/project-a/.git/worktrees/abc",
+          "reachability": "present"
+        }
+      ],
+      "breadcrumbs": [
+        "breadcrumb:cursor:<HOME>/.cursor/projects/__ROOT__-project-a",
+        "breadcrumb:cursor:<HOME>/.cursor/worktrees/project-a/abc",
+        "breadcrumb:cursor:<HOME>/library/application support/cursor/user/workspacestorage/341f0e2c389cdc09e34ae0d26eeee4b9/workspace.json",
+        "breadcrumb:cursor:<HOME>/library/application support/cursor/user/workspacestorage/a395ef5c679da40a8c8f31e20faabf8b/workspace.json",
+        "breadcrumb:cursor:<HOME>/library/application support/cursor/user/workspacestorage/f28cf89f9f4a2c3f59231335caa293dc/workspace.json"
+      ],
+      "nestedMarkers": [
+        {
+          "relativePath": "packages/api/AGENTS.md",
+          "marker": "AGENTS.md",
+          "entity": "context-file:<ROOT>/project-a/packages/api/agents.md"
+        }
+      ],
+      "perHarness": {
+        "cursor": {
+          "trusted": null,
+          "effectiveSettings": {},
+          "sessionLoad": {
+            "items": [
+              {
+                "entity": "context-file:<ROOT>/project-a/.cursor/rules/always.mdc",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/.cursor/rules/always.mdc:harness:cursor:project:<ROOT>/project-a",
+                "order": 1,
+                "tokens": 384
+              },
+              {
+                "entity": "context-file:<ROOT>/project-a/.cursorrules",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/.cursorrules:harness:cursor:project:<ROOT>/project-a",
+                "order": 2,
+                "tokens": 1323
+              },
+              {
+                "entity": "context-file:<ROOT>/project-a/agents.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/agents.md:harness:cursor:project:<ROOT>/project-a",
+                "order": 3,
+                "tokens": 240
+              },
+              {
+                "entity": "skill:<ROOT>/project-a/.cursor/skills/skill-a",
+                "edge": "edge:loaded-by:skill:<ROOT>/project-a/.cursor/skills/skill-a:harness:cursor:project:<ROOT>/project-a",
+                "order": 4,
+                "tokens": 4
+              },
+              {
+                "entity": "skill:<ROOT>/project-a/.cursor/commands/command-a.md",
+                "edge": "edge:loaded-by:skill:<ROOT>/project-a/.cursor/commands/command-a.md:harness:cursor:project:<ROOT>/project-a",
+                "order": 5,
+                "tokens": 31
+              }
+            ],
+            "tokens": 1982
+          }
+        }
+      }
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "id": "breadcrumb:cursor:<HOME>/.cursor/projects/1700000000000",
+      "harness": "cursor",
+      "kind": "slug-directory",
+      "raw": "1700000000000",
+      "recordedForm": "window-id",
+      "path": null,
+      "resolution": "unresolved",
+      "project": null,
+      "strayReason": "unresolved-slug",
+      "relativePathInProject": null,
+      "reachability": "orphan",
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/projects/1700000000000"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": ["harness-cache:<HOME>/.cursor/projects/1700000000000"]
+    },
+    {
+      "id": "breadcrumb:cursor:<HOME>/.cursor/projects/__HOME__",
+      "harness": "cursor",
+      "kind": "slug-directory",
+      "raw": "__HOME__",
+      "recordedForm": "slug",
+      "path": "<HOME>",
+      "resolution": "slug-by-key",
+      "project": null,
+      "strayReason": "bare-directory",
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/projects/__HOME__"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": [
+        "harness-cache:<HOME>/.cursor/projects/__HOME__",
+        "harness-cache:<HOME>/.cursor/projects/__HOME__/mcp-cache.json"
+      ]
+    },
+    {
+      "id": "breadcrumb:cursor:<HOME>/.cursor/projects/__ROOT__-api-nestjs",
+      "harness": "cursor",
+      "kind": "slug-directory",
+      "raw": "__ROOT__-api-nestjs",
+      "recordedForm": "slug",
+      "path": "<ROOT>/API-NESTJS",
+      "resolution": "slug-by-key",
+      "project": "project:<ROOT>/api-nestjs",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/projects/__ROOT__-api-nestjs"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": [
+        "harness-cache:<HOME>/.cursor/projects/__ROOT__-api-nestjs",
+        "harness-cache:<HOME>/.cursor/projects/__ROOT__-api-nestjs/mcp-cache.json",
+        "harness-cache:<HOME>/.cursor/projects/__ROOT__-api-nestjs/mcps"
+      ]
+    },
+    {
+      "id": "breadcrumb:cursor:<HOME>/.cursor/projects/__ROOT__-gone",
+      "harness": "cursor",
+      "kind": "slug-directory",
+      "raw": "__ROOT__-gone",
+      "recordedForm": "slug",
+      "path": "<ROOT>/gone",
+      "resolution": "slug-by-key",
+      "project": "project:<ROOT>/gone",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "orphan",
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/projects/__ROOT__-gone"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": ["harness-cache:<HOME>/.cursor/projects/__ROOT__-gone"]
+    },
+    {
+      "id": "breadcrumb:cursor:<HOME>/.cursor/projects/__ROOT__-project-a",
+      "harness": "cursor",
+      "kind": "slug-directory",
+      "raw": "__ROOT__-project-a",
+      "recordedForm": "slug",
+      "path": "<ROOT>/project-a",
+      "resolution": "slug-by-key",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/projects/__ROOT__-project-a"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": [
+        "harness-cache:<HOME>/.cursor/projects/__ROOT__-project-a",
+        "harness-cache:<HOME>/.cursor/projects/__ROOT__-project-a/mcp-cache.json"
+      ]
+    },
+    {
+      "id": "breadcrumb:cursor:<HOME>/.cursor/worktrees/gone/xyz",
+      "harness": "cursor",
+      "kind": "worktree-directory",
+      "raw": "<HOME>/.cursor/worktrees/gone/xyz",
+      "recordedForm": "path",
+      "path": "<ROOT>/gone",
+      "resolution": "direct",
+      "project": "project:<ROOT>/gone",
+      "strayReason": null,
+      "relativePathInProject": "../../home/.cursor/worktrees/gone/xyz",
+      "reachability": "orphan",
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/worktrees/gone/xyz"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": ["harness-cache:<HOME>/.cursor/worktrees/gone/xyz"]
+    },
+    {
+      "id": "breadcrumb:cursor:<HOME>/.cursor/worktrees/project-a/abc",
+      "harness": "cursor",
+      "kind": "worktree-directory",
+      "raw": "<HOME>/.cursor/worktrees/project-a/abc",
+      "recordedForm": "path",
+      "path": "<ROOT>/project-a",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": "../../home/.cursor/worktrees/project-a/abc",
+      "reachability": "present",
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/worktrees/project-a/abc"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": ["harness-cache:<HOME>/.cursor/worktrees/project-a/abc"]
+    },
+    {
+      "id": "breadcrumb:cursor:<HOME>/library/application support/cursor/user/workspacestorage/05309d04e4b91c8adfb3415e99ef759f/workspace.json",
+      "harness": "cursor",
+      "kind": "workspace-record",
+      "raw": "file://<HOME>",
+      "recordedForm": "file-uri",
+      "path": "<HOME>",
+      "resolution": "direct",
+      "project": null,
+      "strayReason": "bare-directory",
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/05309d04e4b91c8adfb3415e99ef759f/workspace.json"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "<COPY-TIME>",
+        "last": "<COPY-TIME>"
+      },
+      "refs": {
+        "workspaceStorageId": "05309d04e4b91c8adfb3415e99ef759f"
+      },
+      "state": [
+        "harness-cache:<HOME>/library/application support/cursor/user/workspacestorage/05309d04e4b91c8adfb3415e99ef759f"
+      ]
+    },
+    {
+      "id": "breadcrumb:cursor:<HOME>/library/application support/cursor/user/workspacestorage/341f0e2c389cdc09e34ae0d26eeee4b9/workspace.json",
+      "harness": "cursor",
+      "kind": "workspace-record",
+      "raw": "file://<ROOT>/project-a/packages/api",
+      "recordedForm": "file-uri",
+      "path": "<ROOT>/project-a/packages/api",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": "packages/api",
+      "reachability": "present",
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/341f0e2c389cdc09e34ae0d26eeee4b9/workspace.json"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "<COPY-TIME>",
+        "last": "<COPY-TIME>"
+      },
+      "refs": {
+        "workspaceStorageId": "341f0e2c389cdc09e34ae0d26eeee4b9"
+      },
+      "state": [
+        "harness-cache:<HOME>/library/application support/cursor/user/workspacestorage/341f0e2c389cdc09e34ae0d26eeee4b9"
+      ]
+    },
+    {
+      "id": "breadcrumb:cursor:<HOME>/library/application support/cursor/user/workspacestorage/42d0ae0d01ed151eed33107f4ae83a3a/workspace.json",
+      "harness": "cursor",
+      "kind": "workspace-record",
+      "raw": "file://<ROOT>/gone",
+      "recordedForm": "file-uri",
+      "path": "<ROOT>/gone",
+      "resolution": "direct",
+      "project": "project:<ROOT>/gone",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "orphan",
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/42d0ae0d01ed151eed33107f4ae83a3a/workspace.json"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "2026-02-07T12:00:00.000Z",
+        "last": "2026-02-07T12:00:00.000Z"
+      },
+      "refs": {
+        "workspaceStorageId": "42d0ae0d01ed151eed33107f4ae83a3a"
+      },
+      "state": [
+        "harness-cache:<HOME>/library/application support/cursor/user/workspacestorage/42d0ae0d01ed151eed33107f4ae83a3a"
+      ]
+    },
+    {
+      "id": "breadcrumb:cursor:<HOME>/library/application support/cursor/user/workspacestorage/a395ef5c679da40a8c8f31e20faabf8b/workspace.json",
+      "harness": "cursor",
+      "kind": "workspace-record",
+      "raw": "file://<ROOT>/project-a",
+      "recordedForm": "file-uri",
+      "path": "<ROOT>/project-a",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/a395ef5c679da40a8c8f31e20faabf8b/workspace.json"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "<COPY-TIME>",
+        "last": "<COPY-TIME>"
+      },
+      "refs": {
+        "workspaceStorageId": "a395ef5c679da40a8c8f31e20faabf8b"
+      },
+      "state": [
+        "harness-cache:<HOME>/library/application support/cursor/user/workspacestorage/a395ef5c679da40a8c8f31e20faabf8b"
+      ]
+    },
+    {
+      "id": "breadcrumb:cursor:<HOME>/library/application support/cursor/user/workspacestorage/a3b19f678ec5de0c22b6fb40f1563bcd/workspace.json",
+      "harness": "cursor",
+      "kind": "workspace-record",
+      "raw": "file://<ROOT>/API-NESTJS",
+      "recordedForm": "file-uri",
+      "path": "<ROOT>/API-NESTJS",
+      "resolution": "direct",
+      "project": "project:<ROOT>/api-nestjs",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/a3b19f678ec5de0c22b6fb40f1563bcd/workspace.json"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "2026-05-28T12:00:00.000Z",
+        "last": "2026-05-28T12:00:00.000Z"
+      },
+      "refs": {
+        "workspaceStorageId": "a3b19f678ec5de0c22b6fb40f1563bcd"
+      },
+      "state": [
+        "harness-cache:<HOME>/library/application support/cursor/user/workspacestorage/a3b19f678ec5de0c22b6fb40f1563bcd"
+      ]
+    },
+    {
+      "id": "breadcrumb:cursor:<HOME>/library/application support/cursor/user/workspacestorage/d9fd13a22662fcf2edd0cbc8861280f1/workspace.json",
+      "harness": "cursor",
+      "kind": "workspace-record",
+      "raw": "file://<ROOT>/api-nestjs",
+      "recordedForm": "file-uri",
+      "path": "<ROOT>/API-NESTJS",
+      "resolution": "direct",
+      "project": "project:<ROOT>/api-nestjs",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/d9fd13a22662fcf2edd0cbc8861280f1/workspace.json"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "2026-08-16T12:00:00.000Z",
+        "last": "2026-08-16T12:00:00.000Z"
+      },
+      "refs": {
+        "workspaceStorageId": "d9fd13a22662fcf2edd0cbc8861280f1"
+      },
+      "state": [
+        "harness-cache:<HOME>/library/application support/cursor/user/workspacestorage/d9fd13a22662fcf2edd0cbc8861280f1"
+      ]
+    },
+    {
+      "id": "breadcrumb:cursor:<HOME>/library/application support/cursor/user/workspacestorage/f28cf89f9f4a2c3f59231335caa293dc/workspace.json",
+      "harness": "cursor",
+      "kind": "workspace-record",
+      "raw": "file://<ROOT>/project-a",
+      "recordedForm": "file-uri",
+      "path": "<ROOT>/project-a",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/f28cf89f9f4a2c3f59231335caa293dc/workspace.json"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "<COPY-TIME>",
+        "last": "<COPY-TIME>"
+      },
+      "refs": {
+        "workspaceStorageId": "f28cf89f9f4a2c3f59231335caa293dc"
+      },
+      "state": [
+        "harness-cache:<HOME>/library/application support/cursor/user/workspacestorage/f28cf89f9f4a2c3f59231335caa293dc"
+      ]
+    },
+    {
+      "id": "breadcrumb:cursor:<HOME>/library/application support/cursor/user/workspacestorage/f3eb0056c6efb562233aa653b172cb84/workspace.json",
+      "harness": "cursor",
+      "kind": "workspace-record",
+      "raw": "file://<HOME>/Library/Application%20Support/Cursor/Workspaces/1700000000000/workspace.json",
+      "recordedForm": "file-uri",
+      "path": null,
+      "resolution": "unresolved",
+      "project": null,
+      "strayReason": "unresolved-slug",
+      "relativePathInProject": null,
+      "reachability": "orphan",
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/f3eb0056c6efb562233aa653b172cb84/workspace.json"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "2026-03-29T12:00:00.000Z",
+        "last": "2026-03-29T12:00:00.000Z"
+      },
+      "refs": {
+        "workspaceStorageId": "f3eb0056c6efb562233aa653b172cb84"
+      },
+      "state": [
+        "harness-cache:<HOME>/library/application support/cursor/user/workspacestorage/f3eb0056c6efb562233aa653b172cb84"
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "id": "agent-definition:<ROOT>/project-a/.cursor/agents/agent-a.md",
+      "kind": "agent-definition",
+      "harness": "cursor",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.cursor/agents/agent-a.md",
+      "relativePath": ".cursor/agents/agent-a.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.cursor/agents/agent-a.md"
+      },
+      "format": "md",
+      "label": "agent-a",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 283,
+        "files": 1,
+        "lines": 12,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 71,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "name": "agent-a",
+      "form": "markdown",
+      "frontmatter": {
+        "name": "agent-a",
+        "description": "<redacted>",
+        "model": "inherit",
+        "readonly": false,
+        "is_background": false
+      },
+      "hooks": []
+    },
+    {
+      "id": "context-file:<HOME>/.cursor/rules/user-rule.mdc",
+      "kind": "context-file",
+      "harness": "cursor",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/rules/user-rule.mdc",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.cursor/rules/user-rule.mdc"
+      },
+      "format": "mdc",
+      "label": "~/.cursor/rules/user-rule.mdc",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 205,
+        "files": 1,
+        "lines": 9,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 52,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "rule",
+      "fileName": "user-rule.mdc",
+      "frontmatter": {
+        "description": "<redacted>",
+        "globs": null,
+        "alwaysApply": true
+      },
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<HOME>/.cursor/worktrees/project-a/abc/.cursor/rules/always.mdc",
+      "kind": "context-file",
+      "harness": "cursor",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<HOME>/.cursor/worktrees/project-a/abc/.cursor/rules/always.mdc",
+      "relativePath": "../../home/.cursor/worktrees/project-a/abc/.cursor/rules/always.mdc",
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.cursor/worktrees/project-a/abc/.cursor/rules/always.mdc"
+      },
+      "format": "mdc",
+      "label": "../../home/.cursor/worktrees/project-a/abc/.cursor/rules/always.mdc",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 1536,
+        "files": 1,
+        "lines": 53,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 400,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "rule",
+      "fileName": "always.mdc",
+      "frontmatter": {
+        "description": "<redacted>",
+        "globs": null,
+        "alwaysApply": true
+      },
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<HOME>/.cursor/worktrees/project-a/abc/agents.md",
+      "kind": "context-file",
+      "harness": null,
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<HOME>/.cursor/worktrees/project-a/abc/AGENTS.md",
+      "relativePath": "../../home/.cursor/worktrees/project-a/abc/AGENTS.md",
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.cursor/worktrees/project-a/abc/AGENTS.md"
+      },
+      "format": "md",
+      "label": "../../home/.cursor/worktrees/project-a/abc/AGENTS.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 222,
+        "files": 1,
+        "lines": 6,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 54,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "AGENTS.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/api-nestjs/agents.md",
+      "kind": "context-file",
+      "harness": null,
+      "producer": null,
+      "project": "project:<ROOT>/api-nestjs",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/API-NESTJS/AGENTS.md",
+      "relativePath": "AGENTS.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/API-NESTJS/AGENTS.md"
+      },
+      "format": "md",
+      "label": "AGENTS.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 296,
+        "files": 1,
+        "lines": 8,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 72,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "AGENTS.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/.cursor/rules/agent.mdc",
+      "kind": "context-file",
+      "harness": "cursor",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.cursor/rules/agent.mdc",
+      "relativePath": ".cursor/rules/agent.mdc",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.cursor/rules/agent.mdc"
+      },
+      "format": "mdc",
+      "label": ".cursor/rules/agent.mdc",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 18904,
+        "files": 1,
+        "lines": 239,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 3526,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "rule",
+      "fileName": "agent.mdc",
+      "frontmatter": {
+        "description": "<redacted>",
+        "globs": null,
+        "alwaysApply": false
+      },
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/.cursor/rules/always.mdc",
+      "kind": "context-file",
+      "harness": "cursor",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.cursor/rules/always.mdc",
+      "relativePath": ".cursor/rules/always.mdc",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.cursor/rules/always.mdc"
+      },
+      "format": "mdc",
+      "label": ".cursor/rules/always.mdc",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 1536,
+        "files": 1,
+        "lines": 53,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 400,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "rule",
+      "fileName": "always.mdc",
+      "frontmatter": {
+        "description": "<redacted>",
+        "globs": null,
+        "alwaysApply": true
+      },
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/.cursor/rules/scoped.mdc",
+      "kind": "context-file",
+      "harness": "cursor",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.cursor/rules/scoped.mdc",
+      "relativePath": ".cursor/rules/scoped.mdc",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.cursor/rules/scoped.mdc"
+      },
+      "format": "mdc",
+      "label": ".cursor/rules/scoped.mdc",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 2606,
+        "files": 1,
+        "lines": 72,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 623,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "rule",
+      "fileName": "scoped.mdc",
+      "frontmatter": {
+        "description": "<redacted>",
+        "globs": "<redacted>",
+        "alwaysApply": false
+      },
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/.cursor/rules/sub/manual.mdc",
+      "kind": "context-file",
+      "harness": "cursor",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.cursor/rules/sub/manual.mdc",
+      "relativePath": ".cursor/rules/sub/manual.mdc",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.cursor/rules/sub/manual.mdc"
+      },
+      "format": "mdc",
+      "label": ".cursor/rules/sub/manual.mdc",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 232,
+        "files": 1,
+        "lines": 10,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 57,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "rule",
+      "fileName": "manual.mdc",
+      "frontmatter": {
+        "description": null,
+        "globs": null,
+        "alwaysApply": false
+      },
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/.cursorrules",
+      "kind": "context-file",
+      "harness": "cursor",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.cursorrules",
+      "relativePath": ".cursorrules",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.cursorrules"
+      },
+      "format": "txt",
+      "label": ".cursorrules",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 5625,
+        "files": 1,
+        "lines": 147,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 1323,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": ".cursorrules",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/agents.md",
+      "kind": "context-file",
+      "harness": null,
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/AGENTS.md",
+      "relativePath": "AGENTS.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/AGENTS.md"
+      },
+      "format": "md",
+      "label": "AGENTS.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 1071,
+        "files": 1,
+        "lines": 24,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 240,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "AGENTS.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/packages/api/agents.md",
+      "kind": "context-file",
+      "harness": null,
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/packages/api/AGENTS.md",
+      "relativePath": "packages/api/AGENTS.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/packages/api/AGENTS.md"
+      },
+      "format": "md",
+      "label": "packages/api/AGENTS.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 222,
+        "files": 1,
+        "lines": 6,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 54,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "AGENTS.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "harness-cache:<HOME>/.cursor/ai-tracking",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/ai-tracking",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/ai-tracking"
+      },
+      "format": "dir",
+      "label": "ai-tracking",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": null,
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.cursor/browser-logs",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/browser-logs",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/browser-logs"
+      },
+      "format": "dir",
+      "label": "browser-logs",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": null,
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.cursor/extensions",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/extensions",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/extensions"
+      },
+      "format": "dir",
+      "label": "extensions",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": null,
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.cursor/mcp.json.backup",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/mcp.json.backup",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.cursor/mcp.json.backup"
+      },
+      "format": "other",
+      "label": "mcp.json.backup",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 365,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-04-28T12:00:00.000Z",
+        "ageDays": 120,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "config-backup",
+      "unit": "file",
+      "surface": null,
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 365,
+        "oldest": "2026-04-28T12:00:00.000Z",
+        "newest": "2026-04-28T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.cursor/plans",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/plans",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/plans"
+      },
+      "format": "dir",
+      "label": "plans",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 584,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-05-28T12:00:00.000Z",
+        "ageDays": 90,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "plan",
+      "unit": "dir",
+      "surface": null,
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 584,
+        "oldest": "2026-05-28T12:00:00.000Z",
+        "newest": "2026-05-28T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.cursor/projects/1700000000000",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/projects/1700000000000",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/projects/1700000000000"
+      },
+      "format": "dir",
+      "label": "1700000000000",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": null,
+      "session": null,
+      "slug": "1700000000000",
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.cursor/projects/__HOME__",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/projects/__HOME__",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/projects/__HOME__"
+      },
+      "format": "dir",
+      "label": "__HOME__",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": null,
+      "session": null,
+      "slug": "__HOME__",
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.cursor/projects/__HOME__/mcp-cache.json",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/projects/__HOME__/mcp-cache.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.cursor/projects/__HOME__/mcp-cache.json"
+      },
+      "format": "json",
+      "label": "mcp-cache.json",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 50,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "mcp-cache",
+      "unit": "file",
+      "surface": null,
+      "session": null,
+      "slug": "__HOME__",
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 50,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.cursor/projects/__ROOT__-api-nestjs",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": null,
+      "project": "project:<ROOT>/api-nestjs",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/projects/__ROOT__-api-nestjs",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/projects/__ROOT__-api-nestjs"
+      },
+      "format": "dir",
+      "label": "__ROOT__-api-nestjs",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 124,
+        "files": 2,
+        "lines": null,
+        "mtime": "2026-07-12T12:00:00.000Z",
+        "ageDays": 45,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": null,
+      "session": null,
+      "slug": "__ROOT__-api-nestjs",
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 2,
+        "bytes": 124,
+        "oldest": "2026-07-12T12:00:00.000Z",
+        "newest": "2026-07-12T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.cursor/projects/__ROOT__-api-nestjs/mcp-cache.json",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": null,
+      "project": "project:<ROOT>/api-nestjs",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/projects/__ROOT__-api-nestjs/mcp-cache.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.cursor/projects/__ROOT__-api-nestjs/mcp-cache.json"
+      },
+      "format": "json",
+      "label": "mcp-cache.json",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 96,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "mcp-cache",
+      "unit": "file",
+      "surface": null,
+      "session": null,
+      "slug": "__ROOT__-api-nestjs",
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 96,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.cursor/projects/__ROOT__-api-nestjs/mcps",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": null,
+      "project": "project:<ROOT>/api-nestjs",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/projects/__ROOT__-api-nestjs/mcps",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/projects/__ROOT__-api-nestjs/mcps"
+      },
+      "format": "dir",
+      "label": "mcps",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 285,
+        "files": 3,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "mcp-cache",
+      "unit": "dir",
+      "surface": null,
+      "session": null,
+      "slug": "__ROOT__-api-nestjs",
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 3,
+        "bytes": 285,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.cursor/projects/__ROOT__-gone",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": null,
+      "project": "project:<ROOT>/gone",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/projects/__ROOT__-gone",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/projects/__ROOT__-gone"
+      },
+      "format": "dir",
+      "label": "__ROOT__-gone",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": null,
+      "session": null,
+      "slug": "__ROOT__-gone",
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.cursor/projects/__ROOT__-project-a",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/projects/__ROOT__-project-a",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/projects/__ROOT__-project-a"
+      },
+      "format": "dir",
+      "label": "__ROOT__-project-a",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 62,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": null,
+      "session": null,
+      "slug": "__ROOT__-project-a",
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 62,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.cursor/projects/__ROOT__-project-a/mcp-cache.json",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/projects/__ROOT__-project-a/mcp-cache.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.cursor/projects/__ROOT__-project-a/mcp-cache.json"
+      },
+      "format": "json",
+      "label": "mcp-cache.json",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 49,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "mcp-cache",
+      "unit": "file",
+      "surface": null,
+      "session": null,
+      "slug": "__ROOT__-project-a",
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 49,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.cursor/worktrees/gone/xyz",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": {
+        "harness": "cursor",
+        "surface": "ide"
+      },
+      "project": "project:<ROOT>/gone",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/worktrees/gone/xyz",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/worktrees/gone/xyz"
+      },
+      "format": "dir",
+      "label": "gone/xyz",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 116,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "worktree",
+      "unit": "dir",
+      "surface": "ide",
+      "session": null,
+      "slug": null,
+      "rule": "swept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": 25,
+        "source": "cursor.worktreeMaxCount"
+      },
+      "liveGuard": {
+        "kind": "install-path",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 116,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.cursor/worktrees/project-a/abc",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": {
+        "harness": "cursor",
+        "surface": "ide"
+      },
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<HOME>/.cursor/worktrees/project-a/abc",
+      "relativePath": "../../home/.cursor/worktrees/project-a/abc",
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/worktrees/project-a/abc"
+      },
+      "format": "dir",
+      "label": "project-a/abc",
+      "sensitive": false,
+      "protection": "live",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 1879,
+        "files": 3,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "worktree",
+      "unit": "dir",
+      "surface": "ide",
+      "session": null,
+      "slug": null,
+      "rule": "swept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": 25,
+        "source": "cursor.worktreeMaxCount"
+      },
+      "liveGuard": {
+        "kind": "install-path",
+        "alive": true
+      },
+      "userContent": false,
+      "members": {
+        "files": 3,
+        "bytes": 1879,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/library/application support/cursor/user/globalstorage/state.vscdb",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": {
+        "harness": "cursor",
+        "surface": "ide"
+      },
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Cursor/User/globalStorage/state.vscdb",
+      "relativePath": null,
+      "locator": {
+        "type": "paths",
+        "paths": [
+          "<HOME>/Library/Application Support/Cursor/User/globalStorage/state.vscdb",
+          "<HOME>/Library/Application Support/Cursor/User/globalStorage/state.vscdb-wal",
+          "<HOME>/Library/Application Support/Cursor/User/globalStorage/state.vscdb-shm"
+        ]
+      },
+      "format": "sqlite",
+      "label": "state.vscdb",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 5120,
+        "files": 2,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "database",
+      "unit": "database",
+      "surface": "ide",
+      "session": null,
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 2,
+        "bytes": 5120,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/library/application support/cursor/user/globalstorage/state.vscdb.backup",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": {
+        "harness": "cursor",
+        "surface": "ide"
+      },
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Cursor/User/globalStorage/state.vscdb.backup",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/Library/Application Support/Cursor/User/globalStorage/state.vscdb.backup"
+      },
+      "format": "other",
+      "label": "state.vscdb.backup",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 5120,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "database",
+      "unit": "database",
+      "surface": "ide",
+      "session": null,
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 5120,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/library/application support/cursor/user/workspacestorage/05309d04e4b91c8adfb3415e99ef759f",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": {
+        "harness": "cursor",
+        "surface": "ide"
+      },
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/05309d04e4b91c8adfb3415e99ef759f",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/05309d04e4b91c8adfb3415e99ef759f"
+      },
+      "format": "dir",
+      "label": "05309d04",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 3180,
+        "files": 2,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "workspace",
+      "unit": "dir",
+      "surface": "ide",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 2,
+        "bytes": 3180,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/library/application support/cursor/user/workspacestorage/219eb084383dab6b0fb5790b347d7478",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": {
+        "harness": "cursor",
+        "surface": "ide"
+      },
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/219eb084383dab6b0fb5790b347d7478",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/219eb084383dab6b0fb5790b347d7478"
+      },
+      "format": "dir",
+      "label": "219eb084 · no workspace.json",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 3072,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "workspace",
+      "unit": "dir",
+      "surface": "ide",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 3072,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/library/application support/cursor/user/workspacestorage/341f0e2c389cdc09e34ae0d26eeee4b9",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": {
+        "harness": "cursor",
+        "surface": "ide"
+      },
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/341f0e2c389cdc09e34ae0d26eeee4b9",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/341f0e2c389cdc09e34ae0d26eeee4b9"
+      },
+      "format": "dir",
+      "label": "341f0e2c",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 3203,
+        "files": 2,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "workspace",
+      "unit": "dir",
+      "surface": "ide",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 2,
+        "bytes": 3203,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/library/application support/cursor/user/workspacestorage/42d0ae0d01ed151eed33107f4ae83a3a",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": {
+        "harness": "cursor",
+        "surface": "ide"
+      },
+      "project": "project:<ROOT>/gone",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/42d0ae0d01ed151eed33107f4ae83a3a",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/42d0ae0d01ed151eed33107f4ae83a3a"
+      },
+      "format": "dir",
+      "label": "42d0ae0d",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 3185,
+        "files": 2,
+        "lines": null,
+        "mtime": "2026-02-07T12:00:00.000Z",
+        "ageDays": 200,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "workspace",
+      "unit": "dir",
+      "surface": "ide",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 2,
+        "bytes": 3185,
+        "oldest": "2026-02-07T12:00:00.000Z",
+        "newest": "2026-02-07T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/library/application support/cursor/user/workspacestorage/a395ef5c679da40a8c8f31e20faabf8b",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": {
+        "harness": "cursor",
+        "surface": "ide"
+      },
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/a395ef5c679da40a8c8f31e20faabf8b",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/a395ef5c679da40a8c8f31e20faabf8b"
+      },
+      "format": "dir",
+      "label": "a395ef5c · Cursor marked this workspace deleted",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 3190,
+        "files": 2,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "workspace",
+      "unit": "dir",
+      "surface": "ide",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 2,
+        "bytes": 3190,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/library/application support/cursor/user/workspacestorage/a3b19f678ec5de0c22b6fb40f1563bcd",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": {
+        "harness": "cursor",
+        "surface": "ide"
+      },
+      "project": "project:<ROOT>/api-nestjs",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/a3b19f678ec5de0c22b6fb40f1563bcd",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/a3b19f678ec5de0c22b6fb40f1563bcd"
+      },
+      "format": "dir",
+      "label": "a3b19f67",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 3191,
+        "files": 2,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "workspace",
+      "unit": "dir",
+      "surface": "ide",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 2,
+        "bytes": 3191,
+        "oldest": "2026-05-28T12:00:00.000Z",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/library/application support/cursor/user/workspacestorage/d9fd13a22662fcf2edd0cbc8861280f1",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": {
+        "harness": "cursor",
+        "surface": "ide"
+      },
+      "project": "project:<ROOT>/api-nestjs",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/d9fd13a22662fcf2edd0cbc8861280f1",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/d9fd13a22662fcf2edd0cbc8861280f1"
+      },
+      "format": "dir",
+      "label": "d9fd13a2",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 3191,
+        "files": 2,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "workspace",
+      "unit": "dir",
+      "surface": "ide",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 2,
+        "bytes": 3191,
+        "oldest": "2026-08-16T12:00:00.000Z",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/library/application support/cursor/user/workspacestorage/f28cf89f9f4a2c3f59231335caa293dc",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": {
+        "harness": "cursor",
+        "surface": "ide"
+      },
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/f28cf89f9f4a2c3f59231335caa293dc",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/f28cf89f9f4a2c3f59231335caa293dc"
+      },
+      "format": "dir",
+      "label": "f28cf89f",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 3190,
+        "files": 2,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "workspace",
+      "unit": "dir",
+      "surface": "ide",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 2,
+        "bytes": 3190,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/library/application support/cursor/user/workspacestorage/f3eb0056c6efb562233aa653b172cb84",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": {
+        "harness": "cursor",
+        "surface": "ide"
+      },
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/f3eb0056c6efb562233aa653b172cb84",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/Library/Application Support/Cursor/User/workspaceStorage/f3eb0056c6efb562233aa653b172cb84"
+      },
+      "format": "dir",
+      "label": "f3eb0056",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 3260,
+        "files": 2,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "workspace",
+      "unit": "dir",
+      "surface": "ide",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 2,
+        "bytes": 3260,
+        "oldest": "2026-03-29T12:00:00.000Z",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/library/application support/cursor/workspaces",
+      "kind": "harness-cache",
+      "harness": "cursor",
+      "producer": {
+        "harness": "cursor",
+        "surface": "ide"
+      },
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/Library/Application Support/Cursor/Workspaces",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/Library/Application Support/Cursor/Workspaces"
+      },
+      "format": "dir",
+      "label": "Workspaces",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": "ide",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "mcp-server:<HOME>/.cursor/mcp.json#mcpServers/server-stdio",
+      "kind": "mcp-server",
+      "harness": "cursor",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/mcp.json",
+      "relativePath": null,
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.cursor/mcp.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-stdio"]
+      },
+      "format": "json",
+      "label": "server-stdio",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 103,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-stdio",
+      "transport": "stdio",
+      "command": "<redacted>",
+      "args": ["<redacted>", "<redacted>"],
+      "url": null,
+      "envKeys": ["VAR_A"],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "stdio:<redacted> <redacted> <redacted>",
+      "rawKeys": ["type", "command", "args", "env"]
+    },
+    {
+      "id": "mcp-server:<HOME>/.cursor/mcp.json#mcpServers/server-url",
+      "kind": "mcp-server",
+      "harness": "cursor",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/mcp.json",
+      "relativePath": null,
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.cursor/mcp.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-url"]
+      },
+      "format": "json",
+      "label": "server-url",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 70,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-url",
+      "transport": "http",
+      "command": null,
+      "args": [],
+      "url": "<redacted>",
+      "envKeys": [],
+      "headerKeys": ["Header-A"],
+      "secretKeys": ["Header-A"],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "http:<redacted>",
+      "rawKeys": ["type", "url", "headers"]
+    },
+    {
+      "id": "mcp-server:<ROOT>/project-a/.cursor/mcp.json#mcpServers/server-stdio",
+      "kind": "mcp-server",
+      "harness": "cursor",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.cursor/mcp.json",
+      "relativePath": ".cursor/mcp.json",
+      "locator": {
+        "type": "entry",
+        "file": "<ROOT>/project-a/.cursor/mcp.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-stdio"]
+      },
+      "format": "json",
+      "label": "server-stdio",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 59,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-stdio",
+      "transport": "stdio",
+      "command": "<redacted>",
+      "args": ["<redacted>", "<redacted>"],
+      "url": null,
+      "envKeys": [],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "unknown",
+      "invalid": null,
+      "endpointKey": "stdio:<redacted> <redacted> <redacted>",
+      "rawKeys": ["command", "args"]
+    },
+    {
+      "id": "settings-file:<HOME>/.cursor/cli-config.json",
+      "kind": "settings-file",
+      "harness": "cursor",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/cli-config.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.cursor/cli-config.json"
+      },
+      "format": "json",
+      "label": "~/.cursor/cli-config.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 174,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": ["version", "editor", "hasChangedDefaultModel", "permissions"],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.cursor/ide_state.json",
+      "kind": "settings-file",
+      "harness": "cursor",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/ide_state.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.cursor/ide_state.json"
+      },
+      "format": "json",
+      "label": "~/.cursor/ide_state.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 286,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "state",
+      "topLevelKeys": ["recentlyViewedFiles"],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.cursor/mcp.json",
+      "kind": "settings-file",
+      "harness": "cursor",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/mcp.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.cursor/mcp.json"
+      },
+      "format": "json",
+      "label": "~/.cursor/mcp.json",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 365,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "mcp-config",
+      "topLevelKeys": ["mcpServers"],
+      "entries": 2,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<ROOT>/project-a/.cursor/hooks.json",
+      "kind": "settings-file",
+      "harness": "cursor",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.cursor/hooks.json",
+      "relativePath": ".cursor/hooks.json",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.cursor/hooks.json"
+      },
+      "format": "json",
+      "label": ".cursor/hooks.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 171,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "hooks",
+      "topLevelKeys": ["version", "hooks"],
+      "entries": null,
+      "hooks": [
+        {
+          "event": "beforeShellExecution",
+          "type": "command",
+          "command": "<redacted>",
+          "matcher": null
+        }
+      ]
+    },
+    {
+      "id": "settings-file:<ROOT>/project-a/.cursor/mcp.json",
+      "kind": "settings-file",
+      "harness": "cursor",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.cursor/mcp.json",
+      "relativePath": ".cursor/mcp.json",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.cursor/mcp.json"
+      },
+      "format": "json",
+      "label": ".cursor/mcp.json",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 152,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "mcp-config",
+      "topLevelKeys": ["mcpServers"],
+      "entries": 1,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<ROOT>/project-a/.cursor/worktrees.json",
+      "kind": "settings-file",
+      "harness": "cursor",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.cursor/worktrees.json",
+      "relativePath": ".cursor/worktrees.json",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.cursor/worktrees.json"
+      },
+      "format": "json",
+      "label": ".cursor/worktrees.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 37,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": ["setup-worktree"],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "skill:<HOME>/.agents/skills/find-skills",
+      "kind": "skill",
+      "harness": null,
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.agents/skills/find-skills",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.agents/skills/find-skills"
+      },
+      "format": "dir",
+      "label": "find-skills",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 725,
+        "files": 1,
+        "lines": 22,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 176,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "find-skills",
+      "dirName": "find-skills",
+      "frontmatterName": "find-skills",
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<HOME>/.agents/skills/find-skills",
+          "harness": null,
+          "surface": null,
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        },
+        {
+          "path": "<HOME>/.cursor/skills/find-skills",
+          "harness": "cursor",
+          "surface": null,
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": true,
+          "linkTarget": "../../.agents/skills/find-skills",
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "find-skills",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "e7bd27c9f3787f55f85fb16d70905f79c0579fa5e9ef7f2aaf3fae3607431486"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.cursor/skills-cursor/create-rule",
+      "kind": "skill",
+      "harness": "cursor",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/skills-cursor/create-rule",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/skills-cursor/create-rule"
+      },
+      "format": "dir",
+      "label": "create-rule",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 581,
+        "files": 1,
+        "lines": 16,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 133,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "create-rule",
+      "dirName": "create-rule",
+      "frontmatterName": "create-rule",
+      "layout": "bundled",
+      "placements": [
+        {
+          "path": "<HOME>/.cursor/skills-cursor/create-rule",
+          "harness": "cursor",
+          "surface": null,
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "create-rule",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "c3be75342049af5e658925c4125c68ceab96bfc32bb451eb491f2206ea3763e4"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.cursor/skills-cursor/migrate-to-skills",
+      "kind": "skill",
+      "harness": "cursor",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/skills-cursor/migrate-to-skills",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/skills-cursor/migrate-to-skills"
+      },
+      "format": "dir",
+      "label": "migrate-to-skills",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 497,
+        "files": 1,
+        "lines": 14,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 115,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "migrate-to-skills",
+      "dirName": "migrate-to-skills",
+      "frontmatterName": "migrate-to-skills",
+      "layout": "bundled",
+      "placements": [
+        {
+          "path": "<HOME>/.cursor/skills-cursor/migrate-to-skills",
+          "harness": "cursor",
+          "surface": null,
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "migrate-to-skills",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "296b3016fe762f859c30470f5670802195737a622ad522a5e29d688c156f10ad"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.cursor/skills/web-design-guidelines",
+      "kind": "skill",
+      "harness": "cursor",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cursor/skills/web-design-guidelines",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cursor/skills/web-design-guidelines"
+      },
+      "format": "dir",
+      "label": "web-design-guidelines",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 1343,
+        "files": 1,
+        "lines": 38,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 321,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "web-design-guidelines",
+      "dirName": "web-design-guidelines",
+      "frontmatterName": "web-design-guidelines",
+      "layout": "copy",
+      "placements": [
+        {
+          "path": "<HOME>/.cursor/skills/web-design-guidelines",
+          "harness": "cursor",
+          "surface": null,
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "web-design-guidelines",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "4cc730802c5a6ea793440ff0866421e2f40d56900b7761cdaaccf11608924f5e"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<ROOT>/project-a/.cursor/commands/command-a.md",
+      "kind": "skill",
+      "harness": "cursor",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.cursor/commands/command-a.md",
+      "relativePath": ".cursor/commands/command-a.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.cursor/commands/command-a.md"
+      },
+      "format": "md",
+      "label": "command-a",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 120,
+        "files": 1,
+        "lines": 4,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 32,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "command-file",
+      "name": "command-a",
+      "dirName": "command-a",
+      "frontmatterName": null,
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<ROOT>/project-a/.cursor/commands/command-a.md",
+          "harness": "cursor",
+          "surface": null,
+          "scope": "project",
+          "project": "project:<ROOT>/project-a",
+          "gitStatus": null,
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {},
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "ccd6def7a7d95726531ba4ec3b3ef764abb840c18bc48c040212292d19ddbb2c"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<ROOT>/project-a/.cursor/skills/skill-a",
+      "kind": "skill",
+      "harness": "cursor",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.cursor/skills/skill-a",
+      "relativePath": ".cursor/skills/skill-a",
+      "locator": {
+        "type": "dir",
+        "path": "<ROOT>/project-a/.cursor/skills/skill-a"
+      },
+      "format": "dir",
+      "label": "skill-a",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 417,
+        "files": 1,
+        "lines": 14,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 103,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-a",
+      "dirName": "skill-a",
+      "frontmatterName": "skill-a",
+      "layout": "copy",
+      "placements": [
+        {
+          "path": "<ROOT>/project-a/.cursor/skills/skill-a",
+          "harness": "cursor",
+          "surface": null,
+          "scope": "project",
+          "project": "project:<ROOT>/project-a",
+          "gitStatus": null,
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "skill-a",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "2d19caa77f36472d04c3f5ab50f96dcfd39fa421d71ea8b909cd425e0a0ee987"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge:duplicates:mcp-server:<HOME>/.cursor/mcp.json#mcpServers/server-stdio:mcp-server:<ROOT>/project-a/.cursor/mcp.json#mcpServers/server-stdio",
+      "kind": "duplicates",
+      "from": "mcp-server:<HOME>/.cursor/mcp.json#mcpServers/server-stdio",
+      "to": "mcp-server:<ROOT>/project-a/.cursor/mcp.json#mcpServers/server-stdio",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "stdio:<redacted> <redacted> <redacted>"
+        }
+      ],
+      "same": "endpoint"
+    },
+    {
+      "id": "edge:loaded-by:agent-definition:<ROOT>/project-a/.cursor/agents/agent-a.md:harness:cursor:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "agent-definition:<ROOT>/project-a/.cursor/agents/agent-a.md",
+      "to": "harness:cursor",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "agent descriptions are listed so Cursor can delegate"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "on-demand",
+      "reason": "spawned on demand; no documented session cost",
+      "placement": "<ROOT>/project-a/.cursor/agents/agent-a.md",
+      "effectiveName": "agent-a",
+      "order": null,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<HOME>/.cursor/rules/user-rule.mdc:harness:cursor",
+      "kind": "loaded-by",
+      "from": "context-file:<HOME>/.cursor/rules/user-rule.mdc",
+      "to": "harness:cursor",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "alwaysApply: true — injected in every chat"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "alwaysApply: true — injected in every chat",
+      "placement": "<HOME>/.cursor/rules/user-rule.mdc",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 148,
+      "importsResolved": null,
+      "tokensLoaded": 36,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<HOME>/.cursor/worktrees/project-a/abc/.cursor/rules/always.mdc:harness:cursor:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<HOME>/.cursor/worktrees/project-a/abc/.cursor/rules/always.mdc",
+      "to": "harness:cursor",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "in linked worktree abc: loaded by sessions started there"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "in linked worktree abc: loaded by sessions started there",
+      "placement": "<HOME>/.cursor/worktrees/project-a/abc/.cursor/rules/always.mdc",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 1479,
+      "importsResolved": null,
+      "tokensLoaded": 384,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<HOME>/.cursor/worktrees/project-a/abc/agents.md:harness:cursor:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<HOME>/.cursor/worktrees/project-a/abc/agents.md",
+      "to": "harness:cursor",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "in linked worktree abc: loaded by sessions started there"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "in linked worktree abc: loaded by sessions started there",
+      "placement": "<HOME>/.cursor/worktrees/project-a/abc/AGENTS.md",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 222,
+      "importsResolved": null,
+      "tokensLoaded": 54,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/api-nestjs/agents.md:harness:cursor:project:<ROOT>/api-nestjs",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/api-nestjs/agents.md",
+      "to": "harness:cursor",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "AGENTS.md of the repository root: always applied"
+        }
+      ],
+      "project": "project:<ROOT>/api-nestjs",
+      "mode": "full",
+      "reason": "AGENTS.md of the repository root: always applied",
+      "placement": "<ROOT>/API-NESTJS/AGENTS.md",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 296,
+      "importsResolved": null,
+      "tokensLoaded": 72,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/.cursor/rules/agent.mdc:harness:cursor:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/.cursor/rules/agent.mdc",
+      "to": "harness:cursor",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "description-only rule: the model pulls it in when relevant"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "description-only",
+      "reason": "description-only rule: the model pulls it in when relevant",
+      "placement": "<ROOT>/project-a/.cursor/rules/agent.mdc",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/.cursor/rules/always.mdc:harness:cursor:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/.cursor/rules/always.mdc",
+      "to": "harness:cursor",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "alwaysApply: true — injected in every chat"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "alwaysApply: true — injected in every chat",
+      "placement": "<ROOT>/project-a/.cursor/rules/always.mdc",
+      "effectiveName": null,
+      "order": 1,
+      "charsLoaded": 1479,
+      "importsResolved": null,
+      "tokensLoaded": 384,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/.cursor/rules/scoped.mdc:harness:cursor:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/.cursor/rules/scoped.mdc",
+      "to": "harness:cursor",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "globs-scoped rule: attached when matching files are in context"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "on-demand",
+      "reason": "globs-scoped rule: attached when matching files are in context",
+      "placement": "<ROOT>/project-a/.cursor/rules/scoped.mdc",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 0,
+      "importsResolved": null,
+      "tokensLoaded": 0,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/.cursor/rules/sub/manual.mdc:harness:cursor:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/.cursor/rules/sub/manual.mdc",
+      "to": "harness:cursor",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "manual rule: @-mentioned by the user"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "manual",
+      "reason": "manual rule: @-mentioned by the user",
+      "placement": "<ROOT>/project-a/.cursor/rules/sub/manual.mdc",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 0,
+      "importsResolved": null,
+      "tokensLoaded": 0,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/.cursorrules:harness:cursor:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/.cursorrules",
+      "to": "harness:cursor",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "legacy .cursorrules: documented as still read, deprecated"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "legacy .cursorrules: documented as still read, deprecated",
+      "placement": "<ROOT>/project-a/.cursorrules",
+      "effectiveName": null,
+      "order": 2,
+      "charsLoaded": 5625,
+      "importsResolved": null,
+      "tokensLoaded": 1323,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/agents.md:harness:cursor:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/agents.md",
+      "to": "harness:cursor",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "AGENTS.md of the repository root: always applied"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "AGENTS.md of the repository root: always applied",
+      "placement": "<ROOT>/project-a/AGENTS.md",
+      "effectiveName": null,
+      "order": 3,
+      "charsLoaded": 1071,
+      "importsResolved": null,
+      "tokensLoaded": 240,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/packages/api/agents.md:harness:cursor:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/packages/api/agents.md",
+      "to": "harness:cursor",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "nested AGENTS.md: applies when working in that subtree"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "on-demand",
+      "reason": "nested AGENTS.md: applies when working in that subtree",
+      "placement": "<ROOT>/project-a/packages/api/AGENTS.md",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 0,
+      "importsResolved": null,
+      "tokensLoaded": 0,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<HOME>/.cursor/mcp.json#mcpServers/server-stdio:harness:cursor",
+      "kind": "loaded-by",
+      "from": "mcp-server:<HOME>/.cursor/mcp.json#mcpServers/server-stdio",
+      "to": "harness:cursor",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "user scope: available in every workspace"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "user scope: available in every workspace",
+      "placement": null,
+      "effectiveName": "server-stdio",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<HOME>/.cursor/mcp.json#mcpServers/server-url:harness:cursor",
+      "kind": "loaded-by",
+      "from": "mcp-server:<HOME>/.cursor/mcp.json#mcpServers/server-url",
+      "to": "harness:cursor",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "user scope: available in every workspace"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "user scope: available in every workspace",
+      "placement": null,
+      "effectiveName": "server-url",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.cursor/mcp.json#mcpServers/server-stdio:harness:cursor:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "mcp-server:<ROOT>/project-a/.cursor/mcp.json#mcpServers/server-stdio",
+      "to": "harness:cursor",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "project scope: approval recorded in state.vscdb, which moldig never opens"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "unknown",
+      "reason": "project scope: approval recorded in state.vscdb, which moldig never opens",
+      "placement": null,
+      "effectiveName": "server-stdio",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.agents/skills/find-skills:harness:cursor",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.agents/skills/find-skills",
+      "to": "harness:cursor",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "user skill: description listed, body on demand"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "user skill: description listed, body on demand",
+      "placement": "<HOME>/.cursor/skills/find-skills",
+      "effectiveName": "/find-skills",
+      "order": 1,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": false,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.cursor/skills-cursor/create-rule:harness:cursor",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.cursor/skills-cursor/create-rule",
+      "to": "harness:cursor",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "bundled skill: description listed, body on demand"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "bundled skill: description listed, body on demand",
+      "placement": "<HOME>/.cursor/skills-cursor/create-rule",
+      "effectiveName": "/create-rule",
+      "order": 3,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": false,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.cursor/skills-cursor/migrate-to-skills:harness:cursor",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.cursor/skills-cursor/migrate-to-skills",
+      "to": "harness:cursor",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "bundled skill: description listed, body on demand"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "bundled skill: description listed, body on demand",
+      "placement": "<HOME>/.cursor/skills-cursor/migrate-to-skills",
+      "effectiveName": "/migrate-to-skills",
+      "order": 4,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": false,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.cursor/skills/web-design-guidelines:harness:cursor",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.cursor/skills/web-design-guidelines",
+      "to": "harness:cursor",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "user skill: description listed, body on demand"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "user skill: description listed, body on demand",
+      "placement": "<HOME>/.cursor/skills/web-design-guidelines",
+      "effectiveName": "/web-design-guidelines",
+      "order": 2,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": false,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<ROOT>/project-a/.cursor/commands/command-a.md:harness:cursor:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "skill:<ROOT>/project-a/.cursor/commands/command-a.md",
+      "to": "harness:cursor",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "command file: listed as /command-a"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "description-only",
+      "reason": "command file: listed as /command-a",
+      "placement": "<ROOT>/project-a/.cursor/commands/command-a.md",
+      "effectiveName": "/command-a",
+      "order": 5,
+      "charsLoaded": 119,
+      "importsResolved": null,
+      "tokensLoaded": 31,
+      "disableModelInvocation": false,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<ROOT>/project-a/.cursor/skills/skill-a:harness:cursor:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "skill:<ROOT>/project-a/.cursor/skills/skill-a",
+      "to": "harness:cursor",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "project skill: description listed, body on demand"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "description-only",
+      "reason": "project skill: description listed, body on demand",
+      "placement": "<ROOT>/project-a/.cursor/skills/skill-a",
+      "effectiveName": "/skill-a",
+      "order": 4,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": false,
+      "countsTowardHeadline": true
+    }
+  ],
+  "warnings": [
+    {
+      "code": "git-missing",
+      "message": "git not run (git: false): git-tracked status unknown",
+      "harness": null,
+      "path": null,
+      "effect": "degraded"
+    }
+  ],
+  "totals": {
+    "entities": 55,
+    "files": 59,
+    "bytes": 80350,
+    "harnessCacheBytes": 42512,
+    "memoryBytes": 0,
+    "tokens": 7752
+  },
+  "findings": [
+    {
+      "id": "finding:duplicate:mcp-server:<HOME>/.cursor/mcp.json#mcpServers/server-stdio",
+      "category": "duplicate",
+      "severity": "low",
+      "container": "harness:cursor",
+      "targets": [
+        {
+          "id": "mcp-server:<HOME>/.cursor/mcp.json#mcpServers/server-stdio",
+          "role": "subject"
+        },
+        {
+          "id": "mcp-server:<ROOT>/project-a/.cursor/mcp.json#mcpServers/server-stdio",
+          "role": "counterpart"
+        }
+      ],
+      "message": "MCP server server-stdio is configured 2 times with the same endpoint (user scope, project scope of project-a)",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "stdio:<redacted> <redacted> <redacted>"
+        }
+      ],
+      "confidence": "high",
+      "impact": {
+        "bytes": 59,
+        "tokens": null,
+        "files": 0
+      },
+      "flags": ["sensitive"],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": {
+          "type": "entry",
+          "file": "<HOME>/.cursor/mcp.json",
+          "format": "json",
+          "keyPath": ["mcpServers", "server-stdio"]
+        }
+      }
+    },
+    {
+      "id": "finding:harness-cache:harness:cursor:config-backup",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "harness:cursor",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.cursor/mcp.json.backup",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 config backup (365 B) Cursor documents no sweep for",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "no documented sweep"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 365,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": ["sensitive"],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:harness-cache:project:<ROOT>/gone:worktree",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "project:<ROOT>/gone",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.cursor/worktrees/gone/xyz",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 worktree (116 B); Cursor keeps the 25 newest",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "cursor.worktreeMaxCount keeps 25"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 116,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": [],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:orphan:project:<ROOT>/gone",
+      "category": "orphan",
+      "severity": "medium",
+      "container": "project:<ROOT>/gone",
+      "targets": [
+        {
+          "id": "breadcrumb:cursor:<HOME>/.cursor/projects/__ROOT__-gone",
+          "role": "breadcrumb"
+        },
+        {
+          "id": "breadcrumb:cursor:<HOME>/.cursor/worktrees/gone/xyz",
+          "role": "breadcrumb"
+        },
+        {
+          "id": "breadcrumb:cursor:<HOME>/library/application support/cursor/user/workspacestorage/42d0ae0d01ed151eed33107f4ae83a3a/workspace.json",
+          "role": "breadcrumb"
+        },
+        {
+          "id": "harness-cache:<HOME>/.cursor/worktrees/gone/xyz",
+          "role": "state",
+          "preselect": false
+        }
+      ],
+      "message": "gone: directory gone; 3 breadcrumbs, 1 harness cache unit left behind by Cursor",
+      "evidence": [
+        {
+          "kind": "path-missing",
+          "detail": "<ROOT>/gone"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 116,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": [],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    }
+  ],
+  "headline": {
+    "scope": "user-controllable",
+    "focus": {
+      "project": "project:<ROOT>/project-a",
+      "reason": "cwd"
+    },
+    "perHarness": [
+      {
+        "harness": "cursor",
+        "modelFamily": null,
+        "contextWindowTokens": null,
+        "baseline": {
+          "low": 52,
+          "mid": 52,
+          "high": 52
+        },
+        "project": {
+          "low": 1982,
+          "mid": 1982,
+          "high": 1982
+        },
+        "total": {
+          "low": 2034,
+          "mid": 2034,
+          "high": 2034
+        },
+        "pctOfContext": null
+      }
+    ]
+  }
+}

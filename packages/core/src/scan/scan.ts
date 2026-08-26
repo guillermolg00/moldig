@@ -13,6 +13,7 @@ import { fileURLToPath } from "node:url";
 import { createClaudeCodeAdapter } from "../adapters/claude-code/index.js";
 import { createCodexAdapter } from "../adapters/codex/index.js";
 import { createCopilotAdapter } from "../adapters/copilot/index.js";
+import { createCursorAdapter } from "../adapters/cursor/index.js";
 import { createGeminiCliAdapter } from "../adapters/gemini-cli/index.js";
 import { createOpenCodeAdapter } from "../adapters/opencode/index.js";
 import { createSharedAdapter, withSharedSkillFacts } from "../adapters/shared/index.js";
@@ -71,6 +72,7 @@ const ADAPTERS: Record<string, () => Adapter> = {
   "gemini-cli": createGeminiCliAdapter,
   codex: createCodexAdapter,
   copilot: createCopilotAdapter,
+  cursor: createCursorAdapter,
   opencode: createOpenCodeAdapter,
 };
 

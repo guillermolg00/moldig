@@ -51,7 +51,9 @@ or synthetic.
 - `plans/plan_a_00000000.plan.md` — frontmatter keys `name, overview, todos[{id,content,status,dependencies}]`,
   synthetic; plans carry no path.
 - `skills-cursor/{create-rule,migrate-to-skills}/SKILL.md` — Cursor's built-in generator skills
-  (public names, filler bodies).
+  (public names, filler bodies). The real machine ships five —
+  `{create-rule,create-skill,create-subagent,migrate-to-skills,update-cursor-settings}` — and the
+  fixture keeps two of them: the tier is what the case exercises, not its size.
 - `skills/web-design-guidelines/` — a real directory (older Vercel-skills generation) next to
   `skills/find-skills`, a symlink into `home/.agents/skills/` declared in `fixture.json`.
 - `projects/<slug>/` — see the slug rule below. Layouts mirror what `ls` showed on this machine,
