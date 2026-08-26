@@ -11,7 +11,7 @@
  * The TUI never classifies volumes. Whether a target sits on a network, read-only or
  * unclassifiable volume is the actions engine's call, injected here as `Refusal`.
  */
-import type { AuditIndex, Entity, Flag } from "@moldig/core";
+import type { AuditIndex, Badge as CoreBadge, Entity, Flag } from "@moldig/core";
 
 export type ActionKind = "clean" | "delete" | "update" | "open";
 export const ACTION_ORDER: readonly ActionKind[] = ["clean", "delete", "update", "open"];
@@ -34,7 +34,8 @@ export type Badge =
   | "invalid"
   | "shadowed"
   | "kept"
-  | "size only";
+  | "size only"
+  | "locally modified";
 
 export interface Disposition {
   readonly kind: "trash" | "backup-edit" | "delegate" | "refused" | "update" | "open" | "none";
@@ -45,14 +46,17 @@ export interface Disposition {
 }
 
 /**
- * The actions engine's per-entity verdict on the volume the target sits on: the reason string
- * (`"network volume"`) or `null`. Ticket 24 owns the real one; until then nothing is refused.
+ * The actions engine's per-entity verdict on the volume the target sits on: D89's verbatim
+ * reason (`"network volume — no trash available"`) or `null`. `refusalFor` is the real one.
  */
 export type Refusal = (entity: Entity) => string | null;
 export const noRefusal: Refusal = () => null;
 
-/** Commands whose harness offers no recovery (08 §3): flagged permanent, confirmed separately. */
-const PERMANENT_COMMANDS: readonly RegExp[] = [/^opencode session delete/u, /^codex mcp remove/u];
+/**
+ * D60: `opencode session delete` is the only command whose harness offers no way back. A
+ * `codex mcp remove` is preceded by a backup of `config.toml`, so it is recoverable.
+ */
+const PERMANENT_COMMANDS: readonly RegExp[] = [/^opencode session delete/u];
 
 export function isPermanentCommand(command: string): boolean {
   return PERMANENT_COMMANDS.some((pattern) => pattern.test(command));
@@ -61,11 +65,12 @@ export function isPermanentCommand(command: string): boolean {
 export function dispositionOf(entity: Entity, refusal: Refusal = noRefusal): Disposition {
   const refused = refusal(entity);
   if (refused !== null) {
+    // The row reads `refused: network volume`; the detail keeps D89's whole sentence.
     return {
       kind: "refused",
-      text: `refused: ${refused}`,
+      text: `refused: ${refused.split(" — ")[0] ?? refused}`,
       permanent: false,
-      reason: `${refused} — no trash available`,
+      reason: refused,
     };
   }
   switch (entity.removal.method) {
@@ -203,6 +208,54 @@ export function badgesOf(entity: Entity, refusal: Refusal = noRefusal): Badge[] 
   if (isSizeOnly(entity)) badges.push("size only");
   if (entity.sensitive && !badges.includes("secret")) badges.push("sensitive");
   return badges;
+}
+
+/** Display order of the badges a row carries, fixed by 08 §2 and shared by every screen. */
+const BADGE_ORDER: readonly Badge[] = [
+  "shared",
+  "live",
+  "user content",
+  "kept",
+  "never read",
+  "dangling",
+  "invalid",
+  "secret",
+  "permanent",
+  "size only",
+  "sensitive",
+  "locally modified",
+  "shadowed",
+];
+
+/** The run manifest's own badge union (D114) as the words the screens print. */
+const CORE_BADGE: Readonly<Record<CoreBadge, Badge>> = {
+  permanent: "permanent",
+  "never-read": "never read",
+  "locally-modified": "locally modified",
+  dangling: "dangling",
+  kept: "kept",
+  "size-only": "size only",
+  invalid: "invalid",
+  secret: "secret",
+};
+
+/**
+ * The badges of a planned or applied row: index v0's Flags and the manifest's own badges, in
+ * one list, in display order. A Plan row and a manifest row both carry the two fields.
+ */
+export function badgesOfRow(row: {
+  readonly flags: readonly Flag[];
+  readonly badges: readonly CoreBadge[];
+}): Badge[] {
+  const found = new Set<Badge>();
+  for (const flag of row.flags) {
+    const badge = flagBadge(flag);
+    if (badge !== null) found.add(badge);
+  }
+  for (const badge of row.badges) found.add(CORE_BADGE[badge]);
+  // A secret is never announced twice as `sensitive` (`badgesOf` keeps the same rule).
+  if (found.has("secret")) found.delete("sensitive");
+  return BADGE_ORDER.filter((badge) => found.has(badge));
 }
 
 export function flagBadge(flag: Flag): Badge | null {

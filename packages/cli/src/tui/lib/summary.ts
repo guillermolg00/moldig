@@ -2,24 +2,37 @@
  * The shareable summary: what moldig writes on the primary screen once the alternate screen is
  * gone, so the last thing in the scrollback is screenshot-able (08 §4 wording).
  *
- * Plain text, no ANSI, every line ending in `\n`, paths `~`-shortened. Numbers come from the
- * CLI's own `../format.js` — the same helpers `report.ts` prints `moldig audit` with — so the
- * summary and the report say a count the same way; the screens above keep the compact forms.
+ * Plain text, no ANSI, every line ending in `\n`, paths `~`-shortened. The preview's numbers
+ * come from the CLI's own `../format.js` — the same helpers `report.ts` prints `moldig audit`
+ * with — and a finished run's from the engine's `summaryLines`, so the Result screen, this text
+ * and an unattended `clean` all say the same thing (08 §4).
  */
-import type { AuditIndex } from "@moldig/core";
+import { summaryLines, type AuditIndex, type RunManifest } from "@moldig/core";
 import { formatBytes, formatRange, formatTokens, plural } from "../../format.js";
 import { shortPath } from "./format.js";
-import { type RunResult, appliedBytes, runTotals } from "./runner.js";
 import { type ActionKind, groupSelection, type Refusal, noRefusal } from "./selection.js";
 
 export interface SummaryInput {
   readonly index: AuditIndex;
   readonly marks: ReadonlyMap<string, ActionKind>;
-  readonly run: RunResult | null;
+  readonly run: RunManifest | null;
   readonly home: string;
   readonly platform: string;
   readonly refusal?: Refusal;
 }
+
+/** `claude-code` and `harness:claude-code` alike answer `Claude Code` (08 §4 wording). */
+export function harnessNames(index: AuditIndex): Record<string, string> {
+  const names: Record<string, string> = {};
+  for (const harness of index.harnesses) {
+    names[harness.id] = harness.displayName;
+    names[harness.id.replace(/^harness:/u, "")] = harness.displayName;
+  }
+  return names;
+}
+
+/** The two lines of `summaryLines` that carry a path are `~`-shortened here (09 §8). */
+const PATH_LINE = /^(Manifest|Backup): (.+)$/u;
 
 export function harnessName(index: AuditIndex, harnessId: string): string {
   return index.harnesses.find((harness) => harness.id === harnessId)?.displayName ?? harnessId;
@@ -79,23 +92,15 @@ export function summaryText(input: SummaryInput): string {
     return `${lines.join("\n")}\n`;
   }
 
-  const totals = runTotals(run.groups);
-  lines.push(
-    `Freed ${formatBytes(totals.freedBytes)} · tokens/session freed: ${tokensLine(index, totals.tokens)}`,
-  );
-  lines.push(
-    `Rows: ${totals.counts.moved} moved · ${totals.counts.edited} edited · ${totals.counts.delegated} delegated · ${totals.counts.refused} refused · ${totals.counts.failed} failed`,
-  );
-  for (const group of run.groups) {
+  // After a run the numbers come from the engine's own summary (08 §4), so the shareable text,
+  // the Result screen and an unattended run all say the same thing.
+  for (const line of summaryLines(run, { harnessNames: harnessNames(index) })) {
+    const match = PATH_LINE.exec(line);
     lines.push(
-      group.skipped
-        ? `  ${group.title}: skipped`
-        : `  ${group.title}: ${plural(group.rows.length, "row")} · ${formatBytes(appliedBytes(group))}`,
+      match === null
+        ? line
+        : `${match[1]}: ${shortPath(match[2] ?? "", input.home, input.platform)}`,
     );
-  }
-  lines.push(`Manifest: ${shortPath(run.manifestPath, input.home, input.platform)}`);
-  for (const backup of totals.backups) {
-    lines.push(`Backup: ${shortPath(backup, input.home, input.platform)}`);
   }
   return `${lines.join("\n")}\n`;
 }

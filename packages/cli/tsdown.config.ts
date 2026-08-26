@@ -28,7 +28,13 @@ const config: UserConfig = defineConfig({
   publint: true,
   failOnWarn: true,
   inputOptions: {
-    resolve: { conditionNames: ["@moldig/source", "import", "node", "default"] },
+    resolve: {
+      conditionNames: ["@moldig/source", "import", "node", "default"],
+      // `jsonc-parser` (the actions engine's editor) ships no `exports` map: its `main` is a
+      // UMD file whose `require("./impl/format")` cannot be bundled, so the ESM `module` build
+      // has to win. Every dependency with an `exports` map is unaffected.
+      mainFields: ["module", "main"],
+    },
   },
 });
 

@@ -21,6 +21,7 @@ const BADGE_COLOR: Readonly<Record<Badge, string>> = {
   shadowed: "gray",
   kept: "gray",
   "size only": "gray",
+  "locally modified": "yellow",
 };
 
 export function Badges({ badges }: { readonly badges: readonly Badge[] }): ReactElement | null {

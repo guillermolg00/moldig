@@ -6,7 +6,7 @@
  * Nothing here touches the filesystem except the editor hand-off `o` asks for; the index arrives
  * finished and the actions engine is injected as a `Runner`.
  */
-import type { AuditIndex } from "@moldig/core";
+import type { AuditIndex, RunManifest } from "@moldig/core";
 import { Box, Text, useApp } from "ink";
 import { type ReactElement, useEffect, useMemo, useState } from "react";
 import { GraphScreen, graphHelp } from "./graph/GraphScreen.js";
@@ -14,7 +14,7 @@ import { shortPath } from "./lib/format.js";
 import { fileUrl, osc8, type Env } from "./lib/hyperlink.js";
 import { useKeys } from "./lib/keys.js";
 import { openWith, resolveOpener } from "./lib/open.js";
-import { stubRunner, type RunResult, type Runner } from "./lib/runner.js";
+import type { Runner } from "./lib/runner.js";
 import { initialMarks, type ActionKind, type Refusal } from "./lib/selection.js";
 import { StoreContext, type Route, type Store } from "./lib/store.js";
 import { summaryText } from "./lib/summary.js";
@@ -35,19 +35,19 @@ export interface AppProps {
   readonly hostname: string;
   readonly interactive: boolean;
   readonly linksSupported: boolean;
-  readonly runner?: Runner;
+  readonly runner: Runner;
   readonly initialRoute?: Route;
   readonly initialMarks?: ReadonlyMap<string, ActionKind>;
   /** Called with the summary on every state change, so the caller always holds the latest. */
   readonly onSummary?: (text: string) => void;
   /** Called once a run lands, so the caller can pick the exit code (D17). */
-  readonly onRun?: (run: RunResult) => void;
+  readonly onRun?: (run: RunManifest) => void;
 }
 
 export function App(props: AppProps): ReactElement {
   const { index, env, platform, hostname, interactive, linksSupported } = props;
   const { exit, suspendTerminal } = useApp();
-  const runner = props.runner ?? stubRunner;
+  const { runner } = props;
   const refusal = useMemo<Refusal>(() => (entity) => runner.refusal(entity), [runner]);
   const [stack, setStack] = useState<Route[]>(() => [
     props.initialRoute ?? (interactive ? { screen: "scan" } : { screen: "overview" }),
@@ -57,7 +57,7 @@ export function App(props: AppProps): ReactElement {
   );
   const [expanded, setExpandedSet] = useState<ReadonlySet<string>>(() => new Set());
   const [showSettings, setShowSettings] = useState(false);
-  const [run, setRun] = useState<RunResult | null>(null);
+  const [run, setRun] = useState<RunManifest | null>(null);
   const [status, setStatus] = useState<string | null>(null);
   const [helpOpen, setHelpOpen] = useState(false);
   const [filterEditing, setFilterEditing] = useState(false);

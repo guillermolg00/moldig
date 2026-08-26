@@ -18,11 +18,10 @@ npx moldig clean      # remove the harness-owned items you select
 
 Requires Node.js 22.18 or newer. macOS, Linux and Windows.
 
-> **Status at this version.** The six adapters, `scan`, `audit` and the interactive experience
-> are here. `clean` opens the selection panel in a terminal and refuses an unattended run
-> without `--yes` and a filter, but it removes nothing yet: the actions engine is wired in a
-> later version. moldig always names the harnesses it read and never claims to have removed
-> anything it did not.
+> **Status at this version.** All six adapters, `scan`, `audit`, the interactive experience and
+> `clean` are here — the selection panel, the per-group confirmation and the unattended run
+> included. moldig always names the harnesses it read and never claims to have removed anything
+> it did not.
 
 ## Install
 
@@ -161,9 +160,11 @@ npx moldig audit --fail-on high    # fails the build on, say, a secret in a git-
 
 ### `moldig clean [roots…]`
 
-Scan, then remove the harness-owned items you select. In a terminal it opens the selection
-panel directly. Unattended it needs **both** `--yes` and a filter, so a scheduled run can never
-remove more than it was told to; without them it prints why and exits 2.
+Scan, then remove the harness-owned items you select. In a terminal it opens the selection panel:
+the groups clean, delete, update and open, each confirmed and run on its own, then the result and
+a shareable summary. Unattended it needs **both** `--yes` and a filter, so a scheduled run can
+never remove more than it was told to, and it only ever reaches what the audit preselected;
+without them it prints why and exits 2.
 
 | Flag | |
 |---|---|
@@ -171,7 +172,13 @@ remove more than it was told to; without them it prints why and exits 2.
 | `--category harness-cache` | the only category an unattended clean reaches in v1 |
 | `--older-than <days>` | keep only units older than this |
 | `--harness <id>` | keep only units of these harnesses |
-| `--dry-run` | print the plan and stop; nothing is moved, no manifest and no backup is written |
+| `--dry-run` | print the plan and stop; nothing is moved, and no manifest and no backup are written |
+
+```sh
+npx moldig clean --dry-run                          # what a run would do, and nothing else
+npx moldig clean --yes --older-than 60              # unattended, and never more than it was told
+npx moldig clean --dry-run --json | jq .rows        # the plan as the run-manifest document
+```
 
 An unattended clean can only ever narrow what the audit preselected: harness cache the harness
 itself documents as safe to sweep, past that harness's own retention, with no live session on

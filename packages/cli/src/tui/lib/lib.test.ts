@@ -7,7 +7,7 @@ import { describe, expect, it } from "vitest";
 import { formatAge, formatBytes, formatMb, formatTokens, shortPath, truncate } from "./format.js";
 import { clickHint, fileUrl, osc8, supportsHyperlinks } from "./hyperlink.js";
 import { resolveOpener } from "./open.js";
-import { backupDirFor, manifestPathFor, newRunId, type RunContext } from "./runner.js";
+import { backupDirFor, dataDirFor, manifestPathFor, runIdFor } from "@moldig/core";
 import {
   allowed,
   badgesOf,
@@ -68,7 +68,8 @@ function cacheUnit(overrides: Partial<HarnessCache> = {}): HarnessCache {
   };
 }
 
-const onNetwork = (): string => "network volume";
+/** What the Runner answers for a path on a share: D89's reason, verbatim. */
+const onNetwork = (): string => "network volume — no trash available";
 
 describe("dispositions", () => {
   it("names the method ticket 08 §4 fixes", () => {
@@ -90,7 +91,8 @@ describe("dispositions", () => {
       removal: { method: "delegate", command: "claude plugin uninstall a@b" },
     });
     expect(dispositionOf(recoverable).text).toBe("→ claude plugin uninstall a@b");
-    expect(isPermanentCommand("codex mcp remove x")).toBe(true);
+    // D60: `codex mcp remove` is preceded by a backup of `config.toml`, so it is recoverable.
+    expect(isPermanentCommand("codex mcp remove x")).toBe(false);
     expect(isPermanentCommand("claude mcp remove x")).toBe(false);
   });
 
@@ -316,27 +318,25 @@ describe("the editor hand-off", () => {
   });
 });
 
-function runContext(platform: string, env: Record<string, string>): RunContext {
-  return {
-    runId: "2026-08-26T11-00-00.000Z",
-    home: platform === "win32" ? "C:\\Users\\g" : "/home/g",
-    platform,
-    env,
-  };
+const RUN_ID = "2026-08-26T11-00-00.000Z";
+
+/** What the CLI hands the engine: the platform, the environment it honoured and the home. */
+function dataDir(platform: "darwin" | "linux" | "win32", env: Record<string, string>): string {
+  return dataDirFor({ platform, env, home: platform === "win32" ? "C:\\Users\\g" : "/home/g" });
 }
 
 describe("the data directory (08 Q2)", () => {
   it("follows XDG on POSIX and LOCALAPPDATA on Windows, and never puts a colon in a run id", () => {
-    expect(manifestPathFor(runContext("darwin", {}))).toBe(
+    expect(manifestPathFor(dataDir("darwin", {}), RUN_ID, "darwin")).toBe(
       "/home/g/.local/share/moldig/runs/2026-08-26T11-00-00.000Z.json",
     );
-    expect(backupDirFor(runContext("linux", { XDG_DATA_HOME: "/data" }))).toBe(
+    expect(backupDirFor(dataDir("linux", { XDG_DATA_HOME: "/data" }), RUN_ID, "linux")).toBe(
       "/data/moldig/backups/2026-08-26T11-00-00.000Z",
     );
-    expect(manifestPathFor(runContext("win32", { LOCALAPPDATA: "C:\\AppData" }))).toBe(
-      "C:\\AppData\\moldig\\runs\\2026-08-26T11-00-00.000Z.json",
-    );
-    expect(newRunId(new Date("2026-08-26T11:00:00.000Z"))).not.toContain(":");
+    expect(
+      manifestPathFor(dataDir("win32", { LOCALAPPDATA: "C:\\AppData" }), RUN_ID, "win32"),
+    ).toBe("C:\\AppData\\moldig\\runs\\2026-08-26T11-00-00.000Z.json");
+    expect(runIdFor(new Date("2026-08-26T11:00:00.000Z"))).not.toContain(":");
   });
 });
 

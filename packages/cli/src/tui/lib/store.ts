@@ -2,10 +2,10 @@
  * The in-memory store and the navigation stack every screen reads through context. Built in
  * `app.tsx`; nothing here touches the filesystem.
  */
-import type { AuditIndex, Category } from "@moldig/core";
+import type { AuditIndex, Category, RunManifest } from "@moldig/core";
 import { type Context, createContext, useContext } from "react";
 import type { Env } from "./hyperlink.js";
-import type { RunResult, Runner } from "./runner.js";
+import type { Runner } from "./runner.js";
 import type { ActionKind, Refusal } from "./selection.js";
 
 export type Route =
@@ -49,8 +49,8 @@ export interface Store {
   readonly showSettings: boolean;
   readonly toggleSettings: () => void;
 
-  readonly run: RunResult | null;
-  readonly setRun: (run: RunResult | null) => void;
+  readonly run: RunManifest | null;
+  readonly setRun: (run: RunManifest | null) => void;
 
   readonly status: string | null;
   readonly setStatus: (status: string | null) => void;

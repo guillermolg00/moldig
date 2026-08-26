@@ -5,12 +5,12 @@
  * The alternate screen is left at unmount — `waitUntilExit()` settles after Ink's own writes —
  * so whatever the caller prints next is the last thing in the scrollback.
  */
-import type { AuditIndex } from "@moldig/core";
+import type { AuditIndex, RunManifest } from "@moldig/core";
 import { render } from "ink";
 import { hostname } from "node:os";
 import { App } from "./app.js";
 import { type Env, supportsHyperlinks } from "./lib/hyperlink.js";
-import { runTotals, stubRunner, type RunResult, type Runner } from "./lib/runner.js";
+import { runTotals, type Runner } from "./lib/runner.js";
 import { initialMarks, type Refusal } from "./lib/selection.js";
 import { type Route } from "./lib/store.js";
 import { summaryText } from "./lib/summary.js";
@@ -21,7 +21,7 @@ export interface TuiRequest {
   readonly platform: string;
   /** `moldig` opens on the Scan screen; `moldig clean` on the Selection panel (D4). */
   readonly initialRoute?: Route;
-  readonly runner?: Runner;
+  readonly runner: Runner;
   readonly stdout?: NodeJS.WriteStream;
   readonly stdin?: NodeJS.ReadStream;
 }
@@ -40,7 +40,7 @@ export async function openTui(request: TuiRequest): Promise<TuiOutcome> {
   const { index, env, platform } = request;
   const stdout = request.stdout ?? process.stdout;
   const stdin = request.stdin ?? process.stdin;
-  const runner = request.runner ?? stubRunner;
+  const { runner } = request;
   const refusal: Refusal = (entity) => runner.refusal(entity);
   const interactive = stdout.isTTY && stdin.isTTY;
 
@@ -52,7 +52,7 @@ export async function openTui(request: TuiRequest): Promise<TuiOutcome> {
     platform,
     refusal,
   });
-  let lastRun: RunResult | null = null;
+  let lastRun: RunManifest | null = null;
 
   const app = render(
     <App
@@ -91,6 +91,6 @@ export async function openTui(request: TuiRequest): Promise<TuiOutcome> {
   const result: unknown = await app.waitUntilExit();
   const summary = typeof result === "string" ? result : latest;
   // `lastRun` is assigned from a React effect, so TypeScript cannot see the write.
-  const run = lastRun as RunResult | null;
-  return { summary, failedRows: run === null ? 0 : runTotals(run.groups).counts.failed };
+  const run = lastRun as RunManifest | null;
+  return { summary, failedRows: run === null ? 0 : runTotals(run).counts.failed };
 }

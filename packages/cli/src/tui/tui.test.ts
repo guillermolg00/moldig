@@ -6,16 +6,23 @@
  * A `.test.ts` without JSX because the Vitest include pattern is `*.test.ts`; `createElement`
  * does the same job.
  */
-import { audit, scan, type AuditIndex, type Entity } from "@moldig/core";
+import { audit, dataDirFor, scan, type AuditIndex, type Entity } from "@moldig/core";
 import { loadFixture, type FixtureTree } from "@moldig/core/testing";
+import { join } from "node:path";
 import { PassThrough } from "node:stream";
 import { render } from "ink-testing-library";
 import { createElement as h } from "react";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+import {
+  createFakeExecutors,
+  type FakeExecutorOptions,
+  type FakeExecutors,
+} from "../executors/fake.js";
+import { ensureDirFor } from "../executors/files.js";
 import { App, type AppProps } from "./app.js";
 import { openTui } from "./index.js";
 import { twoNumberHeader } from "./components/Frame.js";
-import { STUB_REASON, stubRunner, type Runner } from "./lib/runner.js";
+import { createRunner, type Runner } from "./lib/runner.js";
 import { groupSelection, initialMarks, type ActionKind } from "./lib/selection.js";
 import type { Route } from "./lib/store.js";
 
@@ -61,6 +68,35 @@ interface Screen {
   unmount: () => void;
 }
 
+/**
+ * A Runner over the fake executors (08 §9): every disposition and every manifest is the real
+ * engine's, nothing reaches the OS trash, and the data directory is the fixture's own home.
+ */
+function fakeRunner(options: Partial<FakeExecutorOptions> = {}): {
+  runner: Runner;
+  fake: FakeExecutors;
+} {
+  const fake = createFakeExecutors({
+    trashDir: join(tree.dir, "fake-trash"),
+    now: NOW,
+    move: false,
+    ...options,
+  });
+  const runner = createRunner({
+    index,
+    executors: fake.executors,
+    // Scripted, so a refusal is testable without mounting anything (08 §9).
+    deviceOf: () => ({ dev: 1, kind: "local" }),
+    dataDir: dataDirFor({ platform: "darwin", env: {}, home: tree.home }),
+    platform: "darwin",
+    home: tree.home,
+    version: "0.0.0",
+    command: "moldig clean",
+    prepare: (runPlan) => ensureDirFor(runPlan.manifestPath),
+  });
+  return { runner, fake };
+}
+
 function open(route: Route, overrides: Partial<AppProps> = {}): Screen {
   const props: AppProps = {
     index,
@@ -70,6 +106,7 @@ function open(route: Route, overrides: Partial<AppProps> = {}): Screen {
     interactive: true,
     linksSupported: false,
     initialRoute: route,
+    runner: fakeRunner().runner,
     ...overrides,
   };
   const { lastFrame, stdin, unmount } = render(h(App, props));
@@ -469,32 +506,65 @@ describe("selection panel", () => {
 });
 
 describe("confirm and result", () => {
-  it("y runs the group and the result screen renders what the runner reported", async () => {
-    const screen = open({ screen: "confirm" });
+  it("y runs the group and the result screen renders the manifest the engine returned", async () => {
+    const { runner, fake } = fakeRunner();
+    const screen = open({ screen: "confirm" }, { runner });
     await settle();
     expect(screen.frame()).toContain("moldig · confirm · Clean (1/1)");
     expect(screen.frame()).toContain("Clean these 3 rows? (y / n)");
     expect(screen.frame()).toContain("every file goes to the OS trash; refused rows stay");
     expect(screen.frame()).toContain("y confirm · n skip this group · esc skip the rest");
+    expect(screen.frame()).toContain("→ Trash");
     await screen.press("y");
     await waitFor(screen, "moldig · result");
     const frame = screen.frame();
-    expect(frame).toContain("Freed 0.0 MB");
-    expect(frame).toContain("3 refused");
-    // The reason wraps at 100 columns, so only its head is asserted.
-    expect(STUB_REASON).toContain("the actions engine lands with ticket");
-    expect(frame).toContain("the actions engine lands with ticket");
+    expect(frame).toContain("3 moved");
+    expect(frame).toContain("0 failed");
+    expect(frame).toContain("Clean   3 rows");
     expect(frame).toContain("manifest ~/.local/share/moldig/runs/");
+    // Every member path of the three preselected units, and nothing else.
+    expect(fake.trashed.flat().length).toBeGreaterThanOrEqual(3);
+    expect(fake.spawned).toEqual([]);
     screen.unmount();
   });
 
   it("esc skips this group and every remaining one (D128)", async () => {
-    const screen = open({ screen: "confirm" });
+    const { runner, fake } = fakeRunner();
+    const marked = new Map<string, ActionKind>([
+      ...initialMarks(index),
+      [findEntity((entity) => entity.kind === "harness-cache" && entity.userContent).id, "delete"],
+    ]);
+    const screen = open({ screen: "confirm" }, { runner, initialMarks: marked });
     await settle();
+    expect(screen.frame()).toContain("Clean (1/2)");
     await screen.press(ESC);
     await waitFor(screen, "moldig · result");
     expect(screen.frame()).toContain("Clean   skipped");
-    expect(screen.frame()).toContain("0 refused");
+    expect(screen.frame()).toContain("Delete  skipped");
+    expect(screen.frame()).toContain("0 moved");
+    expect(fake.trashed).toEqual([]);
+    screen.unmount();
+  });
+
+  it("n skips one group and runs the next (D128)", async () => {
+    const { runner, fake } = fakeRunner();
+    const marked = new Map<string, ActionKind>([
+      ...initialMarks(index),
+      [findEntity((entity) => entity.kind === "harness-cache" && entity.userContent).id, "delete"],
+    ]);
+    const screen = open({ screen: "confirm" }, { runner, initialMarks: marked });
+    await settle();
+    await screen.press("n");
+    await waitFor(screen, "confirm · Delete (2/2)");
+    expect(screen.frame()).toContain("so far: Clean skipped");
+    // The Delete group holds user content, so it is confirmed a second time (08 §7).
+    await screen.press("y");
+    await waitFor(screen, "This group holds user content. Confirm again? (y / n)");
+    await screen.press("y");
+    await waitFor(screen, "moldig · result");
+    expect(screen.frame()).toContain("Clean   skipped");
+    expect(screen.frame()).toContain("Delete  1 row");
+    expect(fake.trashed).toHaveLength(1);
     screen.unmount();
   });
 
@@ -515,29 +585,51 @@ describe("confirm and result", () => {
     const screen = open({ screen: "confirm" }, { initialMarks: next });
     await settle();
     expect(screen.frame()).toContain("moldig · confirm · Delete (1/1)");
+    expect(screen.frame()).toContain("[user content]");
     await screen.press("y");
     await waitFor(screen, "This group holds user content. Confirm again? (y / n)");
-    await screen.press("y");
+    await screen.press("n");
     await waitFor(screen, "moldig · result");
+    expect(screen.frame()).toContain("Delete  skipped");
     screen.unmount();
   });
 
-  it("a failed row makes the run exit 1 (D17)", async () => {
-    const failing: Runner = {
-      refusal: () => null,
-      run: (groups, context) =>
-        stubRunner.run(groups, context).then((result) => ({
-          ...result,
-          groups: result.groups.map((group) => ({
-            ...group,
-            rows: group.rows.map((row) => ({ ...row, result: "failed" as const, reason: "EPERM" })),
-          })),
-        })),
-    };
-    const screen = open({ screen: "confirm" }, { runner: failing });
+  it("the shareable summary after a run is the engine's own (08 §4)", async () => {
+    const summaries: string[] = [];
+    const { runner } = fakeRunner();
+    const screen = open(
+      { screen: "confirm" },
+      {
+        runner,
+        onSummary: (text) => {
+          summaries.push(text);
+        },
+      },
+    );
     await settle();
     await screen.press("y");
-    await waitFor(screen, "3 failed");
+    await waitFor(screen, "moldig · result");
+    const summary = summaries.at(-1) ?? "";
+    expect(summary).toContain("moldig — project-a (cwd)");
+    expect(summary).toContain("Freed ");
+    expect(summary).toContain("Rows: 3 moved · 0 edited · 0 delegated · 0 refused · 0 failed");
+    expect(summary).toContain("Manifest: ~/.local/share/moldig/runs/");
+    expect(summary).toContain('recovery: OS trash "Put Back"');
+    screen.unmount();
+  });
+
+  it("a failed row leaves the others done and makes the run exit 1 (D17)", async () => {
+    const unit = index.entities.find(
+      (entity) => entity.kind === "harness-cache" && initialMarks(index).has(entity.id),
+    );
+    if (unit === undefined) throw new Error("no preselected unit in the fixture");
+    const doomed = unit.locator.type === "paths" ? unit.locator.paths[0] : unit.path;
+    const { runner } = fakeRunner({ failing: [doomed ?? ""] });
+    const screen = open({ screen: "confirm" }, { runner });
+    await settle();
+    await screen.press("y");
+    await waitFor(screen, "1 failed");
+    expect(screen.frame()).toContain("2 moved");
     expect(screen.frame()).toContain("EPERM");
     screen.unmount();
   });
@@ -588,7 +680,14 @@ describe("leaving", () => {
   it("q unmounts and hands back the shareable summary; nothing failed, so the run is 0", async () => {
     const stdout = fakeStdout(true);
     const stdin = fakeStdin(true);
-    const pending = openTui({ index, env: {}, platform: "darwin", stdout, stdin });
+    const pending = openTui({
+      index,
+      env: {},
+      platform: "darwin",
+      runner: fakeRunner().runner,
+      stdout,
+      stdin,
+    });
     await settle();
     stdin.write("q");
     const outcome = await pending;
@@ -603,7 +702,14 @@ describe("leaving", () => {
   it("a pipe renders one frame, unmounts and still hands back the summary", async () => {
     const stdout = fakeStdout(false);
     const stdin = fakeStdin(false);
-    const outcome = await openTui({ index, env: {}, platform: "darwin", stdout, stdin });
+    const outcome = await openTui({
+      index,
+      env: {},
+      platform: "darwin",
+      runner: fakeRunner().runner,
+      stdout,
+      stdin,
+    });
     expect(outcome.summary).toContain("moldig — project-a (cwd)");
     expect(stdout.frames.join("")).toContain("Headline — project-a");
   });

@@ -1,5 +1,9 @@
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { existsSync } from "node:fs";
+import { readFile, readdir } from "node:fs/promises";
+import { join } from "node:path";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { loadFixture, normaliseSnapshot, type FixtureTree } from "@moldig/core/testing";
+import { createFakeExecutors, type FakeExecutors } from "./executors/fake.js";
 import { runCli, type Io } from "./run.js";
 import type { OpenTui, TuiRequest } from "./tui/index.js";
 
@@ -65,6 +69,48 @@ async function run(argv: readonly string[], overrides: Partial<Io> = {}): Promis
   };
   const code = await runCli(argv, io);
   return { code, out, err };
+}
+
+/** moldig's own data directory for a run over `on`: inside the fixture, never a real one. */
+function dataDirOf(on: FixtureTree): string {
+  return join(on.dir, "data", "moldig");
+}
+
+interface CleanRun extends Run {
+  readonly fake: FakeExecutors;
+  readonly manifest: Record<string, unknown> | null;
+}
+
+/**
+ * A whole `clean` over its own fixture tree with the executors injected (08 §9): the trash is a
+ * rename inside the tree, no process is ever spawned, and the manifest lands in the tree too.
+ */
+async function clean(
+  argv: readonly string[],
+  on: FixtureTree,
+  options: { failing?: readonly string[]; exitCode?: number; move?: boolean } = {},
+): Promise<CleanRun> {
+  const fake = createFakeExecutors({ trashDir: join(on.dir, "fake-trash"), now: NOW, ...options });
+  const result = await run([...argv, on.root], {
+    cwd: on.cwd,
+    home: on.home,
+    env: { NO_COLOR: "1", XDG_DATA_HOME: join(on.dir, "data") },
+    executors: fake.executors,
+  });
+  const runs = join(dataDirOf(on), "runs");
+  const written = existsSync(runs) ? await readdir(runs) : [];
+  const first = written[0];
+  const manifest = first === undefined ? null : jsonOf(await readFile(join(runs, first), "utf8"));
+  return { ...result, fake, manifest };
+}
+
+/** Every file under a directory, recursively: what a run must have left in place. */
+async function filesUnder(directory: string): Promise<string[]> {
+  const entries = await readdir(directory, { withFileTypes: true, recursive: true });
+  return entries
+    .filter((entry) => entry.isFile())
+    .map((entry) => join(entry.parentPath, entry.name))
+    .toSorted((a, b) => a.localeCompare(b));
 }
 
 beforeAll(async () => {
@@ -241,7 +287,7 @@ describe("moldig without a command", () => {
   });
 });
 
-describe("moldig clean", () => {
+describe("moldig clean refuses rather than guesses", () => {
   it("refuses without a terminal and without --yes, and says so (D124)", async () => {
     const { code, out, err } = await run(["clean", tree.root]);
     expect(code).toBe(2);
@@ -262,13 +308,27 @@ describe("moldig clean", () => {
     expect(err).toContain("harness-cache only");
   });
 
-  it("says --dry-run is not implemented instead of faking a plan", async () => {
-    const { code, out } = await run(["clean", "--dry-run", tree.root]);
-    expect(code).toBe(0);
-    expect(out).toContain("not implemented until the actions engine lands (ticket 24)");
+  it("refuses when only stdout is a terminal, filter or not (D4)", async () => {
+    const { code, err } = await run(["clean", "--category", "harness-cache", tree.root], {
+      isTTY: true,
+    });
+    expect(code).toBe(2);
+    expect(err).toContain("no terminal to confirm in");
   });
 
-  it("opens the TUI on the selection panel in a terminal (D4)", async () => {
+  it("refuses with --json in a terminal: a document is no place to confirm in", async () => {
+    const seen: TuiRequest[] = [];
+    const { code, err } = await run(["clean", "--json", tree.root], {
+      isTTY: true,
+      stdinIsTTY: true,
+      openTui: fakeTui(seen),
+    });
+    expect(code).toBe(2);
+    expect(seen).toHaveLength(0);
+    expect(err).toContain("no terminal to confirm in");
+  });
+
+  it("opens the TUI on the selection panel in a terminal with a real Runner (D4)", async () => {
     const seen: TuiRequest[] = [];
     const { code, out } = await run(["clean", tree.root], {
       isTTY: true,
@@ -277,20 +337,163 @@ describe("moldig clean", () => {
     });
     expect(code).toBe(0);
     expect(seen[0]?.initialRoute).toEqual({ screen: "selection" });
+    expect(typeof seen[0]?.runner.plan).toBe("function");
     expect(out).toBe("\nsummary from the TUI\n");
   });
+});
 
-  it("says so instead of opening the panel when there is no terminal", async () => {
-    const { code, out } = await run(["clean", tree.root], { isTTY: true });
+describe("moldig clean --dry-run", () => {
+  it("prints the plan document with --json and writes nothing (D115)", async () => {
+    const { code, out, fake, manifest } = await clean(["clean", "--dry-run", "--json"], tree);
     expect(code).toBe(0);
-    expect(out).toContain("no terminal to open the selection panel in");
-    expect(out).toContain("nothing was removed");
+    const document = jsonOf(out);
+    expect(document).toMatchObject({ schemaVersion: 0, mode: "dry-run" });
+    const rows = document["rows"];
+    if (!Array.isArray(rows)) throw new Error("expected rows[] in the plan document");
+    expect(rows.length).toBe(3);
+    for (const row of rows.filter(isRecord)) {
+      expect(row["result"]).toMatchObject({ status: "planned" });
+    }
+    // Nothing at all: no manifest, no backup, no executor call.
+    expect(manifest).toBeNull();
+    expect(existsSync(dataDirOf(tree))).toBe(false);
+    expect(fake.trashed).toEqual([]);
+    expect(fake.written).toEqual([]);
+    expect(out).not.toMatch(ESCAPES);
   });
 
-  it("does not pretend to sweep with --yes and a filter", async () => {
-    const { code, out } = await run(["clean", "--yes", "--category", "harness-cache", tree.root]);
+  it("prints the human preview and says nothing moved", async () => {
+    const { code, out, fake } = await clean(["clean", "--dry-run"], tree);
     expect(code).toBe(0);
-    expect(out).toContain("nothing was removed");
+    expect(out).toContain("Clean (3)");
+    expect(out).toContain("→ Trash");
+    expect(out).toContain("Nothing moved (preview): 3 rows selected");
+    expect(out).toContain("dry run: nothing was moved");
+    expect(fake.trashed).toEqual([]);
+    expect(existsSync(dataDirOf(tree))).toBe(false);
+  });
+
+  it("needs neither --yes nor a filter, and the filters only narrow (D16)", async () => {
+    const narrowed = await clean(["clean", "--dry-run", "--json", "--older-than", "1000"], tree);
+    expect(narrowed.code).toBe(0);
+    expect(jsonOf(narrowed.out)["rows"]).toEqual([]);
+
+    const harness = await clean(["clean", "--dry-run", "--json", "--harness", "codex"], tree);
+    expect(jsonOf(harness.out)["rows"]).toEqual([]);
+  });
+});
+
+describe("moldig clean --yes", () => {
+  let own: FixtureTree;
+
+  beforeEach(async () => {
+    own = await loadFixture("claude-code/breadcrumbs", {
+      cwd: "root/project-a",
+      now: NOW,
+      platform: PLATFORM,
+    });
+  });
+
+  afterEach(async () => {
+    await own.cleanup();
+  });
+
+  it("trashes only the preselected units, writes the manifest and prints the summary", async () => {
+    const before = await filesUnder(own.home);
+    const { code, out, fake, manifest } = await clean(
+      ["clean", "--yes", "--category", "harness-cache"],
+      own,
+    );
+    expect(code).toBe(0);
+
+    // The manifest is the one document (D115), written where 08 §5 says it goes.
+    expect(manifest).toMatchObject({ schemaVersion: 0, mode: "run" });
+    const rows = manifest?.["rows"];
+    if (!Array.isArray(rows)) throw new Error("expected rows[] in the manifest");
+    const moved = rows.filter(isRecord);
+    expect(moved).toHaveLength(3);
+    for (const row of moved) {
+      expect(row["result"]).toMatchObject({ status: "moved" });
+      expect(row["finding"]).not.toBeNull();
+    }
+
+    // Only what the plan named left the tree; nothing was ever spawned.
+    const planned = new Set(
+      moved.flatMap((row) => {
+        const target = row["target"];
+        const paths = isRecord(target) ? target["paths"] : [];
+        return Array.isArray(paths) ? paths.filter((path) => typeof path === "string") : [];
+      }),
+    );
+    expect(planned.size).toBeGreaterThan(0);
+    expect(new Set(fake.trashed.flat())).toEqual(planned);
+    expect(fake.spawned).toEqual([]);
+    const gone = before.filter((path) => !existsSync(path));
+    expect(gone.length).toBeGreaterThan(0);
+    for (const path of gone) {
+      expect([...planned].some((kept) => path === kept || path.startsWith(`${kept}/`))).toBe(true);
+    }
+    // The recent session, the backup clone and the kept state are all still in place.
+    const after = await filesUnder(own.home);
+    expect(after.some((path) => path.includes("11111111-1111"))).toBe(true);
+    expect(after.some((path) => path.includes("backups/"))).toBe(true);
+
+    expect(out).toContain("Clean (3)");
+    expect(out).toContain("Rows: 3 moved · 0 edited · 0 delegated · 0 refused · 0 failed");
+    expect(out).toContain("Manifest: ");
+    expect(out).toContain('recovery: OS trash "Put Back"');
+  });
+
+  it("prints the run manifest and nothing else with --json", async () => {
+    const { code, out } = await clean(
+      ["clean", "--yes", "--harness", "claude-code", "--json"],
+      own,
+    );
+    expect(code).toBe(0);
+    expect(out.startsWith("{")).toBe(true);
+    expect(out.trimEnd()).not.toContain("\n");
+    expect(jsonOf(out)).toMatchObject({ mode: "run", schemaVersion: 0 });
+  });
+
+  it("a failed row never aborts the run and makes it exit 1 (D4)", async () => {
+    const plan = await clean(["clean", "--dry-run", "--json", "--category", "harness-cache"], own);
+    const rows = jsonOf(plan.out)["rows"];
+    if (!Array.isArray(rows)) throw new Error("expected rows[] in the plan document");
+    const first = rows.find(isRecord);
+    const target = first === undefined ? undefined : first["target"];
+    const paths = isRecord(target) ? target["paths"] : [];
+    const doomed = Array.isArray(paths) ? String(paths[0]) : "";
+
+    const { code, out, manifest } = await clean(
+      ["clean", "--yes", "--category", "harness-cache"],
+      own,
+      { failing: [doomed] },
+    );
+    expect(code).toBe(1);
+    expect(out).toContain("1 failed");
+    expect(out).toContain("2 moved");
+    const written = manifest?.["rows"];
+    if (!Array.isArray(written)) throw new Error("expected rows[] in the manifest");
+    const statuses = written
+      .filter(isRecord)
+      .map((row) => (isRecord(row["result"]) ? row["result"]["status"] : null));
+    expect(statuses.toSorted((a, b) => String(a).localeCompare(String(b)))).toEqual([
+      "failed",
+      "moved",
+      "moved",
+    ]);
+    expect(existsSync(doomed)).toBe(true);
+  });
+
+  it("selects nothing when the filters keep nothing, and exits 0", async () => {
+    const { code, out, fake, manifest } = await clean(
+      ["clean", "--yes", "--older-than", "10000"],
+      own,
+    );
+    expect(code).toBe(0);
+    expect(fake.trashed).toEqual([]);
+    expect(out).toContain("Freed 0 B");
+    expect(manifest).toMatchObject({ mode: "run" });
   });
 });
 

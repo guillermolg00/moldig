@@ -12,7 +12,7 @@ export { createDeviceProbe } from "./volumes.js";
 export type { DeviceProbeOptions } from "./volumes.js";
 export { createTrash } from "./trash.js";
 export type { Mover } from "./trash.js";
-export { backup, readText, statPath, writeAtomic } from "./files.js";
+export { backup, ensureDirFor, readText, statPath, writeAtomic } from "./files.js";
 export { spawnDelegate } from "./spawn.js";
 
 export interface ExecutorOptions {

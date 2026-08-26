@@ -10,12 +10,33 @@
  */
 import { stat } from "node:fs/promises";
 import { resolve } from "node:path";
-import { audit, HARNESSES, scan, type AuditIndex, type Finding, type Index } from "@moldig/core";
+import {
+  audit,
+  dataDirFor,
+  HARNESSES,
+  scan,
+  type AuditIndex,
+  type Executors,
+  type Finding,
+  type Index,
+} from "@moldig/core";
 import { parseArgs, severityRank, type Options } from "./args.js";
+import {
+  applyPlan,
+  cleanPlan,
+  dryRun,
+  exitCodeFor,
+  planLines,
+  planSummaryLines,
+  summaryFor,
+  type CleanContext,
+} from "./clean.js";
+import { createDeviceProbe, createExecutors, ensureDirFor } from "./executors/index.js";
 import { helpPage, usageSynopsis } from "./help.js";
 import { createPalette } from "./palette.js";
 import { auditReport, scanReport, type ReportStyle } from "./report.js";
 import type { OpenTui } from "./tui/index.js";
+import { createRunner } from "./tui/lib/runner.js";
 import { initialMarks } from "./tui/lib/selection.js";
 import { summaryText } from "./tui/lib/summary.js";
 import { moldigVersion } from "./version.js";
@@ -42,6 +63,11 @@ export interface Io {
    * drive the decision to open it without a terminal. Absent = the printed report path.
    */
   openTui?: OpenTui;
+  /**
+   * Everything the actions engine can do to the disk (08 §9). Injected by the tests so a run
+   * over a fixture tree never reaches the real trash; defaults to the real executors.
+   */
+  executors?: Executors;
 }
 
 const PLATFORMS = ["darwin", "linux", "win32"] as const;
@@ -118,7 +144,9 @@ function cleanRefusal(io: Io, options: Options): string | null {
   const hasFilter =
     options.categories.length > 0 || options.olderThanDays !== null || options.harnesses.length > 0;
   const filters = "--category <c>, --older-than <days>, --harness <id>";
-  if (!io.isTTY && !options.yes) {
+  // D4: nothing can be confirmed without a terminal, so the message is the same even when a
+  // filter is given. `--json` is a document, not a place to answer a question, either.
+  if (!canOpenPanel(io, options) && !options.yes) {
     return `moldig clean: no terminal to confirm in. Re-run with --yes and a filter (${filters}) to run unattended, or --dry-run to print the plan.`;
   }
   if (options.yes && !hasFilter) {
@@ -128,27 +156,46 @@ function cleanRefusal(io: Io, options: Options): string | null {
 }
 
 /**
- * Non-interactive `clean`: the refusal path is real, the sweep is not. `--dry-run` and `--yes`
- * belong to the actions engine (ticket 24) and to `clean` itself (ticket 25); in a terminal
- * `clean` opens the TUI on the Selection panel instead of coming here.
+ * Unattended `clean` (§1.10): the plan on stdout before the run, the run itself, the shareable
+ * summary after it — or, with `--json`, the run manifest and nothing else. `--dry-run` prints
+ * the same plan (as the manifest document with `--json`, D115) and writes nothing at all.
  */
-function runClean(io: Io, options: Options): number {
+async function runClean(io: Io, options: Options, context: CleanContext): Promise<number> {
   const out = writer(io.stdout);
+  const runPlan = cleanPlan(options, context);
+  const rows = runPlan.groups.reduce((sum, group) => sum + group.count, 0);
+
   if (options.dryRun) {
-    out("clean --dry-run is not implemented until the actions engine lands (ticket 24)");
+    if (options.json) {
+      io.stdout(serialise(await dryRun(runPlan, context), options.pretty));
+      return 0;
+    }
+    for (const line of planLines(runPlan, context.index)) out(line);
+    if (rows > 0) out("");
+    for (const line of planSummaryLines(runPlan, context.index)) out(line);
+    out("dry run: nothing was moved, and no manifest and no backup were written.");
     return 0;
   }
-  const refusal = cleanRefusal(io, options);
-  if (refusal !== null) {
-    io.stderr(`${refusal}\n`);
-    return 2;
+
+  if (!options.json) {
+    for (const line of planLines(runPlan, context.index)) out(line);
+    if (rows > 0) out("");
   }
-  out(
-    options.yes
-      ? "clean --yes is not implemented until the actions engine lands (ticket 24); nothing was removed"
-      : "no terminal to open the selection panel in; nothing was removed",
-  );
-  return 0;
+  const manifest = await applyPlan(runPlan, context);
+  if (options.json) {
+    io.stdout(serialise(manifest, options.pretty));
+  } else {
+    for (const line of summaryFor(manifest, context.index)) out(line);
+  }
+  return exitCodeFor(manifest);
+}
+
+/**
+ * Whether the selection panel can be opened at all: both streams are terminals, the TUI is
+ * there, and stdout is not carrying a JSON document instead (D4, D14, D20).
+ */
+function canOpenPanel(io: Io, options: Options): boolean {
+  return io.isTTY && io.stdinIsTTY === true && io.openTui !== undefined && !options.json;
 }
 
 /**
@@ -157,7 +204,7 @@ function runClean(io: Io, options: Options): number {
  * `clean` flags stay on the printed path.
  */
 function wantsTui(io: Io, options: Options): boolean {
-  if (options.json || !io.isTTY || io.stdinIsTTY !== true || io.openTui === undefined) return false;
+  if (!canOpenPanel(io, options)) return false;
   if (options.command === "default") return true;
   return options.command === "clean" && !options.dryRun && !options.yes;
 }
@@ -208,7 +255,14 @@ export async function runCli(argv: readonly string[], io: Io): Promise<number> {
     }
 
     const interactive = wantsTui(io, options);
-    if (options.command === "clean" && !interactive) return runClean(io, options);
+    // A refusal costs nothing: it is decided before the scan, not after it (D4, D124).
+    if (options.command === "clean" && !interactive && !options.dryRun) {
+      const refusal = cleanRefusal(io, options);
+      if (refusal !== null) {
+        io.stderr(`${refusal}\n`);
+        return 2;
+      }
+    }
 
     const roots = await resolveRoots(io, options);
     if (!Array.isArray(roots)) return usageError(io, roots.error);
@@ -243,17 +297,41 @@ export async function runCli(argv: readonly string[], io: Io): Promise<number> {
     // it gives the terminal back, right before the summary.
     if (!interactive) for (const line of warnings) err(line);
 
-    if (interactive && audited !== null && io.openTui !== undefined) {
-      const outcome = await io.openTui({
+    // Both ways into the actions engine share one context: the same executors, the same data
+    // directory, the same clock (08 §9). Nothing in it writes until a group is confirmed.
+    const clock = io.now;
+    const deviceOf = createDeviceProbe({ home: io.home, platform });
+    const context = (auditedIndex: AuditIndex, version: string): CleanContext => ({
+      index: auditedIndex,
+      executors: io.executors ?? createExecutors(clock === undefined ? {} : { now: () => clock }),
+      dataDir: dataDirFor({ platform, env: io.env, home: io.home }),
+      platform,
+      home: io.home,
+      deviceOf,
+      version,
+      command: ["moldig", ...argv].join(" "),
+    });
+
+    const openTui = io.openTui;
+    if (interactive && audited !== null && openTui !== undefined) {
+      const outcome = await openTui({
         index: audited,
         env: io.env,
         platform,
+        runner: createRunner({
+          ...context(audited, await moldigVersion()),
+          prepare: (runPlan) => ensureDirFor(runPlan.manifestPath),
+        }),
         ...(options.command === "clean" ? { initialRoute: { screen: "selection" as const } } : {}),
       });
       for (const line of warnings) err(line);
       io.stdout(`\n${outcome.summary}`);
       // D17: leaving is 0, even with nothing done; one failed row makes the run 1.
       return outcome.failedRows > 0 ? 1 : 0;
+    }
+
+    if (options.command === "clean" && audited !== null) {
+      return runClean(io, options, context(audited, await moldigVersion()));
     }
 
     if (options.json) {

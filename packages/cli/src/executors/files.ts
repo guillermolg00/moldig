@@ -25,6 +25,14 @@ export async function backup(path: string, to: string): Promise<void> {
   await cp(path, to, { recursive: true, preserveTimestamps: true, verbatimSymlinks: true });
 }
 
+/**
+ * The directory a path sits in, created when it is not there. The run manifest is written
+ * before the first move (D91), and its `<data dir>/runs/` may not exist yet (08 §5).
+ */
+export async function ensureDirFor(path: string): Promise<void> {
+  await mkdir(dirname(path), { recursive: true });
+}
+
 /** Temp file in the same directory, the original's mode, then a rename (08 §2). */
 export async function writeAtomic(path: string, text: string): Promise<void> {
   const directory = dirname(path);
