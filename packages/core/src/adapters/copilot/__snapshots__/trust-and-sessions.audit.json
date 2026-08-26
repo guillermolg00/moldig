@@ -3009,6 +3009,82 @@
   },
   "findings": [
     {
+      "id": "finding:drift:skill:<HOME>/.agents/skills/skill-a",
+      "category": "drift",
+      "severity": "medium",
+      "container": "harness:unknown",
+      "targets": [
+        {
+          "id": "skill:<HOME>/.agents/skills/skill-a",
+          "role": "subject"
+        },
+        {
+          "id": "skill:<ROOT>/project-a/.github/skills/skill-a",
+          "role": "counterpart"
+        }
+      ],
+      "message": "skill-a at user scope differs from the copy at project scope of project-a",
+      "evidence": [
+        {
+          "kind": "content-hash",
+          "detail": "git-tree-sha1 feb27732be83 ≠ 7eef91ee86d5"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 418,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": [],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": {
+          "type": "dir",
+          "path": "<HOME>/.agents/skills/skill-a"
+        }
+      }
+    },
+    {
+      "id": "finding:drift:skill:<ROOT>/project-a/.github/skills/skill-a",
+      "category": "drift",
+      "severity": "medium",
+      "container": "project:<ROOT>/project-a",
+      "targets": [
+        {
+          "id": "skill:<ROOT>/project-a/.github/skills/skill-a",
+          "role": "subject"
+        },
+        {
+          "id": "skill:<HOME>/.agents/skills/skill-a",
+          "role": "counterpart"
+        }
+      ],
+      "message": "skill-a at project scope of project-a differs from the copy at user scope",
+      "evidence": [
+        {
+          "kind": "content-hash",
+          "detail": "git-tree-sha1 7eef91ee86d5 ≠ feb27732be83"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 570,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": [],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": {
+          "type": "dir",
+          "path": "<ROOT>/project-a/.github/skills/skill-a"
+        }
+      }
+    },
+    {
       "id": "finding:duplicate:mcp-server:<HOME>/.copilot/mcp-config.json#mcpServers/server-http",
       "category": "duplicate",
       "severity": "low",
@@ -3110,7 +3186,7 @@
           "detail": "stdio:<redacted> <redacted>"
         }
       ],
-      "confidence": "high",
+      "confidence": "medium",
       "impact": {
         "bytes": 119,
         "tokens": null,
@@ -3146,11 +3222,11 @@
       "message": "skill-a is configured 2 times with the same name (user scope, project scope of project-a)",
       "evidence": [
         {
-          "kind": "endpoint",
-          "detail": "identical bytes"
+          "kind": "name-only",
+          "detail": "skill-a"
         }
       ],
-      "confidence": "high",
+      "confidence": "medium",
       "impact": {
         "bytes": 570,
         "tokens": null,
@@ -3237,7 +3313,7 @@
       },
       "flags": ["sensitive"],
       "action": {
-        "kind": "clean",
+        "kind": "delete",
         "preselect": false,
         "locator": null
       }

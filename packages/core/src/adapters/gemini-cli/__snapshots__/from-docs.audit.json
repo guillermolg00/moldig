@@ -5900,6 +5900,82 @@
   },
   "findings": [
     {
+      "id": "finding:drift:skill:<ROOT>/project-a/.agents/skills/skill-e",
+      "category": "drift",
+      "severity": "medium",
+      "container": "project:<ROOT>/project-a",
+      "targets": [
+        {
+          "id": "skill:<ROOT>/project-a/.agents/skills/skill-e",
+          "role": "subject"
+        },
+        {
+          "id": "skill:<ROOT>/project-a/.gemini/skills/skill-e",
+          "role": "counterpart"
+        }
+      ],
+      "message": "skill-e at project scope of project-a differs from the copy at project scope of project-a",
+      "evidence": [
+        {
+          "kind": "content-hash",
+          "detail": "git-tree-sha1 914ba1dc322d ≠ a4eb3971301c"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 170,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": [],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": {
+          "type": "dir",
+          "path": "<ROOT>/project-a/.agents/skills/skill-e"
+        }
+      }
+    },
+    {
+      "id": "finding:drift:skill:<ROOT>/project-a/.gemini/skills/skill-e",
+      "category": "drift",
+      "severity": "medium",
+      "container": "project:<ROOT>/project-a",
+      "targets": [
+        {
+          "id": "skill:<ROOT>/project-a/.gemini/skills/skill-e",
+          "role": "subject"
+        },
+        {
+          "id": "skill:<ROOT>/project-a/.agents/skills/skill-e",
+          "role": "counterpart"
+        }
+      ],
+      "message": "skill-e at project scope of project-a differs from the copy at project scope of project-a",
+      "evidence": [
+        {
+          "kind": "content-hash",
+          "detail": "git-tree-sha1 a4eb3971301c ≠ 914ba1dc322d"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 154,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": [],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": {
+          "type": "dir",
+          "path": "<ROOT>/project-a/.gemini/skills/skill-e"
+        }
+      }
+    },
+    {
       "id": "finding:duplicate:skill:<ROOT>/project-a/.agents/skills/skill-e",
       "category": "duplicate",
       "severity": "low",
@@ -5917,11 +5993,11 @@
       "message": "skill-e is configured 2 times with the same name (project scope of project-a)",
       "evidence": [
         {
-          "kind": "endpoint",
-          "detail": "identical bytes"
+          "kind": "name-only",
+          "detail": "skill-e"
         }
       ],
-      "confidence": "high",
+      "confidence": "medium",
       "impact": {
         "bytes": 154,
         "tokens": null,
@@ -5934,6 +6010,50 @@
         "locator": {
           "type": "dir",
           "path": "<ROOT>/project-a/.agents/skills/skill-e"
+        }
+      }
+    },
+    {
+      "id": "finding:exposure:mcp-server:<ROOT>/project-a/.gemini/settings.json#mcpServers/server-b",
+      "category": "exposure",
+      "severity": "high",
+      "container": "project:<ROOT>/project-a",
+      "targets": [
+        {
+          "id": "mcp-server:<ROOT>/project-a/.gemini/settings.json#mcpServers/server-b",
+          "role": "subject"
+        }
+      ],
+      "message": "server-b carries an Authorization header in a world-readable settings.json",
+      "evidence": [
+        {
+          "kind": "secret-key",
+          "detail": "headers.Authorization"
+        },
+        {
+          "kind": "secret-key",
+          "detail": "clientSecret"
+        },
+        {
+          "kind": "git-status",
+          "detail": "world-readable inside a repository"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 337,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": ["sensitive", "secret-exposed"],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": {
+          "type": "entry",
+          "file": "<ROOT>/project-a/.gemini/settings.json",
+          "format": "json",
+          "keyPath": ["mcpServers", "server-b"]
         }
       }
     },
@@ -6187,7 +6307,7 @@
         {
           "id": "harness-cache:<HOME>/.gemini/tmp/gone/chats/session-2026-04-01t09-00-00-2c3d4e5f.jsonl",
           "role": "state",
-          "preselect": false
+          "preselect": true
         },
         {
           "id": "memory-file:<HOME>/.gemini/tmp/gone/memory/gemini.md",
@@ -6208,11 +6328,45 @@
         "tokens": 24,
         "files": 3
       },
-      "flags": ["memory", "sensitive"],
+      "flags": ["sensitive", "memory"],
       "action": {
         "kind": "clean",
-        "preselect": false,
+        "preselect": true,
         "locator": null
+      }
+    },
+    {
+      "id": "finding:shadow-memory:context-file:<HOME>/.gemini/gemini.md",
+      "category": "shadow-memory",
+      "severity": "low",
+      "container": "harness:gemini-cli",
+      "targets": [
+        {
+          "id": "context-file:<HOME>/.gemini/gemini.md",
+          "role": "subject"
+        }
+      ],
+      "message": "~/.gemini/GEMINI.md carries a legacy \"## Gemini Added Memories\" section, loaded with the file in every Gemini CLI session",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "the harness appended memory to a context file instead of its memory unit"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 171,
+        "tokens": 59,
+        "files": 1
+      },
+      "flags": [],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": {
+          "type": "file",
+          "path": "<HOME>/.gemini/GEMINI.md"
+        }
       }
     },
     {

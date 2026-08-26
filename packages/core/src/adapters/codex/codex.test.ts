@@ -744,7 +744,10 @@ describe("codex adapter over the trust-and-state case", () => {
   });
 
   it("files the audit findings the case earns", () => {
+    // Two copies of one skill that differ are both a duplicate and a drift finding (D80).
     expect(result.findings.map((finding) => finding.category)).toEqual([
+      "drift",
+      "drift",
       "duplicate",
       "duplicate",
       "harness-cache",

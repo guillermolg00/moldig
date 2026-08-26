@@ -3239,6 +3239,82 @@
   },
   "findings": [
     {
+      "id": "finding:drift:skill:<HOME>/.codex/skills/vercel-react-best-practices",
+      "category": "drift",
+      "severity": "medium",
+      "container": "harness:codex",
+      "targets": [
+        {
+          "id": "skill:<HOME>/.codex/skills/vercel-react-best-practices",
+          "role": "subject"
+        },
+        {
+          "id": "skill:<ROOT>/project-a/.codex/skills/vercel-react-best-practices",
+          "role": "counterpart"
+        }
+      ],
+      "message": "vercel-react-best-practices at user scope differs from the copy at project scope of project-a",
+      "evidence": [
+        {
+          "kind": "content-hash",
+          "detail": "git-tree-sha1 a268f8b657ae ≠ 0410894fd3ea"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 70753,
+        "tokens": null,
+        "files": 5
+      },
+      "flags": [],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": {
+          "type": "dir",
+          "path": "<HOME>/.codex/skills/vercel-react-best-practices"
+        }
+      }
+    },
+    {
+      "id": "finding:drift:skill:<ROOT>/project-a/.codex/skills/vercel-react-best-practices",
+      "category": "drift",
+      "severity": "medium",
+      "container": "project:<ROOT>/project-a",
+      "targets": [
+        {
+          "id": "skill:<ROOT>/project-a/.codex/skills/vercel-react-best-practices",
+          "role": "subject"
+        },
+        {
+          "id": "skill:<HOME>/.codex/skills/vercel-react-best-practices",
+          "role": "counterpart"
+        }
+      ],
+      "message": "vercel-react-best-practices at project scope of project-a differs from the copy at user scope",
+      "evidence": [
+        {
+          "kind": "content-hash",
+          "detail": "git-tree-sha1 0410894fd3ea ≠ a268f8b657ae"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 5460,
+        "tokens": null,
+        "files": 2
+      },
+      "flags": [],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": {
+          "type": "dir",
+          "path": "<ROOT>/project-a/.codex/skills/vercel-react-best-practices"
+        }
+      }
+    },
+    {
       "id": "finding:duplicate:mcp-server:<ROOT>/project-a/.codex/config.toml#mcp_servers/project-server",
       "category": "duplicate",
       "severity": "low",
@@ -3260,7 +3336,7 @@
           "detail": "stdio:<redacted> <redacted>"
         }
       ],
-      "confidence": "high",
+      "confidence": "medium",
       "impact": {
         "bytes": 61,
         "tokens": null,
@@ -3296,11 +3372,11 @@
       "message": "vercel-react-best-practices is configured 2 times with the same name (user scope, project scope of project-a)",
       "evidence": [
         {
-          "kind": "endpoint",
-          "detail": "identical bytes"
+          "kind": "name-only",
+          "detail": "vercel-react-best-practices"
         }
       ],
-      "confidence": "high",
+      "confidence": "medium",
       "impact": {
         "bytes": 5460,
         "tokens": null,
@@ -3383,7 +3459,7 @@
       },
       "flags": ["sensitive"],
       "action": {
-        "kind": "clean",
+        "kind": "delete",
         "preselect": false,
         "locator": null
       }

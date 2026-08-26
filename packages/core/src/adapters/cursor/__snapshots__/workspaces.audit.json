@@ -4135,7 +4135,7 @@
           "detail": "stdio:<redacted> <redacted> <redacted>"
         }
       ],
-      "confidence": "high",
+      "confidence": "medium",
       "impact": {
         "bytes": 59,
         "tokens": null,

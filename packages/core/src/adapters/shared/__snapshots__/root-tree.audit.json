@@ -686,28 +686,6 @@
       "project": "project:<ROOT>/monorepo",
       "reason": "most-expensive"
     },
-    "perHarness": [
-      {
-        "harness": "claude-code",
-        "modelFamily": null,
-        "contextWindowTokens": null,
-        "baseline": {
-          "low": 0,
-          "mid": 0,
-          "high": 0
-        },
-        "project": {
-          "low": 48,
-          "mid": 48,
-          "high": 48
-        },
-        "total": {
-          "low": 48,
-          "mid": 48,
-          "high": 48
-        },
-        "pctOfContext": null
-      }
-    ]
+    "perHarness": []
   }
 }

@@ -18,8 +18,15 @@ export type { ScanOptions } from "./scan/scan.js";
 /** D125: the CLI validates `--platform`/`process.platform` with these before it calls `scan`. */
 export { assertScanPlatform, isScanPlatform, SCAN_PLATFORMS } from "./scan/paths.js";
 export type { ScanPlatform } from "./scan/paths.js";
-export { audit, isPreselected } from "./audit/audit.js";
+export { audit, isCleanable, isPreselected } from "./audit/audit.js";
 export type { AuditOptions } from "./audit/audit.js";
+/** D85: the CLI and the TUI render findings through one comparator and one category table. */
+export {
+  CATEGORY_ORDER,
+  compareForDisplay,
+  compareSerialised,
+  PINNED_FLAGS,
+} from "./audit/order.js";
 export { MULTIPLIERS, modelFamilyOf } from "./tokens/tokenizer.js";
 
 // The actions engine (ticket 24): pure planning here, executors injected by the CLI (D103).

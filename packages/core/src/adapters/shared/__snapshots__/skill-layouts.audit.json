@@ -635,6 +635,102 @@
   },
   "findings": [
     {
+      "id": "finding:drift:skill:<HOME>/.agents/skills/skill-a",
+      "category": "drift",
+      "severity": "medium",
+      "container": "harness:unknown",
+      "targets": [
+        {
+          "id": "skill:<HOME>/.agents/skills/skill-a",
+          "role": "subject"
+        },
+        {
+          "id": "skill:<ROOT>/project-a/.claude/skills/skill-a",
+          "role": "counterpart"
+        }
+      ],
+      "message": "skill-a at user scope differs from the copy at project scope of project-a",
+      "evidence": [
+        {
+          "kind": "content-hash",
+          "detail": "git-tree-sha1 ad4696a84d26 ≠ 086b761b3936"
+        },
+        {
+          "kind": "lock-entry",
+          "detail": ".skill-lock.json",
+          "locator": {
+            "type": "entry",
+            "file": "<HOME>/.agents/.skill-lock.json",
+            "format": "json",
+            "keyPath": ["skills", "skill-a"]
+          }
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 242,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": [],
+      "action": {
+        "kind": "update",
+        "preselect": false,
+        "locator": {
+          "type": "dir",
+          "path": "<HOME>/.agents/skills/skill-a"
+        }
+      }
+    },
+    {
+      "id": "finding:drift:skill:<ROOT>/project-a/.claude/skills/skill-a",
+      "category": "drift",
+      "severity": "medium",
+      "container": "project:<ROOT>/project-a",
+      "targets": [
+        {
+          "id": "skill:<ROOT>/project-a/.claude/skills/skill-a",
+          "role": "subject"
+        },
+        {
+          "id": "skill:<HOME>/.agents/skills/skill-a",
+          "role": "counterpart"
+        }
+      ],
+      "message": "skill-a at project scope of project-a differs from the copy at user scope",
+      "evidence": [
+        {
+          "kind": "content-hash",
+          "detail": "git-tree-sha1 086b761b3936 ≠ ad4696a84d26"
+        },
+        {
+          "kind": "lock-entry",
+          "detail": "skills-lock.json",
+          "locator": {
+            "type": "entry",
+            "file": "<ROOT>/project-a/skills-lock.json",
+            "format": "json",
+            "keyPath": ["skills", "skill-a"]
+          }
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 2018,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": [],
+      "action": {
+        "kind": "update",
+        "preselect": false,
+        "locator": {
+          "type": "dir",
+          "path": "<ROOT>/project-a/.claude/skills/skill-a"
+        }
+      }
+    },
+    {
       "id": "finding:duplicate:skill:<HOME>/.agents/skills/skill-a",
       "category": "duplicate",
       "severity": "low",
@@ -652,8 +748,24 @@
       "message": "skill-a is configured 2 times with the same origin (user scope, project scope of project-a)",
       "evidence": [
         {
-          "kind": "endpoint",
-          "detail": "identical bytes"
+          "kind": "lock-entry",
+          "detail": "skill-a",
+          "locator": {
+            "type": "entry",
+            "file": "<HOME>/.agents/.skill-lock.json",
+            "format": "json",
+            "keyPath": ["skills", "skill-a"]
+          }
+        },
+        {
+          "kind": "lock-entry",
+          "detail": "skill-a",
+          "locator": {
+            "type": "entry",
+            "file": "<ROOT>/project-a/skills-lock.json",
+            "format": "json",
+            "keyPath": ["skills", "skill-a"]
+          }
         }
       ],
       "confidence": "high",
@@ -751,28 +863,6 @@
       "project": "project:<ROOT>/project-a",
       "reason": "most-expensive"
     },
-    "perHarness": [
-      {
-        "harness": "claude-code",
-        "modelFamily": null,
-        "contextWindowTokens": null,
-        "baseline": {
-          "low": 8,
-          "mid": 8,
-          "high": 8
-        },
-        "project": {
-          "low": 4,
-          "mid": 4,
-          "high": 4
-        },
-        "total": {
-          "low": 12,
-          "mid": 12,
-          "high": 12
-        },
-        "pctOfContext": null
-      }
-    ]
+    "perHarness": []
   }
 }
