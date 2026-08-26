@@ -42,6 +42,17 @@ export interface ScanOptions {
   git?: boolean;
   /** Deterministic `generatedAt` and `ageDays`. */
   now?: Date;
+  /** D50: PID liveness behind the `pid` and `in-use-marker` guards; default `process.kill(pid, 0)`. */
+  isProcessAlive?: (pid: number) => boolean;
+}
+
+function processIsAlive(pid: number): boolean {
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 const STAT_DEADLINE_MS = 2000;
@@ -189,6 +200,7 @@ export async function scan(options: ScanOptions): Promise<Index> {
     env: options.env,
     git: options.git ?? true,
     now,
+    isProcessAlive: options.isProcessAlive ?? processIsAlive,
   };
   const discovery = createDiscovery({
     home,

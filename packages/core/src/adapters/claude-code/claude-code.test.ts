@@ -335,9 +335,10 @@ describe("claude-code adapter over the breadcrumbs case", () => {
       disableModelInvocation: false,
       countsTowardHeadline: true,
     });
+    // D39: an agent definition is spawned on demand; its description never enters the Headline.
     expect(
       loadedBy("agent-definition", root("project-a/.claude/agents/reviewer.md")),
-    ).toMatchObject({ mode: "description-only", countsTowardHeadline: true });
+    ).toMatchObject({ mode: "on-demand", order: null, countsTowardHeadline: false });
     const imports = result.edges.find((edge) => edge.kind === "imports");
     expect(imports).toMatchObject({
       from: id("context-file", root("project-a/CLAUDE.local.md")),
@@ -353,8 +354,20 @@ describe("claude-code adapter over the breadcrumbs case", () => {
       id("context-file", root("project-a/docs/notes.md")),
       id("memory-file", `${slug("project-a")}/memory/MEMORY.md`),
       id("skill", root("project-a/.claude/commands/x.md")),
-      id("agent-definition", root("project-a/.claude/agents/reviewer.md")),
     ]);
+  });
+
+  it("links the memory index to the fact its list item names", () => {
+    const indexId = id("memory-file", `${slug("project-a")}/memory/MEMORY.md`);
+    const lists = result.edges.find((edge) => edge.kind === "lists" && edge.from === indexId);
+    expect(lists).toMatchObject({
+      to: id("memory-file", `${slug("project-a")}/memory/topic-a.md`),
+      confidence: "certain",
+    });
+    expect(lists?.evidence[0]).toEqual({
+      kind: "index-line",
+      detail: "line 3: topic-a.md",
+    });
   });
 
   it("computes the exact never-read signal from the Project's transcripts", () => {
@@ -380,7 +393,7 @@ describe("claude-code adapter over the breadcrumbs case", () => {
       first: "2023-11-14T22:13:20.000Z",
       last: "2023-11-14T22:13:20.000Z",
     });
-    expect(index.loadedPortion).toMatchObject({ lines: 2, bytes: 396, confidence: "certain" });
+    expect(index.loadedPortion).toMatchObject({ lines: 3, bytes: 432, confidence: "certain" });
     expect(topicA.neverRead).toBe(true);
     expect(topicA.frontmatter).toEqual({
       name: "<redacted>",

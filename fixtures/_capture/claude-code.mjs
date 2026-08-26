@@ -475,7 +475,9 @@ function caseBreadcrumbs() {
   live.memoryTopics = topics.every((t) => t.live);
 
   const slugA = 'home/.claude/projects/__ROOT__-project-a';
-  w.write(`${slugA}/memory/MEMORY.md`, memIndex.text);
+  // D138: the observed index shape is `- [name.md](name.md) — hook`; one such item must be
+  // committed so the `lists` edge and ticket 08's index-rewrite rule are covered by a fixture.
+  w.write(`${slugA}/memory/MEMORY.md`, `${memIndex.text}- [topic-a.md](topic-a.md) — hook\n`);
   w.write(`${slugA}/memory/topic-a.md`, topics[0].text);
   w.write(`${slugA}/memory/topic-b.md`, topics[1].text);
   w.jsonl(`${slugA}/${UUID_A}.jsonl`, transcript(UUID_A, '<ROOT>/project-a', '<HOME>/.claude/projects/__ROOT__-project-a/memory/MEMORY.md'));

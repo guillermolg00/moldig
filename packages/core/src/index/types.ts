@@ -283,7 +283,14 @@ export interface Skill extends EntityBase {
 }
 export interface Origin {
   // attribute; the originates-from edge points at the lock entry
-  installer: "vercel-skills" | "claude-plugin" | "codex-plugin" | "gemini-extension" | "unknown";
+  // amendment (D42): `git-clone` — a `.git` inside the skill directory, the installer ticket 14 §2 recognises
+  installer:
+    | "vercel-skills"
+    | "claude-plugin"
+    | "codex-plugin"
+    | "gemini-extension"
+    | "git-clone"
+    | "unknown";
   sourceType:
     | "github"
     | "git"

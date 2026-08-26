@@ -19,10 +19,10 @@ All bytes                31.4 KB
 Projects
 Project    Reachability  Harness      Tokens/session  Harness cache
 gone       gone          Claude Code               0            0 B
-project-a  present       Claude Code             256         2.7 KB
+project-a  present       Claude Code             265         2.7 KB
 
 1 Project present · 1 gone · 0 unreachable · 2 Stray
 
 Totals
 42 entities · 36 files · 31.4 KB
-harness cache 4.8 KB · memory files 5.3 KB · 1 591 tokens on disk
+harness cache 4.8 KB · memory files 5.3 KB · 1 604 tokens on disk

@@ -15,6 +15,7 @@ import type {
   GitStatus,
   LoadedByEdge,
   Locator,
+  McpServer,
   Metrics,
   Scope,
 } from "../../index/types.js";
@@ -23,7 +24,9 @@ import type { DiscoveredProject, Located } from "../../scan/discovery.js";
 import { isUnder, edgeId } from "../../scan/paths.js";
 import { tildify } from "../../scan/paths.js";
 import type { ProjectFacts } from "../adapter.js";
+import type { SkillLock } from "./locks.js";
 import type { ClaudePaths } from "./paths.js";
+import type { PluginRegistry, PluginRow, Marketplaces } from "./plugins.js";
 import type { ClaudeJson, SettingsFiles } from "./state.js";
 import type { SlugDir } from "./transcripts.js";
 
@@ -49,6 +52,15 @@ export interface ClaudeScan {
   keyLocated: Map<string, Located>;
   /** The harness version as the newest transcript recorded it (research 01); `null` = never written. */
   version: string | null;
+  /** `plugins/installed_plugins.json` and `known_marketplaces.json`, read once in `discover`. */
+  registry: PluginRegistry;
+  marketplaces: Marketplaces;
+  /** Skill locks the adapter reads for `Skill.origin`: the global one first, then per Project. */
+  locks: SkillLock[];
+  /** `installed_plugins.json[].projectPath` rows, emitted as `project-row` breadcrumbs (D49). */
+  pluginRows: PluginRow[];
+  /** Plugin-provided MCP servers, handed to the duplicate pass of `collectMcp`. */
+  extraMcp: McpServer[];
   entities: Map<string, Entity>;
   edges: Map<string, Edge>;
   breadcrumbs: Breadcrumb[];
@@ -162,8 +174,18 @@ export interface LoadedByInput {
   confidence?: Confidence;
 }
 
+/**
+ * One `loaded-by` edge per (entity, harness, **Project**) — D136 amends ticket 07's id rule: the
+ * old `edge:loaded-by:<from>:<to>` let one entity hold a single verdict, so a user-scope skill or
+ * a shared MCP entry could never say what it costs in a second Project.
+ */
+export function loadedByEdgeId(from: string, project: string | null): string {
+  const base = edgeId("loaded-by", from, HARNESS_ID);
+  return project === null ? base : `${base}:${project}`;
+}
+
 export function loadedBy(scan: ClaudeScan, input: LoadedByInput): LoadedByEdge {
-  const id = edgeId("loaded-by", input.from, HARNESS_ID);
+  const id = loadedByEdgeId(input.from, input.project);
   const existing = scan.edges.get(id);
   if (existing !== undefined && existing.kind === "loaded-by") return existing;
   const edge: LoadedByEdge = {

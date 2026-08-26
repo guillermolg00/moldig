@@ -19,6 +19,8 @@ export interface ResolvedOptions {
   env: Readonly<Record<string, string | undefined>>;
   git: boolean;
   now: Date;
+  /** D50: PID liveness behind the `pid` and `in-use-marker` guards, injected so fixtures are deterministic. */
+  isProcessAlive: (pid: number) => boolean;
 }
 
 export interface ScanContext {

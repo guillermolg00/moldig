@@ -284,48 +284,42 @@
             "items": [
               {
                 "entity": "context-file:<ROOT>/project-a/claude.md",
-                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/claude.md:harness:claude-code",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/claude.md:harness:claude-code:project:<ROOT>/project-a",
                 "order": 0,
                 "tokens": 78
               },
               {
                 "entity": "context-file:<ROOT>/project-a/.claude/rules/nested/rule-b.md",
-                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/.claude/rules/nested/rule-b.md:harness:claude-code",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/.claude/rules/nested/rule-b.md:harness:claude-code:project:<ROOT>/project-a",
                 "order": 1,
                 "tokens": 40
               },
               {
                 "entity": "context-file:<ROOT>/project-a/claude.local.md",
-                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/claude.local.md:harness:claude-code",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/claude.local.md:harness:claude-code:project:<ROOT>/project-a",
                 "order": 2,
                 "tokens": 36
               },
               {
                 "entity": "context-file:<ROOT>/project-a/docs/notes.md",
-                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/docs/notes.md:harness:claude-code",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/docs/notes.md:harness:claude-code:project:<ROOT>/project-a",
                 "order": 3,
                 "tokens": 30
               },
               {
                 "entity": "memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/memory.md",
-                "edge": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/memory.md:harness:claude-code",
+                "edge": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/memory.md:harness:claude-code:project:<ROOT>/project-a",
                 "order": 4,
-                "tokens": 64
+                "tokens": 77
               },
               {
                 "entity": "skill:<ROOT>/project-a/.claude/commands/x.md",
-                "edge": "edge:loaded-by:skill:<ROOT>/project-a/.claude/commands/x.md:harness:claude-code",
+                "edge": "edge:loaded-by:skill:<ROOT>/project-a/.claude/commands/x.md:harness:claude-code:project:<ROOT>/project-a",
                 "order": 5,
-                "tokens": 4
-              },
-              {
-                "entity": "agent-definition:<ROOT>/project-a/.claude/agents/reviewer.md",
-                "edge": "edge:loaded-by:agent-definition:<ROOT>/project-a/.claude/agents/reviewer.md:harness:claude-code",
-                "order": 6,
                 "tokens": 4
               }
             ],
-            "tokens": 256
+            "tokens": 265
           }
         }
       }
@@ -1071,7 +1065,7 @@
         "tokens": null,
         "lastUsed": null
       },
-      "cacheKind": "log",
+      "cacheKind": "kept-state",
       "unit": "file",
       "surface": "cli",
       "session": null,
@@ -2149,13 +2143,13 @@
         "method": "trash"
       },
       "metrics": {
-        "bytes": 396,
+        "bytes": 432,
         "files": 1,
-        "lines": 2,
+        "lines": 3,
         "mtime": "<COPY-TIME>",
         "ageDays": 0,
         "tokens": {
-          "o200k": 64,
+          "o200k": 77,
           "method": "o200k_base"
         },
         "lastUsed": null
@@ -2165,9 +2159,9 @@
       "owner": "project",
       "frontmatter": {},
       "loadedPortion": {
-        "lines": 2,
-        "bytes": 396,
-        "tokens": 64,
+        "lines": 3,
+        "bytes": 432,
+        "tokens": 77,
         "confidence": "certain"
       },
       "reads": {
@@ -2752,9 +2746,9 @@
       "format": "json",
       "label": ".mcp.json",
       "sensitive": false,
-      "protection": "none",
+      "protection": "never",
       "removal": {
-        "method": "trash"
+        "method": "none"
       },
       "metrics": {
         "bytes": 415,
@@ -2809,7 +2803,7 @@
       "name": "x",
       "dirName": "x",
       "frontmatterName": null,
-      "layout": "canonical",
+      "layout": "copy",
       "placements": [
         {
           "path": "<ROOT>/project-a/.claude/commands/x.md",
@@ -2886,7 +2880,7 @@
       "kind": "duplicates",
       "from": "mcp-server:<HOME>/.claude.json#mcpServers/server-stdio",
       "to": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-stdio",
-      "confidence": "high",
+      "confidence": "medium",
       "evidence": [
         {
           "kind": "endpoint",
@@ -2900,7 +2894,7 @@
       "kind": "duplicates",
       "from": "mcp-server:<HOME>/.claude.json#mcpServers/server-stdio",
       "to": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-stdio",
-      "confidence": "high",
+      "confidence": "medium",
       "evidence": [
         {
           "kind": "endpoint",
@@ -2914,7 +2908,7 @@
       "kind": "duplicates",
       "from": "mcp-server:<HOME>/.claude.json#mcpServers/server-stdio",
       "to": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-stdio-implicit",
-      "confidence": "high",
+      "confidence": "medium",
       "evidence": [
         {
           "kind": "endpoint",
@@ -2956,7 +2950,7 @@
       "kind": "duplicates",
       "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-stdio",
       "to": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-stdio",
-      "confidence": "high",
+      "confidence": "medium",
       "evidence": [
         {
           "kind": "endpoint",
@@ -2970,7 +2964,7 @@
       "kind": "duplicates",
       "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-stdio",
       "to": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-stdio-implicit",
-      "confidence": "high",
+      "confidence": "medium",
       "evidence": [
         {
           "kind": "endpoint",
@@ -2998,7 +2992,7 @@
       "kind": "duplicates",
       "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-stdio",
       "to": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-stdio-implicit",
-      "confidence": "high",
+      "confidence": "medium",
       "evidence": [
         {
           "kind": "endpoint",
@@ -3024,11 +3018,24 @@
       "syntax": "at-import"
     },
     {
-      "id": "edge:loaded-by:agent-definition:<ROOT>/project-a/.claude/agents/reviewer.md:harness:claude-code",
+      "id": "edge:lists:memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/memory.md:memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-a.md",
+      "kind": "lists",
+      "from": "memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/memory.md",
+      "to": "memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-a.md",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "index-line",
+          "detail": "line 3: topic-a.md"
+        }
+      ]
+    },
+    {
+      "id": "edge:loaded-by:agent-definition:<ROOT>/project-a/.claude/agents/reviewer.md:harness:claude-code:project:<ROOT>/project-a",
       "kind": "loaded-by",
       "from": "agent-definition:<ROOT>/project-a/.claude/agents/reviewer.md",
       "to": "harness:claude-code",
-      "confidence": "certain",
+      "confidence": "medium",
       "evidence": [
         {
           "kind": "listing-rule",
@@ -3036,16 +3043,16 @@
         }
       ],
       "project": "project:<ROOT>/project-a",
-      "mode": "description-only",
-      "reason": "project agent definition: description listed for delegation, body when spawned",
+      "mode": "on-demand",
+      "reason": "spawned on demand; no documented session cost",
       "placement": "<ROOT>/project-a/.claude/agents/reviewer.md",
       "effectiveName": "reviewer",
-      "order": 6,
+      "order": null,
       "charsLoaded": 10,
       "importsResolved": null,
       "tokensLoaded": 4,
       "disableModelInvocation": null,
-      "countsTowardHeadline": true
+      "countsTowardHeadline": false
     },
     {
       "id": "edge:loaded-by:context-file:<HOME>/.claude/claude.md:harness:claude-code",
@@ -3072,7 +3079,7 @@
       "countsTowardHeadline": true
     },
     {
-      "id": "edge:loaded-by:context-file:<ROOT>/project-a-wt/claude.md:harness:claude-code",
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a-wt/claude.md:harness:claude-code:project:<ROOT>/project-a",
       "kind": "loaded-by",
       "from": "context-file:<ROOT>/project-a-wt/claude.md",
       "to": "harness:claude-code",
@@ -3096,7 +3103,7 @@
       "countsTowardHeadline": false
     },
     {
-      "id": "edge:loaded-by:context-file:<ROOT>/project-a/.claude/rules/nested/rule-b.md:harness:claude-code",
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/.claude/rules/nested/rule-b.md:harness:claude-code:project:<ROOT>/project-a",
       "kind": "loaded-by",
       "from": "context-file:<ROOT>/project-a/.claude/rules/nested/rule-b.md",
       "to": "harness:claude-code",
@@ -3120,7 +3127,7 @@
       "countsTowardHeadline": true
     },
     {
-      "id": "edge:loaded-by:context-file:<ROOT>/project-a/.claude/rules/rule-a.md:harness:claude-code",
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/.claude/rules/rule-a.md:harness:claude-code:project:<ROOT>/project-a",
       "kind": "loaded-by",
       "from": "context-file:<ROOT>/project-a/.claude/rules/rule-a.md",
       "to": "harness:claude-code",
@@ -3144,7 +3151,7 @@
       "countsTowardHeadline": false
     },
     {
-      "id": "edge:loaded-by:context-file:<ROOT>/project-a/apps/web/claude.md:harness:claude-code",
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/apps/web/claude.md:harness:claude-code:project:<ROOT>/project-a",
       "kind": "loaded-by",
       "from": "context-file:<ROOT>/project-a/apps/web/claude.md",
       "to": "harness:claude-code",
@@ -3168,7 +3175,7 @@
       "countsTowardHeadline": false
     },
     {
-      "id": "edge:loaded-by:context-file:<ROOT>/project-a/claude.local.md:harness:claude-code",
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/claude.local.md:harness:claude-code:project:<ROOT>/project-a",
       "kind": "loaded-by",
       "from": "context-file:<ROOT>/project-a/claude.local.md",
       "to": "harness:claude-code",
@@ -3192,7 +3199,7 @@
       "countsTowardHeadline": true
     },
     {
-      "id": "edge:loaded-by:context-file:<ROOT>/project-a/claude.md:harness:claude-code",
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/claude.md:harness:claude-code:project:<ROOT>/project-a",
       "kind": "loaded-by",
       "from": "context-file:<ROOT>/project-a/claude.md",
       "to": "harness:claude-code",
@@ -3216,7 +3223,7 @@
       "countsTowardHeadline": true
     },
     {
-      "id": "edge:loaded-by:context-file:<ROOT>/project-a/docs/notes.md:harness:claude-code",
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/docs/notes.md:harness:claude-code:project:<ROOT>/project-a",
       "kind": "loaded-by",
       "from": "context-file:<ROOT>/project-a/docs/notes.md",
       "to": "harness:claude-code",
@@ -3288,7 +3295,7 @@
       "countsTowardHeadline": false
     },
     {
-      "id": "edge:loaded-by:mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-http:harness:claude-code",
+      "id": "edge:loaded-by:mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-http:harness:claude-code:project:<ROOT>/gone",
       "kind": "loaded-by",
       "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-http",
       "to": "harness:claude-code",
@@ -3312,7 +3319,7 @@
       "countsTowardHeadline": false
     },
     {
-      "id": "edge:loaded-by:mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-stdio:harness:claude-code",
+      "id": "edge:loaded-by:mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-stdio:harness:claude-code:project:<ROOT>/gone",
       "kind": "loaded-by",
       "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-stdio",
       "to": "harness:claude-code",
@@ -3336,7 +3343,7 @@
       "countsTowardHeadline": false
     },
     {
-      "id": "edge:loaded-by:mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-http:harness:claude-code",
+      "id": "edge:loaded-by:mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-http:harness:claude-code:project:<ROOT>/project-a",
       "kind": "loaded-by",
       "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-http",
       "to": "harness:claude-code",
@@ -3360,7 +3367,7 @@
       "countsTowardHeadline": false
     },
     {
-      "id": "edge:loaded-by:mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-stdio:harness:claude-code",
+      "id": "edge:loaded-by:mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-stdio:harness:claude-code:project:<ROOT>/project-a",
       "kind": "loaded-by",
       "from": "mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-stdio",
       "to": "harness:claude-code",
@@ -3384,7 +3391,7 @@
       "countsTowardHeadline": false
     },
     {
-      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-broken:harness:claude-code",
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-broken:harness:claude-code:project:<ROOT>/project-a",
       "kind": "loaded-by",
       "from": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-broken",
       "to": "harness:claude-code",
@@ -3408,7 +3415,7 @@
       "countsTowardHeadline": false
     },
     {
-      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-http:harness:claude-code",
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-http:harness:claude-code:project:<ROOT>/project-a",
       "kind": "loaded-by",
       "from": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-http",
       "to": "harness:claude-code",
@@ -3432,7 +3439,7 @@
       "countsTowardHeadline": false
     },
     {
-      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-sse:harness:claude-code",
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-sse:harness:claude-code:project:<ROOT>/project-a",
       "kind": "loaded-by",
       "from": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-sse",
       "to": "harness:claude-code",
@@ -3456,7 +3463,7 @@
       "countsTowardHeadline": false
     },
     {
-      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-stdio-implicit:harness:claude-code",
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-stdio-implicit:harness:claude-code:project:<ROOT>/project-a",
       "kind": "loaded-by",
       "from": "mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-stdio-implicit",
       "to": "harness:claude-code",
@@ -3493,7 +3500,7 @@
       ],
       "project": null,
       "mode": "full",
-      "reason": "auto-memory index of a bare directory: loaded by sessions started there",
+      "reason": "loaded only by sessions started in <HOME>, which is not a Project",
       "placement": null,
       "effectiveName": null,
       "order": null,
@@ -3528,7 +3535,7 @@
       "countsTowardHeadline": false
     },
     {
-      "id": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__ROOT__-gone/memory/memory.md:harness:claude-code",
+      "id": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__ROOT__-gone/memory/memory.md:harness:claude-code:project:<ROOT>/gone",
       "kind": "loaded-by",
       "from": "memory-file:<HOME>/.claude/projects/__ROOT__-gone/memory/memory.md",
       "to": "harness:claude-code",
@@ -3540,19 +3547,19 @@
         }
       ],
       "project": "project:<ROOT>/gone",
-      "mode": "full",
-      "reason": "auto-memory index; the Project directory is gone",
+      "mode": "never",
+      "reason": "directory gone: no session can start there",
       "placement": null,
       "effectiveName": null,
       "order": null,
-      "charsLoaded": 255,
+      "charsLoaded": 0,
       "importsResolved": null,
-      "tokensLoaded": 55,
+      "tokensLoaded": 0,
       "disableModelInvocation": null,
       "countsTowardHeadline": false
     },
     {
-      "id": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__ROOT__-gone/memory/topic-gone.md:harness:claude-code",
+      "id": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__ROOT__-gone/memory/topic-gone.md:harness:claude-code:project:<ROOT>/gone",
       "kind": "loaded-by",
       "from": "memory-file:<HOME>/.claude/projects/__ROOT__-gone/memory/topic-gone.md",
       "to": "harness:claude-code",
@@ -3576,7 +3583,7 @@
       "countsTowardHeadline": false
     },
     {
-      "id": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/memory.md:harness:claude-code",
+      "id": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/memory.md:harness:claude-code:project:<ROOT>/project-a",
       "kind": "loaded-by",
       "from": "memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/memory.md",
       "to": "harness:claude-code",
@@ -3593,14 +3600,14 @@
       "placement": null,
       "effectiveName": null,
       "order": 4,
-      "charsLoaded": 396,
+      "charsLoaded": 430,
       "importsResolved": null,
-      "tokensLoaded": 64,
+      "tokensLoaded": 77,
       "disableModelInvocation": null,
       "countsTowardHeadline": true
     },
     {
-      "id": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-a.md:harness:claude-code",
+      "id": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-a.md:harness:claude-code:project:<ROOT>/project-a",
       "kind": "loaded-by",
       "from": "memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-a.md",
       "to": "harness:claude-code",
@@ -3624,7 +3631,7 @@
       "countsTowardHeadline": false
     },
     {
-      "id": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-b.md:harness:claude-code",
+      "id": "edge:loaded-by:memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-b.md:harness:claude-code:project:<ROOT>/project-a",
       "kind": "loaded-by",
       "from": "memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-b.md",
       "to": "harness:claude-code",
@@ -3648,7 +3655,7 @@
       "countsTowardHeadline": false
     },
     {
-      "id": "edge:loaded-by:memory-file:<ROOT>/project-a/.claude/agent-memory/reviewer/memory.md:harness:claude-code",
+      "id": "edge:loaded-by:memory-file:<ROOT>/project-a/.claude/agent-memory/reviewer/memory.md:harness:claude-code:project:<ROOT>/project-a",
       "kind": "loaded-by",
       "from": "memory-file:<ROOT>/project-a/.claude/agent-memory/reviewer/memory.md",
       "to": "harness:claude-code",
@@ -3672,7 +3679,7 @@
       "countsTowardHeadline": false
     },
     {
-      "id": "edge:loaded-by:skill:<ROOT>/project-a/.claude/commands/x.md:harness:claude-code",
+      "id": "edge:loaded-by:skill:<ROOT>/project-a/.claude/commands/x.md:harness:claude-code:project:<ROOT>/project-a",
       "kind": "loaded-by",
       "from": "skill:<ROOT>/project-a/.claude/commands/x.md",
       "to": "harness:claude-code",
@@ -3778,10 +3785,10 @@
   "totals": {
     "entities": 42,
     "files": 36,
-    "bytes": 32103,
+    "bytes": 32139,
     "harnessCacheBytes": 4879,
-    "memoryBytes": 5418,
-    "tokens": 1591
+    "memoryBytes": 5454,
+    "tokens": 1604
   },
   "findings": [
     {
@@ -4126,7 +4133,7 @@
           "preselect": false
         }
       ],
-      "message": "1 memory unit (3 files, 640 tokens) kept under Claude Code's user scope, invisible from project-a; 2 facts never read",
+      "message": "1 memory unit (3 files, 653 tokens) kept under Claude Code's user scope, invisible from project-a; 2 facts never read",
       "evidence": [
         {
           "kind": "loading-rule",
@@ -4135,8 +4142,8 @@
       ],
       "confidence": "certain",
       "impact": {
-        "bytes": 3924,
-        "tokens": 640,
+        "bytes": 3960,
+        "tokens": 653,
         "files": 3
       },
       "flags": ["memory"],
@@ -4164,14 +4171,14 @@
           "high": 100
         },
         "project": {
-          "low": 256,
-          "mid": 256,
-          "high": 256
+          "low": 265,
+          "mid": 265,
+          "high": 265
         },
         "total": {
-          "low": 356,
-          "mid": 356,
-          "high": 356
+          "low": 365,
+          "mid": 365,
+          "high": 365
         },
         "pctOfContext": null
       }

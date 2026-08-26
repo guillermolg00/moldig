@@ -17,8 +17,10 @@ import { SESSION_ID } from "./paths.js";
 
 const ACTIVITY_WINDOW_MS = 60 * 60 * 1000;
 
-interface UnitInput {
+export interface UnitInput {
   paths: string[];
+  /** Sub-trees that are units of their own, subtracted so no byte is counted twice (D51). */
+  exclude?: string[];
   cacheKind: string;
   unit: HarnessCache["unit"];
   session: string | null;
@@ -42,12 +44,20 @@ function recentActivity(now: Date): (newestMs: number | null) => HarnessCache["l
   });
 }
 
-async function cacheEntity(scan: ClaudeScan, input: UnitInput): Promise<HarnessCache | null> {
+export async function cacheEntity(
+  scan: ClaudeScan,
+  input: UnitInput,
+): Promise<HarnessCache | null> {
   const anchor = input.paths[0];
   if (anchor === undefined) return null;
   const stats = await Promise.all(input.paths.map((path) => treeStats(path)));
-  const files = stats.reduce((sum, item) => sum + item.files, 0);
-  const bytes = stats.reduce((sum, item) => sum + item.bytes, 0);
+  const excluded = await Promise.all((input.exclude ?? []).map((path) => treeStats(path)));
+  const files =
+    stats.reduce((sum, item) => sum + item.files, 0) -
+    excluded.reduce((sum, item) => sum + item.files, 0);
+  const bytes =
+    stats.reduce((sum, item) => sum + item.bytes, 0) -
+    excluded.reduce((sum, item) => sum + item.bytes, 0);
   const oldest = stats.reduce<number | null>(
     (min, item) =>
       item.oldestMs === null ? min : min === null ? item.oldestMs : Math.min(min, item.oldestMs),
@@ -136,12 +146,17 @@ const DIR_UNITS: [string, string][] = [
   ["statsig", "log"],
   ["logs", "log"],
 ];
+/**
+ * D108: one cacheKind never mixes swept with kept units, so the files ticket 08 marks `kept`
+ * carry their own kind — the `log` kind stays with what the harness sweeps.
+ */
 const KEPT_FILES: [string, boolean][] = [
   ["history.jsonl", true],
   ["stats-cache.json", false],
   ["remote-settings.json", false],
   ["policy-limits.json", false],
 ];
+const KEPT_KIND = "kept-state";
 const UNDOCUMENTED = [
   "jobs",
   "daemon",
@@ -171,15 +186,6 @@ async function liveSessions(configDir: string): Promise<Map<string, number>> {
     if (typeof sessionId === "string" && typeof pid === "number") out.set(sessionId, pid);
   }
   return out;
-}
-
-function pidAlive(pid: number): boolean {
-  try {
-    process.kill(pid, 0);
-    return true;
-  } catch {
-    return false;
-  }
 }
 
 export async function collectCache(scan: ClaudeScan, projects: DiscoveredProject[]): Promise<void> {
@@ -223,7 +229,10 @@ export async function collectCache(scan: ClaudeScan, projects: DiscoveredProject
         project,
         rule: swept,
         retention: daysRetention,
-        liveGuard: { kind: "pid", alive: pid !== undefined && pidAlive(pid) },
+        liveGuard: {
+          kind: "pid",
+          alive: pid !== undefined && scan.ctx.options.isProcessAlive(pid),
+        },
         userContent: present.includes(join(configDir, "uploads", id)),
         protection: "none",
         removal: { method: "trash" },
@@ -370,7 +379,7 @@ export async function collectCache(scan: ClaudeScan, projects: DiscoveredProject
     if ((await treeStats(path)).files === 0) continue;
     await cacheEntity(scan, {
       paths: [path],
-      cacheKind: "log",
+      cacheKind: KEPT_KIND,
       unit: "file",
       session: null,
       slug: null,
@@ -388,7 +397,7 @@ export async function collectCache(scan: ClaudeScan, projects: DiscoveredProject
   if ((await treeStats(changelog)).files > 0) {
     await cacheEntity(scan, {
       paths: [changelog],
-      cacheKind: "log",
+      cacheKind: KEPT_KIND,
       unit: "file",
       session: null,
       slug: null,
@@ -399,6 +408,26 @@ export async function collectCache(scan: ClaudeScan, projects: DiscoveredProject
       userContent: false,
       protection: "none",
       removal: { method: "trash" },
+      sensitive: false,
+    });
+  }
+  // D108: the live-session registry is a row of its own — exempt from the sweep, never removed
+  // (it disappears when the last session exits).
+  const sessionsDir = join(configDir, "sessions");
+  if (await isDirectory(sessionsDir)) {
+    await cacheEntity(scan, {
+      paths: [sessionsDir],
+      cacheKind: "session-registry",
+      unit: "dir",
+      session: null,
+      slug: null,
+      project: null,
+      rule: "exempt",
+      retention: none,
+      liveGuard: null,
+      userContent: false,
+      protection: "never",
+      removal: { method: "none" },
       sensitive: false,
     });
   }

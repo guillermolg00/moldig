@@ -1,0 +1,2739 @@
+{
+  "schemaVersion": 0,
+  "generatedAt": "2026-08-26T12:00:00.000Z",
+  "moldig": {
+    "version": "0.0.0"
+  },
+  "scan": {
+    "home": "<HOME>",
+    "roots": ["<ROOT>"],
+    "cwd": "<ROOT>/project-b",
+    "platform": "darwin",
+    "caseFold": true,
+    "env": {},
+    "git": {
+      "available": false,
+      "version": null
+    },
+    "durationMs": 0
+  },
+  "tokenizer": {
+    "name": "gpt-tokenizer",
+    "version": "4.0.0",
+    "encoding": "o200k_base",
+    "fallbackUsed": false,
+    "multipliers": {
+      "openai": {
+        "low": 1,
+        "mid": 1,
+        "high": 1
+      },
+      "google": {
+        "low": 1,
+        "mid": 1,
+        "high": 1
+      },
+      "anthropic-46": {
+        "low": 1,
+        "mid": 1.15,
+        "high": 1.25
+      },
+      "anthropic-47plus": {
+        "low": 1.3,
+        "mid": 1.5,
+        "high": 1.65
+      }
+    }
+  },
+  "harnesses": [
+    {
+      "id": "harness:claude-code",
+      "harness": "claude-code",
+      "displayName": "Claude Code",
+      "surfaces": ["cli"],
+      "presence": "config-only",
+      "version": null,
+      "effectiveModel": null,
+      "modelFamily": null,
+      "contextWindowTokens": null,
+      "capabilities": {
+        "memoryLocation": "file",
+        "memoryReadSignal": "exact",
+        "contextFileNames": ["CLAUDE.md", "CLAUDE.local.md"],
+        "sweepDocumented": true
+      },
+      "caps": {
+        "memoryIndexLines": 200,
+        "memoryIndexBytes": 25600,
+        "chainMaxBytes": null,
+        "skillDescriptionChars": 1536,
+        "importDepth": 4
+      },
+      "effectiveSettings": {},
+      "breadcrumbSources": [
+        {
+          "kind": "projects-entry",
+          "path": "<HOME>/.claude.json",
+          "readInV1": true
+        },
+        {
+          "kind": "slug-directory",
+          "path": "<HOME>/.claude/projects",
+          "readInV1": true
+        }
+      ],
+      "userScope": {
+        "paths": [
+          {
+            "path": "<HOME>/.claude",
+            "role": "data",
+            "source": "default",
+            "envVar": null
+          },
+          {
+            "path": "<HOME>/.claude.json",
+            "role": "state",
+            "source": "default",
+            "envVar": null
+          }
+        ],
+        "stray": [],
+        "baseline": {
+          "items": [
+            {
+              "entity": "skill:<HOME>/.agents/skills/skill-a",
+              "edge": "edge:loaded-by:skill:<HOME>/.agents/skills/skill-a:harness:claude-code",
+              "order": 0,
+              "tokens": 4
+            },
+            {
+              "entity": "skill:<HOME>/.claude/skills/skill-user",
+              "edge": "edge:loaded-by:skill:<HOME>/.claude/skills/skill-user:harness:claude-code",
+              "order": 1,
+              "tokens": 4
+            },
+            {
+              "entity": "skill:<HOME>/.claude/commands/cmd-user.md",
+              "edge": "edge:loaded-by:skill:<HOME>/.claude/commands/cmd-user.md:harness:claude-code",
+              "order": 2,
+              "tokens": 4
+            },
+            {
+              "entity": "skill:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/skills/skill-p",
+              "edge": "edge:loaded-by:skill:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/skills/skill-p:harness:claude-code",
+              "order": 3,
+              "tokens": 4
+            },
+            {
+              "entity": "skill:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/commands/cmd-p.md",
+              "edge": "edge:loaded-by:skill:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/commands/cmd-p.md:harness:claude-code",
+              "order": 4,
+              "tokens": 4
+            },
+            {
+              "entity": "skill:<HOME>/.claude/skills/skill-plugin",
+              "edge": "edge:loaded-by:skill:<HOME>/.claude/skills/skill-plugin:harness:claude-code",
+              "order": 5,
+              "tokens": 4
+            }
+          ],
+          "tokens": 24
+        }
+      }
+    }
+  ],
+  "projects": [
+    {
+      "id": "project:<ROOT>/project-b",
+      "path": "<ROOT>/project-b",
+      "displayName": "project-b",
+      "kind": "repository",
+      "reachability": "present",
+      "unreachableReason": null,
+      "enclosesCwd": true,
+      "discoveredBy": ["breadcrumb", "marker-walk", "cwd"],
+      "parent": null,
+      "members": [
+        {
+          "path": "<ROOT>/project-b",
+          "role": "repository",
+          "name": null,
+          "gitdir": null,
+          "reachability": "present"
+        }
+      ],
+      "breadcrumbs": [
+        "breadcrumb:claude-code:<HOME>/.claude/plugins/installed_plugins.json#plugins/plugin-b@marketplace-a/0"
+      ],
+      "nestedMarkers": [],
+      "perHarness": {
+        "claude-code": {
+          "trusted": null,
+          "effectiveSettings": {
+            "enabledPlugins": {
+              "plugin-b@marketplace-a": true
+            }
+          },
+          "sessionLoad": {
+            "items": [
+              {
+                "entity": "skill:<ROOT>/project-b/.claude/skills/skill-b",
+                "edge": "edge:loaded-by:skill:<ROOT>/project-b/.claude/skills/skill-b:harness:claude-code:project:<ROOT>/project-b",
+                "order": 0,
+                "tokens": 4
+              },
+              {
+                "entity": "skill:<ROOT>/project-b/.agents/skills/skill-c",
+                "edge": "edge:loaded-by:skill:<ROOT>/project-b/.agents/skills/skill-c:harness:claude-code:project:<ROOT>/project-b",
+                "order": 1,
+                "tokens": 4
+              }
+            ],
+            "tokens": 8
+          }
+        }
+      }
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "id": "breadcrumb:claude-code:<HOME>/.claude/plugins/installed_plugins.json#plugins/plugin-b@marketplace-a/0",
+      "harness": "claude-code",
+      "kind": "project-row",
+      "raw": "<ROOT>/project-b",
+      "recordedForm": "path",
+      "path": "<ROOT>/project-b",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-b",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.claude/plugins/installed_plugins.json",
+        "format": "json",
+        "keyPath": ["plugins", "plugin-b@marketplace-a", "0", "projectPath"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": ["plugin:<HOME>/.claude/plugins/cache/marketplace-a/plugin-b/2.0.0"]
+    }
+  ],
+  "entities": [
+    {
+      "id": "agent-definition:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/agents/agent-p.md",
+      "kind": "agent-definition",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/agents/agent-p.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/agents/agent-p.md"
+      },
+      "format": "md",
+      "label": "agent-p",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 310,
+        "files": 1,
+        "lines": 10,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 73,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "name": "agent-p",
+      "form": "markdown",
+      "frontmatter": {
+        "name": "agent-p",
+        "description": "<redacted>"
+      },
+      "hooks": []
+    },
+    {
+      "id": "harness-cache:<HOME>/.claude/plugins/.last_inuse_sweep",
+      "kind": "harness-cache",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/.last_inuse_sweep",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/plugins/.last_inuse_sweep"
+      },
+      "format": "other",
+      "label": ".last_inuse_sweep",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 25,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "file",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 25,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/0.9.0",
+      "kind": "harness-cache",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/0.9.0",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/0.9.0"
+      },
+      "format": "other",
+      "label": "plugin-a@marketplace-a 0.9.0",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 997,
+        "files": 2,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "plugin-cache-version",
+      "unit": "version",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": {
+        "kind": "in-use-marker",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 2,
+        "bytes": 997,
+        "oldest": "2026-06-27T12:00:00.000Z",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.claude/plugins/data/plugin-a-marketplace-a",
+      "kind": "harness-cache",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/data/plugin-a-marketplace-a",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.claude/plugins/data/plugin-a-marketplace-a"
+      },
+      "format": "dir",
+      "label": "plugin-a-marketplace-a",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.claude/plugins/marketplaces/marketplace-a",
+      "kind": "harness-cache",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/marketplaces/marketplace-a",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/plugins/marketplaces/marketplace-a"
+      },
+      "format": "other",
+      "label": "marketplace-a",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 1932,
+        "files": 5,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "marketplace-clone",
+      "unit": "clone",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 5,
+        "bytes": 1932,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.claude/plugins/marketplaces/marketplace-a.bak",
+      "kind": "harness-cache",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/marketplaces/marketplace-a.bak",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.claude/plugins/marketplaces/marketplace-a.bak"
+      },
+      "format": "dir",
+      "label": "marketplace-a.bak",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 314,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-05-28T12:00:00.000Z",
+        "ageDays": 90,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "marketplace-backup",
+      "unit": "dir",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 314,
+        "oldest": "2026-05-28T12:00:00.000Z",
+        "newest": "2026-05-28T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.claude/plugins/marketplaces/marketplace-a/node_modules",
+      "kind": "harness-cache",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/marketplaces/marketplace-a/node_modules",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.claude/plugins/marketplaces/marketplace-a/node_modules"
+      },
+      "format": "dir",
+      "label": "marketplace-a node_modules",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 42,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "marketplace-clone",
+      "unit": "dir",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 42,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.claude/plugins/repos",
+      "kind": "harness-cache",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/repos",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.claude/plugins/repos"
+      },
+      "format": "dir",
+      "label": "repos",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "mcp-server:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/.mcp.json#mcpServers/server-plugin",
+      "kind": "mcp-server",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/.mcp.json",
+      "relativePath": null,
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/.mcp.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-plugin"]
+      },
+      "format": "json",
+      "label": "server-plugin",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 71,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-plugin",
+      "transport": "stdio",
+      "command": "${CLAUDE_PLUGIN_ROOT}/bin/server",
+      "args": [],
+      "url": null,
+      "envKeys": [],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": true,
+      "enabled": null,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "stdio:${CLAUDE_PLUGIN_ROOT}/bin/server",
+      "rawKeys": ["type", "command", "args"]
+    },
+    {
+      "id": "plugin:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0",
+      "kind": "plugin",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0"
+      },
+      "format": "dir",
+      "label": "plugin-a@marketplace-a",
+      "sensitive": false,
+      "protection": "live",
+      "removal": {
+        "method": "delegate",
+        "command": "claude plugin uninstall plugin-a@marketplace-a"
+      },
+      "metrics": {
+        "bytes": 2481,
+        "files": 9,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "pluginId": "plugin-a@marketplace-a",
+      "version": "1.0.0",
+      "marketplace": "marketplace-a",
+      "installs": [
+        {
+          "scope": "user",
+          "project": null,
+          "enabled": null
+        }
+      ],
+      "origin": {
+        "installer": "claude-plugin",
+        "sourceType": "marketplace",
+        "source": "./plugins/plugin-a",
+        "sourceUrl": null,
+        "ref": "<redacted-hash>",
+        "skillPath": null,
+        "recordedHash": null,
+        "installedAt": "2023-11-14T22:13:20.000Z",
+        "updatedAt": "2023-11-14T22:13:20.000Z",
+        "lock": {
+          "type": "entry",
+          "file": "<HOME>/.claude/plugins/installed_plugins.json",
+          "format": "json",
+          "keyPath": ["plugins", "plugin-a@marketplace-a", "0"]
+        }
+      },
+      "hooks": [
+        {
+          "event": "SessionStart",
+          "type": "command",
+          "command": "${CLAUDE_PLUGIN_ROOT}/scripts/start.sh",
+          "matcher": null
+        }
+      ]
+    },
+    {
+      "id": "plugin:<HOME>/.claude/plugins/cache/marketplace-a/plugin-b/2.0.0",
+      "kind": "plugin",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-b",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-b/2.0.0",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-b/2.0.0"
+      },
+      "format": "dir",
+      "label": "plugin-b@marketplace-a",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "delegate",
+        "command": "claude plugin uninstall plugin-b@marketplace-a"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "pluginId": "plugin-b@marketplace-a",
+      "version": "2.0.0",
+      "marketplace": "marketplace-a",
+      "installs": [
+        {
+          "scope": "project",
+          "project": "project:<ROOT>/project-b",
+          "enabled": true
+        }
+      ],
+      "origin": {
+        "installer": "claude-plugin",
+        "sourceType": "marketplace",
+        "source": "{\"source\":\"github\",\"repo\":\"<redacted>\"}",
+        "sourceUrl": "<redacted>",
+        "ref": "<redacted-hash>",
+        "skillPath": null,
+        "recordedHash": null,
+        "installedAt": "2023-11-14T22:13:20.000Z",
+        "updatedAt": "2023-11-14T22:13:20.000Z",
+        "lock": {
+          "type": "entry",
+          "file": "<HOME>/.claude/plugins/installed_plugins.json",
+          "format": "json",
+          "keyPath": ["plugins", "plugin-b@marketplace-a", "0"]
+        }
+      },
+      "hooks": []
+    },
+    {
+      "id": "plugin:<HOME>/.claude/skills/skill-plugin",
+      "kind": "plugin",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/skills/skill-plugin",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.claude/skills/skill-plugin"
+      },
+      "format": "dir",
+      "label": "skill-plugin@skills-dir",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 485,
+        "files": 2,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "pluginId": "skill-plugin@skills-dir",
+      "version": "0.1.0",
+      "marketplace": null,
+      "installs": [
+        {
+          "scope": "user",
+          "project": null,
+          "enabled": null
+        }
+      ],
+      "origin": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.agents/.skill-lock.json",
+      "kind": "settings-file",
+      "harness": null,
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.agents/.skill-lock.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.agents/.skill-lock.json"
+      },
+      "format": "json",
+      "label": "~/.agents/.skill-lock.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 1026,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "skill-lock",
+      "topLevelKeys": ["version", "skills", "dismissed", "lastSelectedAgents"],
+      "entries": 3,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.claude/plugins/blocklist.json",
+      "kind": "settings-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/blocklist.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/plugins/blocklist.json"
+      },
+      "format": "json",
+      "label": "~/.claude/plugins/blocklist.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 49,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "state",
+      "topLevelKeys": ["fetchedAt", "plugins"],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/.claude-plugin/plugin.json",
+      "kind": "settings-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/.claude-plugin/plugin.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/.claude-plugin/plugin.json"
+      },
+      "format": "json",
+      "label": "~/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/.claude-plugin/plugin.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 150,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "manifest",
+      "topLevelKeys": ["name", "description", "version", "author", "homepage"],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.claude/plugins/config.json",
+      "kind": "settings-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/config.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/plugins/config.json"
+      },
+      "format": "json",
+      "label": "~/.claude/plugins/config.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 25,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "state",
+      "topLevelKeys": ["repositories"],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.claude/plugins/installed_plugins.json",
+      "kind": "settings-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/installed_plugins.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/plugins/installed_plugins.json"
+      },
+      "format": "json",
+      "label": "~/.claude/plugins/installed_plugins.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 987,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "plugin-registry",
+      "topLevelKeys": ["version", "plugins"],
+      "entries": 2,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.claude/plugins/known_marketplaces.json",
+      "kind": "settings-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/known_marketplaces.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/plugins/known_marketplaces.json"
+      },
+      "format": "json",
+      "label": "~/.claude/plugins/known_marketplaces.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 611,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "plugin-registry",
+      "topLevelKeys": ["marketplace-a", "marketplace-gone"],
+      "entries": 2,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.claude/plugins/marketplaces/marketplace-a/.claude-plugin/marketplace.json",
+      "kind": "settings-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/marketplaces/marketplace-a/.claude-plugin/marketplace.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/plugins/marketplaces/marketplace-a/.claude-plugin/marketplace.json"
+      },
+      "format": "json",
+      "label": "~/.claude/plugins/marketplaces/marketplace-a/.claude-plugin/marketplace.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 497,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "manifest",
+      "topLevelKeys": ["$schema", "name", "version", "description", "owner", "plugins"],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.claude/plugins/plugin-catalog-cache.json",
+      "kind": "settings-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/plugin-catalog-cache.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/plugins/plugin-catalog-cache.json"
+      },
+      "format": "json",
+      "label": "~/.claude/plugins/plugin-catalog-cache.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 169,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "state",
+      "topLevelKeys": ["version", "fetchedAt", "catalog"],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<ROOT>/project-b/.claude/settings.json",
+      "kind": "settings-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-b",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-b/.claude/settings.json",
+      "relativePath": ".claude/settings.json",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-b/.claude/settings.json"
+      },
+      "format": "json",
+      "label": ".claude/settings.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 65,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": ["enabledPlugins"],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<ROOT>/project-b/skills-lock.json",
+      "kind": "settings-file",
+      "harness": null,
+      "producer": null,
+      "project": "project:<ROOT>/project-b",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-b/skills-lock.json",
+      "relativePath": "skills-lock.json",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-b/skills-lock.json"
+      },
+      "format": "json",
+      "label": "skills-lock.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 514,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "skill-lock",
+      "topLevelKeys": ["version", "skills"],
+      "entries": 3,
+      "hooks": []
+    },
+    {
+      "id": "skill:<HOME>/.agents/skills/skill-a",
+      "kind": "skill",
+      "harness": null,
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.agents/skills/skill-a",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.agents/skills/skill-a"
+      },
+      "format": "dir",
+      "label": "skill-a",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 2344,
+        "files": 1,
+        "lines": 55,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 523,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-a",
+      "dirName": "skill-a",
+      "frontmatterName": "skill-a",
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<HOME>/.agents/skills/skill-a",
+          "harness": null,
+          "surface": null,
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        },
+        {
+          "path": "<HOME>/.claude/skills/skill-a",
+          "harness": "claude-code",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": true,
+          "linkTarget": "../../.agents/skills/skill-a",
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "skill-a",
+        "description": "<redacted>",
+        "allowed-tools": "<redacted>",
+        "hidden": true
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "ea2014dce6f3b8f37e49f6aef79d8a6bed9362b2515452e275e1f09732960d74"
+        }
+      ],
+      "origin": {
+        "installer": "vercel-skills",
+        "sourceType": "github",
+        "source": "<redacted>",
+        "sourceUrl": "<redacted>",
+        "ref": null,
+        "skillPath": "<redacted>",
+        "recordedHash": {
+          "algo": "unknown",
+          "value": "<redacted-hash>"
+        },
+        "installedAt": "2023-11-14T22:13:20.000Z",
+        "updatedAt": "2023-11-14T22:13:20.000Z",
+        "lock": {
+          "type": "entry",
+          "file": "<HOME>/.agents/.skill-lock.json",
+          "format": "json",
+          "keyPath": ["skills", "skill-a"]
+        }
+      },
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.claude/commands/cmd-user.md",
+      "kind": "skill",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/commands/cmd-user.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/commands/cmd-user.md"
+      },
+      "format": "md",
+      "label": "cmd-user",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 296,
+        "files": 1,
+        "lines": 9,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 68,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "command-file",
+      "name": "cmd-user",
+      "dirName": "cmd-user",
+      "frontmatterName": null,
+      "layout": "copy",
+      "placements": [
+        {
+          "path": "<HOME>/.claude/commands/cmd-user.md",
+          "harness": "claude-code",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "8687bc0b9a3b40a19695b8f3af35273d09ce72b116e70561c8d19d6197799f65"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/commands/cmd-p.md",
+      "kind": "skill",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/commands/cmd-p.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/commands/cmd-p.md"
+      },
+      "format": "md",
+      "label": "cmd-p",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 236,
+        "files": 1,
+        "lines": 7,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 52,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "command-file",
+      "name": "cmd-p",
+      "dirName": "cmd-p",
+      "frontmatterName": null,
+      "layout": "plugin",
+      "placements": [
+        {
+          "path": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/commands/cmd-p.md",
+          "harness": "claude-code",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "0af2d9d1308b12f217f44e5e68de8ca9f9eb5ceae2bb4ac28394154fd1c9fde4"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/skills/skill-p",
+      "kind": "skill",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/skills/skill-p",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/skills/skill-p"
+      },
+      "format": "dir",
+      "label": "skill-p",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 1000,
+        "files": 1,
+        "lines": 24,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 222,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-p",
+      "dirName": "skill-p",
+      "frontmatterName": "skill-p",
+      "layout": "plugin",
+      "placements": [
+        {
+          "path": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/skills/skill-p",
+          "harness": "claude-code",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "skill-p",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "5d54112c47a6e8ebb9756db9a452c683876cdfc7d5ac4adf24b1484352665646"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.claude/skills/skill-dangling",
+      "kind": "skill",
+      "harness": null,
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/skills/skill-dangling",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.claude/skills/skill-dangling"
+      },
+      "format": "dir",
+      "label": "skill-dangling",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-dangling",
+      "dirName": "skill-dangling",
+      "frontmatterName": null,
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<HOME>/.claude/skills/skill-dangling",
+          "harness": "claude-code",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": true,
+          "linkTarget": "../../.agents/skills/skill-dangling",
+          "dangling": true
+        }
+      ],
+      "frontmatter": {},
+      "sidecars": [],
+      "contentHash": [],
+      "origin": {
+        "installer": "vercel-skills",
+        "sourceType": "github",
+        "source": "<redacted>",
+        "sourceUrl": "<redacted>",
+        "ref": null,
+        "skillPath": "<redacted>",
+        "recordedHash": {
+          "algo": "unknown",
+          "value": "<redacted-hash>"
+        },
+        "installedAt": "2023-11-14T22:13:20.000Z",
+        "updatedAt": "2023-11-14T22:13:20.000Z",
+        "lock": {
+          "type": "entry",
+          "file": "<HOME>/.agents/.skill-lock.json",
+          "format": "json",
+          "keyPath": ["skills", "skill-dangling"]
+        }
+      },
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.claude/skills/skill-plugin",
+      "kind": "skill",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/skills/skill-plugin",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.claude/skills/skill-plugin"
+      },
+      "format": "dir",
+      "label": "skill-plugin",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 485,
+        "files": 2,
+        "lines": 12,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 93,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-plugin",
+      "dirName": "skill-plugin",
+      "frontmatterName": "skill-plugin",
+      "layout": "plugin",
+      "placements": [
+        {
+          "path": "<HOME>/.claude/skills/skill-plugin",
+          "harness": "claude-code",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "skill-plugin",
+        "description": "<redacted>"
+      },
+      "sidecars": [".claude-plugin/plugin.json"],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "fd7423208dd7cd0c780b2abc99d96a19c7e8f3c18f9854beec700268dc1c7e1c"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.claude/skills/skill-user",
+      "kind": "skill",
+      "harness": "claude-code",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.claude/skills/skill-user",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.claude/skills/skill-user"
+      },
+      "format": "dir",
+      "label": "skill-user",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 4204,
+        "files": 2,
+        "lines": 79,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 838,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-user",
+      "dirName": "skill-user",
+      "frontmatterName": "skill-user",
+      "layout": "copy",
+      "placements": [
+        {
+          "path": "<HOME>/.claude/skills/skill-user",
+          "harness": "claude-code",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "skill-user",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "911ba40152d4b92f9286142d7a3ebd553899794477ebe7184f61f9ae65701e0d"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<ROOT>/project-b/.agents/skills/skill-c",
+      "kind": "skill",
+      "harness": null,
+      "producer": null,
+      "project": "project:<ROOT>/project-b",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-b/.agents/skills/skill-c",
+      "relativePath": ".agents/skills/skill-c",
+      "locator": {
+        "type": "dir",
+        "path": "<ROOT>/project-b/.agents/skills/skill-c"
+      },
+      "format": "dir",
+      "label": "skill-c",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 667,
+        "files": 1,
+        "lines": 18,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 153,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-c",
+      "dirName": "skill-c",
+      "frontmatterName": "skill-c",
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<ROOT>/project-b/.agents/skills/skill-c",
+          "harness": null,
+          "surface": null,
+          "scope": "project",
+          "project": "project:<ROOT>/project-b",
+          "gitStatus": null,
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        },
+        {
+          "path": "<ROOT>/project-b/.claude/skills/skill-c",
+          "harness": "claude-code",
+          "surface": "cli",
+          "scope": "project",
+          "project": "project:<ROOT>/project-b",
+          "gitStatus": null,
+          "shared": null,
+          "isSymlink": true,
+          "linkTarget": "../../.agents/skills/skill-c",
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "skill-c",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "a498365dd039ab205a147f94eff6a341af07b2b994cdc915a5aa848b5bae2d4d"
+        }
+      ],
+      "origin": {
+        "installer": "vercel-skills",
+        "sourceType": "github",
+        "source": "<redacted>",
+        "sourceUrl": null,
+        "ref": null,
+        "skillPath": "<redacted>",
+        "recordedHash": {
+          "algo": "unknown",
+          "value": "<redacted-hash>"
+        },
+        "installedAt": null,
+        "updatedAt": null,
+        "lock": {
+          "type": "entry",
+          "file": "<ROOT>/project-b/skills-lock.json",
+          "format": "json",
+          "keyPath": ["skills", "skill-c"]
+        }
+      },
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<ROOT>/project-b/.claude/skills/skill-b",
+      "kind": "skill",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-b",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-b/.claude/skills/skill-b",
+      "relativePath": ".claude/skills/skill-b",
+      "locator": {
+        "type": "dir",
+        "path": "<ROOT>/project-b/.claude/skills/skill-b"
+      },
+      "format": "dir",
+      "label": "skill-b",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 13137,
+        "files": 1,
+        "lines": 173,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 2478,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-b",
+      "dirName": "skill-b",
+      "frontmatterName": "skill-b",
+      "layout": "synced",
+      "placements": [
+        {
+          "path": "<ROOT>/project-b/.claude/skills/skill-b",
+          "harness": "claude-code",
+          "surface": "cli",
+          "scope": "project",
+          "project": "project:<ROOT>/project-b",
+          "gitStatus": null,
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "skill-b",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "61d64360b5876da9a0113e553fb38900ada38c624ff1dfdb6fd06cc5ba3feda2"
+        }
+      ],
+      "origin": {
+        "installer": "vercel-skills",
+        "sourceType": "github",
+        "source": "<redacted>",
+        "sourceUrl": null,
+        "ref": null,
+        "skillPath": "<redacted>",
+        "recordedHash": {
+          "algo": "unknown",
+          "value": "<redacted-hash>"
+        },
+        "installedAt": null,
+        "updatedAt": null,
+        "lock": {
+          "type": "entry",
+          "file": "<ROOT>/project-b/skills-lock.json",
+          "format": "json",
+          "keyPath": ["skills", "skill-b"]
+        }
+      },
+      "drift": "unknown"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge:loaded-by:agent-definition:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/agents/agent-p.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "agent-definition:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/agents/agent-p.md",
+      "to": "harness:claude-code",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "subagent descriptions are listed so Claude can delegate"
+        }
+      ],
+      "project": null,
+      "mode": "on-demand",
+      "reason": "spawned on demand; no documented session cost",
+      "placement": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/agents/agent-p.md",
+      "effectiveName": "plugin-a:agent-p",
+      "order": null,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/.mcp.json#mcpServers/server-plugin:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "mcp-server:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/.mcp.json#mcpServers/server-plugin",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "manifest",
+          "detail": "shipped by plugin-a@marketplace-a"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "provided by the plugin plugin-a@marketplace-a",
+      "placement": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/.mcp.json",
+      "effectiveName": "plugin:plugin-a:server-plugin",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:plugin:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "plugin:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "manifest",
+          "detail": "installed_plugins.json records plugin-a@marketplace-a"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "installed at user scope: loaded in every session",
+      "placement": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0",
+      "effectiveName": "plugin-a@marketplace-a",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:plugin:<HOME>/.claude/plugins/cache/marketplace-a/plugin-b/2.0.0:harness:claude-code:project:<ROOT>/project-b",
+      "kind": "loaded-by",
+      "from": "plugin:<HOME>/.claude/plugins/cache/marketplace-a/plugin-b/2.0.0",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "manifest",
+          "detail": "installed_plugins.json records plugin-b@marketplace-a"
+        }
+      ],
+      "project": "project:<ROOT>/project-b",
+      "mode": "unknown",
+      "reason": "workspace trust not recorded: a project-scope plugin loads only after the dialog",
+      "placement": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-b/2.0.0",
+      "effectiveName": "plugin-b@marketplace-a",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:plugin:<HOME>/.claude/skills/skill-plugin:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "plugin:<HOME>/.claude/skills/skill-plugin",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "manifest",
+          "detail": ".claude-plugin/plugin.json beside SKILL.md"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "a plugin manifest in the skills directory: loaded in every session",
+      "placement": "<HOME>/.claude/skills/skill-plugin",
+      "effectiveName": "skill-plugin@skills-dir",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.agents/skills/skill-a:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.agents/skills/skill-a",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "description listed, body on demand"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "user skill",
+      "placement": "<HOME>/.claude/skills/skill-a",
+      "effectiveName": "/skill-a",
+      "order": 0,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": false,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.claude/commands/cmd-user.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.claude/commands/cmd-user.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "command file: description listed, body on demand"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "user skill",
+      "placement": "<HOME>/.claude/commands/cmd-user.md",
+      "effectiveName": "/cmd-user",
+      "order": 2,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": false,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/commands/cmd-p.md:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/commands/cmd-p.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "command file: description listed, body on demand"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "provided by the plugin plugin-a@marketplace-a",
+      "placement": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/commands/cmd-p.md",
+      "effectiveName": "/plugin-a:cmd-p",
+      "order": 4,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": false,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/skills/skill-p:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/skills/skill-p",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "description listed, body on demand"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "provided by the plugin plugin-a@marketplace-a",
+      "placement": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/skills/skill-p",
+      "effectiveName": "/plugin-a:skill-p",
+      "order": 3,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": false,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.claude/skills/skill-plugin:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.claude/skills/skill-plugin",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "description listed, body on demand"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "provided by the plugin skill-plugin@skills-dir",
+      "placement": "<HOME>/.claude/skills/skill-plugin",
+      "effectiveName": "/skill-plugin",
+      "order": 5,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": false,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.claude/skills/skill-user:harness:claude-code",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.claude/skills/skill-user",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "description listed, body on demand"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "user skill",
+      "placement": "<HOME>/.claude/skills/skill-user",
+      "effectiveName": "/skill-user",
+      "order": 1,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": false,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<ROOT>/project-b/.agents/skills/skill-c:harness:claude-code:project:<ROOT>/project-b",
+      "kind": "loaded-by",
+      "from": "skill:<ROOT>/project-b/.agents/skills/skill-c",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "description listed, body on demand"
+        }
+      ],
+      "project": "project:<ROOT>/project-b",
+      "mode": "description-only",
+      "reason": "project skill",
+      "placement": "<ROOT>/project-b/.claude/skills/skill-c",
+      "effectiveName": "/skill-c",
+      "order": 1,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": false,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<ROOT>/project-b/.claude/skills/skill-b:harness:claude-code:project:<ROOT>/project-b",
+      "kind": "loaded-by",
+      "from": "skill:<ROOT>/project-b/.claude/skills/skill-b",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "description listed, body on demand"
+        }
+      ],
+      "project": "project:<ROOT>/project-b",
+      "mode": "description-only",
+      "reason": "project skill",
+      "placement": "<ROOT>/project-b/.claude/skills/skill-b",
+      "effectiveName": "/skill-b",
+      "order": 0,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": false,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:originates-from:skill:<HOME>/.agents/skills/skill-a:settings-file:<HOME>/.agents/.skill-lock.json",
+      "kind": "originates-from",
+      "from": "skill:<HOME>/.agents/skills/skill-a",
+      "to": "settings-file:<HOME>/.agents/.skill-lock.json",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "lock-entry",
+          "detail": "skills.skill-a",
+          "locator": {
+            "type": "entry",
+            "file": "<HOME>/.agents/.skill-lock.json",
+            "format": "json",
+            "keyPath": ["skills", "skill-a"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "edge:originates-from:skill:<HOME>/.claude/skills/skill-dangling:settings-file:<HOME>/.agents/.skill-lock.json",
+      "kind": "originates-from",
+      "from": "skill:<HOME>/.claude/skills/skill-dangling",
+      "to": "settings-file:<HOME>/.agents/.skill-lock.json",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "lock-entry",
+          "detail": "skills.skill-dangling",
+          "locator": {
+            "type": "entry",
+            "file": "<HOME>/.agents/.skill-lock.json",
+            "format": "json",
+            "keyPath": ["skills", "skill-dangling"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "edge:originates-from:skill:<ROOT>/project-b/.agents/skills/skill-c:settings-file:<ROOT>/project-b/skills-lock.json",
+      "kind": "originates-from",
+      "from": "skill:<ROOT>/project-b/.agents/skills/skill-c",
+      "to": "settings-file:<ROOT>/project-b/skills-lock.json",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "lock-entry",
+          "detail": "skills.skill-c",
+          "locator": {
+            "type": "entry",
+            "file": "<ROOT>/project-b/skills-lock.json",
+            "format": "json",
+            "keyPath": ["skills", "skill-c"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "edge:originates-from:skill:<ROOT>/project-b/.claude/skills/skill-b:settings-file:<ROOT>/project-b/skills-lock.json",
+      "kind": "originates-from",
+      "from": "skill:<ROOT>/project-b/.claude/skills/skill-b",
+      "to": "settings-file:<ROOT>/project-b/skills-lock.json",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "lock-entry",
+          "detail": "skills.skill-b",
+          "locator": {
+            "type": "entry",
+            "file": "<ROOT>/project-b/skills-lock.json",
+            "format": "json",
+            "keyPath": ["skills", "skill-b"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "edge:provided-by:agent-definition:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/agents/agent-p.md:plugin:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0",
+      "kind": "provided-by",
+      "from": "agent-definition:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/agents/agent-p.md",
+      "to": "plugin:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "manifest",
+          "detail": "shipped by plugin-a@marketplace-a"
+        }
+      ]
+    },
+    {
+      "id": "edge:provided-by:mcp-server:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/.mcp.json#mcpServers/server-plugin:plugin:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0",
+      "kind": "provided-by",
+      "from": "mcp-server:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/.mcp.json#mcpServers/server-plugin",
+      "to": "plugin:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "manifest",
+          "detail": "shipped by plugin-a@marketplace-a"
+        }
+      ]
+    },
+    {
+      "id": "edge:provided-by:skill:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/commands/cmd-p.md:plugin:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0",
+      "kind": "provided-by",
+      "from": "skill:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/commands/cmd-p.md",
+      "to": "plugin:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "manifest",
+          "detail": "shipped by plugin-a@marketplace-a"
+        }
+      ]
+    },
+    {
+      "id": "edge:provided-by:skill:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/skills/skill-p:plugin:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0",
+      "kind": "provided-by",
+      "from": "skill:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0/skills/skill-p",
+      "to": "plugin:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/1.0.0",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "manifest",
+          "detail": "shipped by plugin-a@marketplace-a"
+        }
+      ]
+    },
+    {
+      "id": "edge:provided-by:skill:<HOME>/.claude/skills/skill-plugin:plugin:<HOME>/.claude/skills/skill-plugin",
+      "kind": "provided-by",
+      "from": "skill:<HOME>/.claude/skills/skill-plugin",
+      "to": "plugin:<HOME>/.claude/skills/skill-plugin",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "manifest",
+          "detail": "shipped by skill-plugin@skills-dir"
+        }
+      ]
+    }
+  ],
+  "warnings": [
+    {
+      "code": "git-missing",
+      "message": "git not run (git: false): git-tracked status unknown",
+      "harness": null,
+      "path": null,
+      "effect": "degraded"
+    }
+  ],
+  "totals": {
+    "entities": 31,
+    "files": 42,
+    "bytes": 33119,
+    "harnessCacheBytes": 3310,
+    "memoryBytes": 0,
+    "tokens": 4500
+  },
+  "findings": [
+    {
+      "id": "finding:harness-cache:harness:claude-code:plugin-cache-version",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "harness:claude-code",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.claude/plugins/cache/marketplace-a/plugin-a/0.9.0",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 plugin cache version (997 B) Claude Code documents no sweep for",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "no documented sweep"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 997,
+        "tokens": null,
+        "files": 2
+      },
+      "flags": [],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:harness-cache:harness:claude-code:marketplace-backup",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "harness:claude-code",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.claude/plugins/marketplaces/marketplace-a.bak",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 marketplace backup (314 B) Claude Code documents no sweep for",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "no documented sweep"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 314,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": [],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:harness-cache:harness:claude-code:marketplace-clone",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "harness:claude-code",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.claude/plugins/marketplaces/marketplace-a/node_modules",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 marketplace clone (42 B) Claude Code documents no sweep for",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "no documented sweep"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 42,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": [],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:orphan:lock-entry:<HOME>/.agents/.skill-lock.json:skill-orphan",
+      "category": "orphan",
+      "severity": "low",
+      "container": "harness:claude-code",
+      "targets": [
+        {
+          "locator": {
+            "type": "dir",
+            "path": "<HOME>/.agents/skills/skill-orphan"
+          },
+          "role": "subject"
+        },
+        {
+          "locator": {
+            "type": "entry",
+            "file": "<HOME>/.agents/.skill-lock.json",
+            "format": "json",
+            "keyPath": ["skills", "skill-orphan"]
+          },
+          "role": "state"
+        }
+      ],
+      "message": "skill-orphan: a skill directory in the store no agent directory links",
+      "evidence": [
+        {
+          "kind": "name-only",
+          "detail": "<HOME>/.agents/skills/skill-orphan"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 0,
+        "tokens": null,
+        "files": 0
+      },
+      "flags": [],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:orphan:lock-entry:<ROOT>/project-b/skills-lock.json:skill-missing",
+      "category": "orphan",
+      "severity": "low",
+      "container": "harness:claude-code",
+      "targets": [
+        {
+          "locator": {
+            "type": "entry",
+            "file": "<ROOT>/project-b/skills-lock.json",
+            "format": "json",
+            "keyPath": ["skills", "skill-missing"]
+          },
+          "role": "subject"
+        }
+      ],
+      "message": "skill-missing: the lock records a skill directory that is gone",
+      "evidence": [
+        {
+          "kind": "path-missing",
+          "detail": "<ROOT>/project-b/.agents/skills/skill-missing"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 0,
+        "tokens": null,
+        "files": 0
+      },
+      "flags": [],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:orphan:marketplace:marketplace-gone",
+      "category": "orphan",
+      "severity": "low",
+      "container": "harness:claude-code",
+      "targets": [
+        {
+          "locator": {
+            "type": "entry",
+            "file": "<HOME>/.claude/plugins/known_marketplaces.json",
+            "format": "json",
+            "keyPath": ["marketplace-gone"]
+          },
+          "role": "subject"
+        }
+      ],
+      "message": "marketplace marketplace-gone is registered but its clone is gone",
+      "evidence": [
+        {
+          "kind": "path-missing",
+          "detail": "<HOME>/.claude/plugins/marketplaces/marketplace-gone"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 0,
+        "tokens": null,
+        "files": 0
+      },
+      "flags": [],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:orphan:skill:<HOME>/.claude/skills/skill-dangling",
+      "category": "orphan",
+      "severity": "low",
+      "container": "harness:claude-code",
+      "targets": [
+        {
+          "locator": {
+            "type": "dir",
+            "path": "<HOME>/.claude/skills/skill-dangling"
+          },
+          "role": "subject"
+        }
+      ],
+      "message": "skill-dangling: a link points at a directory that is gone",
+      "evidence": [
+        {
+          "kind": "symlink-target",
+          "detail": "../../.agents/skills/skill-dangling"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 0,
+        "tokens": null,
+        "files": 0
+      },
+      "flags": [],
+      "action": {
+        "kind": "delete",
+        "preselect": false,
+        "locator": {
+          "type": "dir",
+          "path": "<HOME>/.claude/skills/skill-dangling"
+        }
+      }
+    },
+    {
+      "id": "finding:orphan:plugin:<HOME>/.claude/plugins/cache/marketplace-a/plugin-b/2.0.0",
+      "category": "orphan",
+      "severity": "medium",
+      "container": "project:<ROOT>/project-b",
+      "targets": [
+        {
+          "id": "plugin:<HOME>/.claude/plugins/cache/marketplace-a/plugin-b/2.0.0",
+          "role": "subject"
+        },
+        {
+          "locator": {
+            "type": "entry",
+            "file": "<HOME>/.claude/plugins/installed_plugins.json",
+            "format": "json",
+            "keyPath": ["plugins", "plugin-b@marketplace-a", "0"]
+          },
+          "role": "state"
+        }
+      ],
+      "message": "plugin-b@marketplace-a: the plugin's install directory is gone; the registry still records it",
+      "evidence": [
+        {
+          "kind": "path-missing",
+          "detail": "<HOME>/.claude/plugins/cache/marketplace-a/plugin-b/2.0.0"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 0,
+        "tokens": null,
+        "files": 0
+      },
+      "flags": [],
+      "action": {
+        "kind": "delete",
+        "preselect": false,
+        "locator": {
+          "type": "entry",
+          "file": "<HOME>/.claude/plugins/installed_plugins.json",
+          "format": "json",
+          "keyPath": ["plugins", "plugin-b@marketplace-a", "0"]
+        }
+      }
+    }
+  ],
+  "headline": {
+    "scope": "user-controllable",
+    "focus": {
+      "project": "project:<ROOT>/project-b",
+      "reason": "cwd"
+    },
+    "perHarness": [
+      {
+        "harness": "claude-code",
+        "modelFamily": null,
+        "contextWindowTokens": null,
+        "baseline": {
+          "low": 24,
+          "mid": 24,
+          "high": 24
+        },
+        "project": {
+          "low": 8,
+          "mid": 8,
+          "high": 8
+        },
+        "total": {
+          "low": 32,
+          "mid": 32,
+          "high": 32
+        },
+        "pctOfContext": null
+      }
+    ]
+  }
+}

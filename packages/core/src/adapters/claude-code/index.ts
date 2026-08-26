@@ -4,7 +4,7 @@
  * to Projects in `discover`, then emits the harness, its breadcrumbs, entities and edges in
  * `collect`. Read-only; never runs the harness; never opens credentials.
  */
-import { join } from "node:path";
+import { basename, join } from "node:path";
 import type { ContextFile, DuplicatesEdge, Harness } from "../../index/types.js";
 import { warning, type ScanContext } from "../../scan/context.js";
 import type { DiscoveredProject, Located } from "../../scan/discovery.js";
@@ -19,8 +19,10 @@ import {
   collectUserContextFiles,
   contentHashes,
 } from "./context-files.js";
+import { readSkillLock, storeOf, type SkillLock } from "./locks.js";
 import { collectMemory } from "./memory.js";
 import { collectMcp } from "./mcp.js";
+import { collectPlugins, pluginRowsOf, readMarketplaces, readRegistry } from "./plugins.js";
 import {
   addEdge,
   evidence,
@@ -207,17 +209,28 @@ function contextDuplicates(scan: ClaudeScan): void {
 }
 
 async function projectFactsOf(scan: ClaudeScan, project: DiscoveredProject): Promise<void> {
+  // Ticket 06 §11: trust comes from the entry whose key is the Project directory itself, never
+  // from a subdirectory or a worktree key.
   const entry = scan.claudeJson.projects.find((item) => {
     const located = scan.keyLocated.get(item.key);
     return located?.project?.id === project.id && located.relativePath === null;
   });
-  const layers =
+  // D139: every present member carries its own project layer — a linked worktree's
+  // `.claude/settings.json` is read by sessions started there and must reach `effectiveSettings`.
+  const members =
     project.reachability === "present"
-      ? await Promise.all([
-          readSettingsLayer(join(project.path, ".claude", "settings.json")),
-          readSettingsLayer(join(project.path, ".claude", "settings.local.json")),
-        ])
+      ? project.members.filter((member) => member.reachability === "present")
       : [];
+  const layers = [
+    ...(await Promise.all(
+      members.map((member) => readSettingsLayer(join(member.path, ".claude", "settings.json"))),
+    )),
+    ...(await Promise.all(
+      members.map((member) =>
+        readSettingsLayer(join(member.path, ".claude", "settings.local.json")),
+      ),
+    )),
+  ];
   for (const layer of layers) {
     if (layer.parseError) {
       scan.ctx.warn(
@@ -235,6 +248,45 @@ async function projectFactsOf(scan: ClaudeScan, project: DiscoveredProject): Pro
     trusted: entry?.trusted ?? null,
     effectiveSettings: effectiveSettings(layers),
   });
+}
+
+/**
+ * The skill locks the adapter reads for `Skill.origin` (ticket 14 §2): the global one — under
+ * `$XDG_STATE_HOME` when that is set, and `~/.agents/.skill-lock.json` besides, both when both
+ * exist (D75) — plus each present Project's committed `skills-lock.json`.
+ */
+async function readLocks(scan: ClaudeScan, projects: DiscoveredProject[]): Promise<SkillLock[]> {
+  const out: SkillLock[] = [];
+  const files: string[] = [];
+  const xdg = scan.ctx.consultEnv("XDG_STATE_HOME");
+  if (xdg !== undefined) files.push(join(xdg, "skills", ".skill-lock.json"));
+  files.push(join(scan.paths.home, ".agents", ".skill-lock.json"));
+  for (const file of files) {
+    const lock = await readSkillLock(file, storeOf(file), "user", null);
+    if (lock.present) out.push(lock);
+  }
+  for (const project of projects) {
+    if (project.reachability !== "present") continue;
+    for (const member of project.members) {
+      if (member.reachability !== "present") continue;
+      const file = join(member.path, "skills-lock.json");
+      const lock = await readSkillLock(file, storeOf(file), "project", project);
+      if (lock.present) out.push(lock);
+    }
+  }
+  for (const lock of out) {
+    if (!lock.parseError) continue;
+    scan.ctx.warn(
+      warning(
+        "parse-error",
+        `${basename(lock.path)} is not valid JSON`,
+        "claude-code",
+        lock.path,
+        "partial",
+      ),
+    );
+  }
+  return out;
 }
 
 export function createClaudeCodeAdapter(): Adapter {
@@ -278,6 +330,42 @@ export function createClaudeCodeAdapter(): Adapter {
       // Ticket 06 rule 7: keys naming a Project outside every Root leave the scan with it.
       const projects = claudeJson.projects.filter((entry) => keyLocated.has(entry.key));
       const slugDirs = await readSlugDirs(paths.projectsDir);
+      // The plugin registry is read here so `installed_plugins.json[].projectPath` resolves to a
+      // Project before git runs (D49: it is a Breadcrumb of kind `project-row`).
+      const registry = await readRegistry(
+        join(paths.configDir, "plugins", "installed_plugins.json"),
+      );
+      if (registry.parseError) {
+        ctx.warn(
+          warning(
+            "parse-error",
+            "installed_plugins.json is not valid JSON",
+            "claude-code",
+            registry.path,
+            "partial",
+          ),
+        );
+      }
+      const marketplaces = await readMarketplaces(
+        join(paths.configDir, "plugins", "known_marketplaces.json"),
+      );
+      if (marketplaces.parseError) {
+        ctx.warn(
+          warning(
+            "parse-error",
+            "known_marketplaces.json is not valid JSON",
+            "claude-code",
+            marketplaces.path,
+            "partial",
+          ),
+        );
+      }
+      const pluginLocated = new Map<string, Located>();
+      for (const entry of registry.entries) {
+        if (entry.projectPath === null || pluginLocated.has(entry.projectPath)) continue;
+        const located = await ctx.discovery.locate(entry.projectPath, "breadcrumb");
+        if (!located.outsideRoots) pluginLocated.set(entry.projectPath, located);
+      }
       scan = {
         ctx,
         paths,
@@ -288,6 +376,11 @@ export function createClaudeCodeAdapter(): Adapter {
         slugs: await resolveSlugs(ctx, slugDirs, keyLocated),
         keyLocated,
         version: await versionOf(slugDirs),
+        registry,
+        marketplaces,
+        locks: [],
+        pluginRows: pluginRowsOf(registry, pluginLocated),
+        extraMcp: [],
         entities: new Map(),
         edges: new Map(),
         breadcrumbs: [],
@@ -300,6 +393,7 @@ export function createClaudeCodeAdapter(): Adapter {
       if (scan === null) throw new Error("discover() must run before collect()");
       const projects = ctx.discovery.projects();
       for (const project of projects) await projectFactsOf(scan, project);
+      scan.locks = await readLocks(scan, projects);
 
       // Chain order per Project: context files (imports inline), the memory index, then the
       // skill and agent descriptions; the baseline follows the same sequence at user scope.
@@ -308,6 +402,7 @@ export function createClaudeCodeAdapter(): Adapter {
       await collectMemory(scan, projects);
       await collectUserSkills(scan);
       for (const project of projects) await collectProjectSkills(scan, project);
+      await collectPlugins(scan);
       await collectMcp(scan, projects);
       await collectSettingsFiles(scan, projects);
       await collectCache(scan, projects);

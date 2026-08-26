@@ -82,6 +82,27 @@ export function collectBreadcrumbs(scan: ClaudeScan): void {
       ),
     );
   }
+  // D49: `installed_plugins.json[].projectPath` names a Project directory — evidence of a place
+  // sessions ran, exactly like a `projects` key, so it is a Breadcrumb of its own kind.
+  for (const row of scan.pluginRows) {
+    if (row.entry.projectPath === null) continue;
+    const state = scan.entities.get(scan.ctx.id("plugin", row.entry.installPath));
+    scan.breadcrumbs.push(
+      crumb(
+        scan,
+        `${scan.registry.path}#plugins/${row.entry.pluginId}/${row.entry.index}`,
+        "project-row",
+        row.entry.projectPath,
+        "path",
+        row.located,
+        "direct",
+        row.locator,
+        { count: 1, first: null, last: null },
+        {},
+        state === undefined ? [] : [state.id],
+      ),
+    );
+  }
   for (const { slug, located, resolution } of scan.slugs) {
     scan.breadcrumbs.push(
       crumb(

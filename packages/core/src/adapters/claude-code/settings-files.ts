@@ -13,7 +13,7 @@ import { warning } from "../../scan/context.js";
 import { addEntity, baseEntity, type ClaudeScan } from "./model.js";
 import { hooksOf } from "./state.js";
 
-interface Input {
+export interface Input {
   path: string;
   role: SettingsFile["role"];
   scope: SettingsFile["scope"];
@@ -23,9 +23,11 @@ interface Input {
   removal: SettingsFile["removal"];
   entries: number | null;
   sensitiveKeys: readonly string[];
+  /** `null` for a store several harnesses share (a skill lock): the file belongs to none. */
+  harness?: SettingsFile["harness"];
 }
 
-async function settingsEntity(scan: ClaudeScan, input: Input): Promise<SettingsFile | null> {
+export async function settingsEntity(scan: ClaudeScan, input: Input): Promise<SettingsFile | null> {
   if (!(await isFile(input.path))) return null;
   const text = await readText(input.path);
   const data = await readJsonObject(input.path);
@@ -56,6 +58,7 @@ async function settingsEntity(scan: ClaudeScan, input: Input): Promise<SettingsF
   });
   const entity: SettingsFile = {
     ...base,
+    harness: input.harness === undefined ? base.harness : input.harness,
     kind: "settings-file",
     role: input.role,
     topLevelKeys: keys,
@@ -98,6 +101,40 @@ export async function collectSettingsFiles(
       removal: { method: "none" },
       entries: null,
       sensitiveKeys: SETTINGS_SENSITIVE,
+    });
+  }
+  // `~/.claude/.mcp.json`: a name Claude Code never reads (research 01 §4). D106 parses its entry
+  // key names and endpoints — nothing else — and D53 files the Orphan finding that explains it.
+  const userMcp = join(paths.configDir, ".mcp.json");
+  const userMcpData = await readJsonObject(userMcp);
+  await settingsEntity(scan, {
+    path: userMcp,
+    role: "mcp-config",
+    scope: "user",
+    project: null,
+    ownership: "human",
+    protection: "never",
+    removal: { method: "none" },
+    entries:
+      userMcpData !== null && isRecord(userMcpData["mcpServers"])
+        ? Object.keys(userMcpData["mcpServers"]).length
+        : null,
+    sensitiveKeys: [],
+  });
+  // The skill locks: shared stores, so they belong to no harness (ticket 07). Backup-edited by
+  // the Delete flow, never removed (14 §1).
+  for (const lock of scan.locks) {
+    await settingsEntity(scan, {
+      path: lock.path,
+      role: "skill-lock",
+      scope: lock.scope,
+      project: lock.project,
+      ownership: "human",
+      protection: "never",
+      removal: { method: "none" },
+      entries: lock.entries.length,
+      sensitiveKeys: [],
+      harness: null,
     });
   }
   for (const { slug } of scan.slugs) {
@@ -147,8 +184,9 @@ export async function collectSettingsFiles(
         scope: "project",
         project,
         ownership: "human",
-        protection: "none",
-        removal: { method: "trash" },
+        // D142, ticket 14 §1: a settings file is never deleted — its entries are edited out.
+        protection: "never",
+        removal: { method: "none" },
         entries:
           mcp !== null && isRecord(mcp["mcpServers"])
             ? Object.keys(mcp["mcpServers"]).length

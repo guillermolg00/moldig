@@ -28,7 +28,66 @@ interface UnitInput {
   scope: MemoryFile["scope"];
   owner: MemoryFile["owner"];
   /** How the index enters a session, for the loaded-by edge. */
-  load: { project: string | null; mode: "full" | "on-demand"; reason: string; counts: boolean };
+  load: {
+    project: string | null;
+    mode: "full" | "on-demand" | "never" | "disabled";
+    reason: string;
+    counts: boolean;
+  };
+}
+
+/**
+ * The index's verdict per D6/D41: a unit behind a gone Project can never be loaded (no session
+ * can start there); a unit behind a bare directory or an unresolved slug is loaded, but by
+ * sessions that belong to no Project, so it never enters the Headline number; `autoMemoryEnabled:
+ * false` in the user or the Project's layers turns the injection off altogether.
+ */
+function indexVerdict(
+  scan: ClaudeScan,
+  project: DiscoveredProject | null,
+  located: { strayReason: string | null; path: string } | null,
+  resolution: string,
+): UnitInput["load"] {
+  const projectId = project?.id ?? null;
+  const settings =
+    project === null
+      ? scan.harnessSettings
+      : (scan.projectFacts.get(project.id)?.effectiveSettings ?? scan.harnessSettings);
+  if (
+    settings["autoMemoryEnabled"] === false ||
+    scan.harnessSettings["autoMemoryEnabled"] === false
+  )
+    return {
+      project: projectId,
+      mode: "disabled",
+      reason: "autoMemoryEnabled: false",
+      counts: false,
+    };
+  if (project !== null && project.reachability !== "present") {
+    return {
+      project: projectId,
+      mode: "never",
+      reason: "directory gone: no session can start there",
+      counts: false,
+    };
+  }
+  if (project !== null) {
+    return {
+      project: projectId,
+      mode: "full",
+      reason: "auto-memory index: injected at session start, min(200 lines, 25 KB)",
+      counts: true,
+    };
+  }
+  return {
+    project: null,
+    mode: "full",
+    reason:
+      resolution === "unresolved" || located === null
+        ? "loaded only by sessions started in the directory this slug names, which moldig could not resolve"
+        : `loaded only by sessions started in ${located.path}, which is not a Project`,
+    counts: false,
+  };
 }
 
 /** Fact frontmatter in the flat and nested shapes, no key required (ticket 08 §2). */
@@ -52,26 +111,16 @@ export async function collectMemory(
   projects: DiscoveredProject[],
 ): Promise<void> {
   const units: UnitInput[] = [];
-  for (const { slug, located } of scan.slugs) {
+  for (const { slug, located, resolution } of scan.slugs) {
     if (slug.memoryDir === null) continue;
     const project = located?.project ?? null;
     const stray = located !== null && located.strayReason !== null;
-    const gone = project !== null && project.reachability !== "present";
     units.push({
       dir: slug.memoryDir,
       project,
       scope: "user",
       owner: stray && located.strayReason === "bare-directory" ? "global" : "project",
-      load: {
-        project: project?.id ?? null,
-        mode: "full",
-        reason: gone
-          ? "auto-memory index; the Project directory is gone"
-          : project === null
-            ? "auto-memory index of a bare directory: loaded by sessions started there"
-            : "auto-memory index: injected at session start, min(200 lines, 25 KB)",
-        counts: project !== null && !gone,
-      },
+      load: indexVerdict(scan, project, located, resolution),
     });
   }
   const userAgents = join(scan.paths.configDir, "agent-memory");
@@ -173,6 +222,9 @@ async function collectUnit(scan: ClaudeScan, unit: UnitInput): Promise<void> {
     };
     files.push(addEntity(scan, entity));
     if (role === "index" && portion !== null) {
+      // A verdict of `never` or `disabled` means the harness sends nothing: the portion is still
+      // measured (the row shows what it would cost) but the edge carries zero.
+      const sent = unit.load.mode === "full" || unit.load.mode === "on-demand";
       loadedBy(scan, {
         from: entity.id,
         project: unit.load.project,
@@ -181,9 +233,9 @@ async function collectUnit(scan: ClaudeScan, unit: UnitInput): Promise<void> {
         placement: null,
         effectiveName: null,
         ordered: unit.load.counts,
-        charsLoaded: portion.text.length,
+        charsLoaded: sent ? portion.text.length : 0,
         importsResolved: null,
-        tokensLoaded: entity.loadedPortion?.tokens ?? null,
+        tokensLoaded: sent ? (entity.loadedPortion?.tokens ?? null) : 0,
         disableModelInvocation: null,
         countsTowardHeadline: unit.load.counts,
         evidence: [

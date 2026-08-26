@@ -27,6 +27,38 @@ export interface ClaudeJson {
   topLevelKeys: string[];
   mcpServers: Record<string, Record<string, unknown>>;
   projects: ProjectEntry[];
+  /** D52: `skillUsage` / `pluginUsage` / `agentLastUsed`, read best-effort for `metrics.lastUsed`. */
+  usage: { skills: unknown; plugins: unknown; agents: unknown };
+}
+
+const NO_USAGE = { skills: undefined, plugins: undefined, agents: undefined };
+
+/**
+ * D52: the last time the harness recorded a use of `name`, best effort — a value that is an ISO
+ * string or epoch milliseconds, or an object holding one (`skillUsage` records a count beside it).
+ * An unrecognised shape leaves `metrics.lastUsed` null.
+ */
+function stampOf(value: unknown): number | null {
+  // Epoch milliseconds (the shape `skillUsage` and `agentLastUsed` use) or an ISO string.
+  if (typeof value === "number" && Number.isFinite(value) && value >= 1e11) return value;
+  if (typeof value === "string") {
+    const parsed = Date.parse(value);
+    return Number.isNaN(parsed) ? null : parsed;
+  }
+  return null;
+}
+
+export function lastUsedOf(map: unknown, name: string): string | null {
+  if (!isRecord(map)) return null;
+  const value = map[name];
+  const direct = stampOf(value);
+  if (direct !== null) return new Date(direct).toISOString();
+  if (!isRecord(value)) return null;
+  const newest = Object.values(value).reduce<number | null>((max, item) => {
+    const ms = stampOf(item);
+    return ms === null ? max : max === null ? ms : Math.max(max, ms);
+  }, null);
+  return newest === null ? null : new Date(newest).toISOString();
 }
 
 function serversOf(value: unknown): Record<string, Record<string, unknown>> {
@@ -50,6 +82,7 @@ export async function readClaudeJson(path: string): Promise<ClaudeJson> {
       topLevelKeys: [],
       mcpServers: {},
       projects: [],
+      usage: NO_USAGE,
     };
   }
   let raw: unknown = null;
@@ -63,6 +96,7 @@ export async function readClaudeJson(path: string): Promise<ClaudeJson> {
       topLevelKeys: [],
       mcpServers: {},
       projects: [],
+      usage: NO_USAGE,
     };
   }
   if (!isRecord(raw)) {
@@ -73,6 +107,7 @@ export async function readClaudeJson(path: string): Promise<ClaudeJson> {
       topLevelKeys: [],
       mcpServers: {},
       projects: [],
+      usage: NO_USAGE,
     };
   }
   const projects: ProjectEntry[] = [];
@@ -102,6 +137,11 @@ export async function readClaudeJson(path: string): Promise<ClaudeJson> {
     topLevelKeys: Object.keys(raw),
     mcpServers: serversOf(raw["mcpServers"]),
     projects,
+    usage: {
+      skills: raw["skillUsage"],
+      plugins: raw["pluginUsage"],
+      agents: raw["agentLastUsed"],
+    },
   };
 }
 
@@ -134,23 +174,36 @@ export function hooksOf(data: Record<string, unknown>): HookDecl[] {
       for (const hook of list) {
         if (!isRecord(hook)) continue;
         const type = typeof hook["type"] === "string" ? hook["type"] : "unknown";
-        const command = typeof hook["command"] === "string" ? hook["command"] : null;
-        out.push({ event, type, command, matcher });
+        const raw = typeof hook["command"] === "string" ? hook["command"] : null;
+        // D40: a hook command reaches the index through the shared secret rule, never verbatim.
+        out.push({ event, type, command: raw === null ? null : redactString(raw, null), matcher });
       }
     }
   }
   return out;
 }
 
-/** Keys whose values may hold secrets: redacted to `"<redacted>"` before entering the index. */
+/**
+ * D64, the one redaction rule every adapter shares: a value becomes `"<redacted>"` when its key
+ * looks secret **or** the value is a bare token — 24 characters or more of `[A-Za-z0-9_-./+=]`
+ * with no spaces. The `env` map is redacted whole (key names survive, values never do). D40
+ * sends hook commands through the same rule before they reach `HookDecl` or `effectiveSettings`.
+ */
 const SECRET_MAPS = new Set(["env"]);
-const SECRET_KEY = /token|secret|password|credential|apikey|api_key/i;
+const SECRET_KEY =
+  /(token|secret|key|password|passwd|auth|credential|cookie|session[_-]?id|api[_-]?key)/i;
+const SECRET_VALUE = /^[A-Za-z0-9_\-./+=]{24,}$/;
+
+export function redactString(value: string, key: string | null): string {
+  if (key !== null && SECRET_KEY.test(key)) return "<redacted>";
+  return SECRET_VALUE.test(value) ? "<redacted>" : value;
+}
 
 function redact(value: unknown, key: string | null): unknown {
   if (key !== null && SECRET_MAPS.has(key) && isRecord(value)) {
     return Object.fromEntries(Object.keys(value).map((name) => [name, "<redacted>"]));
   }
-  if (key !== null && SECRET_KEY.test(key) && typeof value === "string") return "<redacted>";
+  if (typeof value === "string") return redactString(value, key);
   if (Array.isArray(value)) return value.map((item) => redact(item, null));
   if (isRecord(value)) {
     return Object.fromEntries(

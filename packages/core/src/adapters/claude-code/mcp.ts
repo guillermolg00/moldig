@@ -13,12 +13,20 @@ import type { DiscoveredProject } from "../../scan/discovery.js";
 import { byteLength, isRecord, isStringArray, statOrNull } from "../../scan/fs.js";
 import { ageDays, readJsonObject, toIso } from "../../scan/fs.js";
 import { edgeId } from "../../scan/paths.js";
-import { addEdge, addEntity, baseEntity, evidence, loadedBy, type ClaudeScan } from "./model.js";
+import {
+  addEdge,
+  addEntity,
+  baseEntity,
+  evidence,
+  loadedBy,
+  loadedByEdgeId,
+  type ClaudeScan,
+} from "./model.js";
 import type { ProjectEntry } from "./state.js";
 
 const SECRET_ENV = /token|secret|password|credential|apikey|api_key|auth/i;
 
-interface EntryInput {
+export interface EntryInput {
   file: string;
   keyPath: string[];
   name: string;
@@ -63,7 +71,7 @@ function literalKeys(map: unknown, keyFilter: (key: string) => boolean): string[
     .map(([key]) => key);
 }
 
-async function mcpEntity(scan: ClaudeScan, input: EntryInput): Promise<McpServer> {
+export async function mcpEntity(scan: ClaudeScan, input: EntryInput): Promise<McpServer> {
   const { entry } = input;
   const rawType = typeof entry["type"] === "string" ? entry["type"] : null;
   const command = typeof entry["command"] === "string" ? entry["command"] : null;
@@ -275,6 +283,47 @@ export async function collectMcp(scan: ClaudeScan, projects: DiscoveredProject[]
     }
   }
 
+  // `~/.claude/.mcp.json`: a file Claude Code never reads (research 01 §4). D106 parses it for
+  // key names and sanitised endpoints — that is what makes its entries visible at all — and D53
+  // files the Orphan finding that says the servers belong in `~/.claude.json`.
+  const userMcpFile = join(scan.paths.configDir, ".mcp.json");
+  const userMcp = await readJsonObject(userMcpFile);
+  const userMcpServers = userMcp === null ? null : userMcp["mcpServers"];
+  if (isRecord(userMcpServers)) {
+    for (const [name, entry] of Object.entries(userMcpServers)) {
+      if (!isRecord(entry)) continue;
+      const entity = await mcpEntity(scan, {
+        file: userMcpFile,
+        keyPath: ["mcpServers", name],
+        name,
+        entry,
+        scope: "user",
+        project: null,
+        removal: { method: "backup-edit" },
+        approval: "not-applicable",
+        enabled: false,
+      });
+      loadedBy(scan, {
+        from: entity.id,
+        project: null,
+        mode: "never",
+        reason: "Claude Code does not read this file",
+        placement: null,
+        effectiveName: entity.name,
+        ordered: false,
+        charsLoaded: null,
+        importsResolved: null,
+        tokensLoaded: null,
+        disableModelInvocation: null,
+        countsTowardHeadline: false,
+        evidence: [
+          evidence("loading-rule", "~/.claude/.mcp.json is not a configuration file the CLI reads"),
+        ],
+      });
+      remember(entity, null);
+    }
+  }
+
   // Project scope: <member>/.mcp.json.
   for (const project of projects) {
     if (project.reachability !== "present") continue;
@@ -339,7 +388,7 @@ export async function collectMcp(scan: ClaudeScan, projects: DiscoveredProject[]
           rule: "local > project > user",
         };
         addEdge(scan, edge);
-        const shadowedEdge = scan.edges.get(edgeId("loaded-by", loser.id, "harness:claude-code"));
+        const shadowedEdge = scan.edges.get(loadedByEdgeId(loser.id, loser.project));
         if (
           shadowedEdge?.kind === "loaded-by" &&
           loser.scope !== "user" &&
@@ -352,9 +401,10 @@ export async function collectMcp(scan: ClaudeScan, projects: DiscoveredProject[]
     }
   }
 
-  // Duplicates: the same endpoint configured at more than one place.
+  // Duplicates: the same endpoint configured at more than one place — plugin-provided servers
+  // included (the harness dedupes them by endpoint too, research 01 §4).
   const byEndpoint = new Map<string, McpServer[]>();
-  for (const entity of all) {
+  for (const entity of [...all, ...scan.extraMcp]) {
     if (entity.invalid !== null || entity.endpointKey.endsWith(":")) continue;
     byEndpoint.set(entity.endpointKey, [...(byEndpoint.get(entity.endpointKey) ?? []), entity]);
   }
@@ -370,7 +420,8 @@ export async function collectMcp(scan: ClaudeScan, projects: DiscoveredProject[]
           kind: "duplicates",
           from: from.id,
           to: to.id,
-          confidence: "high",
+          // D133: an equal URL is strong evidence; two stdio commands that match are weaker.
+          confidence: from.transport === "stdio" ? "medium" : "high",
           evidence: [evidence("endpoint", from.endpointKey)],
           same: "endpoint",
         };

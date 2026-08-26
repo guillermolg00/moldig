@@ -19,6 +19,7 @@ import type {
   MemoryFile,
   TokenRange,
 } from "../index/types.js";
+import { claudeOrphanFindings } from "../adapters/claude-code/orphans.js";
 import { withReadSignal } from "../adapters/claude-code/read-signal.js";
 import { warning } from "../scan/context.js";
 import { addRanges, applyMultiplier, multiplierFor } from "../tokens/tokenizer.js";
@@ -410,6 +411,9 @@ export async function audit(scanned: Index, options: AuditOptions = {}): Promise
       : await withReadSignal(scanned);
   const findings = [
     ...orphanFindings(index),
+    // The Claude adapter's own Orphan rows (D48, D53): registry, lock and settings entries that
+    // name something gone have no entity for a general detector to see.
+    ...(await claudeOrphanFindings(index)),
     ...harnessCacheFindings(index),
     ...shadowMemoryFindings(index),
     ...duplicateFindings(index),
