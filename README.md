@@ -9,20 +9,33 @@ npx moldig
 ```
 
 **The full page is [`packages/cli/README.md`](packages/cli/README.md)** — what moldig finds, the
-four commands with their flags and exit codes, the safety promises and the six harnesses.
+four commands with their flags and exit codes, the six harnesses and what is read for each, the
+safety promises, and where moldig keeps its own files.
 
 ## Layout
 
 | | |
 |---|---|
-| `packages/core` | the engine: the index, the adapters, the detectors and the graph. Published as `@moldig/core`, free of terminal concerns (ADR-0003) |
-| `packages/cli` | the command-line tool. Published as `moldig`; bundles the engine into one file |
+| `packages/core` | the engine: the index, the adapters, the detectors, the actions engine and the graph. Published as [`@moldig/core`](packages/core/README.md), free of terminal concerns (ADR-0003) |
+| `packages/cli` | the commands and the interactive experience. Published as `moldig`; bundles the engine, with one runtime dependency, `trash` |
 | `fixtures/` | anonymised trees of the six harnesses that every test runs against |
+| `packaging/homebrew/` | the formula generator for the `guillermolg00/homebrew-tap` tap |
 | `CONTEXT.md` | the vocabulary. Every user-visible string uses these words |
 | `AGENTS.md` | how to work in this repository |
 
-Bun manages the workspace, everything executes on Node: `bun install`, then `bun run check`
-(typecheck, lint, format), `bun run test` (Vitest — never `bun test`) and `bun run build`.
-`node packages/cli/dist/cli.mjs` runs the built CLI.
+## Working on it
+
+Bun manages the workspace; everything that decides whether moldig works executes on Node
+(ADR-0005).
+
+```sh
+bun install
+bun run check     # typecheck, lint, format check
+bun run test      # Vitest on Node — never `bun test`
+bun run build     # tsdown, core first
+node packages/cli/dist/cli.mjs
+```
+
+Releases are lockstep across both packages and follow [`docs/release.md`](docs/release.md).
 
 MIT © Guillermo López
