@@ -29,7 +29,7 @@ const GLOBAL = [
   "Harness cache that AI coding harnesses leave across every Project on a machine.",
   "",
   "Usage",
-  "  moldig [roots…]          the interactive experience (arrives with ticket 26)",
+  "  moldig [roots…]          the interactive experience: scan, review, select, clean",
   "  moldig scan [roots…]     read what every Harness left and print what is there",
   "  moldig audit [roots…]    scan, then print the Headline number and the Findings",
   "  moldig clean [roots…]    scan, then remove the Harness-owned items you select",
@@ -110,8 +110,8 @@ const CLEAN = [
   "Exit codes: 0 every attempted row succeeded · 1 a row failed · 2 refused to run, or a",
   "usage or environment error.",
   "",
-  "Today clean removes nothing: the actions engine arrives with ticket 24 and the",
-  "selection panel with ticket 26. The refusal above is real; the run is not.",
+  "Today clean removes nothing: in a terminal it opens the selection panel, but the",
+  "actions engine arrives with ticket 24. The refusal above is real; the run is not.",
 ];
 
 const PAGES: Record<CommandName, readonly string[]> = {

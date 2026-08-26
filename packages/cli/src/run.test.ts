@@ -1,6 +1,15 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { loadFixture, normaliseSnapshot, type FixtureTree } from "@moldig/core/testing";
 import { runCli, type Io } from "./run.js";
+import type { OpenTui, TuiRequest } from "./tui/index.js";
+
+/** Ticket 26's TUI behind its port: `runCli` only has to decide whether to open it. */
+function fakeTui(seen: TuiRequest[]): OpenTui {
+  return (request) => {
+    seen.push(request);
+    return Promise.resolve({ summary: "summary from the TUI\n", failedRows: 0 });
+  };
+}
 
 /** The same clock the core snapshots use, so the fixture's `ages` land on the same day grid. */
 const NOW = new Date("2026-08-26T12:00:00.000Z");
@@ -172,17 +181,56 @@ describe("moldig audit", () => {
 });
 
 describe("moldig without a command", () => {
-  it("prints the audit output in a pipe and exits 0 (D5, D132)", async () => {
+  it("prints the audit table and the shareable summary in a pipe, and exits 0 (D5, D132)", async () => {
     const { code, out } = await run(["--no-git", tree.root]);
     expect(code).toBe(0);
     expect(out).toContain("Headline number");
+    expect(out).toContain("moldig — project-a (cwd)");
+    expect(out).toContain("Nothing moved (preview):");
+    expect(out).toContain("Clean: 3 rows");
     expect(out).not.toContain("ticket 26");
   });
 
-  it("adds the ticket 26 line in a terminal", async () => {
-    const { code, out } = await run(["--no-git", tree.root], { isTTY: true });
+  it("opens the TUI on the scan screen in a terminal and prints the summary it hands back", async () => {
+    const seen: TuiRequest[] = [];
+    const { code, out } = await run(["--no-git", tree.root], {
+      isTTY: true,
+      stdinIsTTY: true,
+      openTui: fakeTui(seen),
+    });
     expect(code).toBe(0);
-    expect(out).toContain("The interactive experience arrives with ticket 26");
+    expect(seen).toHaveLength(1);
+    expect(seen[0]?.initialRoute).toBeUndefined(); // the TUI's own default: the Scan screen
+    expect(seen[0]?.index.headline.focus.reason).toBe("cwd");
+    expect(out).toBe("\nsummary from the TUI\n");
+  });
+
+  it("stays on the printed path without a terminal on stdin", async () => {
+    const seen: TuiRequest[] = [];
+    const { out } = await run(["--no-git", tree.root], { isTTY: true, openTui: fakeTui(seen) });
+    expect(seen).toHaveLength(0);
+    expect(out).toContain("Headline number");
+  });
+
+  it("--json never opens the TUI (D14)", async () => {
+    const seen: TuiRequest[] = [];
+    const { code, out } = await run(["--no-git", "--json", tree.root], {
+      isTTY: true,
+      stdinIsTTY: true,
+      openTui: fakeTui(seen),
+    });
+    expect(code).toBe(0);
+    expect(seen).toHaveLength(0);
+    expect(jsonOf(out)).toMatchObject({ headline: { scope: "user-controllable" } });
+  });
+
+  it("a failed row in the TUI's run exits 1 (D17)", async () => {
+    const { code } = await run(["--no-git", tree.root], {
+      isTTY: true,
+      stdinIsTTY: true,
+      openTui: () => Promise.resolve({ summary: "s\n", failedRows: 2 }),
+    });
+    expect(code).toBe(1);
   });
 
   it("--json is audit --json (D14)", async () => {
@@ -220,10 +268,22 @@ describe("moldig clean", () => {
     expect(out).toContain("not implemented until the actions engine lands (ticket 24)");
   });
 
-  it("points at ticket 26 in a terminal and removes nothing", async () => {
+  it("opens the TUI on the selection panel in a terminal (D4)", async () => {
+    const seen: TuiRequest[] = [];
+    const { code, out } = await run(["clean", tree.root], {
+      isTTY: true,
+      stdinIsTTY: true,
+      openTui: fakeTui(seen),
+    });
+    expect(code).toBe(0);
+    expect(seen[0]?.initialRoute).toEqual({ screen: "selection" });
+    expect(out).toBe("\nsummary from the TUI\n");
+  });
+
+  it("says so instead of opening the panel when there is no terminal", async () => {
     const { code, out } = await run(["clean", tree.root], { isTTY: true });
     expect(code).toBe(0);
-    expect(out).toContain("selection panel arrives with ticket 26");
+    expect(out).toContain("no terminal to open the selection panel in");
     expect(out).toContain("nothing was removed");
   });
 

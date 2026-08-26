@@ -15,6 +15,9 @@ import { parseArgs, severityRank, type Options } from "./args.js";
 import { helpPage, usageSynopsis } from "./help.js";
 import { createPalette } from "./palette.js";
 import { auditReport, scanReport, type ReportStyle } from "./report.js";
+import type { OpenTui } from "./tui/index.js";
+import { initialMarks } from "./tui/lib/selection.js";
+import { summaryText } from "./tui/lib/summary.js";
 import { moldigVersion } from "./version.js";
 
 export interface Io {
@@ -32,6 +35,13 @@ export interface Io {
   platform?: NodeJS.Platform;
   /** Deterministic `generatedAt` and `ageDays`; defaults to the real clock. */
   now?: Date;
+  /** stdin's TTY-ness: the TUI needs both streams to be terminals; `isTTY` covers stdout only. */
+  stdinIsTTY?: boolean;
+  /**
+   * The interactive TUI, injected by `main.ts` so `runCli` stays free of Ink and the tests can
+   * drive the decision to open it without a terminal. Absent = the printed report path.
+   */
+  openTui?: OpenTui;
 }
 
 const PLATFORMS = ["darwin", "linux", "win32"] as const;
@@ -118,8 +128,9 @@ function cleanRefusal(io: Io, options: Options): string | null {
 }
 
 /**
- * `clean` in this slice: the refusal path is real, the sweep is not. The actions engine is
- * ticket 24 and the selection panel ticket 26; nothing here pretends to have run either.
+ * Non-interactive `clean`: the refusal path is real, the sweep is not. `--dry-run` and `--yes`
+ * belong to the actions engine (ticket 24) and to `clean` itself (ticket 25); in a terminal
+ * `clean` opens the TUI on the Selection panel instead of coming here.
  */
 function runClean(io: Io, options: Options): number {
   const out = writer(io.stdout);
@@ -135,9 +146,31 @@ function runClean(io: Io, options: Options): number {
   out(
     options.yes
       ? "clean --yes is not implemented until the actions engine lands (ticket 24); nothing was removed"
-      : "the clean selection panel arrives with ticket 26; nothing was removed",
+      : "no terminal to open the selection panel in; nothing was removed",
   );
   return 0;
+}
+
+/**
+ * D1/D4: `moldig` with no command and `moldig clean` open the TUI, but only on a real terminal
+ * with both streams attached. `--json` is always the audit document (D14) and the unattended
+ * `clean` flags stay on the printed path.
+ */
+function wantsTui(io: Io, options: Options): boolean {
+  if (options.json || !io.isTTY || io.stdinIsTTY !== true || io.openTui === undefined) return false;
+  if (options.command === "default") return true;
+  return options.command === "clean" && !options.dryRun && !options.yes;
+}
+
+/** The shareable summary: what the TUI prints on leaving, and what a pipe prints after the table. */
+function previewSummary(index: AuditIndex, platform: NodeJS.Platform): string {
+  return summaryText({
+    index,
+    marks: initialMarks(index),
+    run: null,
+    home: index.scan.home,
+    platform,
+  });
 }
 
 async function resolveRoots(io: Io, options: Options): Promise<string[] | { error: string }> {
@@ -174,7 +207,8 @@ export async function runCli(argv: readonly string[], io: Io): Promise<number> {
       return usageError(io, `moldig runs on ${PLATFORMS.join(", ")}, not on ${platform}`);
     }
 
-    if (options.command === "clean") return runClean(io, options);
+    const interactive = wantsTui(io, options);
+    if (options.command === "clean" && !interactive) return runClean(io, options);
 
     const roots = await resolveRoots(io, options);
     if (!Array.isArray(roots)) return usageError(io, roots.error);
@@ -190,9 +224,8 @@ export async function runCli(argv: readonly string[], io: Io): Promise<number> {
       ...(io.now === undefined ? {} : { now: io.now }),
     });
 
-    // `audit`, and `moldig` without a command: the audit output is what the TUI prints until
-    // ticket 26 lands [D5, D14, D132]. `audit()` can add a Warning of its own, so the document
-    // is built before anything is written.
+    // `audit`, and `moldig` without a command. `audit()` can add a Warning of its own, so the
+    // document is built before anything is written.
     const audited =
       options.command === "scan"
         ? null
@@ -200,11 +233,27 @@ export async function runCli(argv: readonly string[], io: Io): Promise<number> {
     const document: Index = audited ?? index;
 
     const err = writer(io.stderr);
-    for (const line of warningLines(document)) err(line);
+    const warnings = warningLines(document);
     // D21: the CLI says which Harnesses it read; the index carries no partial-scan Warning.
     if (index.harnesses.length < HARNESSES.length) {
       const names = index.harnesses.map((harness) => harness.displayName).join(", ");
-      err(`warning: scanning only: ${names.length === 0 ? "no Harness" : names}`);
+      warnings.push(`warning: scanning only: ${names.length === 0 ? "no Harness" : names}`);
+    }
+    // The TUI takes the alternate screen next, which would swallow them: they are written when
+    // it gives the terminal back, right before the summary.
+    if (!interactive) for (const line of warnings) err(line);
+
+    if (interactive && audited !== null && io.openTui !== undefined) {
+      const outcome = await io.openTui({
+        index: audited,
+        env: io.env,
+        platform,
+        ...(options.command === "clean" ? { initialRoute: { screen: "selection" as const } } : {}),
+      });
+      for (const line of warnings) err(line);
+      io.stdout(`\n${outcome.summary}`);
+      // D17: leaving is 0, even with nothing done; one failed row makes the run 1.
+      return outcome.failedRows > 0 ? 1 : 0;
     }
 
     if (options.json) {
@@ -219,11 +268,11 @@ export async function runCli(argv: readonly string[], io: Io): Promise<number> {
         for (const line of scanReport(index, style)) out(line);
       } else {
         for (const line of auditReport(audited, style)) out(line);
-        if (options.command === "default" && io.isTTY) {
+        // D5, D132: `moldig` outside a terminal prints the table the TUI would show, then the
+        // same shareable summary the TUI leaves behind.
+        if (options.command === "default") {
           out("");
-          out(
-            "The interactive experience arrives with ticket 26; this is what moldig audit prints.",
-          );
+          io.stdout(previewSummary(audited, platform));
         }
       }
     }

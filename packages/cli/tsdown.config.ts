@@ -1,14 +1,23 @@
 import { defineConfig, type UserConfig } from "tsdown";
 
-// `@moldig/core` is a devDependency on purpose: it is bundled into the CLI so `npx moldig`
-// ships one file and one runtime dependency (`trash`, D88). The custom condition makes the
-// bundle (and `tsdown --watch`) read core from source, like tsc and Vitest do, instead of a
-// possibly stale `dist/`.
+// `@moldig/core`, `ink` and `react` are devDependencies on purpose: they are bundled into the
+// CLI, so `npx moldig` ships one bundle and exactly one runtime dependency, `trash` (D88). The
+// custom condition makes the bundle (and `tsdown --watch`) read core from source, like tsc and
+// Vitest do, instead of a possibly stale `dist/`.
+//
+// Ink and React must be bundled *together*: bundling Ink against an external React yields two
+// React copies and the "Invalid hook call" warning. `react-devtools-core` and its `ws` transport
+// are Ink's optional devtools hook: it only loads when `DEV=true` *and* `import.meta.resolve`
+// finds the package, which a published install never does, so bundling them would ship a
+// megabyte of dead code. `trash` ships native helpers (a Swift binary, `windows-trash.exe`) that
+// cannot be bundled at all.
 const config: UserConfig = defineConfig({
   entry: ["src/cli.ts", "src/main.ts"],
-  // `trash` ships native helpers (a Swift binary, `windows-trash.exe`) that cannot be bundled:
-  // it is the package's one runtime dependency and is required at run time (D88).
-  deps: { neverBundle: ["trash"] },
+  deps: {
+    alwaysBundle: [/^ink$/, /^react$/, /^react\//, /^@moldig\/core/],
+    neverBundle: ["react-devtools-core", "ws", "trash"],
+    onlyBundle: false,
+  },
   platform: "node",
   format: ["esm"],
   fixedExtension: true,

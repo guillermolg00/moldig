@@ -1,0 +1,230 @@
+/**
+ * Screen 3 — Projects: present Projects sorted by session cost, then the collapsed `Gone (N)`
+ * group (never mixed with present rows, ADR-0006), `Unreachable (N)` (shown, never acted on),
+ * then one user-scope row per harness — what every session of that harness pays.
+ */
+import type { Project } from "@moldig/core";
+import { Box, Text } from "ink";
+import type { ReactElement } from "react";
+import { Frame, listHeight, useSize } from "../components/Frame.js";
+import { formatBytes, formatTokens, pad, shortPath } from "../lib/format.js";
+import { isDown, isUp, useKeys } from "../lib/keys.js";
+import { useStore } from "../lib/store.js";
+import { useList } from "../lib/use-list.js";
+
+interface ProjectRow {
+  readonly key: string;
+  readonly kind: "section" | "project" | "group" | "note" | "harness";
+  readonly label: string;
+  readonly project: Project | null;
+  readonly container: string | null;
+  readonly detail: string;
+  readonly flags: readonly string[];
+  readonly expanded: boolean;
+}
+
+const GONE = "projects:gone";
+const UNREACHABLE = "projects:unreachable";
+
+/** Session cost of a Project: what a session started there adds, summed over its harnesses. */
+function cost(project: Project): number {
+  return Object.values(project.perHarness).reduce(
+    (sum, facts) => sum + (facts?.sessionLoad.tokens ?? 0),
+    0,
+  );
+}
+
+function section(key: string, label: string): ProjectRow {
+  return {
+    key,
+    kind: "section",
+    label,
+    project: null,
+    container: null,
+    detail: "",
+    flags: [],
+    expanded: false,
+  };
+}
+
+export function ProjectsScreen(): ReactElement {
+  const store = useStore();
+  const { index } = store;
+  const { rows: screenRows, columns } = useSize();
+  const { home, platform } = index.scan;
+
+  const cacheBytes = (project: Project): number =>
+    index.entities
+      .filter((entity) => entity.kind === "harness-cache" && entity.project === project.id)
+      .reduce((sum, entity) => sum + entity.metrics.bytes, 0);
+  const present = index.projects
+    .filter((project) => project.reachability === "present")
+    .toSorted((a, b) => cost(b) - cost(a));
+  const gone = index.projects.filter((project) => project.reachability === "orphan");
+  const unreachable = index.projects.filter((project) => project.reachability === "unreachable");
+  const mostExpensive = present[0]?.id;
+
+  const projectRow = (project: Project, extraFlags: readonly string[]): ProjectRow => {
+    const perHarness = Object.entries(project.perHarness)
+      .map(([harness, facts]) => `${harness} ${formatTokens(facts?.sessionLoad.tokens ?? 0)}`)
+      .join(" · ");
+    const flags = [...extraFlags];
+    if (project.enclosesCwd) flags.push("cwd");
+    if (project.id === mostExpensive && project.reachability === "present" && present.length > 1) {
+      flags.push("most expensive");
+    }
+    if (project.kind === "detached-worktree") flags.push("worktree");
+    return {
+      key: project.id,
+      kind: "project",
+      label: project.displayName,
+      project,
+      container: project.id,
+      detail: `${pad(shortPath(project.path, home, platform), 28)} ${pad(perHarness || "—", 30)} ${formatBytes(cacheBytes(project)).padStart(8)} cache`,
+      flags,
+      expanded: false,
+    };
+  };
+
+  const rows: ProjectRow[] = [
+    section("s:present", `Projects (${present.length} present, by session cost)`),
+  ];
+  for (const project of present) rows.push(projectRow(project, []));
+
+  const goneOpen = store.expanded.has(GONE);
+  rows.push({
+    key: GONE,
+    kind: "group",
+    label: `Gone (${gone.length})`,
+    project: null,
+    container: null,
+    detail: "directory gone; what every harness left about it stays together",
+    flags: [],
+    expanded: goneOpen,
+  });
+  if (goneOpen) for (const project of gone) rows.push(projectRow(project, ["orphan"]));
+
+  const unreachableOpen = store.expanded.has(UNREACHABLE);
+  rows.push({
+    key: UNREACHABLE,
+    kind: "group",
+    label: `Unreachable (${unreachable.length})`,
+    project: null,
+    container: null,
+    detail: "volume not mounted or stat timed out; nothing is suggested until it is back",
+    flags: [],
+    expanded: unreachableOpen,
+  });
+  if (unreachableOpen) {
+    for (const project of unreachable) {
+      rows.push({
+        key: project.id,
+        kind: "note",
+        label: project.displayName,
+        project,
+        container: null,
+        detail: `${shortPath(project.path, home, platform)} · ${project.unreachableReason ?? "unreachable"} · no action`,
+        flags: ["unreachable"],
+        expanded: false,
+      });
+    }
+  }
+
+  rows.push(section("s:user", "User scope (paid in every session)"));
+  for (const harness of index.harnesses) {
+    const stray = harness.userScope.stray.length;
+    const paths = harness.userScope.paths
+      .map((entry) => shortPath(entry.path, home, platform))
+      .join(", ");
+    const cache = index.entities
+      .filter(
+        (entity) =>
+          entity.kind === "harness-cache" &&
+          entity.harness === harness.harness &&
+          entity.project === null,
+      )
+      .reduce((sum, entity) => sum + entity.metrics.bytes, 0);
+    rows.push({
+      key: harness.id,
+      kind: "harness",
+      label: `${harness.displayName} · user scope`,
+      project: null,
+      container: harness.id,
+      detail: `${pad(paths, 28)} ${pad(`${harness.harness} ${formatTokens(harness.userScope.baseline.tokens)}`, 30)} ${formatBytes(cache).padStart(8)} cache`,
+      flags: stray > 0 ? [`${stray} stray`] : [],
+      expanded: false,
+    });
+  }
+
+  const list = useList(
+    rows,
+    listHeight(screenRows, 1),
+    (row) => row.key,
+    (row) => row.kind !== "section",
+  );
+
+  useKeys((input, key) => {
+    const row = list.current;
+    if (isUp(input, key)) list.move(-1);
+    else if (isDown(input, key)) list.move(1);
+    else if (key.pageUp) list.move(-10);
+    else if (key.pageDown) list.move(10);
+    else if (key.home) list.jump("home");
+    else if (key.end) list.jump("end");
+    else if (key.escape) store.pop();
+    else if (row === undefined) return;
+    else if (key.return || key.rightArrow || key.leftArrow) {
+      if (row.kind === "group") {
+        store.setExpanded(row.key, key.leftArrow ? false : key.rightArrow ? true : !row.expanded);
+      } else if (row.container !== null && key.return) {
+        store.push({ screen: "items", container: row.container, title: row.label });
+      }
+    } else if (input === "g" && row.container !== null) {
+      store.push({ screen: "graph", focusId: row.container });
+    } else if (input === "o" && row.project !== null) store.openPath(row.project.path);
+  }, !store.helpOpen);
+
+  const labelWidth = Math.max(12, Math.min(24, columns - 80));
+
+  return (
+    <Frame
+      title="projects"
+      keys="↑↓ move · enter items · →/← expand · g graph · o open · esc back · ? help · q quit"
+    >
+      <Box flexDirection="column">
+        {list.hiddenAbove > 0 ? <Text dimColor>… {list.hiddenAbove} above</Text> : null}
+        {list.visible.map((row, i) => {
+          const current = list.start + i === list.cursor;
+          if (row.kind === "section") {
+            return (
+              <Text key={row.key} bold underline>
+                {row.label}
+              </Text>
+            );
+          }
+          const caret = row.kind === "group" ? (row.expanded ? "▾ " : "▸ ") : "  ";
+          return (
+            <Text key={row.key} inverse={current} dimColor={row.kind === "note"}>
+              {current ? "> " : "  "}
+              {caret}
+              <Text bold={row.kind === "project" || row.kind === "harness"}>
+                {pad(row.label, labelWidth)}
+              </Text>
+              <Text dimColor={!current}> {row.detail}</Text>
+              {row.flags.map((flag) => (
+                <Text
+                  key={flag}
+                  color={flag === "orphan" || flag === "unreachable" ? "red" : "yellow"}
+                >
+                  {" "}
+                  [{flag}]
+                </Text>
+              ))}
+            </Text>
+          );
+        })}
+        {list.hiddenBelow > 0 ? <Text dimColor>… {list.hiddenBelow} more</Text> : null}
+      </Box>
+    </Frame>
+  );
+}

@@ -1,0 +1,101 @@
+/**
+ * The shareable summary: what moldig writes on the primary screen once the alternate screen is
+ * gone, so the last thing in the scrollback is screenshot-able (08 §4 wording).
+ *
+ * Plain text, no ANSI, every line ending in `\n`, paths `~`-shortened. Numbers come from the
+ * CLI's own `../format.js` — the same helpers `report.ts` prints `moldig audit` with — so the
+ * summary and the report say a count the same way; the screens above keep the compact forms.
+ */
+import type { AuditIndex } from "@moldig/core";
+import { formatBytes, formatRange, formatTokens, plural } from "../../format.js";
+import { shortPath } from "./format.js";
+import { type RunResult, appliedBytes, runTotals } from "./runner.js";
+import { type ActionKind, groupSelection, type Refusal, noRefusal } from "./selection.js";
+
+export interface SummaryInput {
+  readonly index: AuditIndex;
+  readonly marks: ReadonlyMap<string, ActionKind>;
+  readonly run: RunResult | null;
+  readonly home: string;
+  readonly platform: string;
+  readonly refusal?: Refusal;
+}
+
+export function harnessName(index: AuditIndex, harnessId: string): string {
+  return index.harnesses.find((harness) => harness.id === harnessId)?.displayName ?? harnessId;
+}
+
+export function focusName(index: AuditIndex): string {
+  const id = index.headline.focus.project;
+  return index.projects.find((project) => project.id === id)?.displayName ?? "no project";
+}
+
+export function headlineLines(index: AuditIndex): string[] {
+  const focus = focusName(index);
+  return index.headline.perHarness.map((entry) => {
+    const name = harnessName(index, `harness:${entry.harness}`).padEnd(12);
+    const pct =
+      entry.pctOfContext === null || entry.contextWindowTokens === null
+        ? ""
+        : ` · ${entry.pctOfContext}% of ${formatTokens(entry.contextWindowTokens)} context`;
+    const range = formatRange(entry.total.low, entry.total.high);
+    return (
+      `${name} every session pays ${formatTokens(entry.baseline.mid)} + ${focus} adds ` +
+      `${formatTokens(entry.project.mid)} = ${formatTokens(entry.total.mid)} tokens/session (${range})${pct}`
+    );
+  });
+}
+
+function tokensLine(index: AuditIndex, tokens: Readonly<Record<string, number>>): string {
+  const parts = Object.entries(tokens)
+    .filter(([, count]) => count > 0)
+    .map(([harness, count]) => `${formatTokens(count)} ${harnessName(index, harness)}`);
+  return parts.length > 0 ? parts.join(", ") : "none";
+}
+
+export function summaryText(input: SummaryInput): string {
+  const { index, run } = input;
+  const lines: string[] = [`moldig — ${focusName(index)} (${index.headline.focus.reason})`];
+  for (const line of headlineLines(index)) lines.push(`  ${line}`);
+
+  if (run === null) {
+    const groups = groupSelection(index, input.marks, input.refusal ?? noRefusal);
+    const bytes = groups.reduce((sum, group) => sum + group.bytes, 0);
+    const tokens: Record<string, number> = {};
+    for (const group of groups) {
+      for (const [harness, count] of Object.entries(group.tokens)) {
+        tokens[harness] = (tokens[harness] ?? 0) + count;
+      }
+    }
+    const rows = groups.reduce((sum, group) => sum + group.rows.length, 0);
+    lines.push(
+      `Nothing moved (preview): ${plural(rows, "row")} selected · ${formatBytes(bytes)} would be freed · tokens/session: ${tokensLine(index, tokens)}`,
+    );
+    for (const group of groups) {
+      lines.push(
+        `  ${group.title}: ${plural(group.rows.length, "row")} · ${formatBytes(group.bytes)}`,
+      );
+    }
+    return `${lines.join("\n")}\n`;
+  }
+
+  const totals = runTotals(run.groups);
+  lines.push(
+    `Freed ${formatBytes(totals.freedBytes)} · tokens/session freed: ${tokensLine(index, totals.tokens)}`,
+  );
+  lines.push(
+    `Rows: ${totals.counts.moved} moved · ${totals.counts.edited} edited · ${totals.counts.delegated} delegated · ${totals.counts.refused} refused · ${totals.counts.failed} failed`,
+  );
+  for (const group of run.groups) {
+    lines.push(
+      group.skipped
+        ? `  ${group.title}: skipped`
+        : `  ${group.title}: ${plural(group.rows.length, "row")} · ${formatBytes(appliedBytes(group))}`,
+    );
+  }
+  lines.push(`Manifest: ${shortPath(run.manifestPath, input.home, input.platform)}`);
+  for (const backup of totals.backups) {
+    lines.push(`Backup: ${shortPath(backup, input.home, input.platform)}`);
+  }
+  return `${lines.join("\n")}\n`;
+}
