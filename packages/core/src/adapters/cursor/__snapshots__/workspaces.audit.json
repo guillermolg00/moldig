@@ -2011,7 +2011,7 @@
         "method": "trash"
       },
       "metrics": {
-        "bytes": 116,
+        "bytes": 134,
         "files": 1,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -2038,7 +2038,7 @@
       "userContent": false,
       "members": {
         "files": 1,
-        "bytes": 116,
+        "bytes": 134,
         "oldest": "<COPY-TIME>",
         "newest": "<COPY-TIME>"
       }
@@ -2070,7 +2070,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 1879,
+        "bytes": 1897,
         "files": 3,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -2097,7 +2097,7 @@
       "userContent": false,
       "members": {
         "files": 3,
-        "bytes": 1879,
+        "bytes": 1897,
         "oldest": "<COPY-TIME>",
         "newest": "<COPY-TIME>"
       }
@@ -2245,7 +2245,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 3180,
+        "bytes": 3198,
         "files": 2,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -2269,7 +2269,7 @@
       "userContent": false,
       "members": {
         "files": 2,
-        "bytes": 3180,
+        "bytes": 3198,
         "oldest": "<COPY-TIME>",
         "newest": "<COPY-TIME>"
       }
@@ -2357,7 +2357,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 3203,
+        "bytes": 3221,
         "files": 2,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -2381,7 +2381,7 @@
       "userContent": false,
       "members": {
         "files": 2,
-        "bytes": 3203,
+        "bytes": 3221,
         "oldest": "<COPY-TIME>",
         "newest": "<COPY-TIME>"
       }
@@ -2413,7 +2413,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 3185,
+        "bytes": 3203,
         "files": 2,
         "lines": null,
         "mtime": "2026-02-07T12:00:00.000Z",
@@ -2437,7 +2437,7 @@
       "userContent": false,
       "members": {
         "files": 2,
-        "bytes": 3185,
+        "bytes": 3203,
         "oldest": "2026-02-07T12:00:00.000Z",
         "newest": "2026-02-07T12:00:00.000Z"
       }
@@ -2469,7 +2469,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 3190,
+        "bytes": 3208,
         "files": 2,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -2493,7 +2493,7 @@
       "userContent": false,
       "members": {
         "files": 2,
-        "bytes": 3190,
+        "bytes": 3208,
         "oldest": "<COPY-TIME>",
         "newest": "<COPY-TIME>"
       }
@@ -2525,7 +2525,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 3191,
+        "bytes": 3209,
         "files": 2,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -2549,7 +2549,7 @@
       "userContent": false,
       "members": {
         "files": 2,
-        "bytes": 3191,
+        "bytes": 3209,
         "oldest": "2026-05-28T12:00:00.000Z",
         "newest": "<COPY-TIME>"
       }
@@ -2581,7 +2581,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 3191,
+        "bytes": 3209,
         "files": 2,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -2605,7 +2605,7 @@
       "userContent": false,
       "members": {
         "files": 2,
-        "bytes": 3191,
+        "bytes": 3209,
         "oldest": "2026-08-16T12:00:00.000Z",
         "newest": "<COPY-TIME>"
       }
@@ -2637,7 +2637,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 3190,
+        "bytes": 3208,
         "files": 2,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -2661,7 +2661,7 @@
       "userContent": false,
       "members": {
         "files": 2,
-        "bytes": 3190,
+        "bytes": 3208,
         "oldest": "<COPY-TIME>",
         "newest": "<COPY-TIME>"
       }
@@ -2693,7 +2693,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 3260,
+        "bytes": 3278,
         "files": 2,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -2717,7 +2717,7 @@
       "userContent": false,
       "members": {
         "files": 2,
-        "bytes": 3260,
+        "bytes": 3278,
         "oldest": "2026-03-29T12:00:00.000Z",
         "newest": "<COPY-TIME>"
       }
@@ -4107,8 +4107,8 @@
   "totals": {
     "entities": 55,
     "files": 59,
-    "bytes": 80350,
-    "harnessCacheBytes": 42512,
+    "bytes": 80530,
+    "harnessCacheBytes": 42692,
     "memoryBytes": 0,
     "tokens": 7752
   },
@@ -4197,7 +4197,7 @@
           "preselect": false
         }
       ],
-      "message": "1 worktree (116 B); Cursor keeps the 25 newest",
+      "message": "1 worktree (134 B); Cursor keeps the 25 newest",
       "evidence": [
         {
           "kind": "retention-rule",
@@ -4206,7 +4206,7 @@
       ],
       "confidence": "certain",
       "impact": {
-        "bytes": 116,
+        "bytes": 134,
         "tokens": null,
         "files": 1
       },
@@ -4250,7 +4250,7 @@
       ],
       "confidence": "certain",
       "impact": {
-        "bytes": 116,
+        "bytes": 134,
         "tokens": null,
         "files": 1
       },

@@ -12,17 +12,17 @@ Agent definitions              1
 Plugins                        0
 Settings files                 7
 Harness cache                  7
-Harness cache bytes       4.8 KB
+Harness cache bytes       4.9 KB
 Memory file bytes         5.3 KB
-All bytes                31.4 KB
+All bytes                31.8 KB
 
 Projects
 Project    Reachability  Harness      Tokens/session  Harness cache
 gone       gone          Claude Code               0            0 B
-project-a  present       Claude Code             265         2.7 KB
+project-a  present       Claude Code             265         2.8 KB
 
 1 Project present · 1 gone · 0 unreachable · 2 Stray
 
 Totals
-42 entities · 36 files · 31.4 KB
-harness cache 4.8 KB · memory files 5.3 KB · 1 604 tokens on disk
+42 entities · 36 files · 31.8 KB
+harness cache 4.9 KB · memory files 5.3 KB · 1 604 tokens on disk

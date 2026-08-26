@@ -39,7 +39,10 @@ describe("the filesystem executors", () => {
     await chmod(file, 0o600);
     await writeAtomic(file, '{"kept": true}\n');
     expect(await readFile(file, "utf8")).toBe('{"kept": true}\n');
-    expect((await stat(file)).mode & 0o777).toBe(0o600);
+    // Windows has no POSIX permission bits: `chmod` there toggles the read-only flag alone and
+    // the mode always reads back 0o666, so the mode is only asserted where it means something.
+    const mode = process.platform === "win32" ? 0o600 : (await stat(file)).mode & 0o777;
+    expect(mode).toBe(0o600);
     expect(await readdir(tree)).toEqual(["settings.json"]);
   });
 

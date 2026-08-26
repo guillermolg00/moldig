@@ -1057,7 +1057,7 @@
         "method": "trash"
       },
       "metrics": {
-        "bytes": 451,
+        "bytes": 487,
         "files": 1,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -1081,7 +1081,7 @@
       "userContent": true,
       "members": {
         "files": 1,
-        "bytes": 451,
+        "bytes": 487,
         "oldest": "<COPY-TIME>",
         "newest": "<COPY-TIME>"
       }
@@ -1112,7 +1112,7 @@
         "method": "trash"
       },
       "metrics": {
-        "bytes": 967,
+        "bytes": 1021,
         "files": 1,
         "lines": null,
         "mtime": "2026-07-12T12:00:00.000Z",
@@ -1139,7 +1139,7 @@
       "userContent": false,
       "members": {
         "files": 1,
-        "bytes": 967,
+        "bytes": 1021,
         "oldest": "2026-07-12T12:00:00.000Z",
         "newest": "2026-07-12T12:00:00.000Z"
       }
@@ -1170,7 +1170,7 @@
         "method": "trash"
       },
       "metrics": {
-        "bytes": 363,
+        "bytes": 381,
         "files": 1,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -1197,7 +1197,7 @@
       "userContent": false,
       "members": {
         "files": 1,
-        "bytes": 363,
+        "bytes": 381,
         "oldest": "<COPY-TIME>",
         "newest": "<COPY-TIME>"
       }
@@ -1230,7 +1230,7 @@
         "method": "trash"
       },
       "metrics": {
-        "bytes": 1388,
+        "bytes": 1460,
         "files": 5,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -1257,7 +1257,7 @@
       "userContent": false,
       "members": {
         "files": 5,
-        "bytes": 1388,
+        "bytes": 1460,
         "oldest": "2026-08-21T12:00:00.000Z",
         "newest": "<COPY-TIME>"
       }
@@ -2385,7 +2385,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 15444,
+        "bytes": 15588,
         "files": 1,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -2527,7 +2527,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 726,
+        "bytes": 780,
         "files": 1,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -3785,8 +3785,8 @@
   "totals": {
     "entities": 42,
     "files": 36,
-    "bytes": 32139,
-    "harnessCacheBytes": 4879,
+    "bytes": 32517,
+    "harnessCacheBytes": 5059,
     "memoryBytes": 5454,
     "tokens": 1604
   },
@@ -3941,7 +3941,7 @@
           "preselect": false
         }
       ],
-      "message": "1 session older than the 20-day retention Claude Code sweeps itself (3 sessions, 2.7 KB)",
+      "message": "1 session older than the 20-day retention Claude Code sweeps itself (3 sessions, 2.8 KB)",
       "evidence": [
         {
           "kind": "retention-rule",
@@ -3950,7 +3950,7 @@
       ],
       "confidence": "certain",
       "impact": {
-        "bytes": 2718,
+        "bytes": 2862,
         "tokens": null,
         "files": 7
       },

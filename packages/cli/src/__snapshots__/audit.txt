@@ -21,7 +21,7 @@ low       duplicate      MCP server server-http is configured 4 times w…   147
 medium    orphan         gone: directory gone; 2 breadcrumbs, 2 memory…    720 B
 medium    shadow memory  1 memory unit (3 files, 653 tokens) kept under…  3.9 KB
 medium    shadow memory  1 memory unit (2 files, 168 tokens) kept under…   720 B
-low       harness cache  1 session older than the 20-day retention Clau…  2.7 KB
+low       harness cache  1 session older than the 20-day retention Clau…  2.8 KB
 low       harness cache  1 shell snapshot older than the 20-day retenti…  1.5 KB
 low       harness cache  1 config backup (98 B); Claude Code keeps the…     98 B
 low       harness cache  1 task list older than the 20-day retention Cl…   106 B

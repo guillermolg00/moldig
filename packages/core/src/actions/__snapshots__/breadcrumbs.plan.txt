@@ -3,7 +3,7 @@ data dir <HOME>/.local/share/moldig
 backups <HOME>/.local/share/moldig/backups/2026-08-26T12-00-00.000Z
 manifest <HOME>/.local/share/moldig/runs/2026-08-26T12-00-00.000Z.json
 
-Clean (8) · 2427 bytes · tokens/session {"claude-code":77} · shared 0
+Clean (8) · 2481 bytes · tokens/session {"claude-code":77} · shared 0
   refused: network volume
     row harness-cache:<HOME>/.claude/shell-snapshots/snapshot-zsh-1700000000000-synth1.sh
     harness-cache · claude-code · volume network · 1506 bytes
@@ -12,13 +12,13 @@ Clean (8) · 2427 bytes · tokens/session {"claude-code":77} · shared 0
     flags sensitive
   → Trash
     row harness-cache:<HOME>/.claude/projects/__ROOT__-project-a-apps-web/22222222-2222-4222-8222-222222222222.jsonl
-    harness-cache · claude-code · volume home · 967 bytes
+    harness-cache · claude-code · volume home · 1021 bytes
     disposition trash
     trash <HOME>/.claude/projects/__ROOT__-project-a-apps-web/22222222-2222-4222-8222-222222222222.jsonl
     flags sensitive
   refused: live
     row harness-cache:live-session
-    harness-cache · claude-code · volume — · 967 bytes
+    harness-cache · claude-code · volume — · 1021 bytes
     disposition refused · not runnable
     reason live — a harness is using it right now
     flags sensitive · live
@@ -33,7 +33,7 @@ Clean (8) · 2427 bytes · tokens/session {"claude-code":77} · shared 0
     badges never-read
   refused: kept
     row harness-cache:<HOME>/.claude/history.jsonl
-    harness-cache · claude-code · volume — · 451 bytes
+    harness-cache · claude-code · volume — · 487 bytes
     disposition refused · not runnable
     reason kept — the harness documents no sweep for this kept state; Delete only
     flags sensitive · user-content
@@ -56,7 +56,7 @@ Clean (8) · 2427 bytes · tokens/session {"claude-code":77} · shared 0
     disposition trash
     trash <HOME>/.claude/projects/__ROOT__-gone/memory
 
-Delete (9) · 1040 bytes · tokens/session {"claude-code":78} · shared 0
+Delete (9) · 1076 bytes · tokens/session {"claude-code":78} · shared 0
   ⚠ holds user content — confirmed separately
   extra confirmation: user content
   refused: read-only volume
@@ -66,7 +66,7 @@ Delete (9) · 1040 bytes · tokens/session {"claude-code":78} · shared 0
     reason read-only volume — nothing can be moved
   → Trash
     row harness-cache:<HOME>/.claude/history.jsonl
-    harness-cache · claude-code · volume home · 451 bytes
+    harness-cache · claude-code · volume home · 487 bytes
     disposition trash
     trash <HOME>/.claude/history.jsonl
     flags sensitive · user-content

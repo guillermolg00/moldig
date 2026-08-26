@@ -2090,7 +2090,7 @@
         "method": "trash"
       },
       "metrics": {
-        "bytes": 89,
+        "bytes": 107,
         "files": 1,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -2114,7 +2114,7 @@
       "userContent": false,
       "members": {
         "files": 1,
-        "bytes": 89,
+        "bytes": 107,
         "oldest": "<COPY-TIME>",
         "newest": "<COPY-TIME>"
       }
@@ -2199,7 +2199,7 @@
         "method": "trash"
       },
       "metrics": {
-        "bytes": 94,
+        "bytes": 112,
         "files": 1,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -2223,7 +2223,7 @@
       "userContent": false,
       "members": {
         "files": 1,
-        "bytes": 94,
+        "bytes": 112,
         "oldest": "<COPY-TIME>",
         "newest": "<COPY-TIME>"
       }
@@ -2691,7 +2691,7 @@
         "method": "trash"
       },
       "metrics": {
-        "bytes": 101,
+        "bytes": 119,
         "files": 1,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -2715,7 +2715,7 @@
       "userContent": false,
       "members": {
         "files": 1,
-        "bytes": 101,
+        "bytes": 119,
         "oldest": "<COPY-TIME>",
         "newest": "<COPY-TIME>"
       }
@@ -2744,7 +2744,7 @@
         "method": "trash"
       },
       "metrics": {
-        "bytes": 94,
+        "bytes": 112,
         "files": 1,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -2768,7 +2768,7 @@
       "userContent": false,
       "members": {
         "files": 1,
-        "bytes": 94,
+        "bytes": 112,
         "oldest": "<COPY-TIME>",
         "newest": "<COPY-TIME>"
       }
@@ -2849,7 +2849,7 @@
         "method": "backup-edit"
       },
       "metrics": {
-        "bytes": 269,
+        "bytes": 287,
         "files": null,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -3733,7 +3733,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 243,
+        "bytes": 279,
         "files": 1,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -3955,7 +3955,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 478,
+        "bytes": 550,
         "files": 1,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -3992,7 +3992,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 2300,
+        "bytes": 2336,
         "files": 1,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -4067,7 +4067,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 465,
+        "bytes": 537,
         "files": 1,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -5893,8 +5893,8 @@
   "totals": {
     "entities": 69,
     "files": 70,
-    "bytes": 11516,
-    "harnessCacheBytes": 994,
+    "bytes": 11822,
+    "harnessCacheBytes": 1066,
     "memoryBytes": 476,
     "tokens": 965
   },
@@ -6324,7 +6324,7 @@
       ],
       "confidence": "certain",
       "impact": {
-        "bytes": 211,
+        "bytes": 229,
         "tokens": 24,
         "files": 3
       },

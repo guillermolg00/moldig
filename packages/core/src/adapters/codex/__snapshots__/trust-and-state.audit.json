@@ -968,7 +968,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 854,
+        "bytes": 908,
         "files": 1,
         "lines": null,
         "mtime": "2026-07-17T12:00:00.000Z",
@@ -992,7 +992,7 @@
       "userContent": false,
       "members": {
         "files": 1,
-        "bytes": 854,
+        "bytes": 908,
         "oldest": "2026-07-17T12:00:00.000Z",
         "newest": "2026-07-17T12:00:00.000Z"
       }
@@ -1021,7 +1021,7 @@
         "method": "trash"
       },
       "metrics": {
-        "bytes": 854,
+        "bytes": 908,
         "files": 1,
         "lines": null,
         "mtime": "2026-07-17T12:00:00.000Z",
@@ -1045,7 +1045,7 @@
       "userContent": false,
       "members": {
         "files": 1,
-        "bytes": 854,
+        "bytes": 908,
         "oldest": "2026-07-17T12:00:00.000Z",
         "newest": "2026-07-17T12:00:00.000Z"
       }
@@ -1074,7 +1074,7 @@
         "method": "trash"
       },
       "metrics": {
-        "bytes": 361,
+        "bytes": 379,
         "files": 1,
         "lines": null,
         "mtime": "2026-01-16T12:00:00.000Z",
@@ -1101,7 +1101,7 @@
       "userContent": false,
       "members": {
         "files": 1,
-        "bytes": 361,
+        "bytes": 379,
         "oldest": "2026-01-16T12:00:00.000Z",
         "newest": "2026-01-16T12:00:00.000Z"
       }
@@ -1345,7 +1345,7 @@
         "method": "trash"
       },
       "metrics": {
-        "bytes": 442,
+        "bytes": 460,
         "files": 1,
         "lines": null,
         "mtime": "2026-02-02T12:00:00.000Z",
@@ -1372,7 +1372,7 @@
       "userContent": false,
       "members": {
         "files": 1,
-        "bytes": 442,
+        "bytes": 460,
         "oldest": "2026-02-02T12:00:00.000Z",
         "newest": "2026-02-02T12:00:00.000Z"
       }
@@ -1513,7 +1513,7 @@
         "method": "trash"
       },
       "metrics": {
-        "bytes": 447,
+        "bytes": 465,
         "files": 1,
         "lines": null,
         "mtime": "2026-08-21T12:00:00.000Z",
@@ -1540,7 +1540,7 @@
       "userContent": false,
       "members": {
         "files": 1,
-        "bytes": 447,
+        "bytes": 465,
         "oldest": "2026-08-21T12:00:00.000Z",
         "newest": "2026-08-21T12:00:00.000Z"
       }
@@ -1569,7 +1569,7 @@
         "method": "trash"
       },
       "metrics": {
-        "bytes": 458,
+        "bytes": 476,
         "files": 1,
         "lines": null,
         "mtime": "2026-08-22T12:00:00.000Z",
@@ -1596,7 +1596,7 @@
       "userContent": false,
       "members": {
         "files": 1,
-        "bytes": 458,
+        "bytes": 476,
         "oldest": "2026-08-22T12:00:00.000Z",
         "newest": "2026-08-22T12:00:00.000Z"
       }
@@ -1787,7 +1787,7 @@
         "command": "codex mcp remove x"
       },
       "metrics": {
-        "bytes": 392,
+        "bytes": 410,
         "files": null,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -2099,7 +2099,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 854,
+        "bytes": 908,
         "files": 1,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -2136,7 +2136,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 2582,
+        "bytes": 2690,
         "files": 1,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -3232,8 +3232,8 @@
   "totals": {
     "entities": 40,
     "files": 41,
-    "bytes": 143989,
-    "harnessCacheBytes": 41544,
+    "bytes": 144349,
+    "harnessCacheBytes": 41724,
     "memoryBytes": 807,
     "tokens": 6348
   },
@@ -3404,7 +3404,7 @@
           "preselect": false
         }
       ],
-      "message": "1 config backup (854 B) Codex documents no sweep for",
+      "message": "1 config backup (908 B) Codex documents no sweep for",
       "evidence": [
         {
           "kind": "retention-rule",
@@ -3413,7 +3413,7 @@
       ],
       "confidence": "certain",
       "impact": {
-        "bytes": 854,
+        "bytes": 908,
         "tokens": null,
         "files": 1
       },
@@ -3453,7 +3453,7 @@
       ],
       "confidence": "certain",
       "impact": {
-        "bytes": 442,
+        "bytes": 460,
         "tokens": null,
         "files": 1
       },

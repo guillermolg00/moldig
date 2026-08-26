@@ -458,6 +458,27 @@ async function createSymlink(
  * Copies `fixtures/<harness>/<case>` into a temp directory and applies its `fixture.json`.
  * The caller owns the tree and must `cleanup()` it.
  */
+/**
+ * The tree's absolute path is padded to the same length on every machine and every platform.
+ * A fixture file carries `<HOME>` / `<ROOT>` placeholders that are rewritten with real paths, so
+ * its size — and every byte count, slug and rendered line derived from it — would otherwise
+ * depend on how long the host's temp directory happens to be: 83 characters on macOS, 31 on a
+ * Linux runner, which is why a snapshot taken on one failed on the other. Padding costs nothing
+ * and makes the whole suite platform-independent.
+ *
+ * A host whose temp directory is already longer than the target keeps its own length; the
+ * snapshots then differ, and the error a mismatch produces says so.
+ */
+const TREE_PATH_LENGTH = 96;
+
+async function fixedLengthTempDir(): Promise<string> {
+  const base = await realpath(await mkdtemp(join(tmpdir(), "moldig-fixture-")));
+  const padding = Math.max(1, TREE_PATH_LENGTH - base.length - 1);
+  const dir = join(base, "t".repeat(padding));
+  await mkdir(dir, { recursive: true });
+  return dir;
+}
+
 export async function loadFixture(
   caseName: string,
   options: FixtureOptions = {},
@@ -472,7 +493,7 @@ export async function loadFixture(
 
   const rule = SLUG_RULES[harness] ?? identity;
   const platform = options.platform ?? hostPlatform();
-  const dir = await realpath(await mkdtemp(join(tmpdir(), "moldig-fixture-")));
+  const dir = await fixedLengthTempDir();
   const home = join(dir, "home");
   const root = join(dir, "root");
   const tokens: Tokens = {
@@ -529,7 +550,8 @@ export async function loadFixture(
     harness,
     path: casePath,
     slug: (absolutePath) => rule.slug(absolutePath),
-    cleanup: () => rm(dir, { recursive: true, force: true }),
+    // `dir` is the padded child of the directory `mkdtemp` made; removing the parent takes both.
+    cleanup: () => rm(dirname(dir), { recursive: true, force: true }),
   };
 }
 

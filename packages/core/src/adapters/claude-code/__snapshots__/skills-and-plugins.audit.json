@@ -1039,7 +1039,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 987,
+        "bytes": 1041,
         "files": 1,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -1076,7 +1076,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 611,
+        "bytes": 647,
         "files": 1,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -2512,7 +2512,7 @@
   "totals": {
     "entities": 32,
     "files": 43,
-    "bytes": 33701,
+    "bytes": 33791,
     "harnessCacheBytes": 3310,
     "memoryBytes": 0,
     "tokens": 4634

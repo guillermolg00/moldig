@@ -1688,7 +1688,7 @@
         "method": "trash"
       },
       "metrics": {
-        "bytes": 905,
+        "bytes": 941,
         "files": 4,
         "lines": null,
         "mtime": "2026-03-24T12:00:00.000Z",
@@ -1712,7 +1712,7 @@
       "userContent": false,
       "members": {
         "files": 4,
-        "bytes": 905,
+        "bytes": 941,
         "oldest": "2026-03-24T12:00:00.000Z",
         "newest": "2026-03-24T12:00:00.000Z"
       }
@@ -1796,7 +1796,7 @@
         "method": "backup-edit"
       },
       "metrics": {
-        "bytes": 204,
+        "bytes": 222,
         "files": null,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -1981,7 +1981,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 810,
+        "bytes": 864,
         "files": 1,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -2092,7 +2092,7 @@
         "method": "none"
       },
       "metrics": {
-        "bytes": 370,
+        "bytes": 388,
         "files": 1,
         "lines": null,
         "mtime": "<COPY-TIME>",
@@ -3446,8 +3446,8 @@
   "totals": {
     "entities": 40,
     "files": 35,
-    "bytes": 103000,
-    "harnessCacheBytes": 17289,
+    "bytes": 103126,
+    "harnessCacheBytes": 17325,
     "memoryBytes": 0,
     "tokens": 3251
   },
@@ -3538,7 +3538,7 @@
           "preselect": false
         }
       ],
-      "message": "1 session (905 B) OpenCode documents no sweep for",
+      "message": "1 session (941 B) OpenCode documents no sweep for",
       "evidence": [
         {
           "kind": "retention-rule",
@@ -3547,7 +3547,7 @@
       ],
       "confidence": "certain",
       "impact": {
-        "bytes": 905,
+        "bytes": 941,
         "tokens": null,
         "files": 4
       },

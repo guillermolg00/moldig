@@ -33,9 +33,11 @@ const slug = (rel: string): string =>
  * disk, the agent definition on a read-only mount, everything else on the home volume.
  */
 function deviceOf(path: string): Device {
-  if (path.includes("/.claude/shell-snapshots/")) return { dev: 77, kind: "network" };
-  if (path.includes("/.claude/todos/")) return { dev: 42, kind: "local" };
-  if (path.includes("/.claude/agents/")) return { dev: 88, kind: "read-only" };
+  // The host's separator reaches this double on Windows, where the real probe would see `\`.
+  const where = path.replaceAll("\\", "/");
+  if (where.includes("/.claude/shell-snapshots/")) return { dev: 77, kind: "network" };
+  if (where.includes("/.claude/todos/")) return { dev: 42, kind: "local" };
+  if (where.includes("/.claude/agents/")) return { dev: 88, kind: "read-only" };
   return { dev: 1, kind: "local" };
 }
 
