@@ -2,6 +2,9 @@
 /.scratch/
 /docs/
 
+# Agent worktrees (this session's subagents branch the repo into .claude/worktrees/<agent>)
+/.claude/worktrees/
+
 # Tooling (anchored so committed fixture trees can contain these names)
 /node_modules/
 /packages/*/node_modules/
