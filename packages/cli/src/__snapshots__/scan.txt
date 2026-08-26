@@ -1,0 +1,28 @@
+Harnesses
+Harness      Presence   Version  Projects  Warnings
+Claude Code  installed  2.1.245         2         1
+
+What each Harness left
+Kind                 claude-code
+Context files                  8
+Skills                         1
+MCP servers                   10
+Memory files                   8
+Agent definitions              1
+Plugins                        0
+Settings files                 7
+Harness cache                  7
+Harness cache bytes       4.8 KB
+Memory file bytes         5.3 KB
+All bytes                31.4 KB
+
+Projects
+Project    Reachability  Harness      Tokens/session  Harness cache
+gone       gone          Claude Code               0            0 B
+project-a  present       Claude Code             256         2.7 KB
+
+1 Project present · 1 gone · 0 unreachable · 2 Stray
+
+Totals
+42 entities · 36 files · 31.4 KB
+harness cache 4.8 KB · memory files 5.3 KB · 1 591 tokens on disk

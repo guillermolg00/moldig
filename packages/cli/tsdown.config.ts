@@ -11,6 +11,9 @@ const config: UserConfig = defineConfig({
   fixedExtension: true,
   dts: false,
   sourcemap: true,
+  // No `attw`: the package exports no types, only a bin. `publint` still checks the tarball
+  // (the bin path, `files`, the module shape) on every build.
+  publint: true,
   failOnWarn: true,
   inputOptions: {
     resolve: { conditionNames: ["@moldig/source", "import", "node", "default"] },
