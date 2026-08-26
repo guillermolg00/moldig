@@ -142,6 +142,7 @@ function hostPlatform(): ScanPlatform {
   );
 }
 
+const UNAGED_OFFSET_MS = 60_000;
 const DAY_MS = 86_400_000;
 
 /** Files never rewritten textually: databases and their sidecars, compressed transcripts. */
@@ -469,6 +470,20 @@ async function createSymlink(
  * A host whose temp directory is already longer than the target keeps its own length; the
  * snapshots then differ, and the error a mismatch produces says so.
  */
+/** Every regular file below `dir`, deepest last; symlinks are never followed nor touched. */
+async function filesUnder(dir: string): Promise<string[]> {
+  const entries = await readdir(dir, { withFileTypes: true });
+  const found: string[] = [];
+  for (const entry of entries) {
+    const path = join(dir, entry.name);
+    if (entry.isSymbolicLink()) continue;
+    // eslint-disable-next-line no-await-in-loop -- a bounded walk over a fixture tree
+    if (entry.isDirectory()) found.push(...(await filesUnder(path)));
+    else if (entry.isFile()) found.push(path);
+  }
+  return found;
+}
+
 const TREE_PATH_LENGTH = 96;
 
 async function fixedLengthTempDir(): Promise<string> {
@@ -528,6 +543,15 @@ export async function loadFixture(
         createSymlink(casePath(link.path), rewriteName(link.target, tokens), link.kind),
       ),
     );
+    // Every file the case does not age gets one fixed timestamp, a minute before `now`, so no
+    // metric depends on when the suite happened to run: with the copy's own clock, whether an
+    // aged member was the newest of its unit flipped depending on the time of day, which is how
+    // a snapshot taken before noon failed on a runner after it. Aged files are set afterwards
+    // so their own timestamps win.
+    // A minute, not an hour: a `recent-activity` live guard asks whether the unit changed inside
+    // the harness's activity window, and a case that exercises a live unit must keep doing so.
+    const unaged = new Date(now.getTime() - UNAGED_OFFSET_MS);
+    await sequentially(await filesUnder(dir), (path) => utimes(path, unaged, unaged));
     await Promise.all(
       manifest.ages.map(({ path, ageDays }) => {
         const when = new Date(now.getTime() - ageDays * DAY_MS);
