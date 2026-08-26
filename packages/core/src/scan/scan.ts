@@ -225,7 +225,12 @@ export function scan(options: ScanOptions): Promise<Index> {
 }
 
 async function runScan(options: ScanOptions): Promise<Index> {
-  const started = Date.now();
+  // A duration is measured on the monotonic clock, never on the wall clock: `Date.now()` is
+  // whatever the system says the time is, so an NTP correction landing mid-scan makes the
+  // reported duration wrong — and, on a long enough correction, negative. `performance.now()`
+  // only ever moves forward. It is also what a caller timing the call sees, which is why the
+  // budget test can compare the two at all.
+  const started = performance.now();
   const progress = options.onProgress ?? ((): void => {});
   const now = options.now ?? new Date();
   const platform = assertScanPlatform(options.platform);
@@ -419,7 +424,7 @@ async function runScan(options: ScanOptions): Promise<Index> {
       caseFold: identity.caseFold,
       env: ctx.envConsulted,
       git: { available: gitAvailable, version: gitVersionText },
-      durationMs: Date.now() - started,
+      durationMs: Math.round(performance.now() - started),
     },
     tokenizer: {
       name: tokenizer.name,

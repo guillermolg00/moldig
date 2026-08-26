@@ -179,6 +179,9 @@ it(
     // budget at all.
     expect(index.projects.length).toBeGreaterThanOrEqual(PROJECTS);
     expect(index.entities.length).toBeGreaterThan(PROJECTS * 4);
+    // Both clocks are `performance.now()`, so the scan's own interval lies inside the one
+    // measured here; the millisecond of slack is the rounding the index applies. Timing the
+    // scan against `Date.now()` is what made this red on a macOS runner by 0.2 ms.
     expect(index.scan.durationMs).toBeLessThanOrEqual(elapsed + 1);
     expect(elapsed).toBeLessThan(BUDGET_MS);
   },
