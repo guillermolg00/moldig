@@ -8,9 +8,16 @@
  * device crossing). No process is spawned here.
  */
 import { basename, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
-import type { Project, Reachability } from "../index/types.js";
+import type { Breadcrumb, Project, Reachability, Warning } from "../index/types.js";
 import { isDirectory, listDir, lstatOrNull, readText, realpathOrSelf, statOrNull } from "./fs.js";
-import { ancestors, isUnder, presenceOf, relativeUnder, type PathIdentity } from "./paths.js";
+import {
+  ancestors,
+  isUnder,
+  presenceOf,
+  relativeUnder,
+  type PathIdentity,
+  type ScanPlatform,
+} from "./paths.js";
 
 export type StrayReason = "bare-directory" | "unresolved-slug";
 
@@ -59,9 +66,11 @@ export interface DiscoveryOptions {
   home: string;
   roots: readonly string[];
   cwd: string;
-  platform: NodeJS.Platform;
+  platform: ScanPlatform;
   identity: PathIdentity;
   statDeadlineMs: number;
+  /** The scan context's collector (D36): discovery emits the `stat-deadline` warning it detects. */
+  warn: (warning: Warning) => void;
 }
 
 export interface Discovery {
@@ -71,11 +80,135 @@ export interface Discovery {
   walkRoots(): Promise<void>;
   /** Ticket 06 rule 8: the Project enclosing the working directory. */
   includeCwd(): Promise<void>;
+  /**
+   * D28: re-folds every gone path located before the Project that owns it existed, so the order
+   * in which adapters, the Root walk and the cwd located paths stops mattering. Runs once, after
+   * `walkRoots()` and `includeCwd()`, before the adapters collect.
+   */
+  refold(): Promise<void>;
   /** The Project whose members contain `path`, when already registered. */
   projectOf(path: string): DiscoveredProject | null;
   projects(): DiscoveredProject[];
   /** Whether `path` lies under one of the Roots (every path when there is none). */
   underRoots(path: string): boolean;
+}
+
+/**
+ * D31: a harness record that names no folder at all (Cursor's multi-root `{"workspace": …}`
+ * entry, a workspace-storage directory without `workspace.json`). The record is still a
+ * Breadcrumb — it is what the harness wrote — but it points at nothing: Stray, never a Project,
+ * never an Orphan finding. A record naming a remote scheme (`vscode-remote://`, `ssh://`) is
+ * `unreachable` instead: the folder may well exist, just not on this machine.
+ */
+export interface UnresolvedTarget {
+  path: null;
+  project: null;
+  resolution: "unresolved";
+  strayReason: "unresolved-slug";
+  reachability: Reachability;
+  /** Whether `raw` named a non-`file:` URI scheme. */
+  remote: boolean;
+}
+
+/** A URI scheme other than `file:` — the folder is somewhere moldig cannot reach (D31). */
+function isRemoteUri(raw: string): boolean {
+  const match = /^([A-Za-z][\w+.-]*):\/\//.exec(raw);
+  return match !== null && match[1]?.toLowerCase() !== "file";
+}
+
+export function unresolvedTarget(raw: string | null): UnresolvedTarget {
+  return {
+    path: null,
+    project: null,
+    resolution: "unresolved",
+    strayReason: "unresolved-slug",
+    reachability: raw !== null && isRemoteUri(raw) ? "unreachable" : "orphan",
+    remote: raw !== null && isRemoteUri(raw),
+  };
+}
+
+/** One row of a session-cwd source before aggregation (D30). */
+export interface SessionCwdRecord<TSource> {
+  /** The path the row recorded, exactly as written. */
+  path: string;
+  /** When the row was created and last touched; either may be unknown. */
+  first?: string | null;
+  last?: string | null;
+  /** Whatever identifies the row's origin: a session file, a row id, a table name. */
+  source: TSource;
+}
+
+/** One Breadcrumb's worth of session-cwd rows (D30). */
+export interface AggregatedSessionCwd<TSource> {
+  /** The first spelling seen of the path (folded spellings are the same breadcrumb). */
+  path: string;
+  occurrences: Breadcrumb["occurrences"];
+  /** The source of the newest row: what a `file` locator points at (D30). */
+  newestSource: TSource;
+  /** Every source that named this path, in input order. */
+  sources: TSource[];
+}
+
+function earlier(a: string | null, b: string | null): string | null {
+  if (a === null) return b;
+  if (b === null) return a;
+  return a < b ? a : b;
+}
+
+function later(a: string | null, b: string | null): string | null {
+  if (a === null) return b;
+  if (b === null) return a;
+  return a > b ? a : b;
+}
+
+/**
+ * D30: session-cwd sources (Codex `threads.cwd`, Copilot's per-session `workspace.yaml`,
+ * OpenCode `project.worktree`) emit **one Breadcrumb per distinct path** with
+ * `occurrences {count, first, last}` filled — never one per row. Rows are grouped by the folded
+ * path, so two spellings of one directory are one breadcrumb on darwin and win32; the result is
+ * sorted by folded path, so two scans of one machine produce the same order.
+ */
+export function aggregateSessionCwds<TSource>(
+  records: readonly SessionCwdRecord<TSource>[],
+  fold: (path: string) => string,
+): AggregatedSessionCwd<TSource>[] {
+  const groups = new Map<
+    string,
+    { key: string; newest: string | null; entry: AggregatedSessionCwd<TSource> }
+  >();
+  for (const record of records) {
+    const key = fold(record.path);
+    const first = record.first ?? null;
+    const last = record.last ?? null;
+    // The newest row is the one whose `last` (else `first`) is the latest of the group.
+    const stamp = last ?? first;
+    const existing = groups.get(key);
+    if (existing === undefined) {
+      groups.set(key, {
+        key,
+        newest: stamp,
+        entry: {
+          path: record.path,
+          occurrences: { count: 1, first, last },
+          newestSource: record.source,
+          sources: [record.source],
+        },
+      });
+      continue;
+    }
+    const { occurrences } = existing.entry;
+    if (stamp !== null && (existing.newest === null || stamp > existing.newest)) {
+      existing.newest = stamp;
+      existing.entry.newestSource = record.source;
+    }
+    occurrences.count += 1;
+    occurrences.first = earlier(occurrences.first, first);
+    occurrences.last = later(occurrences.last, last);
+    existing.entry.sources.push(record.source);
+  }
+  return [...groups.values()]
+    .toSorted((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0))
+    .map((group) => group.entry);
 }
 
 /** Ticket 06 rule 7: files and directories that make a directory a Project. */
@@ -202,6 +335,8 @@ export function createDiscovery(options: DiscoveryOptions): Discovery {
   const fold = identity.fold;
   const registry = new Map<string, DiscoveredProject>();
   const classifications = new Map<string, Promise<Classification>>();
+  /** Every gone path that registered a Project of its own — the re-fold pass revisits them (D28). */
+  const gone: { located: Located; via: "breadcrumb" | "cwd" }[] = [];
   const homeFolded = fold(resolve(options.home));
   const bareDirs = new Set(ancestors(resolve(options.home)).map(fold));
 
@@ -213,6 +348,45 @@ export function createDiscovery(options: DiscoveryOptions): Discovery {
   function underRoots(path: string): boolean {
     if (options.roots.length === 0) return true;
     return options.roots.some((root) => isUnder(fold(path), fold(resolve(root))));
+  }
+
+  /**
+   * Whether a Project directory is part of the scan. A Root narrows the scan to what lies under
+   * it (ticket 06 rule 7) — and a Root *inside* a Project selects that Project whole (D24), so a
+   * Project directory that encloses a Root is in scope too, however far above it sits.
+   */
+  function inScope(projectDir: string): boolean {
+    if (options.roots.length === 0) return true;
+    const folded = fold(projectDir);
+    return options.roots.some((root) => {
+      const rootFolded = fold(resolve(root));
+      return isUnder(folded, rootFolded) || isUnder(rootFolded, folded);
+    });
+  }
+
+  const statDeadlineWarned = new Set<string>();
+
+  /** D36: the `stat-deadline` warning discovery already detects but never emitted. */
+  function warnStatDeadline(path: string): void {
+    const key = fold(path);
+    if (statDeadlineWarned.has(key)) return;
+    statDeadlineWarned.add(key);
+    options.warn({
+      code: "stat-deadline",
+      message:
+        `stat of ${path} passed the ${options.statDeadlineMs} ms deadline: ` +
+        "the directory is reported unreachable",
+      harness: null,
+      path,
+      effect: "partial",
+    });
+  }
+
+  /** `presenceOf` plus the `stat-deadline` warning its timeout answer stands for (D36). */
+  async function presence(path: string): ReturnType<typeof presenceOf> {
+    const result = await presenceOf(path, options.platform, options.statDeadlineMs, realpathOrSelf);
+    if (result.kind === "unreachable" && result.reason === "stat-timeout") warnStatDeadline(path);
+    return result;
   }
 
   /** Walks up from a real directory to the nearest `.git`, folding worktrees into their main repository. */
@@ -263,20 +437,11 @@ export function createDiscovery(options: DiscoveryOptions): Discovery {
     const registrations = await worktreeRegistrations(projectDir);
     const resolved = await Promise.all(
       registrations.map(async (registration) => {
-        const presence = await presenceOf(
-          registration.path,
-          options.platform,
-          options.statDeadlineMs,
-          realpathOrSelf,
-        );
+        const found = await presence(registration.path);
         const reachability: Reachability =
-          presence.kind === "present"
-            ? "present"
-            : presence.kind === "orphan"
-              ? "orphan"
-              : "unreachable";
+          found.kind === "present" ? "present" : found.kind === "orphan" ? "orphan" : "unreachable";
         return {
-          path: presence.kind === "present" ? presence.realpath : registration.path,
+          path: found.kind === "present" ? found.realpath : registration.path,
           role: "worktree" as const,
           name: registration.name,
           gitdir: registration.gitdir,
@@ -374,17 +539,24 @@ export function createDiscovery(options: DiscoveryOptions): Discovery {
     return null;
   }
 
+  /** The present Project a gone path folds into: a registered worktree, else a live ancestor. */
+  function ownerOfGone(absolute: string): DiscoveredProject | null {
+    const owner = registeredWorktreeOwner(absolute);
+    if (owner !== null) return owner;
+    // A missing subdirectory of a present repository still belongs to that repository.
+    for (const dir of ancestors(absolute).slice(1)) {
+      const candidate = registry.get(fold(dir));
+      if (candidate !== undefined && candidate.reachability === "present") return candidate;
+    }
+    return null;
+  }
+
   async function locate(recordedPath: string, via: "breadcrumb" | "cwd"): Promise<Located> {
     const absolute = resolve(recordedPath);
-    const presence = await presenceOf(
-      absolute,
-      options.platform,
-      options.statDeadlineMs,
-      realpathOrSelf,
-    );
-    if (presence.kind !== "present") {
-      const reachability: Reachability = presence.kind === "orphan" ? "orphan" : "unreachable";
-      const owner = registeredWorktreeOwner(absolute);
+    const found = await presence(absolute);
+    if (found.kind !== "present") {
+      const reachability: Reachability = found.kind === "orphan" ? "orphan" : "unreachable";
+      const owner = ownerOfGone(absolute);
       if (owner !== null) {
         owner.discoveredBy.add(via);
         return {
@@ -396,25 +568,7 @@ export function createDiscovery(options: DiscoveryOptions): Discovery {
           outsideRoots: false,
         };
       }
-      // A missing subdirectory of a present repository still belongs to that repository.
-      const nearest = ancestors(absolute)
-        .slice(1)
-        .find((dir) => registry.has(fold(dir)));
-      if (nearest !== undefined) {
-        const parent = registry.get(fold(nearest));
-        if (parent !== undefined && parent.reachability === "present") {
-          parent.discoveredBy.add(via);
-          return {
-            project: parent,
-            relativePath: memberRelative(parent, absolute),
-            reachability,
-            strayReason: null,
-            path: absolute,
-            outsideRoots: false,
-          };
-        }
-      }
-      if (!underRoots(absolute)) {
+      if (!inScope(absolute)) {
         return {
           project: null,
           relativePath: null,
@@ -424,9 +578,9 @@ export function createDiscovery(options: DiscoveryOptions): Discovery {
           outsideRoots: true,
         };
       }
-      const reason = presence.kind === "unreachable" ? presence.reason : null;
+      const reason = found.kind === "unreachable" ? found.reason : null;
       const project = registerGone(absolute, reachability, reason, via);
-      return {
+      const located: Located = {
         project,
         relativePath: null,
         reachability,
@@ -434,17 +588,23 @@ export function createDiscovery(options: DiscoveryOptions): Discovery {
         path: absolute,
         outsideRoots: false,
       };
+      // D28: keep it, so a Project registered later by the walk still claims it.
+      gone.push({ located, via });
+      return located;
     }
-    const real = presence.realpath;
+    const real = found.realpath;
     const stats = await statOrNull(real);
-    if (stats === null || !stats.isDirectory()) {
+    if (stats !== null && !stats.isDirectory()) {
+      // D32: a breadcrumb naming a file (a VS Code `fileUri`) folds through its parent directory
+      // and keeps the file path; a present file is never `orphan` — Orphan means the target is gone.
+      const parent = await locate(dirname(real), via);
       return {
-        project: null,
-        relativePath: null,
-        reachability: "orphan",
-        strayReason: null,
+        project: parent.project,
+        relativePath: parent.project === null ? null : memberRelative(parent.project, real),
+        reachability: "present",
+        strayReason: parent.project === null && !parent.outsideRoots ? "bare-directory" : null,
         path: real,
-        outsideRoots: false,
+        outsideRoots: parent.outsideRoots,
       };
     }
     const classification = await classify(real);
@@ -458,7 +618,7 @@ export function createDiscovery(options: DiscoveryOptions): Discovery {
         outsideRoots: false,
       };
     }
-    if (!underRoots(classification.projectDir)) {
+    if (!inScope(classification.projectDir)) {
       return {
         project: null,
         relativePath: null,
@@ -548,10 +708,40 @@ export function createDiscovery(options: DiscoveryOptions): Discovery {
     if (target !== null) target.enclosesCwd = true;
   }
 
+  /**
+   * D28: a gone path located before the Project that owns it was registered became a gone Project
+   * of its own. Now that the Root walk and the cwd have run, every one of them is offered its
+   * owner again; the `Located` the adapter is holding is updated in place and the gone Project it
+   * created disappears when nothing points at it any more. Locating order stops mattering.
+   */
+  function refold(): Promise<void> {
+    const claimed = new Map<string, number>();
+    for (const { located } of gone) {
+      if (located.project === null) continue;
+      claimed.set(located.project.key, (claimed.get(located.project.key) ?? 0) + 1);
+    }
+    for (const entry of gone) {
+      const { located } = entry;
+      const stale = located.project;
+      if (stale === null) continue;
+      const owner = ownerOfGone(located.path);
+      if (owner === null || owner.key === stale.key) continue;
+      owner.discoveredBy.add(entry.via);
+      if (stale.enclosesCwd) owner.enclosesCwd = true;
+      located.project = owner;
+      located.relativePath = memberRelative(owner, located.path);
+      const left = (claimed.get(stale.key) ?? 1) - 1;
+      claimed.set(stale.key, left);
+      if (left === 0) registry.delete(stale.key);
+    }
+    return Promise.resolve();
+  }
+
   return {
     locate,
     walkRoots,
     includeCwd,
+    refold,
     projectOf,
     projects: () =>
       [...registry.values()].toSorted((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)),

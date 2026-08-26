@@ -12,7 +12,12 @@ export interface ProjectFacts {
 }
 
 export interface AdapterOutput {
-  harness: Harness;
+  /**
+   * D127: `null` for the adapter of the stores several harnesses share — it emits entities
+   * (`harness: null`) but is not a harness itself, so it gets no `harnesses[]` row and no
+   * baseline. Every harness adapter fills it.
+   */
+  harness: Harness | null;
   breadcrumbs: Breadcrumb[];
   entities: Entity[];
   edges: Edge[];

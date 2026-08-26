@@ -9,11 +9,16 @@ import { join } from "node:path";
 
 const DAY_MS = 86_400_000;
 
-/** `stat` under a deadline: `null` when the path is missing, `"timeout"` past the deadline. */
+/**
+ * `stat` under a deadline: `null` when the path is missing, `"timeout"` past the deadline.
+ * A deadline of zero or less has already passed, so nothing is stat'ed at all — which is what
+ * makes the `stat-deadline` path deterministic in tests.
+ */
 export async function statWithDeadline(
   path: string,
   deadlineMs: number,
 ): Promise<Stats | null | "timeout"> {
+  if (deadlineMs <= 0) return "timeout";
   let timer: NodeJS.Timeout | undefined;
   const timeout = new Promise<"timeout">((resolveTimeout) => {
     timer = setTimeout(() => resolveTimeout("timeout"), deadlineMs);

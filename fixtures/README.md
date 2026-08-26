@@ -47,7 +47,10 @@ The contract:
 - **SQLite placeholders** cannot be rewritten textually: `"sqlite": [{ "path", "rewrite":
   [{ "table", "column" }] }]` names the columns whose text values contain `<HOME>`/`<ROOT>`
   (possibly inside JSON or `file://` URIs); the helper runs a substring `REPLACE` on them after
-  the copy.
+  the copy. The `UPDATE` branches on `json_valid()`: a column holding a JSON document gets the
+  JSON-escaped spelling of the temp path, so a Windows path never lands inside JSON with
+  unescaped backslashes — the same rule text files get. `file://` values are rewritten first,
+  to the URI form (below), and a committed `-wal`/`-shm` sidecar is restored afterwards.
 - **Synthetic transcripts.** No transcript, session log, tool result or shell snapshot is ever
   copied. Each case writes one tiny synthetic file per needed item (a 2-line JSONL with only
   the fields an adapter reads: `cwd`, `sessionId`, one `tool_use`) and its README says so.
@@ -61,10 +64,13 @@ The contract:
   fixture is synthesised from the documented key and transport enumerations. Some cases commit
   **zero-byte files at those names** (`oauth_creds.json`, `.env`, …) so "the adapter never opens
   them" is testable; adapters must treat an empty file as present-but-unreadable.
-- **Placeholders in URIs.** `file://<ROOT>/project-a` yields a valid URI only when the rewritten
-  path starts with `/`, needs no percent-encoding beyond what the fixture already carries
-  (`Application%20Support`) and introduces no YAML-significant characters; the helper's temp
-  directory must satisfy that (or the helper percent-encodes on rewrite).
+- **Placeholders in URIs.** A placeholder directly after `file://` is rewritten to the *URI* form
+  of the temp path, not to the path: percent-encoded, forward-slashed, and `/C:/Temp/…` on
+  Windows. So `file://<ROOT>/project-a` becomes `file:///tmp/…/root/project-a` on POSIX and
+  `file:///C:/Temp/…/root/project-a` on win32 — a URI `fileURLToPath` decodes back to
+  `tree.path("root/project-a")` on either. Write the placeholder immediately after `file://`
+  (never `file:///<ROOT>`), and keep any encoding the fixture already carries
+  (`Application%20Support`).
 - **Deliberate prune targets.** `node_modules/` and `dist/` marker files (a 40-byte
   `node_modules/pkg/CLAUDE.md` or `package.json`) are committed on purpose in `shared/root-tree`
   and `claude-code/skills-and-plugins` so "scanner skips them" is testable; nothing else under
@@ -112,5 +118,5 @@ regenerate on a machine without `~/.codex/state_5.sqlite`.
 | `gemini-cli/from-docs` | a Gemini CLI home and projects built entirely from the documentation | orphan breadcrumb in `projects.json`/`trustedFolders.json`; stray legacy 64-hex slug; slug collision `project-b`/`project-b-1`; `DO_NOT_TRUST` folder whose settings must be ignored; `context.fileName` naming `AGENTS.md`; `@import` in `GEMINI.md`; skill precedence across `.gemini/skills`, `.agents/skills`, `skills.disabled`, symlink, extension tier; MCP servers at four places; unloaded project extension; legacy flat settings keys; harness cache tree; zero-byte secret-named files; commands namespaces; agents at three tiers | everything (no Gemini breadcrumbs existed on the capture machine) |
 | `gemini-cli/zero-breadcrumbs` | `~/.gemini` with no projects, plus Antigravity IDE leftovers | no `projects.json`/`trustedFolders.json`, empty `tmp/`; skill symlink fan-out into `~/.agents/skills` + dangling link; `~/.gemini/antigravity/` must not be read as Gemini config; observed settings key set only; `settings.json.orig` backup; zero-byte `GEMINI.md` | everything |
 | `opencode/db-and-config` | OpenCode `opencode.db`, config, both skill-dir generations, legacy JSON store | `project.worktree` rows for live/ghost/`<HOME>`/`/`; child session in a subdirectory, archived session; legacy `storage/` next to the database; `skill/` (real copies, 2249-line `AGENTS.md` payload) and `skills/` (symlink) side by side; `AGENTS.md`/`README.md` inside a skill; same skill in `.opencode/skill` and `.claude/skills`; package files in `~/.config/opencode` and `.opencode`; `opencode.json` with relative + absolute instructions, `opencode.jsonc`; `CLAUDE.md`-only fallback project | `opencode.db` (real DDL, synthetic rows), user config (keys mirrored, MCP synthesised), legacy store (documented shape, no real file opened), all Markdown (payload counts mirrored, `rules/` trimmed to 2 files), everything under `root/` |
-| `shared/root-tree` | a projects root exercising discovery rules, harness-independent | monorepo with two root context files and nested ones; `node_modules`/`dist` prune markers; nested `vendor/lib/.git`; `AGENTS.md` inside a skill payload; project by markers only; non-project; worktree registrations live + dead; linked worktree `.git` file; detached worktree; depth-7 context file; directory symlink dedupe; no `home/` | everything |
+| `shared/root-tree` | a projects root exercising discovery rules, harness-independent | monorepo with two root context files and nested ones; `node_modules`/`dist` prune markers; nested `vendor/lib/.git` under the pruned `vendor/` (a Project only through a breadcrumb, D26); `AGENTS.md` inside a skill payload; project by markers only; non-project; worktree registrations live + dead; linked worktree `.git` file; detached worktree with no marker (a breadcrumb reaches it, D27); depth-7 context file; directory symlink the walk never follows; no `home/` | everything |
 | `shared/skill-layouts` | the Vercel skills store and its per-agent links | canonical `~/.agents/skills` + symlink in `~/.claude/skills`; real copy without lock entry; `.skill-lock.json` v3 with a gone entry; project-scope duplicate with drift; `skills-lock.json` v1 with an absent entry; project without `.git` | everything |

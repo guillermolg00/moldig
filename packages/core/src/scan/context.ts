@@ -9,13 +9,13 @@ import type { Format, GitStatus, HarnessId, Metrics, Warning } from "../index/ty
 import type { Tokenizer } from "../tokens/tokenizer.js";
 import type { Discovery } from "./discovery.js";
 import { ageDays, byteLength, countLines, statOrNull, toIso } from "./fs.js";
-import { entityId, isUnder, type PathIdentity } from "./paths.js";
+import { entityId, isUnder, type PathIdentity, type ScanPlatform } from "./paths.js";
 
 export interface ResolvedOptions {
   home: string;
   roots: readonly string[];
   cwd: string;
-  platform: NodeJS.Platform;
+  platform: ScanPlatform;
   env: Readonly<Record<string, string | undefined>>;
   git: boolean;
   now: Date;
@@ -77,8 +77,9 @@ export function createContext(
   tokenizer: Tokenizer,
   discovery: Discovery,
   git: GitLookup,
+  /** Shared with discovery, which is built first and warns through the same collector (D36). */
+  warnings: Warning[] = [],
 ): ScanContext {
-  const warnings: Warning[] = [];
   const envConsulted: Record<string, string> = {};
 
   function gitStatusOf(path: string): GitStatus | null {

@@ -20,20 +20,20 @@ minimum git writes (`HEAD`, `worktrees/<name>/{gitdir,commondir,HEAD}`).
 | `monorepo/packages/ui/.cursor/rules/x.mdc` | a Cursor rule three levels down | nested Context file of `monorepo` |
 | `monorepo/node_modules/pkg/CLAUDE.md` | a dependency shipping its own CLAUDE.md | pruned: never reported |
 | `monorepo/dist/CLAUDE.md` | build output | pruned: never reported |
-| `monorepo/vendor/lib/.git/HEAD` | a repository nested inside a repository | its own Project |
+| `monorepo/vendor/lib/.git/HEAD` | a repository nested inside a repository, under a pruned directory | its own Project **only when a breadcrumb names it**: `vendor/` is on the prune list, so the marker walk never enters it (D26). Located, it is a Project of kind `repository` whose `parent` is `monorepo` (D25) |
 | `monorepo/.agents/skills/skill-a/{SKILL.md,AGENTS.md}` | a Skill whose payload includes an `AGENTS.md` | one Skill; the AGENTS.md is payload, not a Context file |
 | `plain-with-markers/CLAUDE.md` | a directory without git that carries harness configuration | a Project (CONTEXT.md definition) |
 | `bare/README.md` | a directory without git and without markers | not a Project |
 | `wt-main/` | a main repository registering worktrees `feature` (live) and `dead` (target gone) | one Project; `dead` is a stale registration (`git worktree prune` never ran) |
 | `wt-feature/` | a linked worktree: `.git` **file** `gitdir: <ROOT>/wt-main/.git/worktrees/feature` | belongs to `wt-main`'s Project; its `CLAUDE.md` is that Project's |
-| `wt-detached/` | a `.git` file whose `gitdir:` target does not exist | broken worktree back-link (cannot run git) |
+| `wt-detached/` | a `.git` file whose `gitdir:` target does not exist | broken worktree back-link (cannot run git). It carries no marker, and `.git` alone is never a marker, so the walk cannot find it: reachable **through a breadcrumb only** (D27), and then a Project of kind `detached-worktree` |
 | `deep/1/2/3/4/5/6/7/CLAUDE.md` | a marker 8 directories below the root | beyond the depth limit (6): must not be found |
-| `link-to-monorepo` | a directory symlink to `monorepo/` (created from `fixture.json`) | same real directory: one Project, not two |
+| `link-to-monorepo` | a directory symlink to `monorepo/` (created from `fixture.json`) | not a second Project: the walk never follows a symlinked directory, so it is never entered (even though its target carries markers). A breadcrumb naming the link folds onto the same Project through `realpath` — a separate rule (06 §2) |
 
 ## Edge cases carried
 
-- nested context files inside a monorepo vs. a nested repository (own Project)
-- `node_modules/` and `dist/` pruning
+- nested context files inside a monorepo vs. a nested repository under a pruned directory
+- `node_modules/`, `dist/` and `vendor/` pruning
 - an `AGENTS.md` inside a skill directory (payload, not context)
 - marker-bearing non-repository, bare non-repository
 - linked worktree (`.git` file), stale worktree registration, detached worktree file

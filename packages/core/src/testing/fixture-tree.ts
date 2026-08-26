@@ -29,11 +29,12 @@ import {
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import type { ScanPlatform } from "../scan/paths.js";
 
 export interface FixtureOptions {
-  /** The platform the scan is told it runs on; defaults to the host's. */
-  platform?: NodeJS.Platform;
+  /** The platform the scan is told it runs on; defaults to the host's (D125: one of three). */
+  platform?: ScanPlatform;
   /** Case-relative working directory, e.g. `'root/project-a'`; default: the temp root dir. */
   cwd?: string;
   /** Environment overrides handed to the scan; never `process.env`. */
@@ -52,7 +53,7 @@ export interface FixtureTree {
   /** `[root]`. */
   readonly roots: readonly string[];
   readonly cwd: string;
-  readonly platform: NodeJS.Platform;
+  readonly platform: ScanPlatform;
   /** Only `options.env`, never `process.env`. */
   readonly env: Record<string, string>;
   /** The harness directory of the case (`claude-code`, `codex`, …, `shared`). */
@@ -127,6 +128,18 @@ interface Tokens {
   root: string;
   homeSlug: string;
   rootSlug: string;
+  /** The `file://` form of the two paths: percent-encoded, `/C:/…` on win32 (D100). */
+  homeUri: string;
+  rootUri: string;
+}
+
+/** The host platform, when moldig scans it at all (D125). */
+function hostPlatform(): ScanPlatform {
+  const platform = process.platform;
+  if (platform === "darwin" || platform === "linux" || platform === "win32") return platform;
+  throw new Error(
+    `loadFixture: this host runs "${platform}"; pass options.platform (darwin, linux or win32)`,
+  );
 }
 
 const DAY_MS = 86_400_000;
@@ -157,12 +170,24 @@ function sequentially<T>(items: readonly T[], run: (item: T) => Promise<void>): 
   );
 }
 
-async function findFixturesDirFrom(dir: string, depth: number): Promise<string> {
+const FIXTURES_SEARCH_DEPTH = 8;
+
+/**
+ * The upward search for the repo's `fixtures/` directory. Exported so the "not a checkout"
+ * message of D101 is testable from a directory that has none above it.
+ */
+export async function findFixturesDirFrom(dir: string, depth = 0): Promise<string> {
   const candidate = join(dir, "fixtures");
   if (await exists(join(candidate, "README.md"))) return candidate;
   const parent = dirname(dir);
-  if (parent === dir || depth >= 8) {
-    throw new Error("fixtures/ directory not found above " + fileURLToPath(import.meta.url));
+  if (parent === dir || depth >= FIXTURES_SEARCH_DEPTH) {
+    // D101: the helper is monorepo-internal on purpose — say so instead of failing on a path.
+    throw new Error(
+      `@moldig/core/testing: no fixtures/ directory (with its README.md) in the ${FIXTURES_SEARCH_DEPTH} ` +
+        `directories above ${fileURLToPath(import.meta.url)}. The fixture cases are not shipped in ` +
+        "the published package (they are not in its `files`), so loadFixture works inside a " +
+        "checkout of the moldig monorepo only.",
+    );
   }
   return findFixturesDirFrom(parent, depth + 1);
 }
@@ -261,16 +286,30 @@ function rewriteName(name: string, tokens: Tokens): string {
     .replaceAll("__ROOT__", tokens.rootSlug);
 }
 
-function rewriteContent(text: string, tokens: Tokens, escapeBackslashes: boolean): string {
+/**
+ * D100: a placeholder inside a `file://` URI becomes the URI form of the path — percent-encoded,
+ * and `/C:/Temp/…` on win32, so `file://<ROOT>/project-a` stays a URI a harness could have
+ * written on either platform. Runs before the plain rewrite, whose backslash escaping would
+ * otherwise mangle it.
+ */
+function rewriteFileUris(text: string, tokens: Tokens): string {
+  return text
+    .replaceAll("file://<HOME>", "file://" + tokens.homeUri)
+    .replaceAll("file://<ROOT>", "file://" + tokens.rootUri);
+}
+
+/** Exported for the test that pins D100: `file://` first, then the escaped plain rewrite. */
+export function rewriteContent(text: string, tokens: Tokens, escapeBackslashes: boolean): string {
   const escaped: Tokens = escapeBackslashes
     ? {
+        ...tokens,
         home: tokens.home.replaceAll("\\", "\\\\"),
         root: tokens.root.replaceAll("\\", "\\\\"),
         homeSlug: tokens.homeSlug.replaceAll("\\", "\\\\"),
         rootSlug: tokens.rootSlug.replaceAll("\\", "\\\\"),
       }
     : tokens;
-  return rewriteName(text, escaped);
+  return rewriteName(rewriteFileUris(text, tokens), escaped);
 }
 
 function hasToken(text: string): boolean {
@@ -322,10 +361,50 @@ function quoteIdentifier(name: string): string {
   return '"' + name.replaceAll('"', '""') + '"';
 }
 
+/** The four token substitutions, nested so one `REPLACE` chain covers every token. */
+function replaceChain(column: string): string {
+  return (
+    `REPLACE(REPLACE(REPLACE(REPLACE(${column}, '<HOME>', ?), '<ROOT>', ?), ` +
+    `'__HOME__', ?), '__ROOT__', ?)`
+  );
+}
+
+/** The tokens a `sqlite[].rewrite` substitutes; exported for the test that pins D100's branch. */
+export type FixtureTokens = Tokens;
+
 /**
- * Substring `REPLACE` on the named columns; WAL/SHM sidecars the case committed survive. The
- * contract names `<HOME>` / `<ROOT>` for `sqlite[].rewrite`; the slug tokens are replaced too
- * so a slug spelled inside a database row (none today) follows the same rule as text files.
+ * D100: the `UPDATE` behind `sqlite[].rewrite`, branched on `json_valid()`. A column may hold a
+ * bare path *or* a JSON document (OpenCode stores both), so the JSON branch substitutes the
+ * JSON-escaped spelling of the temp path — a Windows path never lands inside a JSON column with
+ * unescaped backslashes, the same rule `ESCAPED_FORMAT` gives text files. `file://` values are
+ * rewritten first, to the URI form of the path, and carry no backslashes either way.
+ *
+ * Anonymous parameters bind in the order they appear in the SQL, which is why the chain is built
+ * and bound in one place.
+ */
+export function sqliteRewriteStatement(
+  table: string,
+  column: string,
+  tokens: FixtureTokens,
+): { sql: string; params: string[] } {
+  const col = quoteIdentifier(column);
+  const uriChain = `REPLACE(REPLACE(${col}, 'file://<HOME>', ?), 'file://<ROOT>', ?)`;
+  const uris = ["file://" + tokens.homeUri, "file://" + tokens.rootUri];
+  const plain = [tokens.home, tokens.root, tokens.homeSlug, tokens.rootSlug];
+  const jsonEscaped = plain.map((value) => value.replaceAll("\\", "\\\\"));
+  return {
+    sql:
+      `UPDATE ${quoteIdentifier(table)} SET ${col} = CASE WHEN json_valid(${uriChain}) ` +
+      `THEN ${replaceChain(uriChain)} ELSE ${replaceChain(uriChain)} END ` +
+      `WHERE typeof(${col}) = 'text'`,
+    params: [...uris, ...uris, ...jsonEscaped, ...uris, ...plain],
+  };
+}
+
+/**
+ * Runs `sqliteRewriteStatement` over the named columns; WAL/SHM sidecars the case committed
+ * survive. The contract names `<HOME>` / `<ROOT>` for `sqlite[].rewrite`; the slug tokens are
+ * replaced too so a slug spelled inside a database row follows the same rule as text files.
  */
 async function rewriteSqlite(
   file: string,
@@ -342,12 +421,8 @@ async function rewriteSqlite(
   const db = new DatabaseSync(file);
   try {
     for (const { table, column } of rewrites) {
-      const col = quoteIdentifier(column);
-      db.prepare(
-        `UPDATE ${quoteIdentifier(table)} SET ${col} = ` +
-          `REPLACE(REPLACE(REPLACE(REPLACE(${col}, '<HOME>', ?), '<ROOT>', ?), '__HOME__', ?), '__ROOT__', ?) ` +
-          `WHERE typeof(${col}) = 'text'`,
-      ).run(tokens.home, tokens.root, tokens.homeSlug, tokens.rootSlug);
+      const { sql, params } = sqliteRewriteStatement(table, column, tokens);
+      db.prepare(sql).run(...params);
     }
   } finally {
     db.close();
@@ -396,10 +471,19 @@ export async function loadFixture(
   if (!(await exists(source))) throw new Error(`fixture case not found: ${source}`);
 
   const rule = SLUG_RULES[harness] ?? identity;
+  const platform = options.platform ?? hostPlatform();
   const dir = await realpath(await mkdtemp(join(tmpdir(), "moldig-fixture-")));
   const home = join(dir, "home");
   const root = join(dir, "root");
-  const tokens: Tokens = { home, root, homeSlug: rule.slug(home), rootSlug: rule.slug(root) };
+  const tokens: Tokens = {
+    home,
+    root,
+    homeSlug: rule.slug(home),
+    rootSlug: rule.slug(root),
+    // `pathname` is the percent-encoded, forward-slashed form: `/tmp/…` here, `/C:/…` on win32.
+    homeUri: pathToFileURL(home).pathname,
+    rootUri: pathToFileURL(root).pathname,
+  };
   const casePath = (caseRelative: string): string =>
     join(dir, ...caseRelative.split("/").map((segment) => rewriteName(segment, tokens)));
   const now = options.now ?? new Date();
@@ -440,7 +524,7 @@ export async function loadFixture(
     root,
     roots: [root],
     cwd: options.cwd === undefined ? root : casePath(options.cwd),
-    platform: options.platform ?? process.platform,
+    platform,
     env: { ...options.env },
     harness,
     path: casePath,

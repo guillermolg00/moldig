@@ -15,7 +15,6 @@ import type { Adapter, AdapterOutput } from "../adapters/adapter.js";
 import { gitVersion, repoGitStatus, type RepoGitStatus } from "../git/git-status.js";
 import type {
   Breadcrumb,
-  Edge,
   Entity,
   Harness,
   HarnessId,
@@ -23,18 +22,21 @@ import type {
   LoadedByEdge,
   Project,
   SessionLoad,
+  Warning,
 } from "../index/types.js";
 import { loadTokenizer, MULTIPLIERS } from "../tokens/tokenizer.js";
+import { byId, mergeOutputs, parentIdOf } from "./assemble.js";
 import { createContext, warning, type GitLookup, type ResolvedOptions } from "./context.js";
 import { createDiscovery, type DiscoveredProject } from "./discovery.js";
 import { isFile, isRecord, readText, realpathOrSelf } from "./fs.js";
-import { pathIdentity } from "./paths.js";
+import { assertScanPlatform, pathIdentity, type ScanPlatform } from "./paths.js";
 
 export interface ScanOptions {
   home: string;
   roots: readonly string[];
   cwd: string;
-  platform: NodeJS.Platform;
+  /** D125: anything outside these three throws; the CLI turns the throw into a usage error. */
+  platform: ScanPlatform;
   env: Readonly<Record<string, string | undefined>>;
   /** Default: every harness with an adapter (today only `claude-code`). */
   harnesses?: readonly HarnessId[];
@@ -46,33 +48,22 @@ export interface ScanOptions {
   isProcessAlive?: (pid: number) => boolean;
 }
 
+const STAT_DEADLINE_MS = 2000;
+
+/** Default live guard: signal 0 asks the kernel whether the process exists, and kills nothing. */
 function processIsAlive(pid: number): boolean {
   try {
     process.kill(pid, 0);
     return true;
-  } catch {
-    return false;
+  } catch (error) {
+    // EPERM: the process exists but belongs to another user.
+    return isRecord(error) && error["code"] === "EPERM";
   }
 }
-
-const STAT_DEADLINE_MS = 2000;
 
 const ADAPTERS: Record<string, () => Adapter> = {
   "claude-code": createClaudeCodeAdapter,
 };
-
-function byId<T extends { id: string }>(a: T, b: T): number {
-  return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
-}
-
-function edgeOrder(a: Edge, b: Edge): number {
-  return (
-    a.kind.localeCompare(b.kind) ||
-    (a.from < b.from ? -1 : a.from > b.from ? 1 : 0) ||
-    ((a.to ?? "") < (b.to ?? "") ? -1 : (a.to ?? "") > (b.to ?? "") ? 1 : 0) ||
-    byId(a, b)
-  );
-}
 
 let versionPromise: Promise<string> | undefined;
 
@@ -130,26 +121,39 @@ function sessionLoadOf(edges: readonly LoadedByEdge[], project: string | null): 
   return { items, tokens: items.reduce((sum, item) => sum + item.tokens, 0) };
 }
 
+/** The pipeline fills `userScope.baseline` from the harness's `project: null` load (§2.5). */
+function withBaseline(harness: Harness, loadedBy: readonly LoadedByEdge[]): Harness {
+  const baseline = sessionLoadOf(
+    loadedBy.filter((edge) => edge.to === harness.id),
+    null,
+  );
+  return { ...harness, userScope: { ...harness.userScope, baseline } };
+}
+
 function projectOf(
   discovered: DiscoveredProject,
   outputs: readonly AdapterOutput[],
   breadcrumbs: readonly Breadcrumb[],
   entities: readonly Entity[],
   loadedBy: readonly LoadedByEdge[],
+  parent: string | null,
 ): Project {
   const perHarness: Project["perHarness"] = {};
   for (const output of outputs) {
+    // D127: an output without a Harness (the shared stores) files no `perHarness` entry.
+    if (output.harness === null) continue;
+    const harness = output.harness;
     const facts = output.projectFacts.get(discovered.id);
-    const harnessEdges = loadedBy.filter((edge) => edge.to === output.harness.id);
+    const harnessEdges = loadedBy.filter((edge) => edge.to === harness.id);
     const sessionLoad = sessionLoadOf(harnessEdges, discovered.id);
     const touched =
       facts !== undefined ||
       sessionLoad.items.length > 0 ||
       breadcrumbs.some(
-        (crumb) => crumb.harness === output.harness.harness && crumb.project === discovered.id,
+        (crumb) => crumb.harness === harness.harness && crumb.project === discovered.id,
       );
     if (!touched) continue;
-    perHarness[output.harness.harness] = {
+    perHarness[harness.harness] = {
       trusted: facts?.trusted ?? null,
       effectiveSettings: facts?.effectiveSettings ?? {},
       sessionLoad,
@@ -175,7 +179,7 @@ function projectOf(
     discoveredBy: (["breadcrumb", "marker-walk", "cwd"] as const).filter((via) =>
       discovered.discoveredBy.has(via),
     ),
-    parent: null,
+    parent,
     members: discovered.members.map((member) => ({ ...member })),
     breadcrumbs: breadcrumbs
       .filter((crumb) => crumb.project === discovered.id)
@@ -188,7 +192,8 @@ function projectOf(
 export async function scan(options: ScanOptions): Promise<Index> {
   const started = Date.now();
   const now = options.now ?? new Date();
-  const identity = pathIdentity(options.platform);
+  const platform = assertScanPlatform(options.platform);
+  const identity = pathIdentity(platform);
   const home = await realpathOrSelf(resolve(options.home));
   const roots = await Promise.all(options.roots.map((root) => realpathOrSelf(resolve(root))));
   const cwd = await realpathOrSelf(resolve(options.cwd));
@@ -196,23 +201,26 @@ export async function scan(options: ScanOptions): Promise<Index> {
     home,
     roots,
     cwd,
-    platform: options.platform,
+    platform,
     env: options.env,
     git: options.git ?? true,
     now,
     isProcessAlive: options.isProcessAlive ?? processIsAlive,
   };
+  // Discovery is built before the context it warns through, so both share one collector (D36).
+  const warnings: Warning[] = [];
   const discovery = createDiscovery({
     home,
     roots,
     cwd,
-    platform: options.platform,
+    platform,
     identity,
     statDeadlineMs: STAT_DEADLINE_MS,
+    warn: (item) => warnings.push(item),
   });
   const gitLookup: GitLookup = { repos: new Map() };
   const tokenizer = await loadTokenizer();
-  const ctx = createContext(resolved, identity, tokenizer, discovery, gitLookup);
+  const ctx = createContext(resolved, identity, tokenizer, discovery, gitLookup, warnings);
   if (tokenizer.fallbackUsed) {
     ctx.warn(
       warning(
@@ -233,6 +241,8 @@ export async function scan(options: ScanOptions): Promise<Index> {
   for (const adapter of adapters) await adapter.discover(ctx);
   await discovery.walkRoots();
   await discovery.includeCwd();
+  // D28: everything located before its Project existed gets a second chance now.
+  await discovery.refold();
 
   let gitAvailable = false;
   let gitVersionText: string | null = null;
@@ -299,25 +309,26 @@ export async function scan(options: ScanOptions): Promise<Index> {
     );
   }
 
-  const entities = outputs.flatMap((output) => output.entities).toSorted(byId);
-  const edges = outputs.flatMap((output) => output.edges).toSorted(edgeOrder);
+  // D38: one entity per real thing, whatever number of adapters saw it.
+  const { entities, edges } = mergeOutputs(outputs, identity.fold);
   const breadcrumbs = outputs.flatMap((output) => output.breadcrumbs).toSorted(byId);
   const loadedBy = edges.filter((edge): edge is LoadedByEdge => edge.kind === "loaded-by");
   const harnesses: Harness[] = outputs
-    .map((output) => ({
-      ...output.harness,
-      userScope: {
-        ...output.harness.userScope,
-        baseline: sessionLoadOf(
-          loadedBy.filter((edge) => edge.to === output.harness.id),
-          null,
-        ),
-      },
-    }))
+    .map((output) => output.harness)
+    .filter((harness): harness is Harness => harness !== null)
+    .map((harness) => withBaseline(harness, loadedBy))
     .toSorted(byId);
-  const projects = discovery
-    .projects()
-    .map((discovered) => projectOf(discovered, outputs, breadcrumbs, entities, loadedBy));
+  const discovered = discovery.projects();
+  const projects = discovered.map((project) =>
+    projectOf(
+      project,
+      outputs,
+      breadcrumbs,
+      entities,
+      loadedBy,
+      parentIdOf(project, discovered, identity.fold),
+    ),
+  );
 
   const totals = {
     entities: entities.length,
@@ -340,8 +351,7 @@ export async function scan(options: ScanOptions): Promise<Index> {
       home,
       roots,
       cwd,
-      platform:
-        options.platform === "win32" ? "win32" : options.platform === "linux" ? "linux" : "darwin",
+      platform,
       caseFold: identity.caseFold,
       env: ctx.envConsulted,
       git: { available: gitAvailable, version: gitVersionText },

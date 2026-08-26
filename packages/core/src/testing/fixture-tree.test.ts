@@ -1,6 +1,14 @@
-import { lstat, readdir, readFile, readlink, realpath, stat } from "node:fs/promises";
+import { lstat, mkdtemp, readdir, readFile, readlink, realpath, rm, stat } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { afterEach, describe, expect, it } from "vitest";
+import {
+  findFixturesDirFrom,
+  rewriteContent,
+  sqliteRewriteStatement,
+  type FixtureTokens,
+} from "./fixture-tree.js";
 import { loadFixture, normaliseSnapshot, type FixtureOptions, type FixtureTree } from "./index.js";
 
 const DAY_MS = 86_400_000;
@@ -260,6 +268,107 @@ describe("loadFixture: sqlite rewrite", () => {
     } finally {
       db.close();
     }
+  });
+});
+
+/** A win32-shaped temp tree, so D100's escaping branch is exercised on any host. */
+const WIN32_TOKENS: FixtureTokens = {
+  home: "C:\\Temp\\fx\\home",
+  root: "C:\\Temp\\fx\\root",
+  homeSlug: "C--Temp-fx-home",
+  rootSlug: "C--Temp-fx-root",
+  homeUri: "/C:/Temp/fx/home",
+  rootUri: "/C:/Temp/fx/root",
+};
+
+describe("loadFixture: file:// placeholders and the JSON branch (D100)", () => {
+  it("rewrites a file:// placeholder into a URI that decodes back to the real directory", async () => {
+    const tree = await load("cursor/workspaces");
+    const storage = tree.path("home/Library/Application Support/Cursor/User/workspaceStorage");
+    const texts = await Promise.all(
+      (await readdir(storage)).map((id) =>
+        readFile(join(storage, id, "workspace.json"), "utf8").catch(() => null),
+      ),
+    );
+    const folders = texts
+      .filter((text): text is string => text !== null)
+      .flatMap((text) => /"folder"\s*:\s*"([^"]+)"/.exec(text)?.[1] ?? []);
+
+    expect(folders.length).toBeGreaterThan(0);
+    for (const folder of folders) {
+      // A valid URI on every platform: `file:///tmp/…` here, `file:///C:/…` on win32 (D100).
+      expect(folder.startsWith("file:///")).toBe(true);
+      expect(() => new URL(folder)).not.toThrow();
+    }
+    // At least one of them decodes back to a directory of this tree.
+    expect(folders.map((folder) => fileURLToPath(folder))).toContain(tree.path("root/project-a"));
+    expect(folders.join(" ")).not.toMatch(/<ROOT>|<HOME>/);
+  });
+
+  it("writes the /C:/… URI form inside a JSON file and escapes the plain path there", () => {
+    const text = JSON.stringify({ folder: "file://<ROOT>/project-a", cwd: "<ROOT>/project-a" });
+    const parsed = parseJson(rewriteContent(text, WIN32_TOKENS, true));
+    expect(parsed).toHaveProperty("folder", "file:///C:/Temp/fx/root/project-a");
+    expect(parsed).toHaveProperty("cwd", "C:\\Temp\\fx\\root/project-a");
+    // A YAML or Markdown file gets the same URI but no backslash escaping.
+    expect(rewriteContent("cwd: <ROOT>/p", WIN32_TOKENS, false)).toBe("cwd: C:\\Temp\\fx\\root/p");
+  });
+
+  it("escapes backslashes inside a JSON column and leaves a bare path alone", async () => {
+    const { DatabaseSync } = await import("node:sqlite");
+    const db = new DatabaseSync(":memory:");
+    try {
+      db.exec("CREATE TABLE t(v TEXT)");
+      const insert = db.prepare("INSERT INTO t VALUES(?)");
+      insert.run("<ROOT>/project-a");
+      insert.run('{"worktree":"<ROOT>/project-a","uri":"file://<ROOT>/project-a"}');
+      const { sql, params } = sqliteRewriteStatement("t", "v", WIN32_TOKENS);
+      db.prepare(sql).run(...params);
+      const values = db
+        .prepare("SELECT v FROM t")
+        .all()
+        .map((row) => String(row["v"]));
+
+      // The bare path keeps its single backslashes: it is not a JSON document.
+      expect(values[0]).toBe("C:\\Temp\\fx\\root/project-a");
+      // The JSON document is still valid JSON, and parses back to the real path.
+      const document = values[1] ?? "";
+      expect(document).toContain("C:\\\\Temp\\\\fx\\\\root");
+      const parsed = parseJson(document);
+      expect(parsed).toHaveProperty("worktree", "C:\\Temp\\fx\\root/project-a");
+      // The `file://` value takes the URI form, `/C:/…`, and never carries a backslash.
+      expect(parsed).toHaveProperty("uri", "file:///C:/Temp/fx/root/project-a");
+    } finally {
+      db.close();
+    }
+  });
+});
+
+describe("loadFixture: failure modes (D101)", () => {
+  it("names a case that does not exist", async () => {
+    await expect(loadFixture("claude-code/no-such-case")).rejects.toThrow(/fixture case not found/);
+  });
+
+  it("rejects a case name that is not '<harness>/<case>'", async () => {
+    await expect(loadFixture("breadcrumbs")).rejects.toThrow(/must be "<harness>\/<case>"/);
+  });
+
+  it("says the helper is monorepo-internal when fixtures/ cannot be found", async () => {
+    // The search walks up; started outside the checkout it finds nothing, and the message has
+    // to explain why instead of printing a path (D101).
+    const outside = await mkdtemp(join(tmpdir(), "moldig-no-fixtures-"));
+    try {
+      await expect(findFixturesDirFrom(outside)).rejects.toThrow(
+        /@moldig\/core\/testing: no fixtures\/ directory[\s\S]*monorepo/,
+      );
+    } finally {
+      await rm(outside, { recursive: true, force: true });
+    }
+  });
+
+  it("finds the checkout's fixtures/ from this module", async () => {
+    const found = await findFixturesDirFrom(dirname(fileURLToPath(import.meta.url)));
+    expect(await stat(join(found, "README.md"))).toBeDefined();
   });
 });
 

@@ -71,6 +71,71 @@ describe("scan", () => {
     expect(index.projects.some((project) => project.path === tree.home)).toBe(false);
   });
 
+  it("rejects a platform it does not scan instead of recording it as darwin (D125)", async () => {
+    const tree = await loadFixture("shared/root-tree", { platform: "darwin" });
+    trees.push(tree);
+    await expect(
+      scan({
+        home: tree.home,
+        roots: tree.roots,
+        cwd: tree.root,
+        // The CLI validates first (exit 2); the engine is the second line of defence, so the
+        // assertion here stands in for a value the type system already rejects.
+        // oxlint-disable-next-line typescript/no-unsafe-type-assertion -- D125: the runtime guard
+        platform: "freebsd" as "linux",
+        env: {},
+        git: false,
+        now: NOW,
+      }),
+    ).rejects.toThrow(/unsupported platform "freebsd"/);
+  });
+
+  it("fills Project.parent with the enclosing Project (D25)", async () => {
+    // `root-tree` has no `home/`, so the walk and the cwd are the only discovery sources.
+    const tree = await loadFixture("shared/root-tree", { platform: "darwin" });
+    trees.push(tree);
+    const index = await scan({
+      home: tree.home,
+      roots: tree.roots,
+      cwd: tree.root,
+      platform: "darwin",
+      env: {},
+      git: false,
+      now: NOW,
+    });
+    const monorepo = index.projects.find((project) => project.path === `${tree.root}/monorepo`);
+    expect(monorepo?.parent).toBeNull();
+    // Every Project the walk found sits directly under the Root: none has a parent yet.
+    expect(index.projects.map((project) => project.parent)).toEqual(index.projects.map(() => null));
+    // D26/D27: the walk registers neither the pruned nested repository nor the marker-less
+    // detached worktree.
+    const paths = index.projects.map((project) => project.path);
+    expect(paths).not.toContain(`${tree.root}/monorepo/vendor/lib`);
+    expect(paths).not.toContain(`${tree.root}/wt-detached`);
+  });
+
+  it("takes an injected live guard (D50)", async () => {
+    const tree = await loadFixture("claude-code/breadcrumbs", { cwd: "root/project-a", now: NOW });
+    trees.push(tree);
+    const asked: number[] = [];
+    const index = await scan({
+      home: tree.home,
+      roots: tree.roots,
+      cwd: tree.cwd,
+      platform: tree.platform,
+      env: tree.env,
+      git: false,
+      now: NOW,
+      isProcessAlive: (pid) => {
+        asked.push(pid);
+        return false;
+      },
+    });
+    // The option is accepted and changes nothing about the shape of the index.
+    expect(index.schemaVersion).toBe(0);
+    expect(asked.every((pid) => Number.isInteger(pid))).toBe(true);
+  });
+
   it("is deterministic across two scans of the same tree", async () => {
     const tree = await loadFixture("claude-code/breadcrumbs", { cwd: "root/project-a", now: NOW });
     trees.push(tree);
