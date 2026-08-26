@@ -46,10 +46,10 @@ entry-4 = "<redacted>"
 entry-5 = "<redacted>"
 entry-6 = "<redacted>"
 
-[desktop.entry-1]
+[desktop.entry-7]
 global = "<redacted>"
 
-[desktop.entry-1.entry-1]
+[desktop.entry-7.entry-1]
 entry-1 = "<redacted>"
 
 [features]

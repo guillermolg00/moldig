@@ -1,0 +1,3422 @@
+{
+  "schemaVersion": 0,
+  "generatedAt": "2026-08-26T12:00:00.000Z",
+  "moldig": {
+    "version": "0.0.0"
+  },
+  "scan": {
+    "home": "<HOME>",
+    "roots": ["<ROOT>"],
+    "cwd": "<ROOT>",
+    "platform": "darwin",
+    "caseFold": true,
+    "env": {},
+    "git": {
+      "available": false,
+      "version": null
+    },
+    "durationMs": 0
+  },
+  "tokenizer": {
+    "name": "gpt-tokenizer",
+    "version": "4.0.0",
+    "encoding": "o200k_base",
+    "fallbackUsed": false,
+    "multipliers": {
+      "openai": {
+        "low": 1,
+        "mid": 1,
+        "high": 1
+      },
+      "google": {
+        "low": 1,
+        "mid": 1,
+        "high": 1
+      },
+      "anthropic-46": {
+        "low": 1,
+        "mid": 1.15,
+        "high": 1.25
+      },
+      "anthropic-47plus": {
+        "low": 1.3,
+        "mid": 1.5,
+        "high": 1.65
+      }
+    }
+  },
+  "harnesses": [
+    {
+      "id": "harness:codex",
+      "harness": "codex",
+      "displayName": "Codex",
+      "surfaces": ["cli", "desktop"],
+      "presence": "installed",
+      "version": "<redacted>",
+      "effectiveModel": "<redacted>",
+      "modelFamily": null,
+      "contextWindowTokens": null,
+      "capabilities": {
+        "memoryLocation": "file",
+        "memoryReadSignal": "unchecked",
+        "contextFileNames": ["AGENTS.override.md", "AGENTS.md"],
+        "sweepDocumented": false
+      },
+      "caps": {
+        "memoryIndexLines": null,
+        "memoryIndexBytes": null,
+        "chainMaxBytes": 32768,
+        "skillDescriptionChars": null,
+        "importDepth": null
+      },
+      "effectiveSettings": {
+        "model": "<redacted>",
+        "model_reasoning_effort": "<redacted>",
+        "personality": "<redacted>",
+        "notify": ["<redacted>", "<redacted>"],
+        "plan_mode_reasoning_effort": "<redacted>",
+        "service_tier": "<redacted>",
+        "notice": {
+          "model_migrations": {
+            "entry-1": "<redacted>"
+          }
+        },
+        "plugins": {
+          "entry-1": {
+            "enabled": true
+          },
+          "entry-2": {
+            "enabled": true
+          },
+          "entry-3": {
+            "enabled": true
+          }
+        },
+        "tui": {
+          "model_availability_nux": {
+            "entry-1": 4,
+            "entry-2": 1
+          }
+        },
+        "marketplaces": {
+          "entry-1": {
+            "source_type": "<redacted>",
+            "source": "<redacted>"
+          },
+          "entry-2": {
+            "last_updated": "<redacted>",
+            "source_type": "<redacted>",
+            "source": "<redacted>"
+          },
+          "entry-3": {
+            "last_updated": "<redacted>",
+            "last_revision": "<redacted>",
+            "source_type": "<redacted>",
+            "source": "<redacted>"
+          }
+        },
+        "desktop": {
+          "entry-1": true,
+          "entry-2": true,
+          "entry-3": "<redacted>",
+          "entry-4": "<redacted>",
+          "entry-5": "<redacted>",
+          "entry-6": "<redacted>",
+          "entry-7": {
+            "global": "<redacted>",
+            "entry-1": {
+              "entry-1": "<redacted>"
+            }
+          }
+        },
+        "features": {
+          "js_repl": false,
+          "memories": true,
+          "hooks": true
+        },
+        "hooks": {
+          "entry-1": {
+            "entry-1": {
+              "trusted_hash": "<redacted>"
+            }
+          }
+        },
+        "shell_environment_policy": {
+          "set": {
+            "entry-1": "<redacted>"
+          }
+        },
+        "mcp_servers": {
+          "x": {
+            "command": "<redacted>",
+            "args": ["<redacted>", "<redacted>"],
+            "cwd": "<redacted>",
+            "enabled": true,
+            "required": false,
+            "startup_timeout_sec": 10,
+            "tool_timeout_sec": 60,
+            "enabled_tools": ["<redacted>"],
+            "default_tools_approval_mode": "prompt",
+            "env": {
+              "EXAMPLE_VAR": "<redacted>"
+            },
+            "tools": {
+              "tool-a": {
+                "approval_mode": "approve"
+              }
+            }
+          },
+          "y": {
+            "url": "<redacted>",
+            "auth": "<redacted>",
+            "enabled": true,
+            "startup_timeout_sec": 10,
+            "scopes": ["<redacted>"],
+            "http_headers": {
+              "Authorization": "<redacted>"
+            }
+          }
+        },
+        "projects": {
+          "<ROOT>/project-a": {
+            "trust_level": "trusted"
+          },
+          "<ROOT>/project-b": {
+            "trust_level": "untrusted"
+          },
+          "<ROOT>/gone": {
+            "trust_level": "trusted"
+          },
+          "<ROOT>": {
+            "trust_level": "trusted"
+          },
+          "<HOME>": {
+            "trust_level": "trusted"
+          },
+          "/": {
+            "trust_level": "trusted"
+          }
+        }
+      },
+      "breadcrumbSources": [
+        {
+          "kind": "trust-entry",
+          "path": "<HOME>/.codex/config.toml",
+          "readInV1": true
+        },
+        {
+          "kind": "session-cwd",
+          "path": "<HOME>/.codex/state_5.sqlite",
+          "readInV1": true
+        },
+        {
+          "kind": "session-cwd",
+          "path": "<HOME>/.codex/sessions",
+          "readInV1": false
+        },
+        {
+          "kind": "workspace-record",
+          "path": "<HOME>/.codex/.codex-global-state.json",
+          "readInV1": false
+        },
+        {
+          "kind": "session-cwd",
+          "path": "<HOME>/.codex/sqlite/codex-dev.db",
+          "readInV1": false
+        }
+      ],
+      "userScope": {
+        "paths": [
+          {
+            "path": "<HOME>/.codex",
+            "role": "data",
+            "source": "default",
+            "envVar": null
+          }
+        ],
+        "stray": [
+          "breadcrumb:codex:<HOME>/.codex/config.toml#projects//",
+          "breadcrumb:codex:<HOME>/.codex/config.toml#projects/<HOME>",
+          "breadcrumb:codex:<HOME>/.codex/config.toml#projects/<ROOT>",
+          "breadcrumb:codex:<HOME>/.codex/state_5.sqlite#threads/cwd//"
+        ],
+        "baseline": {
+          "items": [
+            {
+              "entity": "context-file:<HOME>/.codex/agents.md",
+              "edge": "edge:loaded-by:context-file:<HOME>/.codex/agents.md:harness:codex",
+              "order": 0,
+              "tokens": 100
+            },
+            {
+              "entity": "skill:<HOME>/.agents/skills/find-skills",
+              "edge": "edge:loaded-by:skill:<HOME>/.agents/skills/find-skills:harness:codex",
+              "order": 1,
+              "tokens": 7
+            },
+            {
+              "entity": "skill:<HOME>/.codex/skills/vercel-react-best-practices",
+              "edge": "edge:loaded-by:skill:<HOME>/.codex/skills/vercel-react-best-practices:harness:codex",
+              "order": 2,
+              "tokens": 11
+            }
+          ],
+          "tokens": 118
+        }
+      }
+    }
+  ],
+  "projects": [
+    {
+      "id": "project:<ROOT>/gone",
+      "path": "<ROOT>/gone",
+      "displayName": "gone",
+      "kind": "unknown",
+      "reachability": "orphan",
+      "unreachableReason": null,
+      "enclosesCwd": false,
+      "discoveredBy": ["breadcrumb"],
+      "parent": null,
+      "members": [],
+      "breadcrumbs": [
+        "breadcrumb:codex:<HOME>/.codex/config.toml#projects/<ROOT>/gone",
+        "breadcrumb:codex:<HOME>/.codex/state_5.sqlite#threads/cwd/<ROOT>/gone"
+      ],
+      "nestedMarkers": [],
+      "perHarness": {
+        "codex": {
+          "trusted": null,
+          "effectiveSettings": {},
+          "sessionLoad": {
+            "items": [],
+            "tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "project:<ROOT>/project-a",
+      "path": "<ROOT>/project-a",
+      "displayName": "project-a",
+      "kind": "repository",
+      "reachability": "present",
+      "unreachableReason": null,
+      "enclosesCwd": false,
+      "discoveredBy": ["breadcrumb", "marker-walk"],
+      "parent": null,
+      "members": [
+        {
+          "path": "<ROOT>/project-a",
+          "role": "repository",
+          "name": null,
+          "gitdir": null,
+          "reachability": "present"
+        }
+      ],
+      "breadcrumbs": [
+        "breadcrumb:codex:<HOME>/.codex/config.toml#projects/<ROOT>/project-a",
+        "breadcrumb:codex:<HOME>/.codex/state_5.sqlite#threads/cwd/<ROOT>/project-a",
+        "breadcrumb:codex:<HOME>/.codex/state_5.sqlite#threads/cwd/<ROOT>/project-a/packages/x"
+      ],
+      "nestedMarkers": [
+        {
+          "relativePath": "packages/x/AGENTS.md",
+          "marker": "AGENTS.md",
+          "entity": "context-file:<ROOT>/project-a/packages/x/agents.md"
+        }
+      ],
+      "perHarness": {
+        "codex": {
+          "trusted": true,
+          "effectiveSettings": {
+            "model_reasoning_effort": "<redacted>",
+            "project_doc_max_bytes": 32768,
+            "mcp_servers": {
+              "project-server": {
+                "command": "<redacted>",
+                "args": ["<redacted>"],
+                "enabled": true
+              }
+            }
+          },
+          "sessionLoad": {
+            "items": [
+              {
+                "entity": "context-file:<ROOT>/project-a/agents.override.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/agents.override.md:harness:codex:project:<ROOT>/project-a",
+                "order": 0,
+                "tokens": 27
+              },
+              {
+                "entity": "skill:<ROOT>/project-a/.codex/skills/vercel-react-best-practices",
+                "edge": "edge:loaded-by:skill:<ROOT>/project-a/.codex/skills/vercel-react-best-practices:harness:codex:project:<ROOT>/project-a",
+                "order": 1,
+                "tokens": 11
+              },
+              {
+                "entity": "skill:<ROOT>/project-a/.agents/skills/skill-b",
+                "edge": "edge:loaded-by:skill:<ROOT>/project-a/.agents/skills/skill-b:harness:codex:project:<ROOT>/project-a",
+                "order": 2,
+                "tokens": 6
+              }
+            ],
+            "tokens": 44
+          }
+        }
+      }
+    },
+    {
+      "id": "project:<ROOT>/project-b",
+      "path": "<ROOT>/project-b",
+      "displayName": "project-b",
+      "kind": "repository",
+      "reachability": "present",
+      "unreachableReason": null,
+      "enclosesCwd": false,
+      "discoveredBy": ["breadcrumb", "marker-walk"],
+      "parent": null,
+      "members": [
+        {
+          "path": "<ROOT>/project-b",
+          "role": "repository",
+          "name": null,
+          "gitdir": null,
+          "reachability": "present"
+        }
+      ],
+      "breadcrumbs": ["breadcrumb:codex:<HOME>/.codex/config.toml#projects/<ROOT>/project-b"],
+      "nestedMarkers": [],
+      "perHarness": {
+        "codex": {
+          "trusted": false,
+          "effectiveSettings": {
+            "model_reasoning_effort": "<redacted>",
+            "project_doc_max_bytes": 32768,
+            "mcp_servers": {
+              "project-server": {
+                "command": "<redacted>",
+                "args": ["<redacted>"],
+                "enabled": true
+              }
+            }
+          },
+          "sessionLoad": {
+            "items": [
+              {
+                "entity": "context-file:<ROOT>/project-b/agents.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-b/agents.md:harness:codex:project:<ROOT>/project-b",
+                "order": 0,
+                "tokens": 72
+              }
+            ],
+            "tokens": 72
+          }
+        }
+      }
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "id": "breadcrumb:codex:<HOME>/.codex/config.toml#projects//",
+      "harness": "codex",
+      "kind": "trust-entry",
+      "raw": "/",
+      "recordedForm": "path",
+      "path": "/",
+      "resolution": "direct",
+      "project": null,
+      "strayReason": "bare-directory",
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.codex/config.toml",
+        "format": "toml",
+        "keyPath": ["projects", "/"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": []
+    },
+    {
+      "id": "breadcrumb:codex:<HOME>/.codex/config.toml#projects/<HOME>",
+      "harness": "codex",
+      "kind": "trust-entry",
+      "raw": "<HOME>",
+      "recordedForm": "path",
+      "path": "<HOME>",
+      "resolution": "direct",
+      "project": null,
+      "strayReason": "bare-directory",
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.codex/config.toml",
+        "format": "toml",
+        "keyPath": ["projects", "<HOME>"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": []
+    },
+    {
+      "id": "breadcrumb:codex:<HOME>/.codex/config.toml#projects/<ROOT>",
+      "harness": "codex",
+      "kind": "trust-entry",
+      "raw": "<ROOT>",
+      "recordedForm": "path",
+      "path": "<ROOT>",
+      "resolution": "direct",
+      "project": null,
+      "strayReason": "bare-directory",
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.codex/config.toml",
+        "format": "toml",
+        "keyPath": ["projects", "<ROOT>"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": []
+    },
+    {
+      "id": "breadcrumb:codex:<HOME>/.codex/config.toml#projects/<ROOT>/gone",
+      "harness": "codex",
+      "kind": "trust-entry",
+      "raw": "<ROOT>/gone",
+      "recordedForm": "path",
+      "path": "<ROOT>/gone",
+      "resolution": "direct",
+      "project": "project:<ROOT>/gone",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "orphan",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.codex/config.toml",
+        "format": "toml",
+        "keyPath": ["projects", "<ROOT>/gone"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": []
+    },
+    {
+      "id": "breadcrumb:codex:<HOME>/.codex/config.toml#projects/<ROOT>/project-a",
+      "harness": "codex",
+      "kind": "trust-entry",
+      "raw": "<ROOT>/project-a",
+      "recordedForm": "path",
+      "path": "<ROOT>/project-a",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.codex/config.toml",
+        "format": "toml",
+        "keyPath": ["projects", "<ROOT>/project-a"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": []
+    },
+    {
+      "id": "breadcrumb:codex:<HOME>/.codex/config.toml#projects/<ROOT>/project-b",
+      "harness": "codex",
+      "kind": "trust-entry",
+      "raw": "<ROOT>/project-b",
+      "recordedForm": "path",
+      "path": "<ROOT>/project-b",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-b",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.codex/config.toml",
+        "format": "toml",
+        "keyPath": ["projects", "<ROOT>/project-b"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": []
+    },
+    {
+      "id": "breadcrumb:codex:<HOME>/.codex/state_5.sqlite#threads/cwd//",
+      "harness": "codex",
+      "kind": "session-cwd",
+      "raw": "/",
+      "recordedForm": "path",
+      "path": "/",
+      "resolution": "direct",
+      "project": null,
+      "strayReason": "bare-directory",
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "sqlite",
+        "file": "<HOME>/.codex/state_5.sqlite",
+        "table": "threads",
+        "keyColumn": "cwd",
+        "keyValue": "/"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "2023-04-24T22:13:23.000Z",
+        "last": "2023-04-24T22:13:23.000Z"
+      },
+      "refs": {
+        "lastSessionId": "00000000-0000-4000-8000-000000000004"
+      },
+      "state": [
+        "harness-cache:<HOME>/.codex/sessions/2026/02/02/rollout-2026-02-02t10-00-00-00000000-0000-4000-8000-000000000004.jsonl"
+      ]
+    },
+    {
+      "id": "breadcrumb:codex:<HOME>/.codex/state_5.sqlite#threads/cwd/<ROOT>/gone",
+      "harness": "codex",
+      "kind": "session-cwd",
+      "raw": "<ROOT>/gone",
+      "recordedForm": "path",
+      "path": "<ROOT>/gone",
+      "resolution": "direct",
+      "project": "project:<ROOT>/gone",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "orphan",
+      "locator": {
+        "type": "sqlite",
+        "file": "<HOME>/.codex/state_5.sqlite",
+        "table": "threads",
+        "keyColumn": "cwd",
+        "keyValue": "<ROOT>/gone"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "2023-04-23T22:13:22.000Z",
+        "last": "2023-04-23T22:13:22.000Z"
+      },
+      "refs": {
+        "lastSessionId": "00000000-0000-4000-8000-000000000003"
+      },
+      "state": [
+        "harness-cache:<HOME>/.codex/sessions/2026/02/01/rollout-2026-02-01t10-00-00-00000000-0000-4000-8000-000000000003.jsonl"
+      ]
+    },
+    {
+      "id": "breadcrumb:codex:<HOME>/.codex/state_5.sqlite#threads/cwd/<ROOT>/project-a",
+      "harness": "codex",
+      "kind": "session-cwd",
+      "raw": "<ROOT>/project-a",
+      "recordedForm": "path",
+      "path": "<ROOT>/project-a",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "sqlite",
+        "file": "<HOME>/.codex/state_5.sqlite",
+        "table": "threads",
+        "keyColumn": "cwd",
+        "keyValue": "<ROOT>/project-a"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "2023-11-09T22:13:20.000Z",
+        "last": "2023-11-09T22:13:20.000Z"
+      },
+      "refs": {
+        "lastSessionId": "00000000-0000-4000-8000-000000000001"
+      },
+      "state": [
+        "harness-cache:<HOME>/.codex/sessions/2026/08/20/rollout-2026-08-20t10-00-00-00000000-0000-4000-8000-000000000001.jsonl"
+      ]
+    },
+    {
+      "id": "breadcrumb:codex:<HOME>/.codex/state_5.sqlite#threads/cwd/<ROOT>/project-a/packages/x",
+      "harness": "codex",
+      "kind": "session-cwd",
+      "raw": "<ROOT>/project-a/packages/x",
+      "recordedForm": "path",
+      "path": "<ROOT>/project-a/packages/x",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": "packages/x",
+      "reachability": "present",
+      "locator": {
+        "type": "sqlite",
+        "file": "<HOME>/.codex/state_5.sqlite",
+        "table": "threads",
+        "keyColumn": "cwd",
+        "keyValue": "<ROOT>/project-a/packages/x"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "2023-11-10T22:13:21.000Z",
+        "last": "2023-11-10T22:13:21.000Z"
+      },
+      "refs": {
+        "lastSessionId": "00000000-0000-4000-8000-000000000002"
+      },
+      "state": [
+        "harness-cache:<HOME>/.codex/sessions/2026/08/21/rollout-2026-08-21t10-00-00-00000000-0000-4000-8000-000000000002.jsonl"
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "id": "context-file:<HOME>/.codex/agents.md",
+      "kind": "context-file",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/AGENTS.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/AGENTS.md"
+      },
+      "format": "md",
+      "label": "~/.codex/AGENTS.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 441,
+        "files": 1,
+        "lines": 10,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 100,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "AGENTS.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<HOME>/.codex/agents.override.md",
+      "kind": "context-file",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/AGENTS.override.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/AGENTS.override.md"
+      },
+      "format": "md",
+      "label": "~/.codex/AGENTS.override.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 1,
+        "lines": 0,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 0,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "local",
+      "fileName": "AGENTS.override.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/agents.md",
+      "kind": "context-file",
+      "harness": null,
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/AGENTS.md",
+      "relativePath": "AGENTS.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/AGENTS.md"
+      },
+      "format": "md",
+      "label": "AGENTS.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 1071,
+        "files": 1,
+        "lines": 24,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 240,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "AGENTS.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/agents.override.md",
+      "kind": "context-file",
+      "harness": "codex",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "local",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/AGENTS.override.md",
+      "relativePath": "AGENTS.override.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/AGENTS.override.md"
+      },
+      "format": "md",
+      "label": "AGENTS.override.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 111,
+        "files": 1,
+        "lines": 3,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 27,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "local",
+      "fileName": "AGENTS.override.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/packages/x/agents.md",
+      "kind": "context-file",
+      "harness": null,
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/packages/x/AGENTS.md",
+      "relativePath": "packages/x/AGENTS.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/packages/x/AGENTS.md"
+      },
+      "format": "md",
+      "label": "packages/x/AGENTS.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 222,
+        "files": 1,
+        "lines": 6,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 54,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "AGENTS.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-b/agents.md",
+      "kind": "context-file",
+      "harness": null,
+      "producer": null,
+      "project": "project:<ROOT>/project-b",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-b/AGENTS.md",
+      "relativePath": "AGENTS.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-b/AGENTS.md"
+      },
+      "format": "md",
+      "label": "AGENTS.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 296,
+        "files": 1,
+        "lines": 8,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 72,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "AGENTS.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "harness-cache:<HOME>/.codex/..codex-global-state.json.tmp-1700000000000-00000000-0000-4000-8000-000000000009",
+      "kind": "harness-cache",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/..codex-global-state.json.tmp-1700000000000-00000000-0000-4000-8000-000000000009",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/..codex-global-state.json.tmp-1700000000000-00000000-0000-4000-8000-000000000009"
+      },
+      "format": "json",
+      "label": "..codex-global-state.json.tmp-1700000000000-00000000-0000-4000-8000-000000000009",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 854,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-07-17T12:00:00.000Z",
+        "ageDays": 40,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "config-backup",
+      "unit": "file",
+      "surface": "desktop",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 854,
+        "oldest": "2026-07-17T12:00:00.000Z",
+        "newest": "2026-07-17T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.codex/.codex-global-state.json.bak",
+      "kind": "harness-cache",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/.codex-global-state.json.bak",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/.codex-global-state.json.bak"
+      },
+      "format": "json",
+      "label": ".codex-global-state.json.bak",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 854,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-07-17T12:00:00.000Z",
+        "ageDays": 40,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "config-backup",
+      "unit": "file",
+      "surface": "desktop",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 854,
+        "oldest": "2026-07-17T12:00:00.000Z",
+        "newest": "2026-07-17T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.codex/archived_sessions/rollout-2026-01-15t10-00-00-00000000-0000-4000-8000-000000000006.jsonl",
+      "kind": "harness-cache",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/archived_sessions/rollout-2026-01-15T10-00-00-00000000-0000-4000-8000-000000000006.jsonl",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/archived_sessions/rollout-2026-01-15T10-00-00-00000000-0000-4000-8000-000000000006.jsonl"
+      },
+      "format": "jsonl",
+      "label": "rollout 00000000 · 2026-01-15 · archived",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 361,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-01-16T12:00:00.000Z",
+        "ageDays": 222,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": null,
+      "session": "00000000-0000-4000-8000-000000000006",
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 361,
+        "oldest": "2026-01-16T12:00:00.000Z",
+        "newest": "2026-01-16T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.codex/history.jsonl",
+      "kind": "harness-cache",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/history.jsonl",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/history.jsonl"
+      },
+      "format": "jsonl",
+      "label": "history.jsonl",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 180,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-08-26T12:00:00.000Z",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "log",
+      "unit": "file",
+      "surface": null,
+      "session": null,
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": "history.max_bytes"
+      },
+      "liveGuard": null,
+      "userContent": true,
+      "members": {
+        "files": 1,
+        "bytes": 180,
+        "oldest": "2026-08-26T12:00:00.000Z",
+        "newest": "2026-08-26T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.codex/log",
+      "kind": "harness-cache",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/log",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.codex/log"
+      },
+      "format": "dir",
+      "label": "log",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "log",
+      "unit": "dir",
+      "surface": null,
+      "session": null,
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.codex/session_index.jsonl",
+      "kind": "harness-cache",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/session_index.jsonl",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/session_index.jsonl"
+      },
+      "format": "jsonl",
+      "label": "session_index.jsonl",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 218,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "file",
+      "surface": null,
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 218,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.codex/sessions/2025/09/01/rollout-2025-09-01t10-00-00-00000000-0000-4000-8000-000000000005.jsonl",
+      "kind": "harness-cache",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/sessions/2025/09/01/rollout-2025-09-01T10-00-00-00000000-0000-4000-8000-000000000005.jsonl",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/sessions/2025/09/01/rollout-2025-09-01T10-00-00-00000000-0000-4000-8000-000000000005.jsonl"
+      },
+      "format": "jsonl",
+      "label": "rollout 00000000 · 2025-09-01",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 200,
+        "files": 1,
+        "lines": null,
+        "mtime": "2025-09-02T12:00:00.000Z",
+        "ageDays": 358,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": null,
+      "session": "00000000-0000-4000-8000-000000000005",
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 200,
+        "oldest": "2025-09-02T12:00:00.000Z",
+        "newest": "2025-09-02T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.codex/sessions/2026/02/01/rollout-2026-02-01t10-00-00-00000000-0000-4000-8000-000000000003.jsonl",
+      "kind": "harness-cache",
+      "harness": "codex",
+      "producer": null,
+      "project": "project:<ROOT>/gone",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/sessions/2026/02/01/rollout-2026-02-01T10-00-00-00000000-0000-4000-8000-000000000003.jsonl",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/sessions/2026/02/01/rollout-2026-02-01T10-00-00-00000000-0000-4000-8000-000000000003.jsonl"
+      },
+      "format": "jsonl",
+      "label": "rollout 00000000 · 2026-02-01",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 442,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-02-02T12:00:00.000Z",
+        "ageDays": 205,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": null,
+      "session": "00000000-0000-4000-8000-000000000003",
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 442,
+        "oldest": "2026-02-02T12:00:00.000Z",
+        "newest": "2026-02-02T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.codex/sessions/2026/02/02/rollout-2026-02-02t10-00-00-00000000-0000-4000-8000-000000000004.jsonl",
+      "kind": "harness-cache",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/sessions/2026/02/02/rollout-2026-02-02T10-00-00-00000000-0000-4000-8000-000000000004.jsonl",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/sessions/2026/02/02/rollout-2026-02-02T10-00-00-00000000-0000-4000-8000-000000000004.jsonl"
+      },
+      "format": "jsonl",
+      "label": "rollout 00000000 · 2026-02-02",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 279,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-02-03T12:00:00.000Z",
+        "ageDays": 204,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": null,
+      "session": "00000000-0000-4000-8000-000000000004",
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 279,
+        "oldest": "2026-02-03T12:00:00.000Z",
+        "newest": "2026-02-03T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.codex/sessions/2026/03/01/rollout-2026-03-01t10-00-00-00000000-0000-4000-8000-000000000007.jsonl.zst",
+      "kind": "harness-cache",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/sessions/2026/03/01/rollout-2026-03-01T10-00-00-00000000-0000-4000-8000-000000000007.jsonl.zst",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/sessions/2026/03/01/rollout-2026-03-01T10-00-00-00000000-0000-4000-8000-000000000007.jsonl.zst"
+      },
+      "format": "jsonl.zst",
+      "label": "rollout 00000000 · 2026-03-01",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 174,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-03-02T12:00:00.000Z",
+        "ageDays": 177,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": null,
+      "session": "00000000-0000-4000-8000-000000000007",
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 174,
+        "oldest": "2026-03-02T12:00:00.000Z",
+        "newest": "2026-03-02T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.codex/sessions/2026/08/20/rollout-2026-08-20t10-00-00-00000000-0000-4000-8000-000000000001.jsonl",
+      "kind": "harness-cache",
+      "harness": "codex",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/sessions/2026/08/20/rollout-2026-08-20T10-00-00-00000000-0000-4000-8000-000000000001.jsonl",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/sessions/2026/08/20/rollout-2026-08-20T10-00-00-00000000-0000-4000-8000-000000000001.jsonl"
+      },
+      "format": "jsonl",
+      "label": "rollout 00000000 · 2026-08-20",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 447,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-08-21T12:00:00.000Z",
+        "ageDays": 5,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": null,
+      "session": "00000000-0000-4000-8000-000000000001",
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 447,
+        "oldest": "2026-08-21T12:00:00.000Z",
+        "newest": "2026-08-21T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.codex/sessions/2026/08/21/rollout-2026-08-21t10-00-00-00000000-0000-4000-8000-000000000002.jsonl",
+      "kind": "harness-cache",
+      "harness": "codex",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/sessions/2026/08/21/rollout-2026-08-21T10-00-00-00000000-0000-4000-8000-000000000002.jsonl",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/sessions/2026/08/21/rollout-2026-08-21T10-00-00-00000000-0000-4000-8000-000000000002.jsonl"
+      },
+      "format": "jsonl",
+      "label": "rollout 00000000 · 2026-08-21",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 458,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-08-22T12:00:00.000Z",
+        "ageDays": 4,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": null,
+      "session": "00000000-0000-4000-8000-000000000002",
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 458,
+        "oldest": "2026-08-22T12:00:00.000Z",
+        "newest": "2026-08-22T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.codex/shell_snapshots",
+      "kind": "harness-cache",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/shell_snapshots",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.codex/shell_snapshots"
+      },
+      "format": "dir",
+      "label": "shell_snapshots",
+      "sensitive": true,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 104,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "shell-snapshot",
+      "unit": "dir",
+      "surface": null,
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 104,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.codex/state_5.sqlite",
+      "kind": "harness-cache",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/state_5.sqlite",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/state_5.sqlite"
+      },
+      "format": "sqlite",
+      "label": "state_5.sqlite",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 36864,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-08-26T12:00:00.000Z",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "database",
+      "unit": "database",
+      "surface": null,
+      "session": null,
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 36864,
+        "oldest": "2026-08-26T12:00:00.000Z",
+        "newest": "2026-08-26T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.codex/version.json",
+      "kind": "harness-cache",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/version.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/version.json"
+      },
+      "format": "json",
+      "label": "version.json",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 109,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "file",
+      "surface": null,
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 109,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "mcp-server:<HOME>/.codex/config.toml#mcp_servers/x",
+      "kind": "mcp-server",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/config.toml",
+      "relativePath": null,
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.codex/config.toml",
+        "format": "toml",
+        "keyPath": ["mcp_servers", "x"]
+      },
+      "format": "toml",
+      "label": "x",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "delegate",
+        "command": "codex mcp remove x"
+      },
+      "metrics": {
+        "bytes": 392,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "x",
+      "transport": "stdio",
+      "command": "<redacted>",
+      "args": ["<redacted>", "<redacted>"],
+      "url": null,
+      "envKeys": ["EXAMPLE_VAR"],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": true,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "stdio:<redacted> <redacted> <redacted>",
+      "rawKeys": [
+        "command",
+        "args",
+        "cwd",
+        "enabled",
+        "required",
+        "startup_timeout_sec",
+        "tool_timeout_sec",
+        "enabled_tools",
+        "default_tools_approval_mode",
+        "env",
+        "tools"
+      ]
+    },
+    {
+      "id": "mcp-server:<HOME>/.codex/config.toml#mcp_servers/y",
+      "kind": "mcp-server",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/config.toml",
+      "relativePath": null,
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.codex/config.toml",
+        "format": "toml",
+        "keyPath": ["mcp_servers", "y"]
+      },
+      "format": "toml",
+      "label": "y",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "delegate",
+        "command": "codex mcp remove y"
+      },
+      "metrics": {
+        "bytes": 145,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "y",
+      "transport": "http",
+      "command": null,
+      "args": [],
+      "url": "<redacted>",
+      "envKeys": [],
+      "headerKeys": ["Authorization"],
+      "secretKeys": ["Authorization"],
+      "hasOauth": true,
+      "usesInterpolation": false,
+      "enabled": true,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "http:<redacted>",
+      "rawKeys": ["url", "auth", "enabled", "startup_timeout_sec", "scopes", "http_headers"]
+    },
+    {
+      "id": "mcp-server:<ROOT>/project-a/.codex/config.toml#mcp_servers/project-server",
+      "kind": "mcp-server",
+      "harness": "codex",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.codex/config.toml",
+      "relativePath": ".codex/config.toml",
+      "locator": {
+        "type": "entry",
+        "file": "<ROOT>/project-a/.codex/config.toml",
+        "format": "toml",
+        "keyPath": ["mcp_servers", "project-server"]
+      },
+      "format": "toml",
+      "label": "project-server",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 61,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "project-server",
+      "transport": "stdio",
+      "command": "<redacted>",
+      "args": ["<redacted>"],
+      "url": null,
+      "envKeys": [],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": true,
+      "approval": "approved",
+      "invalid": null,
+      "endpointKey": "stdio:<redacted> <redacted>",
+      "rawKeys": ["command", "args", "enabled"]
+    },
+    {
+      "id": "mcp-server:<ROOT>/project-b/.codex/config.toml#mcp_servers/project-server",
+      "kind": "mcp-server",
+      "harness": "codex",
+      "producer": null,
+      "project": "project:<ROOT>/project-b",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-b/.codex/config.toml",
+      "relativePath": ".codex/config.toml",
+      "locator": {
+        "type": "entry",
+        "file": "<ROOT>/project-b/.codex/config.toml",
+        "format": "toml",
+        "keyPath": ["mcp_servers", "project-server"]
+      },
+      "format": "toml",
+      "label": "project-server",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 61,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "project-server",
+      "transport": "stdio",
+      "command": "<redacted>",
+      "args": ["<redacted>"],
+      "url": null,
+      "envKeys": [],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": true,
+      "approval": "rejected",
+      "invalid": null,
+      "endpointKey": "stdio:<redacted> <redacted>",
+      "rawKeys": ["command", "args", "enabled"]
+    },
+    {
+      "id": "memory-file:<HOME>/.codex/memories/memory-a.md",
+      "kind": "memory-file",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/memories/memory-a.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/memories/memory-a.md"
+      },
+      "format": "md",
+      "label": "memory-a.md",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 511,
+        "files": 1,
+        "lines": 10,
+        "mtime": "2026-05-28T12:00:00.000Z",
+        "ageDays": 90,
+        "tokens": {
+          "o200k": 110,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "role": "fact",
+      "unit": "<HOME>/.codex/memories",
+      "owner": "global",
+      "frontmatter": {},
+      "loadedPortion": null,
+      "reads": null,
+      "writes": null,
+      "neverRead": null,
+      "readSignal": {
+        "source": "none",
+        "exact": false,
+        "bashParsed": false
+      }
+    },
+    {
+      "id": "memory-file:<HOME>/.codex/memories/memory.md",
+      "kind": "memory-file",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/memories/MEMORY.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/memories/MEMORY.md"
+      },
+      "format": "md",
+      "label": "MEMORY.md",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 296,
+        "files": 1,
+        "lines": 8,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 72,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "role": "index",
+      "unit": "<HOME>/.codex/memories",
+      "owner": "global",
+      "frontmatter": {},
+      "loadedPortion": null,
+      "reads": null,
+      "writes": null,
+      "neverRead": null,
+      "readSignal": {
+        "source": "none",
+        "exact": false,
+        "bashParsed": false
+      }
+    },
+    {
+      "id": "settings-file:<HOME>/.codex/.codex-global-state.json",
+      "kind": "settings-file",
+      "harness": "codex",
+      "producer": {
+        "harness": "codex",
+        "surface": "desktop"
+      },
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/.codex-global-state.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/.codex-global-state.json"
+      },
+      "format": "json",
+      "label": ".codex-global-state.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 854,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "state",
+      "topLevelKeys": ["active-workspace-roots", "local-projects", "pinned-thread-ids"],
+      "entries": 2,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.codex/config.toml",
+      "kind": "settings-file",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/config.toml",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/config.toml"
+      },
+      "format": "toml",
+      "label": "config.toml",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 2582,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": [
+        "model",
+        "model_reasoning_effort",
+        "personality",
+        "notify",
+        "plan_mode_reasoning_effort",
+        "service_tier",
+        "notice",
+        "plugins",
+        "tui",
+        "marketplaces",
+        "desktop",
+        "features",
+        "hooks",
+        "shell_environment_policy",
+        "mcp_servers",
+        "projects"
+      ],
+      "entries": 2,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.codex/hooks.json",
+      "kind": "settings-file",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/hooks.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/hooks.json"
+      },
+      "format": "json",
+      "label": "hooks.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 540,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "hooks",
+      "topLevelKeys": ["hooks"],
+      "entries": 2,
+      "hooks": [
+        {
+          "event": "SessionStart",
+          "type": "command",
+          "command": "<redacted>",
+          "matcher": "<redacted>"
+        },
+        {
+          "event": "PreToolUse",
+          "type": "mcp_tool",
+          "command": "<redacted>",
+          "matcher": "<redacted>"
+        }
+      ]
+    },
+    {
+      "id": "settings-file:<HOME>/.codex/rules/default.rules",
+      "kind": "settings-file",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/rules/default.rules",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.codex/rules/default.rules"
+      },
+      "format": "starlark",
+      "label": "default.rules",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 379,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "policy",
+      "topLevelKeys": [],
+      "entries": 3,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<ROOT>/project-a/.codex/config.toml",
+      "kind": "settings-file",
+      "harness": "codex",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.codex/config.toml",
+      "relativePath": ".codex/config.toml",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.codex/config.toml"
+      },
+      "format": "toml",
+      "label": "config.toml",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 247,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": ["model_reasoning_effort", "project_doc_max_bytes", "mcp_servers"],
+      "entries": 1,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<ROOT>/project-a/.codex/hooks.json",
+      "kind": "settings-file",
+      "harness": "codex",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.codex/hooks.json",
+      "relativePath": ".codex/hooks.json",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.codex/hooks.json"
+      },
+      "format": "json",
+      "label": "hooks.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 544,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "hooks",
+      "topLevelKeys": ["hooks"],
+      "entries": 2,
+      "hooks": [
+        {
+          "event": "UserPromptSubmit",
+          "type": "command",
+          "command": "<redacted>",
+          "matcher": "<redacted>"
+        },
+        {
+          "event": "PreToolUse",
+          "type": "mcp_tool",
+          "command": "<redacted>",
+          "matcher": "<redacted>"
+        }
+      ]
+    },
+    {
+      "id": "settings-file:<ROOT>/project-a/.codex/rules/default.rules",
+      "kind": "settings-file",
+      "harness": "codex",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.codex/rules/default.rules",
+      "relativePath": ".codex/rules/default.rules",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.codex/rules/default.rules"
+      },
+      "format": "starlark",
+      "label": "default.rules",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 379,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "policy",
+      "topLevelKeys": [],
+      "entries": 3,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<ROOT>/project-b/.codex/config.toml",
+      "kind": "settings-file",
+      "harness": "codex",
+      "producer": null,
+      "project": "project:<ROOT>/project-b",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-b/.codex/config.toml",
+      "relativePath": ".codex/config.toml",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-b/.codex/config.toml"
+      },
+      "format": "toml",
+      "label": "config.toml",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 247,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": ["model_reasoning_effort", "project_doc_max_bytes", "mcp_servers"],
+      "entries": 1,
+      "hooks": []
+    },
+    {
+      "id": "skill:<HOME>/.agents/skills/find-skills",
+      "kind": "skill",
+      "harness": null,
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.agents/skills/find-skills",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.agents/skills/find-skills"
+      },
+      "format": "dir",
+      "label": "find-skills",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 725,
+        "files": 1,
+        "lines": 22,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 176,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "find-skills",
+      "dirName": "find-skills",
+      "frontmatterName": "find-skills",
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<HOME>/.agents/skills/find-skills",
+          "harness": null,
+          "surface": null,
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        },
+        {
+          "path": "<HOME>/.codex/skills/find-skills",
+          "harness": "codex",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": true,
+          "linkTarget": "../../.agents/skills/find-skills",
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "find-skills",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "e7bd27c9f3787f55f85fb16d70905f79c0579fa5e9ef7f2aaf3fae3607431486"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.codex/skills/.system/skill-creator",
+      "kind": "skill",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "system",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/skills/.system/skill-creator",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.codex/skills/.system/skill-creator"
+      },
+      "format": "dir",
+      "label": "skill-creator",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 15711,
+        "files": 2,
+        "lines": 228,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 3018,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-creator",
+      "dirName": "skill-creator",
+      "frontmatterName": "skill-creator",
+      "layout": "bundled",
+      "placements": [
+        {
+          "path": "<HOME>/.codex/skills/.system/skill-creator",
+          "harness": "codex",
+          "surface": "cli",
+          "scope": "system",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "skill-creator",
+        "description": "<redacted>",
+        "metadata": "<redacted>"
+      },
+      "sidecars": ["agents/openai.yaml"],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "bd4664393930d7f432d04aea1377c69bee17ca7a3e3bf217ebe756ee72020e11"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.codex/skills/vercel-react-best-practices",
+      "kind": "skill",
+      "harness": "codex",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.codex/skills/vercel-react-best-practices",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.codex/skills/vercel-react-best-practices"
+      },
+      "format": "dir",
+      "label": "vercel-react-best-practices",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 70753,
+        "files": 5,
+        "lines": 121,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 1188,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "vercel-react-best-practices",
+      "dirName": "vercel-react-best-practices",
+      "frontmatterName": "vercel-react-best-practices",
+      "layout": "copy",
+      "placements": [
+        {
+          "path": "<HOME>/.codex/skills/vercel-react-best-practices",
+          "harness": "codex",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "vercel-react-best-practices",
+        "description": "<redacted>"
+      },
+      "sidecars": ["agents/openai.yaml"],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "a268f8b657ae01db34098d671296a0a50e386d3b2fee54da6aa5b5a28c56acb4"
+        }
+      ],
+      "origin": null,
+      "drift": "copies-differ"
+    },
+    {
+      "id": "skill:<ROOT>/project-a/.agents/skills/skill-b",
+      "kind": "skill",
+      "harness": null,
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.agents/skills/skill-b",
+      "relativePath": ".agents/skills/skill-b",
+      "locator": {
+        "type": "dir",
+        "path": "<ROOT>/project-a/.agents/skills/skill-b"
+      },
+      "format": "dir",
+      "label": "skill-b",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 417,
+        "files": 1,
+        "lines": 14,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 103,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-b",
+      "dirName": "skill-b",
+      "frontmatterName": "skill-b",
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<ROOT>/project-a/.agents/skills/skill-b",
+          "harness": null,
+          "surface": null,
+          "scope": "project",
+          "project": "project:<ROOT>/project-a",
+          "gitStatus": null,
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "skill-b",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "78dbbf1d697a57a783611f4c5cd8b990f751e1ff86c1fb516770785ef186946e"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<ROOT>/project-a/.codex/skills/vercel-react-best-practices",
+      "kind": "skill",
+      "harness": "codex",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.codex/skills/vercel-react-best-practices",
+      "relativePath": ".codex/skills/vercel-react-best-practices",
+      "locator": {
+        "type": "dir",
+        "path": "<ROOT>/project-a/.codex/skills/vercel-react-best-practices"
+      },
+      "format": "dir",
+      "label": "vercel-react-best-practices",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 5460,
+        "files": 2,
+        "lines": 121,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 1188,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "vercel-react-best-practices",
+      "dirName": "vercel-react-best-practices",
+      "frontmatterName": "vercel-react-best-practices",
+      "layout": "copy",
+      "placements": [
+        {
+          "path": "<ROOT>/project-a/.codex/skills/vercel-react-best-practices",
+          "harness": "codex",
+          "surface": "cli",
+          "scope": "project",
+          "project": "project:<ROOT>/project-a",
+          "gitStatus": null,
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "vercel-react-best-practices",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "0410894fd3ea809d555427b7787d3326da1d12522c148017ecb0c6b93bf58c38"
+        }
+      ],
+      "origin": null,
+      "drift": "copies-differ"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge:duplicates:mcp-server:<ROOT>/project-a/.codex/config.toml#mcp_servers/project-server:mcp-server:<ROOT>/project-b/.codex/config.toml#mcp_servers/project-server",
+      "kind": "duplicates",
+      "from": "mcp-server:<ROOT>/project-a/.codex/config.toml#mcp_servers/project-server",
+      "to": "mcp-server:<ROOT>/project-b/.codex/config.toml#mcp_servers/project-server",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "stdio:<redacted> <redacted>"
+        }
+      ],
+      "same": "endpoint"
+    },
+    {
+      "id": "edge:duplicates:skill:<HOME>/.codex/skills/vercel-react-best-practices:skill:<ROOT>/project-a/.codex/skills/vercel-react-best-practices",
+      "kind": "duplicates",
+      "from": "skill:<HOME>/.codex/skills/vercel-react-best-practices",
+      "to": "skill:<ROOT>/project-a/.codex/skills/vercel-react-best-practices",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "name-only",
+          "detail": "vercel-react-best-practices"
+        }
+      ],
+      "same": "name"
+    },
+    {
+      "id": "edge:loaded-by:context-file:<HOME>/.codex/agents.md:harness:codex",
+      "kind": "loaded-by",
+      "from": "context-file:<HOME>/.codex/agents.md",
+      "to": "harness:codex",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "user instructions: read in every session"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "user instructions: read in every session",
+      "placement": "<HOME>/.codex/AGENTS.md",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 441,
+      "importsResolved": null,
+      "tokensLoaded": 100,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<HOME>/.codex/agents.override.md:harness:codex",
+      "kind": "loaded-by",
+      "from": "context-file:<HOME>/.codex/agents.override.md",
+      "to": "harness:codex",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "empty file: Codex skips it"
+        }
+      ],
+      "project": null,
+      "mode": "never",
+      "reason": "empty file: Codex skips it",
+      "placement": "<HOME>/.codex/AGENTS.override.md",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 0,
+      "importsResolved": null,
+      "tokensLoaded": 0,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/agents.md:harness:codex:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/agents.md",
+      "to": "harness:codex",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "precedence-rule",
+          "detail": "AGENTS.override.md in the same directory wins"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "shadowed",
+      "reason": "AGENTS.override.md in the same directory wins",
+      "placement": "<ROOT>/project-a/AGENTS.md",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 0,
+      "importsResolved": null,
+      "tokensLoaded": 0,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/agents.override.md:harness:codex:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/agents.override.md",
+      "to": "harness:codex",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "AGENTS.override.md of the project root"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "AGENTS.override.md of the project root",
+      "placement": "<ROOT>/project-a/AGENTS.override.md",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 111,
+      "importsResolved": null,
+      "tokensLoaded": 27,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/packages/x/agents.md:harness:codex:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/packages/x/agents.md",
+      "to": "harness:codex",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "loaded by sessions started in packages/x (Codex walks root→cwd once, no lazy loading)"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "loaded by sessions started in packages/x (Codex walks root→cwd once, no lazy loading)",
+      "placement": "<ROOT>/project-a/packages/x/AGENTS.md",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 222,
+      "importsResolved": null,
+      "tokensLoaded": 54,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-b/agents.md:harness:codex:project:<ROOT>/project-b",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-b/agents.md",
+      "to": "harness:codex",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "AGENTS.md of the project root"
+        }
+      ],
+      "project": "project:<ROOT>/project-b",
+      "mode": "full",
+      "reason": "AGENTS.md of the project root",
+      "placement": "<ROOT>/project-b/AGENTS.md",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 296,
+      "importsResolved": null,
+      "tokensLoaded": 72,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<HOME>/.codex/config.toml#mcp_servers/x:harness:codex",
+      "kind": "loaded-by",
+      "from": "mcp-server:<HOME>/.codex/config.toml#mcp_servers/x",
+      "to": "harness:codex",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "user scope: available in every session"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "user scope: available in every session",
+      "placement": null,
+      "effectiveName": "x",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<HOME>/.codex/config.toml#mcp_servers/y:harness:codex",
+      "kind": "loaded-by",
+      "from": "mcp-server:<HOME>/.codex/config.toml#mcp_servers/y",
+      "to": "harness:codex",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "user scope: available in every session"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "user scope: available in every session",
+      "placement": null,
+      "effectiveName": "y",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.codex/config.toml#mcp_servers/project-server:harness:codex:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "mcp-server:<ROOT>/project-a/.codex/config.toml#mcp_servers/project-server",
+      "to": "harness:codex",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "project scope: trusted project"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "project scope: trusted project",
+      "placement": null,
+      "effectiveName": "project-server",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-b/.codex/config.toml#mcp_servers/project-server:harness:codex:project:<ROOT>/project-b",
+      "kind": "loaded-by",
+      "from": "mcp-server:<ROOT>/project-b/.codex/config.toml#mcp_servers/project-server",
+      "to": "harness:codex",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "untrusted project"
+        }
+      ],
+      "project": "project:<ROOT>/project-b",
+      "mode": "never",
+      "reason": "untrusted project",
+      "placement": null,
+      "effectiveName": "project-server",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:memory-file:<HOME>/.codex/memories/memory-a.md:harness:codex",
+      "kind": "loaded-by",
+      "from": "memory-file:<HOME>/.codex/memories/memory-a.md",
+      "to": "harness:codex",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "features.memories = true; Codex documents no loading rule or cap for memory files"
+        }
+      ],
+      "project": null,
+      "mode": "unknown",
+      "reason": "features.memories = true; Codex documents no loading rule or cap for memory files",
+      "placement": null,
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:memory-file:<HOME>/.codex/memories/memory.md:harness:codex",
+      "kind": "loaded-by",
+      "from": "memory-file:<HOME>/.codex/memories/memory.md",
+      "to": "harness:codex",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "features.memories = true; Codex documents no loading rule or cap for memory files"
+        }
+      ],
+      "project": null,
+      "mode": "unknown",
+      "reason": "features.memories = true; Codex documents no loading rule or cap for memory files",
+      "placement": null,
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.agents/skills/find-skills:harness:codex",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.agents/skills/find-skills",
+      "to": "harness:codex",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "name and description listed, SKILL.md on demand (≤ 2 % of the context window or 8,000 chars for the whole list)"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "user skill",
+      "placement": "<HOME>/.codex/skills/find-skills",
+      "effectiveName": "find-skills",
+      "order": 1,
+      "charsLoaded": 22,
+      "importsResolved": null,
+      "tokensLoaded": 7,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.codex/skills/.system/skill-creator:harness:codex",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.codex/skills/.system/skill-creator",
+      "to": "harness:codex",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "name and description listed, SKILL.md on demand (≤ 2 % of the context window or 8,000 chars for the whole list)"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "bundled skill",
+      "placement": "<HOME>/.codex/skills/.system/skill-creator",
+      "effectiveName": "skill-creator",
+      "order": null,
+      "charsLoaded": 24,
+      "importsResolved": null,
+      "tokensLoaded": 7,
+      "disableModelInvocation": false,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.codex/skills/vercel-react-best-practices:harness:codex",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.codex/skills/vercel-react-best-practices",
+      "to": "harness:codex",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "name and description listed, SKILL.md on demand (≤ 2 % of the context window or 8,000 chars for the whole list)"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "user skill",
+      "placement": "<HOME>/.codex/skills/vercel-react-best-practices",
+      "effectiveName": "vercel-react-best-practices",
+      "order": 2,
+      "charsLoaded": 38,
+      "importsResolved": null,
+      "tokensLoaded": 11,
+      "disableModelInvocation": false,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<ROOT>/project-a/.agents/skills/skill-b:harness:codex:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "skill:<ROOT>/project-a/.agents/skills/skill-b",
+      "to": "harness:codex",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "name and description listed, SKILL.md on demand (≤ 2 % of the context window or 8,000 chars for the whole list)"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "description-only",
+      "reason": "project skill",
+      "placement": "<ROOT>/project-a/.agents/skills/skill-b",
+      "effectiveName": "skill-b",
+      "order": 2,
+      "charsLoaded": 18,
+      "importsResolved": null,
+      "tokensLoaded": 6,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<ROOT>/project-a/.codex/skills/vercel-react-best-practices:harness:codex:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "skill:<ROOT>/project-a/.codex/skills/vercel-react-best-practices",
+      "to": "harness:codex",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "name and description listed, SKILL.md on demand (≤ 2 % of the context window or 8,000 chars for the whole list)"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "description-only",
+      "reason": "project skill",
+      "placement": "<ROOT>/project-a/.codex/skills/vercel-react-best-practices",
+      "effectiveName": "vercel-react-best-practices",
+      "order": 1,
+      "charsLoaded": 38,
+      "importsResolved": null,
+      "tokensLoaded": 11,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:shadows:context-file:<ROOT>/project-a/agents.override.md:context-file:<ROOT>/project-a/agents.md",
+      "kind": "shadows",
+      "from": "context-file:<ROOT>/project-a/agents.override.md",
+      "to": "context-file:<ROOT>/project-a/agents.md",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "precedence-rule",
+          "detail": "AGENTS.override.md > AGENTS.md > project_doc_fallback_filenames"
+        }
+      ],
+      "rule": "AGENTS.override.md > AGENTS.md > project_doc_fallback_filenames"
+    }
+  ],
+  "warnings": [
+    {
+      "code": "git-missing",
+      "message": "git not run (git: false): git-tracked status unknown",
+      "harness": null,
+      "path": null,
+      "effect": "degraded"
+    }
+  ],
+  "totals": {
+    "entities": 40,
+    "files": 41,
+    "bytes": 143989,
+    "harnessCacheBytes": 41544,
+    "memoryBytes": 807,
+    "tokens": 6348
+  },
+  "findings": [
+    {
+      "id": "finding:duplicate:mcp-server:<ROOT>/project-a/.codex/config.toml#mcp_servers/project-server",
+      "category": "duplicate",
+      "severity": "low",
+      "container": "project:<ROOT>/project-a",
+      "targets": [
+        {
+          "id": "mcp-server:<ROOT>/project-a/.codex/config.toml#mcp_servers/project-server",
+          "role": "subject"
+        },
+        {
+          "id": "mcp-server:<ROOT>/project-b/.codex/config.toml#mcp_servers/project-server",
+          "role": "counterpart"
+        }
+      ],
+      "message": "MCP server project-server is configured 2 times with the same endpoint (project scope of project-a, project scope of project-b)",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "stdio:<redacted> <redacted>"
+        }
+      ],
+      "confidence": "high",
+      "impact": {
+        "bytes": 61,
+        "tokens": null,
+        "files": 0
+      },
+      "flags": [],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": {
+          "type": "entry",
+          "file": "<ROOT>/project-a/.codex/config.toml",
+          "format": "toml",
+          "keyPath": ["mcp_servers", "project-server"]
+        }
+      }
+    },
+    {
+      "id": "finding:duplicate:skill:<HOME>/.codex/skills/vercel-react-best-practices",
+      "category": "duplicate",
+      "severity": "low",
+      "container": "harness:codex",
+      "targets": [
+        {
+          "id": "skill:<HOME>/.codex/skills/vercel-react-best-practices",
+          "role": "subject"
+        },
+        {
+          "id": "skill:<ROOT>/project-a/.codex/skills/vercel-react-best-practices",
+          "role": "counterpart"
+        }
+      ],
+      "message": "vercel-react-best-practices is configured 2 times with the same name (user scope, project scope of project-a)",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "identical bytes"
+        }
+      ],
+      "confidence": "high",
+      "impact": {
+        "bytes": 5460,
+        "tokens": null,
+        "files": 2
+      },
+      "flags": [],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": {
+          "type": "dir",
+          "path": "<HOME>/.codex/skills/vercel-react-best-practices"
+        }
+      }
+    },
+    {
+      "id": "finding:harness-cache:harness:codex:config-backup",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "harness:codex",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.codex/.codex-global-state.json.bak",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 config backup (854 B) Codex documents no sweep for",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "no documented sweep"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 854,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": [],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:orphan:project:<ROOT>/gone",
+      "category": "orphan",
+      "severity": "medium",
+      "container": "project:<ROOT>/gone",
+      "targets": [
+        {
+          "id": "breadcrumb:codex:<HOME>/.codex/config.toml#projects/<ROOT>/gone",
+          "role": "breadcrumb"
+        },
+        {
+          "id": "breadcrumb:codex:<HOME>/.codex/state_5.sqlite#threads/cwd/<ROOT>/gone",
+          "role": "breadcrumb"
+        },
+        {
+          "id": "harness-cache:<HOME>/.codex/sessions/2026/02/01/rollout-2026-02-01t10-00-00-00000000-0000-4000-8000-000000000003.jsonl",
+          "role": "state",
+          "preselect": false
+        }
+      ],
+      "message": "gone: directory gone; 2 breadcrumbs, 1 harness cache unit left behind by Codex",
+      "evidence": [
+        {
+          "kind": "path-missing",
+          "detail": "<ROOT>/gone"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 442,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": ["sensitive"],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    }
+  ],
+  "headline": {
+    "scope": "user-controllable",
+    "focus": {
+      "project": "project:<ROOT>/project-b",
+      "reason": "most-expensive"
+    },
+    "perHarness": [
+      {
+        "harness": "codex",
+        "modelFamily": null,
+        "contextWindowTokens": null,
+        "baseline": {
+          "low": 118,
+          "mid": 118,
+          "high": 118
+        },
+        "project": {
+          "low": 72,
+          "mid": 72,
+          "high": 72
+        },
+        "total": {
+          "low": 190,
+          "mid": 190,
+          "high": 190
+        },
+        "pctOfContext": null
+      }
+    ]
+  }
+}

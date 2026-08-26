@@ -11,6 +11,7 @@ import { createRequire } from "node:module";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createClaudeCodeAdapter } from "../adapters/claude-code/index.js";
+import { createCodexAdapter } from "../adapters/codex/index.js";
 import { createCopilotAdapter } from "../adapters/copilot/index.js";
 import { createGeminiCliAdapter } from "../adapters/gemini-cli/index.js";
 import { createOpenCodeAdapter } from "../adapters/opencode/index.js";
@@ -68,6 +69,7 @@ function processIsAlive(pid: number): boolean {
 const ADAPTERS: Record<string, () => Adapter> = {
   "claude-code": createClaudeCodeAdapter,
   "gemini-cli": createGeminiCliAdapter,
+  codex: createCodexAdapter,
   copilot: createCopilotAdapter,
   opencode: createOpenCodeAdapter,
 };
