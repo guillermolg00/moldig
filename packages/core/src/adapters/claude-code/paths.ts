@@ -2,8 +2,8 @@
  * Where Claude Code keeps its files (research 01): `~/.claude/` (relocated whole by
  * `CLAUDE_CONFIG_DIR`, `~/.claude.json` included) and the slug rule of `projects/<slug>`.
  */
-import { join, resolve } from "node:path";
 import type { ScanContext } from "../../scan/context.js";
+import { pathEngine } from "../../scan/paths.js";
 
 export interface ClaudePaths {
   home: string;
@@ -15,6 +15,10 @@ export interface ClaudePaths {
 }
 
 export function claudePaths(ctx: ScanContext): ClaudePaths {
+  // The home directory's own spelling decides the rules, never the host's (D33).
+  const engine = pathEngine(ctx.options.home);
+  const join = (...segments: string[]): string => engine.join(...segments);
+  const resolve = (path: string): string => engine.resolve(path);
   const home = resolve(ctx.options.home);
   const override = ctx.consultEnv("CLAUDE_CONFIG_DIR");
   const configDir = override === undefined ? join(home, ".claude") : resolve(override);

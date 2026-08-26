@@ -4,8 +4,9 @@
  * pinned per platform (D78; `GEMINI_CLI_SYSTEM_DEFAULTS_PATH` / `GEMINI_CLI_SYSTEM_SETTINGS_PATH`
  * relocate each file — D135). The slug rule of `tmp/<slug>` and `history/<slug>` lives here too.
  */
-import { basename, join, resolve } from "node:path";
+import { basename } from "node:path";
 import type { ScanContext } from "../../scan/context.js";
+import { pathEngine } from "../../scan/paths.js";
 import { userScopePaths, type UserScopePath } from "../../scan/user-scope.js";
 
 export const HARNESS = "gemini-cli" as const;
@@ -40,13 +41,15 @@ function systemDir(ctx: ScanContext): string {
   if (platform === "darwin") return "/Library/Application Support/GeminiCli";
   if (platform === "linux") return "/etc/gemini-cli";
   const programData = env["ProgramData"];
-  return join(
-    programData === undefined || programData === "" ? "C:\\ProgramData" : programData,
-    "gemini-cli",
-  );
+  const base = programData === undefined || programData === "" ? "C:\\ProgramData" : programData;
+  return pathEngine(base).join(base, "gemini-cli");
 }
 
 export function geminiPaths(ctx: ScanContext): GeminiPaths {
+  // The home directory's own spelling decides the rules, never the host's (D33).
+  const engine = pathEngine(ctx.options.home);
+  const join = (...segments: string[]): string => engine.join(...segments);
+  const resolve = (path: string): string => engine.resolve(path);
   const home = resolve(ctx.options.home);
   const geminiDir = join(home, ".gemini");
   const sysDir = systemDir(ctx);

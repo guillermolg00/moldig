@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { scan, type ScanProgress } from "../index.js";
-import { loadFixture, type FixtureTree } from "../testing/index.js";
+import { loadFixture, treePaths, type FixtureTree } from "../testing/index.js";
 
 const NOW = new Date("2026-08-26T12:00:00.000Z");
 const trees: FixtureTree[] = [];
@@ -27,14 +27,13 @@ describe("scan", () => {
     // With git installed the fixture's HEAD-only `.git` makes `git ls-files` fail per repository.
     const perRepoWarning = gitWarnings.some((warning) => warning.path !== null);
     expect(perRepoWarning || !index.scan.git.available).toBe(true);
+    const { home, root } = treePaths(tree);
     const projectFile = index.entities.find(
-      (entity) => entity.path === `${tree.root}/project-a/CLAUDE.md`,
+      (entity) => entity.path === root("project-a/CLAUDE.md"),
     );
     expect(projectFile?.gitStatus).toBeNull();
     expect(projectFile?.shared).toBeNull();
-    const userFile = index.entities.find(
-      (entity) => entity.path === `${tree.home}/.claude/CLAUDE.md`,
-    );
+    const userFile = index.entities.find((entity) => entity.path === home(".claude/CLAUDE.md"));
     expect(userFile?.gitStatus).toBe("outside-repo");
     const memory = index.entities.find((entity) => entity.kind === "memory-file");
     expect(memory?.kind === "memory-file" && memory.readSignal.source).toBe("not-computed");
@@ -66,7 +65,7 @@ describe("scan", () => {
     const volumeCrumb = index.breadcrumbs.find((crumb) => crumb.raw === "/Volumes/Backup/old");
     expect(volumeCrumb?.project).toBe(volume?.id);
     expect(volumeCrumb?.reachability).toBe("unreachable");
-    const gone = index.projects.find((project) => project.path === `${tree.root}/gone`);
+    const gone = index.projects.find((project) => project.path === treePaths(tree).root("gone"));
     expect(gone?.reachability).toBe("orphan");
     expect(index.projects.some((project) => project.path === tree.home)).toBe(false);
   });
@@ -103,15 +102,16 @@ describe("scan", () => {
       git: false,
       now: NOW,
     });
-    const monorepo = index.projects.find((project) => project.path === `${tree.root}/monorepo`);
+    const { root } = treePaths(tree);
+    const monorepo = index.projects.find((project) => project.path === root("monorepo"));
     expect(monorepo?.parent).toBeNull();
     // Every Project the walk found sits directly under the Root: none has a parent yet.
     expect(index.projects.map((project) => project.parent)).toEqual(index.projects.map(() => null));
     // D26/D27: the walk registers neither the pruned nested repository nor the marker-less
     // detached worktree.
     const paths = index.projects.map((project) => project.path);
-    expect(paths).not.toContain(`${tree.root}/monorepo/vendor/lib`);
-    expect(paths).not.toContain(`${tree.root}/wt-detached`);
+    expect(paths).not.toContain(root("monorepo/vendor/lib"));
+    expect(paths).not.toContain(root("wt-detached"));
   });
 
   it("takes an injected live guard (D50)", async () => {

@@ -1,7 +1,12 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { audit, scan } from "../../index.js";
 import type { AuditIndex, Breadcrumb, Entity, LoadedByEdge } from "../../index/types.js";
-import { loadFixture, normaliseSnapshot, type FixtureTree } from "../../testing/index.js";
+import {
+  loadFixture,
+  normaliseSnapshot,
+  treePaths,
+  type FixtureTree,
+} from "../../testing/index.js";
 
 /** After the fixture's synthetic timestamps (2023-11-14); `ages` are relative to it (same `now` for both). */
 const NOW = new Date("2026-08-26T12:00:00.000Z");
@@ -17,16 +22,9 @@ let result: AuditIndex;
 
 /** The scan runs as `darwin` whatever the host, so the snapshot is one: ids fold the path part (never the `#keyPath`). */
 const PLATFORM = "darwin";
-const id = (kind: string, path: string): string => {
-  const hash = path.indexOf("#");
-  const file = hash === -1 ? path : path.slice(0, hash);
-  const keyPath = hash === -1 ? "" : path.slice(hash);
-  return `${kind}:${file.toLowerCase()}${keyPath}`;
-};
-const home = (rel: string): string => `${tree.home}/${rel}`;
-const root = (rel: string): string => `${tree.root}/${rel}`;
-const slug = (rel: string): string =>
-  `${tree.home}/.claude/projects/${tree.slug(tree.root)}-${rel}`;
+const { home, root, slugDir, homeSlug, rootSlug, id } = treePaths(() => tree);
+/** `~/.claude/projects/<root slug>-<name>/…` — the case's own slug directories. */
+const slug = (name: string, ...rest: string[]): string => slugDir(`${rootSlug()}-${name}`, ...rest);
 
 function entity(kind: string, path: string): Entity {
   const found = result.entities.find((item) => item.id === id(kind, path));
@@ -202,12 +200,12 @@ describe("claude-code adapter over the breadcrumbs case", () => {
     const homeKey = crumb((item) => item.kind === "projects-entry" && item.raw === tree.home);
     expect(homeKey.project).toBeNull();
     expect(homeKey.strayReason).toBe("bare-directory");
-    const homeSlug = crumb(
-      (item) => item.kind === "slug-directory" && item.raw === tree.slug(tree.home),
+    const homeSlugCrumb = crumb(
+      (item) => item.kind === "slug-directory" && item.raw === homeSlug(),
     );
-    expect(homeSlug.resolution).toBe("slug-by-key");
-    expect(homeSlug.strayReason).toBe("bare-directory");
-    expect(result.harnesses[0]?.userScope.stray).toEqual([homeKey.id, homeSlug.id]);
+    expect(homeSlugCrumb.resolution).toBe("slug-by-key");
+    expect(homeSlugCrumb.strayReason).toBe("bare-directory");
+    expect(result.harnesses[0]?.userScope.stray).toEqual([homeKey.id, homeSlugCrumb.id]);
     expect(result.projects.some((project) => project.path === tree.home)).toBe(false);
     expect(result.projects.some((project) => project.path.endsWith("/moved"))).toBe(false);
     expect(result.breadcrumbs.some((item) => item.kind === "session-cwd")).toBe(false);
@@ -220,7 +218,7 @@ describe("claude-code adapter over the breadcrumbs case", () => {
     );
     expect(worktreeSlug.project).toBe(id("project", root("project-a")));
     expect(worktreeSlug.state).toEqual([
-      id("harness-cache", `${slug("project-a-wt")}/${SESSION_WT}.jsonl`),
+      id("harness-cache", slug("project-a-wt", `${SESSION_WT}.jsonl`)),
     ]);
     const userFile = entity("context-file", home(".claude/CLAUDE.md"));
     expect(userFile.gitStatus).toBe("outside-repo");
@@ -228,15 +226,15 @@ describe("claude-code adapter over the breadcrumbs case", () => {
   });
 
   it("builds session units per ticket 08 and preselects only the aged, sole-member one", () => {
-    const sessionA = entity("harness-cache", `${slug("project-a")}/${SESSION_A}.jsonl`);
-    const sessionB = entity("harness-cache", `${slug("project-a-apps-web")}/${SESSION_B}.jsonl`);
+    const sessionA = entity("harness-cache", slug("project-a", `${SESSION_A}.jsonl`));
+    const sessionB = entity("harness-cache", slug("project-a-apps-web", `${SESSION_B}.jsonl`));
     if (sessionA.kind !== "harness-cache" || sessionB.kind !== "harness-cache")
       throw new Error("kind");
     expect(sessionA.locator).toEqual({
       type: "paths",
       paths: [
-        `${slug("project-a")}/${SESSION_A}.jsonl`,
-        `${slug("project-a")}/${SESSION_A}`,
+        slug("project-a", `${SESSION_A}.jsonl`),
+        slug("project-a", SESSION_A),
         home(`.claude/tasks/${SESSION_A}`),
       ],
     });
@@ -251,7 +249,7 @@ describe("claude-code adapter over the breadcrumbs case", () => {
     // A session is always a `paths` unit anchored at its transcript (ticket 07), even alone.
     expect(sessionB.locator).toEqual({
       type: "paths",
-      paths: [`${slug("project-a-apps-web")}/${SESSION_B}.jsonl`],
+      paths: [slug("project-a-apps-web", `${SESSION_B}.jsonl`)],
     });
     expect(sessionB.label).toBe(`session ${SESSION_B.slice(0, 8)} · 2026-07-12`);
     expect(sessionB.metrics.ageDays).toBe(45);
@@ -262,7 +260,7 @@ describe("claude-code adapter over the breadcrumbs case", () => {
     );
     expect(cacheFinding?.targets.map((target) => [target.id, target.preselect])).toEqual([
       [sessionB.id, true],
-      [id("harness-cache", `${slug("project-a-wt")}/${SESSION_WT}.jsonl`), false],
+      [id("harness-cache", slug("project-a-wt", `${SESSION_WT}.jsonl`)), false],
       [sessionA.id, false],
     ]);
     expect(cacheFinding?.action).toEqual({ kind: "clean", preselect: true, locator: null });
@@ -318,11 +316,11 @@ describe("claude-code adapter over the breadcrumbs case", () => {
       mode: "full",
       countsTowardHeadline: false,
     });
-    expect(loadedBy("memory-file", `${slug("project-a")}/memory/MEMORY.md`)).toMatchObject({
+    expect(loadedBy("memory-file", slug("project-a", "memory/MEMORY.md"))).toMatchObject({
       mode: "full",
       countsTowardHeadline: true,
     });
-    expect(loadedBy("memory-file", `${slug("project-a")}/memory/topic-a.md`)).toMatchObject({
+    expect(loadedBy("memory-file", slug("project-a", "memory/topic-a.md"))).toMatchObject({
       mode: "on-demand",
       countsTowardHeadline: false,
     });
@@ -352,16 +350,16 @@ describe("claude-code adapter over the breadcrumbs case", () => {
       id("context-file", root("project-a/.claude/rules/nested/rule-b.md")),
       id("context-file", root("project-a/CLAUDE.local.md")),
       id("context-file", root("project-a/docs/notes.md")),
-      id("memory-file", `${slug("project-a")}/memory/MEMORY.md`),
+      id("memory-file", slug("project-a", "memory/MEMORY.md")),
       id("skill", root("project-a/.claude/commands/x.md")),
     ]);
   });
 
   it("links the memory index to the fact its list item names", () => {
-    const indexId = id("memory-file", `${slug("project-a")}/memory/MEMORY.md`);
+    const indexId = id("memory-file", slug("project-a", "memory/MEMORY.md"));
     const lists = result.edges.find((edge) => edge.kind === "lists" && edge.from === indexId);
     expect(lists).toMatchObject({
-      to: id("memory-file", `${slug("project-a")}/memory/topic-a.md`),
+      to: id("memory-file", slug("project-a", "memory/topic-a.md")),
       confidence: "certain",
     });
     expect(lists?.evidence[0]).toEqual({
@@ -371,11 +369,11 @@ describe("claude-code adapter over the breadcrumbs case", () => {
   });
 
   it("computes the exact never-read signal from the Project's transcripts", () => {
-    const index = entity("memory-file", `${slug("project-a")}/memory/MEMORY.md`);
-    const topicA = entity("memory-file", `${slug("project-a")}/memory/topic-a.md`);
+    const index = entity("memory-file", slug("project-a", "memory/MEMORY.md"));
+    const topicA = entity("memory-file", slug("project-a", "memory/topic-a.md"));
     const homeIndex = entity(
       "memory-file",
-      `${home(".claude/projects/" + tree.slug(tree.home))}/memory/MEMORY.md`,
+      home(".claude/projects", homeSlug(), "memory/MEMORY.md"),
     );
     if (
       index.kind !== "memory-file" ||

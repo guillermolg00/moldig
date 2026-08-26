@@ -16,6 +16,15 @@ The contract:
   directory (`mkdtemp` + `realpath`) and the scanner receives the home directory, the
   roots, the working directory, the platform and the environment explicitly (see `CONTEXT.md`).
   Snapshot serialisers normalise `<ROOT>`, path separators and ordering.
+- A test never spells a path inside the tree by hand. `treePaths(tree)` from `@moldig/core/testing`
+  composes them — `home(rel)`, `root(rel)`, `dir(rel)`, `slugDir(rel)`, `homeSlug()`, `rootSlug()`
+  and `id(kind, path)` — with the rules the tree's own path implies, and `id` folds the way the
+  pinned platform does. `` `${tree.home}/.claude/settings.json` `` builds the mixed
+  `C:\…\home/.claude/settings.json` on Windows while the entity's real path — and so its id — is
+  `C:\…\home\.claude\settings.json`, and every lookup misses. See `src/testing/tree-paths.ts`.
+  The one file that keeps the literal form on purpose is `fixture-tree.test.ts`: what it asserts is
+  the *content* of a fixture file, where a placeholder is substituted textually and the `/` after it
+  is the case's own byte.
 
 ## Extensions the captured cases rely on
 

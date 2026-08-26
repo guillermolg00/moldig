@@ -1,3 +1,10 @@
+/**
+ * The one test file that spells `` `${tree.root}/…` `` on purpose. Everywhere else a path is
+ * composed with `treePaths`, which uses the tree's own separator; here the expectation is the
+ * *content* of a fixture file, where `<ROOT>` was substituted textually and the `/` after it is a
+ * byte the case committed. On Windows the file really does read `C:\…\root/project-a`, so the
+ * literal form is the correct one and `treePaths` would be wrong.
+ */
 import { lstat, mkdtemp, readdir, readFile, readlink, realpath, rm, stat } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";

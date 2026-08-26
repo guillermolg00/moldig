@@ -10,7 +10,12 @@ import type {
   Index,
   LoadedByEdge,
 } from "../../index/types.js";
-import { loadFixture, normaliseSnapshot, type FixtureTree } from "../../testing/index.js";
+import {
+  loadFixture,
+  normaliseSnapshot,
+  treePaths,
+  type FixtureTree,
+} from "../../testing/index.js";
 
 /** After the fixture's synthetic timestamps (2023-11-14); `ages` are relative to it. */
 const NOW = new Date("2026-08-26T12:00:00.000Z");
@@ -26,14 +31,7 @@ let before: Map<string, number>;
 let after: Map<string, number>;
 
 /** Ids fold the path part; the `#keyPath` suffix keeps its raw casing (ticket 07). */
-const id = (kind: string, path: string): string => {
-  const hash = path.indexOf("#");
-  const file = hash === -1 ? path : path.slice(0, hash);
-  const keyPath = hash === -1 ? "" : path.slice(hash);
-  return `${kind}:${file.toLowerCase()}${keyPath}`;
-};
-const home = (rel: string): string => `${tree.home}/${rel}`;
-const root = (rel: string): string => `${tree.root}/${rel}`;
+const { home, root, id } = treePaths(() => tree);
 const config = (rel: string): string => home(`.config/opencode/${rel}`);
 const database = (): string => home(".local/share/opencode/opencode.db");
 const sessionId = (session: string): string =>
@@ -659,7 +657,7 @@ describe("opencode adapter with an unreadable database", () => {
         index.entities.some(
           (item) =>
             item.kind === "mcp-server" &&
-            item.path === `${broken.home}/.config/opencode/opencode.json`,
+            item.path === treePaths(broken).home(".config/opencode/opencode.json"),
         ),
       ).toBe(true);
       // No session rows, no project-row breadcrumbs; the legacy records still resolve.
@@ -701,7 +699,9 @@ describe("opencode adapter over the branches the fixture does not carry", () => 
       expect(index.entities.some((item) => item.path.includes("example.com"))).toBe(false);
       // The relative entry resolved against the extra file's own directory.
       expect(
-        index.entities.some((item) => item.path === `${extra.home}/.config/opencode/style.md`),
+        index.entities.some(
+          (item) => item.path === treePaths(extra).home(".config/opencode/style.md"),
+        ),
       ).toBe(true);
     } finally {
       await extra.cleanup();
@@ -715,7 +715,8 @@ describe("opencode adapter over the branches the fixture does not carry", () => 
       const data = (await readFile(path, "utf8")).replace('"skill": "allow"', '"skill": "deny"');
       await writeFile(path, data);
       const index = await scanTree(denied);
-      const projectA = `project:${`${denied.root}/project-a`.toLowerCase()}`;
+      const deniedPaths = treePaths(denied);
+      const projectA = deniedPaths.id("project", deniedPaths.root("project-a"));
       const verdicts = index.edges.filter(
         (edge): edge is LoadedByEdge =>
           edge.kind === "loaded-by" &&

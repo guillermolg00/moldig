@@ -1,8 +1,8 @@
 import { existsSync } from "node:fs";
 import { readFile, readdir } from "node:fs/promises";
-import { join } from "node:path";
+import { join, sep } from "node:path";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { loadFixture, normaliseSnapshot, type FixtureTree } from "@moldig/core/testing";
+import { loadFixture, normaliseSnapshot, treePaths, type FixtureTree } from "@moldig/core/testing";
 import { createFakeExecutors, type FakeExecutors } from "./executors/fake.js";
 import { runCli, type Io } from "./run.js";
 import type { OpenTui, TuiRequest } from "./tui/index.js";
@@ -431,7 +431,7 @@ describe("moldig clean --yes", () => {
     const gone = before.filter((path) => !existsSync(path));
     expect(gone.length).toBeGreaterThan(0);
     for (const path of gone) {
-      expect([...planned].some((kept) => path === kept || path.startsWith(`${kept}/`))).toBe(true);
+      expect([...planned].some((kept) => path === kept || path.startsWith(kept + sep))).toBe(true);
     }
     // The recent session, the backup clone and the kept state are all still in place.
     const after = await filesUnder(own.home);
@@ -522,7 +522,7 @@ describe("usage errors exit 2", () => {
   });
 
   it("a Root that is not an existing directory (D23)", async () => {
-    const missing = await run(["scan", `${tree.dir}/nowhere`]);
+    const missing = await run(["scan", treePaths(tree).dir("nowhere")]);
     expect(missing.code).toBe(2);
     expect(missing.err).toContain("no such directory");
 

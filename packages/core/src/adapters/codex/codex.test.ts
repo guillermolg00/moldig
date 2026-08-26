@@ -9,7 +9,12 @@ import type {
   HarnessCache,
   LoadedByEdge,
 } from "../../index/types.js";
-import { loadFixture, normaliseSnapshot, type FixtureTree } from "../../testing/index.js";
+import {
+  loadFixture,
+  normaliseSnapshot,
+  treePaths,
+  type FixtureTree,
+} from "../../testing/index.js";
 import { applyChainCap } from "./context-files.js";
 
 /** After the fixture's synthetic timestamps (2023-11-14); `ages` are relative to it. */
@@ -25,14 +30,7 @@ let result: AuditIndex;
 let nested: { tree: FixtureTree; result: AuditIndex };
 
 /** Ids fold the path part on darwin, never the `#keyPath` (ticket 07). */
-const id = (kind: string, path: string): string => {
-  const hash = path.indexOf("#");
-  const file = hash === -1 ? path : path.slice(0, hash);
-  const keyPath = hash === -1 ? "" : path.slice(hash);
-  return `${kind}:${file.toLowerCase()}${keyPath}`;
-};
-const home = (rel: string): string => `${tree.home}/${rel}`;
-const root = (rel: string): string => `${tree.root}/${rel}`;
+const { home, root, id } = treePaths(() => tree);
 
 function entity(kind: string, path: string, from: AuditIndex = result): Entity {
   const found = from.entities.find((item) => item.id === id(kind, path));
@@ -347,7 +345,7 @@ describe("codex adapter over the trust-and-state case", () => {
       harnesses: ["codex"],
     });
     const crumbAfter = index.breadcrumbs.find(
-      (item) => item.kind === "session-cwd" && item.raw === `${gone.tree.root}/gone`,
+      (item) => item.kind === "session-cwd" && item.raw === treePaths(gone.tree).root("gone"),
     );
     expect(crumbAfter?.state).toEqual([]);
     expect(index.warnings.map((item) => item.code)).toEqual(["git-missing"]);
@@ -419,8 +417,9 @@ describe("codex adapter over the trust-and-state case", () => {
       (() => {
         throw new Error(`no verdict for ${path}`);
       })();
-    const rootFile = chainOf(`${nested.tree.root}/project-a/AGENTS.override.md`);
-    const leaf = chainOf(`${nested.tree.root}/project-a/packages/x/AGENTS.md`);
+    const nestedRoot = treePaths(nested.tree).root;
+    const rootFile = chainOf(nestedRoot("project-a/AGENTS.override.md"));
+    const leaf = chainOf(nestedRoot("project-a/packages/x/AGENTS.md"));
     expect(rootFile.order).toBe(0);
     expect(rootFile.reason).toBe("AGENTS.override.md of the project root");
     expect(leaf.order).toBe(1);
@@ -669,20 +668,21 @@ describe("codex adapter over the trust-and-state case", () => {
   it("CODEX_HOME moves the user scope and changes nothing else", async () => {
     // One tree, two scans: only the environment differs, so any other difference is the adapter's.
     const own = await scanTree();
+    const codexHome = treePaths(own.tree).home(".codex");
     try {
       const moved = await scan({
         home: own.tree.home,
         roots: own.tree.roots,
         cwd: own.tree.cwd,
         platform: PLATFORM,
-        env: { CODEX_HOME: `${own.tree.home}/.codex` },
+        env: { CODEX_HOME: codexHome },
         git: false,
         now: NOW,
         harnesses: ["codex"],
       });
-      expect(moved.scan.env).toEqual({ CODEX_HOME: `${own.tree.home}/.codex` });
+      expect(moved.scan.env).toEqual({ CODEX_HOME: codexHome });
       expect(moved.harnesses[0]?.userScope.paths).toEqual([
-        { path: `${own.tree.home}/.codex`, role: "data", source: "env", envVar: "CODEX_HOME" },
+        { path: codexHome, role: "data", source: "env", envVar: "CODEX_HOME" },
       ]);
       expect(own.result.harnesses[0]?.userScope.paths[0]?.source).toBe("default");
       expect(indexBody(moved)).toBe(indexBody(own.result));

@@ -3,7 +3,7 @@
  * shapes of ticket 07 (`<kind>:<folded path>[#keyPath/…]`, `edge:<kind>:<from>:<to>[:<tool>]`),
  * containment tests and the mount-root rule behind "unreachable".
  */
-import nodePath, { dirname, isAbsolute, relative, resolve, sep, win32 } from "node:path";
+import nodePath, { posix, win32 } from "node:path";
 import { statWithDeadline } from "./fs.js";
 
 /** The three platforms moldig scans (ticket 07 `scan.platform`; D125 — nothing else is accepted). */
@@ -60,23 +60,26 @@ export function edgeId(kind: string, from: string, to: string | null, tool?: str
 
 /** `true` when `path` is `dir` itself or lies below it (both already resolved and folded alike). */
 export function isUnder(path: string, dir: string): boolean {
-  const rel = relative(dir, path);
-  return rel === "" || (!rel.startsWith("..") && !isAbsolute(rel));
+  const engine = pathEngine(dir);
+  const rel = engine.relative(dir, path);
+  return rel === "" || (!rel.startsWith("..") && !engine.isAbsolute(rel));
 }
 
 /** Relative path with forward slashes, `""` when equal; `null` when `path` is not below `dir`. */
 export function relativeUnder(path: string, dir: string): string | null {
-  const rel = relative(dir, path);
-  if (rel.startsWith("..") || isAbsolute(rel)) return null;
-  return rel.split(sep).join("/");
+  const engine = pathEngine(dir);
+  const rel = engine.relative(dir, path);
+  if (rel.startsWith("..") || engine.isAbsolute(rel)) return null;
+  return rel.split(engine.sep).join("/");
 }
 
 export function ancestors(path: string): string[] {
+  const engine = pathEngine(path);
   const out: string[] = [];
-  let current = resolve(path);
+  let current = engine.resolve(path);
   for (;;) {
     out.push(current);
-    const parent = dirname(current);
+    const parent = engine.dirname(current);
     if (parent === current) return out;
     current = parent;
   }
@@ -85,17 +88,24 @@ export function ancestors(path: string): string[] {
 /** A win32 absolute path (`D:\proj`, `\\server\share\x`) — recognisable from any host. */
 const WIN32_ABSOLUTE = /^(?:[A-Za-z]:[\\/]|\\\\)/;
 
+/** A POSIX absolute path (`/Users/x`, `/`) — recognisable from any host, Windows included. */
+const POSIX_ABSOLUTE = /^\//;
+
 export function isWin32Path(path: string): boolean {
   return WIN32_ABSOLUTE.test(path);
 }
 
 /**
  * The path rules a path's own spelling implies: `win32` for `C:\…` and `\\server\share\…`,
- * the host's otherwise. Joining a win32 home with the host's rules would build `C:\Users\x/.codex`
- * on a POSIX host, which is the shape a fixture run with `platform: "win32"` must not produce.
+ * POSIX for `/…`, the host's for anything relative. Joining a win32 home with the host's rules
+ * would build `C:\Users\x/.codex` on a POSIX host; joining a POSIX home with them on a Windows
+ * host is worse — `win32.resolve("/Users/x")` invents the current drive and answers
+ * `D:\Users\x`, which is how a `platform: "darwin"` scan came back with Windows spellings on
+ * the Windows CI leg. Neither answer depends on the host any more.
  */
 export function pathEngine(path: string): typeof win32 {
-  return WIN32_ABSOLUTE.test(path) ? win32 : nodePath;
+  if (WIN32_ABSOLUTE.test(path)) return win32;
+  return POSIX_ABSOLUTE.test(path) ? posix : nodePath;
 }
 
 /**
@@ -154,7 +164,9 @@ export async function presenceOf(
   const own = await statWithDeadline(path, deadlineMs);
   if (own === "timeout") return { kind: "unreachable", reason: "stat-timeout" };
   if (own !== null) return { kind: "present", realpath: await realpathOf(path) };
-  const separator = platform === "win32" ? win32.sep : sep;
+  // The separator of the platform being scanned, never the host's: a `darwin` scan on a Windows
+  // runner still tests `/Volumes/x` against the POSIX mount roots.
+  const separator = platform === "win32" ? win32.sep : posix.sep;
   const chain = ancestorsOn(path, platform).slice(1);
   const results = await Promise.all(
     chain.map(async (ancestor) => ({

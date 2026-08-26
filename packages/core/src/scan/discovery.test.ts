@@ -1,3 +1,5 @@
+import { writeFile } from "node:fs/promises";
+import nodePath, { posix, win32 } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import type { Warning } from "../index/types.js";
 import { loadFixture, type FixtureTree } from "../testing/index.js";
@@ -9,7 +11,14 @@ import {
   type Discovery,
 } from "./discovery.js";
 import { realpathOrSelf } from "./fs.js";
-import { pathIdentity, presenceOf } from "./paths.js";
+import {
+  ancestors,
+  isUnder,
+  pathEngine,
+  pathIdentity,
+  presenceOf,
+  relativeUnder,
+} from "./paths.js";
 
 const trees: FixtureTree[] = [];
 
@@ -133,6 +142,17 @@ describe("discovery: the marker walk", () => {
     }));
     expect(members).toContainEqual({ role: "worktree", name: "feature", reachability: "present" });
     expect(members).toContainEqual({ role: "worktree", name: "dead", reachability: "orphan" });
+  });
+
+  it("reads a worktree registration with the rules its spelling implies, not the host's", async () => {
+    // git writes these with forward slashes on every platform: on Windows the registration says
+    // `C:/proj/wt/.git` while the directory it names is `C:\proj\wt`. Read with the host's rules
+    // the two never compare equal, and a checked-out worktree comes back a dead registration.
+    const { discovery, tree } = await rootTree();
+    await writeFile(tree.path("root/wt-main/.git/worktrees/dead/gitdir"), "C:/proj/wt/.git\n");
+    const located = await discovery.locate(tree.path("root/wt-main"), "breadcrumb");
+    const dead = located.project?.members.find((member) => member.name === "dead");
+    expect(dead?.path).toBe("C:\\proj\\wt");
   });
 });
 
@@ -266,6 +286,25 @@ describe("discovery on win32 (paths are strings; no real drive needed)", () => {
     // darwin folds case but keeps separators: a backslash is a legal file name character there.
     const darwin = pathIdentity("darwin");
     expect(darwin.fold("/Users/X/a\\b")).toBe("/users/x/a\\b");
+  });
+
+  it("reads a path with the rules its own spelling implies, on either host", () => {
+    // A POSIX home stays POSIX on a Windows host: `win32.resolve("/Users/x")` would answer
+    // `D:\Users\x` — the current drive, invented — which is what the Windows CI leg reported.
+    expect(pathEngine("/Users/x")).toBe(posix);
+    expect(pathEngine("/")).toBe(posix);
+    expect(pathEngine("C:\\Users\\x")).toBe(win32);
+    expect(pathEngine("\\\\server\\share")).toBe(win32);
+    expect(pathEngine("relative/dir")).toBe(nodePath);
+    expect(pathEngine("/Users/x").join("/Users/x", ".claude")).toBe("/Users/x/.claude");
+    expect(pathEngine("C:\\Users\\x").join("C:\\Users\\x", ".claude")).toBe(
+      "C:\\Users\\x\\.claude",
+    );
+    // The containment helpers follow the same rule, so neither flips separators on the wrong host.
+    expect(relativeUnder("/Users/x/.claude/a.md", "/Users/x")).toBe(".claude/a.md");
+    expect(relativeUnder("C:\\Users\\x\\.claude\\a.md", "C:\\Users\\x")).toBe(".claude/a.md");
+    expect(isUnder("/Users/x/.claude", "/Users/x")).toBe(true);
+    expect(ancestors("/Users/x/.claude")).toEqual(["/Users/x/.claude", "/Users/x", "/Users", "/"]);
   });
 });
 

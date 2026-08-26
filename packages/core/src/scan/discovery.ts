@@ -7,17 +7,29 @@
  * the Projects kept and are walked for markers (depth ≤ 6, pruned, no symlink following, no
  * device crossing). No process is spawned here.
  */
-import { basename, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
+import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import type { Breadcrumb, Project, Reachability, Warning } from "../index/types.js";
 import { isDirectory, listDir, lstatOrNull, readText, realpathOrSelf, statOrNull } from "./fs.js";
 import {
   ancestors,
   isUnder,
+  pathEngine,
   presenceOf,
   relativeUnder,
   type PathIdentity,
   type ScanPlatform,
 } from "./paths.js";
+
+/**
+ * A path git wrote into `.git` or `.git/worktrees/<name>/gitdir`, read back with the rules its
+ * own spelling implies. git spells these with forward slashes on every platform, so on Windows
+ * the file says `C:/Users/x/proj-wt/.git` while the directory it names is `C:\Users\x\proj-wt`:
+ * without this the two never compare equal, and the linked worktree a user has checked out
+ * comes back as a dead registration.
+ */
+function gitSpelling(spelling: string): string {
+  return pathEngine(spelling).normalize(spelling);
+}
 
 export type StrayReason = "bare-directory" | "unresolved-slug";
 
@@ -284,7 +296,8 @@ async function readGitEntry(dir: string): Promise<GitEntry> {
   const text = await readText(gitPath);
   const match = text === null ? null : /^gitdir:\s*(.+?)\s*$/m.exec(text);
   if (match?.[1] === undefined) return null;
-  const pointer = isAbsolute(match[1]) ? match[1] : resolve(dir, match[1]);
+  const spelled = gitSpelling(match[1]);
+  const pointer = pathEngine(spelled).isAbsolute(spelled) ? spelled : resolve(dir, spelled);
   const gitdir = await realpathOrSelf(pointer);
   const worktreesDir = dirname(gitdir);
   const mainGit = dirname(worktreesDir);
@@ -315,7 +328,8 @@ async function worktreeRegistrations(repoDir: string): Promise<Registration[]> {
         if (text === null) return null;
         const target = text.trim();
         if (target === "") return null;
-        return { name: entry.name, gitdir, path: dirname(target) };
+        const engine = pathEngine(target);
+        return { name: entry.name, gitdir, path: gitSpelling(engine.dirname(target)) };
       }),
   );
   return registrations.filter((entry): entry is Registration => entry !== null);

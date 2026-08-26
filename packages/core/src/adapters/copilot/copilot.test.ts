@@ -1,5 +1,6 @@
 import { lstat, mkdir, readdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { audit, scan } from "../../index.js";
 import type {
@@ -12,7 +13,12 @@ import type {
   McpServer,
   Skill,
 } from "../../index/types.js";
-import { loadFixture, normaliseSnapshot, type FixtureTree } from "../../testing/index.js";
+import {
+  loadFixture,
+  normaliseSnapshot,
+  treePaths,
+  type FixtureTree,
+} from "../../testing/index.js";
 
 /** After the case's synthetic timestamps (2023-11-14); its `ages` are relative to it. */
 const NOW = new Date("2026-08-26T12:00:00.000Z");
@@ -29,14 +35,7 @@ const PLATFORM = "darwin";
 let tree: FixtureTree;
 let result: AuditIndex;
 
-const id = (kind: string, path: string): string => {
-  const hash = path.indexOf("#");
-  const file = hash === -1 ? path : path.slice(0, hash);
-  const keyPath = hash === -1 ? "" : path.slice(hash);
-  return `${kind}:${file.toLowerCase()}${keyPath}`;
-};
-const home = (rel: string): string => `${tree.home}/${rel}`;
-const root = (rel: string): string => `${tree.root}/${rel}`;
+const { home, root, id } = treePaths(() => tree);
 const code = (rel: string): string => home(`Library/Application Support/Code/User/${rel}`);
 const session = (uuid: string): string => home(`.copilot/session-state/${uuid}`);
 
@@ -682,7 +681,7 @@ describe("copilot on a machine that never ran it (D147)", () => {
       await mkdir(join(user, "workspaceStorage", "abc"), { recursive: true });
       await writeFile(
         join(user, "workspaceStorage", "abc", "workspace.json"),
-        JSON.stringify({ folder: `file://${bare.root}/monorepo` }),
+        JSON.stringify({ folder: pathToFileURL(join(bare.root, "monorepo")).href }),
       );
       await mkdir(join(user, "globalStorage"), { recursive: true });
       await writeFile(join(user, "globalStorage", "state.vscdb"), "SQLite format 3 truncated");

@@ -5,8 +5,8 @@
  * the overrides moldig honoured. Plus the slug rule of `~/.cursor/projects/<slug>`, which is
  * compared and never decoded (`a-b` may be `a/b`, `a.b` or `a-b`).
  */
-import { join } from "node:path";
 import type { ScanContext } from "../../scan/context.js";
+import { pathEngine } from "../../scan/paths.js";
 import { userScopePaths, type UserScopePath } from "../../scan/user-scope.js";
 
 export interface CursorPaths {
@@ -29,6 +29,9 @@ export interface CursorPaths {
 
 export function cursorPaths(ctx: ScanContext): CursorPaths {
   const home = ctx.options.home;
+  // The home directory's own spelling decides the rules, never the host's (D33).
+  const engine = pathEngine(home);
+  const join = (...segments: string[]): string => engine.join(...segments);
   const scope = userScopePaths("cursor", ctx);
   const config = scope.find((entry) => entry.role === "config");
   const appSupport = scope.find((entry) => entry.role === "app-support");

@@ -8,10 +8,10 @@
  * (D56, like Claude Code's managed layer): it lies outside the injected home, so no fixture can
  * cover it and a scan must never reach into the real machine.
  */
-import { join } from "node:path";
 import type { UserScopePath } from "../../scan/user-scope.js";
 import { userScopePaths } from "../../scan/user-scope.js";
 import type { ScanContext } from "../../scan/context.js";
+import { pathEngine } from "../../scan/paths.js";
 
 export const HARNESS_ID = "harness:opencode";
 
@@ -35,6 +35,9 @@ export interface OpenCodePaths {
 export function openCodePaths(ctx: ScanContext): OpenCodePaths {
   // The table returns config, data, cache and state in that order, then `$OPENCODE_CONFIG`.
   const rows = userScopePaths("opencode", ctx);
+  // The home directory's own spelling decides the rules, never the host's (D33).
+  const engine = pathEngine(ctx.options.home);
+  const join = (...segments: string[]): string => engine.join(...segments);
   const configDir = rows[0]?.path ?? join(ctx.options.home, ".config", "opencode");
   const dataDir = rows[1]?.path ?? join(ctx.options.home, ".local", "share", "opencode");
   const cacheDir = rows[2]?.path ?? join(ctx.options.home, ".cache", "opencode");

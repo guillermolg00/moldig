@@ -7,7 +7,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { Adapter, AdapterOutput } from "../adapters/adapter.js";
 import type { ContextFile } from "../index/types.js";
-import { loadFixture, type FixtureTree } from "../testing/index.js";
+import { loadFixture, treePaths, type FixtureTree } from "../testing/index.js";
 
 const sharedOnly = vi.hoisted(() => ({ output: null as AdapterOutput | null }));
 
@@ -86,8 +86,9 @@ describe("scan with an adapter that has no Harness (D127)", () => {
   it("files no harnesses[] row and no perHarness entry, and still lands its entities", async () => {
     const tree = await loadFixture("shared/root-tree", { platform: "darwin" });
     trees.push(tree);
-    const path = `${tree.root}/monorepo/AGENTS.md`;
-    const projectId = `project:${`${tree.root}/monorepo`.toLowerCase()}`;
+    const { root, id } = treePaths(tree);
+    const path = root("monorepo/AGENTS.md");
+    const projectId = id("project", root("monorepo"));
     sharedOnly.output = {
       harness: null,
       breadcrumbs: [],

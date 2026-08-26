@@ -62,6 +62,18 @@ afterAll(async () => {
 
 const settle = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 60));
 
+/**
+ * A frame as the assertions below spell paths: forward slashes, and the tree's home written `~`.
+ * A terminal prints a path with the host's separator — right for a user on Windows — and
+ * `shortPath` shortens a home only when the *scanned* platform spells it the same way, which a
+ * case pinned to `darwin` on a Windows runner does not. Both are the product behaving correctly;
+ * normalising belongs here, in the assertion, and never in what the TUI prints.
+ */
+function readable(frame: string): string {
+  const home = tree.home.replaceAll("\\", "/");
+  return frame.replaceAll("\\", "/").replaceAll(home, "~");
+}
+
 interface Screen {
   frame: () => string;
   press: (...keys: string[]) => Promise<void>;
@@ -111,7 +123,7 @@ function open(route: Route, overrides: Partial<AppProps> = {}): Screen {
   };
   const { lastFrame, stdin, unmount } = render(h(App, props));
   return {
-    frame: () => lastFrame() ?? "",
+    frame: () => readable(lastFrame() ?? ""),
     press: async (...keys) => {
       for (const key of keys) {
         stdin.write(key);
@@ -425,7 +437,12 @@ describe("category findings", () => {
 
 describe("item detail", () => {
   it("shows the path, the loaded-by verdict, the memory cap and the actions", () => {
-    const memory = findEntity((entity) => entity.kind === "memory-file" && entity.role === "index");
+    // The user-scope index, named by what the assertions below say — never by whichever
+    // memory index `entities` happens to sort first.
+    const memory = findEntity(
+      (entity) =>
+        entity.kind === "memory-file" && entity.role === "index" && entity.scope === "user",
+    );
     const screen = open({ screen: "detail", id: memory.id });
     const frame = screen.frame();
     expect(frame).toContain("moldig · item · memory-file");
@@ -440,7 +457,12 @@ describe("item detail", () => {
   });
 
   it("space marks it for Clean, g opens the graph and esc pops back", async () => {
-    const memory = findEntity((entity) => entity.kind === "memory-file" && entity.role === "index");
+    // The user-scope index, named by what the assertions below say — never by whichever
+    // memory index `entities` happens to sort first.
+    const memory = findEntity(
+      (entity) =>
+        entity.kind === "memory-file" && entity.role === "index" && entity.scope === "user",
+    );
     const screen = open({ screen: "detail", id: memory.id });
     await screen.press(" ");
     expect(screen.frame()).toContain("✓ selected");
@@ -637,7 +659,12 @@ describe("confirm and result", () => {
 
 describe("graph screen", () => {
   it("opens on the columns layout with the legend and cycles to the outline", async () => {
-    const memory = findEntity((entity) => entity.kind === "memory-file" && entity.role === "index");
+    // The user-scope index, named by what the assertions below say — never by whichever
+    // memory index `entities` happens to sort first.
+    const memory = findEntity(
+      (entity) =>
+        entity.kind === "memory-file" && entity.role === "index" && entity.scope === "user",
+    );
     const screen = open({ screen: "graph", focusId: memory.id });
     expect(screen.frame()).toContain("graph · MEMORY.md · 1 hop · columns");
     expect(screen.frame()).toContain(
@@ -666,7 +693,12 @@ describe("graph screen", () => {
   });
 
   it("enter focuses the highlighted neighbour and esc leaves the screen", async () => {
-    const memory = findEntity((entity) => entity.kind === "memory-file" && entity.role === "index");
+    // The user-scope index, named by what the assertions below say — never by whichever
+    // memory index `entities` happens to sort first.
+    const memory = findEntity(
+      (entity) =>
+        entity.kind === "memory-file" && entity.role === "index" && entity.scope === "user",
+    );
     const screen = open({ screen: "detail", id: memory.id }, {});
     await screen.press("g", ENTER);
     expect(screen.frame()).toContain("graph · Claude Code · 1 hop");

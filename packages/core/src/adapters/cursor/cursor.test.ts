@@ -1,6 +1,6 @@
 import { existsSync, statSync } from "node:fs";
 import { cp } from "node:fs/promises";
-import { join } from "node:path";
+import { join, sep } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { audit, scan } from "../../index.js";
 import type {
@@ -10,7 +10,12 @@ import type {
   HarnessCache,
   LoadedByEdge,
 } from "../../index/types.js";
-import { loadFixture, normaliseSnapshot, type FixtureTree } from "../../testing/index.js";
+import {
+  loadFixture,
+  normaliseSnapshot,
+  treePaths,
+  type FixtureTree,
+} from "../../testing/index.js";
 
 /** After the fixture's synthetic timestamps; `ages` are relative to it (the same `now` for both). */
 const NOW = new Date("2026-08-26T12:00:00.000Z");
@@ -41,16 +46,12 @@ let caseInsensitiveHost = false;
 
 const byText = (a: string, b: string): number => a.localeCompare(b);
 
-const id = (kind: string, path: string): string => {
-  const hash = path.indexOf("#");
-  const file = hash === -1 ? path : path.slice(0, hash);
-  const keyPath = hash === -1 ? "" : path.slice(hash);
-  return `${kind}:${file.toLowerCase()}${keyPath}`;
-};
-const home = (rel: string): string => `${tree.home}/${rel}`;
-const root = (rel: string): string => `${tree.root}/${rel}`;
-const slugDir = (rel: string): string => `${tree.home}/.cursor/projects/${rel}`;
-const rootSlug = (): string => tree.slug(tree.root);
+const { home, root, slugDir, rootSlug, id } = treePaths(() => tree);
+/** The second tree the case is scanned in, as `linux`: its ids fold nothing. */
+const linuxPaths = treePaths(() => linuxTree);
+/** A tree path with its `root/` or `home/` prefix dropped — the host's separator included. */
+const relativeToTree = (path: string): string =>
+  path.replace(`${root()}${sep}`, "").replace(`${home()}${sep}`, "");
 
 function entity(kind: string, path: string): Entity {
   const found = result.entities.find((item) => item.id === id(kind, path));
@@ -262,22 +263,23 @@ describe("cursor adapter over the workspaces case", () => {
     const moved = await loadFixture("cursor/workspaces", {
       now: NOW,
       platform: PLATFORM,
-      env: { CURSOR_CONFIG_DIR: `${tree.home}/.cursor` },
+      env: { CURSOR_CONFIG_DIR: home(".cursor") },
     });
+    const movedConfig = treePaths(moved).home(".cursor");
     try {
       const index = await scan({
         home: moved.home,
         roots: moved.roots,
         cwd: moved.root,
         platform: PLATFORM,
-        env: { CURSOR_CONFIG_DIR: `${moved.home}/.cursor` },
+        env: { CURSOR_CONFIG_DIR: movedConfig },
         git: false,
         now: NOW,
         harnesses: ["cursor"],
       });
-      expect(index.scan.env).toEqual({ CURSOR_CONFIG_DIR: `${moved.home}/.cursor` });
+      expect(index.scan.env).toEqual({ CURSOR_CONFIG_DIR: movedConfig });
       expect(index.harnesses[0]?.userScope.paths[0]).toEqual({
-        path: `${moved.home}/.cursor`,
+        path: movedConfig,
         role: "config",
         source: "env",
         envVar: "CURSOR_CONFIG_DIR",
@@ -318,16 +320,16 @@ describe("cursor adapter over the workspaces case", () => {
     context.skip(caseInsensitiveHost, "the volume folds case, so the pair is one directory here");
     expect(new Set(linuxPair().map((item) => item.project)).size).toBe(2);
     expect(linuxPair().map((item) => item.project)).toContain(
-      `project:${linuxTree.root}/API-NESTJS`,
+      linuxPaths.id("project", linuxPaths.root("API-NESTJS")),
     );
     expect(linuxPair().map((item) => item.project)).toContain(
-      `project:${linuxTree.root}/api-nestjs`,
+      linuxPaths.id("project", linuxPaths.root("api-nestjs")),
     );
     expect(
       linux.projects.filter((item) => item.path.toLowerCase().endsWith("api-nestjs")),
     ).toHaveLength(2);
     // The slug is the lower-case spelling: on linux it resolves to the lower-case Project only.
-    expect(linuxSlug().project).toBe(`project:${linuxTree.root}/api-nestjs`);
+    expect(linuxSlug().project).toBe(linuxPaths.id("project", linuxPaths.root("api-nestjs")));
   });
 
   it("drops the slug-by-key match on linux: the fold that found it is the darwin identity", (context) => {
@@ -544,7 +546,7 @@ describe("cursor adapter over the workspaces case", () => {
     const countedContext = counted
       .map((edge) => result.entities.find((item) => item.id === edge.from))
       .filter((item) => item?.kind === "context-file")
-      .map((item) => item?.path.replace(`${tree.root}/`, "").replace(`${tree.home}/`, ""));
+      .map((item) => relativeToTree(item?.path ?? ""));
     expect(countedContext.toSorted(byText)).toEqual([
       ".cursor/rules/user-rule.mdc",
       "API-NESTJS/AGENTS.md",

@@ -5,7 +5,12 @@
  */
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import type { AuditIndex, Breadcrumb, Entity, LoadedByEdge } from "../../index/types.js";
-import { loadFixture, normaliseSnapshot, type FixtureTree } from "../../testing/index.js";
+import {
+  loadFixture,
+  normaliseSnapshot,
+  treePaths,
+  type FixtureTree,
+} from "../../testing/index.js";
 import { geminiFindings } from "./findings.js";
 
 /** Every path handed to `readFile`, so the credential stores can be proved unopened (D65). */
@@ -37,13 +42,6 @@ const THREE_DAYS_MS = 3 * 86_400_000;
 
 /** The paths moldig must never open: credential stores and token caches (D65). */
 const SECRET_PATH = /mcp|auth|oauth|cred|secret|token|\.key$|\.env|google_accounts/;
-
-const id = (kind: string, path: string): string => {
-  const hash = path.indexOf("#");
-  const file = hash === -1 ? path : path.slice(0, hash);
-  const keyPath = hash === -1 ? "" : path.slice(hash);
-  return `${kind}:${file.toLowerCase()}${keyPath}`;
-};
 
 function stableTimes(json: string): string {
   const now = Date.now();
@@ -139,9 +137,7 @@ describe("gemini-cli adapter on a machine that never ran it (D147)", () => {
 describe("gemini-cli adapter over the from-docs case", () => {
   let tree: FixtureTree;
   let result: AuditIndex;
-  const home = (rel: string): string => `${tree.home}/${rel}`;
-  const root = (rel: string): string => `${tree.root}/${rel}`;
-  const slug = (rel: string): string => `${tree.home}/.gemini/tmp/${rel}`;
+  const { home, root, slugDir: slug, id } = treePaths(() => tree);
 
   function entity(kind: string, path: string): Entity {
     const found = result.entities.find((item) => item.id === id(kind, path));
@@ -245,7 +241,10 @@ describe("gemini-cli adapter over the from-docs case", () => {
     expect(stray.state).toEqual([
       id(
         "harness-cache",
-        `${slug("0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef")}/chats/session-2025-06-01T09-00-00-3d4e5f6a.json`,
+        slug(
+          "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "chats/session-2025-06-01T09-00-00-3d4e5f6a.json",
+        ),
       ),
     ]);
     // Trust: TRUST_FOLDER and TRUST_PARENT trust, DO_NOT_TRUST does not (edge 4).
@@ -345,23 +344,23 @@ describe("gemini-cli adapter over the from-docs case", () => {
   });
 
   it("models the memory unit and never turns its draft skills into Skills (edges 6, 11)", () => {
-    const index = entity("memory-file", `${slug("project-a")}/memory/MEMORY.md`);
+    const index = entity("memory-file", slug("project-a", "memory/MEMORY.md"));
     if (index.kind !== "memory-file") throw new Error("kind");
     expect(index.role).toBe("index");
     expect(index.readSignal).toEqual({ source: "none", exact: false, bashParsed: false });
     expect(index.neverRead).toBeNull();
-    expect(loadedBy("memory-file", `${slug("project-a")}/memory/MEMORY.md`)).toMatchObject({
+    expect(loadedBy("memory-file", slug("project-a", "memory/MEMORY.md"))).toMatchObject({
       mode: "full",
       countsTowardHeadline: true,
     });
-    const fact = entity("memory-file", `${slug("project-a")}/memory/notes-a.md`);
+    const fact = entity("memory-file", slug("project-a", "memory/notes-a.md"));
     if (fact.kind !== "memory-file") throw new Error("kind");
     expect(fact.role).toBe("fact");
-    const patch = entity("memory-file", `${slug("project-a")}/memory/.inbox/memory/0001.patch`);
+    const patch = entity("memory-file", slug("project-a", "memory/.inbox/memory/0001.patch"));
     if (patch.kind !== "memory-file") throw new Error("kind");
     expect(patch.role).toBe("other");
     // Harness-written draft material: a memory file, never an installed Skill.
-    const draft = entity("memory-file", `${slug("project-a")}/memory/skills/skill-a/SKILL.md`);
+    const draft = entity("memory-file", slug("project-a", "memory/skills/skill-a/SKILL.md"));
     expect(draft.kind).toBe("memory-file");
     expect(
       result.entities.some(
@@ -369,7 +368,7 @@ describe("gemini-cli adapter over the from-docs case", () => {
       ),
     ).toBe(false);
     // D119: `MEMORY.md` is the only index name — a legacy `memory/GEMINI.md` is a fact.
-    const legacy = entity("memory-file", `${slug("gone")}/memory/GEMINI.md`);
+    const legacy = entity("memory-file", slug("gone", "memory/GEMINI.md"));
     if (legacy.kind !== "memory-file") throw new Error("kind");
     expect(legacy.role).toBe("fact");
     expect(legacy.project).toBe(id("project", root("gone")));
@@ -637,7 +636,7 @@ describe("gemini-cli adapter over the from-docs case", () => {
   });
 
   it("builds the cache units of ticket 08's Gemini table with the id8 join (edge 10)", () => {
-    const anchor = `${slug("project-a")}/chats/session-2026-08-20T10-00-00-0a1b2c3d.jsonl`;
+    const anchor = slug("project-a", "chats/session-2026-08-20T10-00-00-0a1b2c3d.jsonl");
     const session = entity("harness-cache", anchor);
     if (session.kind !== "harness-cache") throw new Error("kind");
     expect(session.cacheKind).toBe("transcript");
@@ -654,9 +653,9 @@ describe("gemini-cli adapter over the from-docs case", () => {
     // The fixture's ids do not align, so nothing joins and the members are units of their own.
     expect(session.locator).toEqual({ type: "paths", paths: [anchor] });
     for (const [path, kind] of [
-      [`${slug("project-a")}/chats/00000000-0000-4000-8000-000000000001`, "subagent-transcript"],
-      [`${slug("project-a")}/logs/session-00000000-0000-4000-8000-000000000001.jsonl`, "log"],
-      [`${slug("project-a")}/00000000-0000-4000-8000-000000000001`, "plan"],
+      [slug("project-a", "chats/00000000-0000-4000-8000-000000000001"), "subagent-transcript"],
+      [slug("project-a", "logs/session-00000000-0000-4000-8000-000000000001.jsonl"), "log"],
+      [slug("project-a", "00000000-0000-4000-8000-000000000001"), "plan"],
     ] as const) {
       const unit = entity("harness-cache", path);
       if (unit.kind !== "harness-cache") throw new Error("kind");
@@ -664,11 +663,11 @@ describe("gemini-cli adapter over the from-docs case", () => {
       // D118: a member no chat file claims is undocumented, never swept.
       expect(unit.rule).toBe("undocumented");
     }
-    const checkpoints = entity("harness-cache", `${slug("project-a")}/checkpoints`);
-    const tagged = entity("harness-cache", `${slug("project-a")}/checkpoint-tag-a.json`);
-    const shellHistory = entity("harness-cache", `${slug("project-a")}/shell_history`);
-    const projectRoot = entity("harness-cache", `${slug("project-a")}/.project_root`);
-    const legacyLog = entity("harness-cache", `${slug("project-a")}/logs.json`);
+    const checkpoints = entity("harness-cache", slug("project-a", "checkpoints"));
+    const tagged = entity("harness-cache", slug("project-a", "checkpoint-tag-a.json"));
+    const shellHistory = entity("harness-cache", slug("project-a", "shell_history"));
+    const projectRoot = entity("harness-cache", slug("project-a", ".project_root"));
+    const legacyLog = entity("harness-cache", slug("project-a", "logs.json"));
     const shadowGit = entity("harness-cache", home(".gemini/history/project-a"));
     const bin = entity("harness-cache", home(".gemini/tmp/bin"));
     if (
@@ -696,11 +695,14 @@ describe("gemini-cli adapter over the from-docs case", () => {
     // Both aged sessions are past the 30-day retention and are preselected.
     const goneSession = entity(
       "harness-cache",
-      `${slug("gone")}/chats/session-2026-04-01T09-00-00-2c3d4e5f.jsonl`,
+      slug("gone", "chats/session-2026-04-01T09-00-00-2c3d4e5f.jsonl"),
     );
     const straySession = entity(
       "harness-cache",
-      `${slug("0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef")}/chats/session-2025-06-01T09-00-00-3d4e5f6a.json`,
+      slug(
+        "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "chats/session-2025-06-01T09-00-00-3d4e5f6a.json",
+      ),
     );
     if (goneSession.kind !== "harness-cache" || straySession.kind !== "harness-cache")
       throw new Error("kind");
@@ -744,8 +746,7 @@ describe("gemini-cli adapter over the from-docs case", () => {
 describe("gemini-cli adapter over the zero-breadcrumbs case", () => {
   let tree: FixtureTree;
   let result: AuditIndex;
-  const home = (rel: string): string => `${tree.home}/${rel}`;
-  const root = (rel: string): string => `${tree.root}/${rel}`;
+  const { home, root, id } = treePaths(() => tree);
 
   function entity(kind: string, path: string): Entity {
     const found = result.entities.find((item) => item.id === id(kind, path));

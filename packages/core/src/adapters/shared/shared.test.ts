@@ -4,7 +4,17 @@
  * recomputes in pure JavaScript, and the cross-adapter merge that keeps all of it one entity.
  */
 import { createHash } from "node:crypto";
-import { chmod, mkdir, mkdtemp, realpath, rm, symlink, writeFile } from "node:fs/promises";
+import {
+  chmod,
+  lstat,
+  mkdir,
+  mkdtemp,
+  realpath,
+  rm,
+  stat,
+  symlink,
+  writeFile,
+} from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
@@ -18,7 +28,13 @@ import type {
   Skill,
 } from "../../index/types.js";
 import { mergeOutputs } from "../../scan/assemble.js";
-import { loadFixture, normaliseSnapshot, type FixtureTree } from "../../testing/index.js";
+import {
+  loadFixture,
+  normaliseSnapshot,
+  treePaths,
+  type FixtureTree,
+  type TreePaths,
+} from "../../testing/index.js";
 import type { AdapterOutput } from "../adapter.js";
 import { gitTreeSha1 } from "./hashes.js";
 
@@ -82,9 +98,8 @@ async function auditFixture(tree: FixtureTree): Promise<AuditIndex> {
   );
 }
 
-const id = (kind: string, path: string): string => `${kind}:${path.toLowerCase()}`;
-
-function finder(result: () => AuditIndex) {
+function finder(result: () => AuditIndex, tree: () => FixtureTree) {
+  const { id } = treePaths(tree);
   const entity = (kind: string, path: string): Entity => {
     const found = result().entities.find((item) => item.id === id(kind, path));
     if (found === undefined) throw new Error(`entity not found: ${id(kind, path)}`);
@@ -121,9 +136,11 @@ const placementView = (item: Placement): unknown[] => [
 describe("the shared stores over the skill-layouts case", () => {
   let tree: FixtureTree;
   let result: AuditIndex;
-  const find = finder(() => result);
-  const home = (rel: string): string => `${tree.home}/${rel}`;
-  const root = (rel: string): string => `${tree.root}/${rel}`;
+  const find = finder(
+    () => result,
+    () => tree,
+  );
+  const { home, root, id } = treePaths(() => tree);
 
   beforeAll(async () => {
     tree = await loadFixture("shared/skill-layouts", { now: NOW, platform: PLATFORM });
@@ -269,8 +286,11 @@ describe("the shared stores over the skill-layouts case", () => {
 describe("the shared stores over the root-tree case", () => {
   let tree: FixtureTree;
   let result: AuditIndex;
-  const find = finder(() => result);
-  const root = (rel: string): string => `${tree.root}/${rel}`;
+  const find = finder(
+    () => result,
+    () => tree,
+  );
+  const { root, id } = treePaths(() => tree);
 
   beforeAll(async () => {
     tree = await loadFixture("shared/root-tree", { now: NOW, platform: PLATFORM });
@@ -349,9 +369,11 @@ describe("the shared stores over the root-tree case", () => {
 describe("the shared stores beside a harness adapter", () => {
   let tree: FixtureTree;
   let result: AuditIndex;
-  const find = finder(() => result);
-  const home = (rel: string): string => `${tree.home}/${rel}`;
-  const root = (rel: string): string => `${tree.root}/${rel}`;
+  const find = finder(
+    () => result,
+    () => tree,
+  );
+  const { home, root } = treePaths(() => tree);
 
   beforeAll(async () => {
     tree = await loadFixture("claude-code/skills-and-plugins", {
@@ -433,18 +455,19 @@ describe("the lock reader", () => {
     // The captured lock says `version: 1` with v3 entry keys: a shape moldig reads by field name
     // and never guesses at (06 §13).
     const tree = await loadFixture("opencode/db-and-config", { now: NOW, platform: PLATFORM });
+    const { home, id } = treePaths(tree);
     try {
       const result = await auditFixture(tree);
       const unsupported = result.warnings.filter((item) => item.code === "unsupported-shape");
       expect(unsupported).toHaveLength(1);
       expect(unsupported[0]).toMatchObject({
         harness: null,
-        path: `${tree.home}/.agents/.skill-lock.json`,
+        path: home(".agents/.skill-lock.json"),
         effect: "degraded",
       });
       // Degraded, not skipped: the entries are still read, and still fill an origin.
       const stored = result.entities.find(
-        (item) => item.id === id("skill", `${tree.home}/.agents/skills/find-skills`),
+        (item) => item.id === id("skill", home(".agents/skills/find-skills")),
       );
       expect(stored?.kind === "skill" && stored.origin?.installer).toBe("vercel-skills");
       // A `<redacted>` sourceType is not a value index v0 names.
@@ -490,6 +513,19 @@ function treeObject(entries: { mode: string; name: string; sha: string }[]): str
 
 describe("the git tree hash, computed in pure JavaScript", () => {
   let dir: string;
+  /**
+   * What the host's filesystem actually recorded for the tree this `beforeAll` built. On Windows
+   * there are no POSIX permission bits — Node documents `fs.chmod` as changing the write
+   * permission only there — so `run.sh` reads back `100644` and toggling the bit changes nothing;
+   * a link is a real reparse point when `fs.symlink` succeeds and an `EPERM` when it does not,
+   * never a silent copy, but the entry is read back rather than assumed either way.
+   *
+   * That the mode is unavailable is precisely why D44 never asks for a git tree hash on win32.
+   * The expectations below therefore assert git's formula over the tree the host really holds —
+   * the assertion is unchanged, only its input stops assuming POSIX.
+   */
+  let executableBit = false;
+  let linkIsSymlink = true;
 
   beforeAll(async () => {
     dir = await mkdtemp(join(tmpdir(), "moldig-tree-"));
@@ -497,7 +533,9 @@ describe("the git tree hash, computed in pure JavaScript", () => {
     await writeFile(join(dir, "empty.txt"), "");
     await writeFile(join(dir, "run.sh"), "#!/bin/sh\n");
     await chmod(join(dir, "run.sh"), 0o755);
+    executableBit = ((await stat(join(dir, "run.sh"))).mode & 0o111) !== 0;
     await symlink("hello.txt", join(dir, "link"));
+    linkIsSymlink = (await lstat(join(dir, "link"))).isSymbolicLink();
     await mkdir(join(dir, "sub"), { recursive: true });
     await writeFile(join(dir, "sub", "a.md"), "a\n");
     // Never hashed: git does not store its own object database, and `skills` skips it too.
@@ -521,8 +559,14 @@ describe("the git tree hash, computed in pure JavaScript", () => {
       { mode: "100644", name: "empty.txt", sha: blob("") },
       { mode: "100644", name: "hello.txt", sha: blob("hello world\n") },
       // A symlink's blob is its link text, never the file it points at.
-      { mode: "120000", name: "link", sha: blob("hello.txt") },
-      { mode: "100755", name: "run.sh", sha: blob("#!/bin/sh\n") },
+      linkIsSymlink
+        ? { mode: "120000", name: "link", sha: blob("hello.txt") }
+        : { mode: "100644", name: "link", sha: blob("hello world\n") },
+      {
+        mode: executableBit ? "100755" : "100644",
+        name: "run.sh",
+        sha: blob("#!/bin/sh\n"),
+      },
       {
         mode: "40000",
         name: "sub",
@@ -532,7 +576,8 @@ describe("the git tree hash, computed in pure JavaScript", () => {
     expect(await gitTreeSha1(dir)).toBe(expected);
   });
 
-  it("changes when the executable bit does, which is why win32 leaves drift unknown", async () => {
+  it("changes when the executable bit does, which is why win32 leaves drift unknown", async (context) => {
+    context.skip(!executableBit, "this host's chmod cannot set the execute bit — the D44 case");
     const before = await gitTreeSha1(dir);
     await chmod(join(dir, "hello.txt"), 0o755);
     try {
@@ -708,9 +753,17 @@ describe("origins and drift over a lock moldig can reproduce", () => {
   const run = async (platform: "darwin" | "win32" = PLATFORM): Promise<AuditIndex> =>
     audit(await scan({ home, roots: [root], cwd: root, platform, env, git: false, now: NOW }));
 
-  const storeSkill = (result: AuditIndex, name: string): Skill => {
+  /** The synthetic tree as `treePaths` sees it: real host paths, the platform of the run. */
+  const pathsFor = (platform: "darwin" | "win32"): TreePaths =>
+    treePaths({ dir, home, root, platform, harness: "shared", slug: (path) => path });
+
+  const storeSkill = (
+    result: AuditIndex,
+    name: string,
+    platform: "darwin" | "win32" = PLATFORM,
+  ): Skill => {
     const found = result.entities.find(
-      (item) => item.id === id("skill", join(home, ".agents", "skills", name)),
+      (item) => item.id === pathsFor(platform).id("skill", join(home, ".agents", "skills", name)),
     );
     if (found?.kind !== "skill") throw new Error(`skill not found: ${name}`);
     return found;
@@ -777,7 +830,9 @@ describe("origins and drift over a lock moldig can reproduce", () => {
       join(home, ".agents", ".skill-lock.json"),
       join(dir, "xdg", "skills", ".skill-lock.json"),
     ]) {
-      const lock = result.entities.find((item) => item.id === id("settings-file", path));
+      const lock = result.entities.find(
+        (item) => item.id === pathsFor(PLATFORM).id("settings-file", path),
+      );
       expect(lock?.kind === "settings-file" && lock.role).toBe("skill-lock");
     }
   });
@@ -799,7 +854,7 @@ describe("origins and drift over a lock moldig can reproduce", () => {
   });
 
   it("leaves drift unknown on win32, where the mode bits a tree hash needs are unavailable", async () => {
-    const skill = storeSkill(await run("win32"), "drifted");
+    const skill = storeSkill(await run("win32"), "drifted", "win32");
     expect(skill.drift).toBe("unknown");
     expect(skill.contentHash.map((item) => item.algo)).toEqual(["sha256-folder"]);
   });

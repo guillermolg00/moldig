@@ -1,7 +1,12 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { audit, scan } from "../../index.js";
 import type { AuditIndex, Entity, LoadedByEdge, Plugin, Skill } from "../../index/types.js";
-import { loadFixture, normaliseSnapshot, type FixtureTree } from "../../testing/index.js";
+import {
+  loadFixture,
+  normaliseSnapshot,
+  treePaths,
+  type FixtureTree,
+} from "../../testing/index.js";
 
 /** After the case's synthetic timestamps (2023-11-14); its `ages` are relative to it. */
 const NOW = new Date("2026-08-26T12:00:00.000Z");
@@ -15,14 +20,7 @@ const PLATFORM = "darwin";
 let tree: FixtureTree;
 let result: AuditIndex;
 
-const id = (kind: string, path: string): string => {
-  const hash = path.indexOf("#");
-  const file = hash === -1 ? path : path.slice(0, hash);
-  const keyPath = hash === -1 ? "" : path.slice(hash);
-  return `${kind}:${file.toLowerCase()}${keyPath}`;
-};
-const home = (rel: string): string => `${tree.home}/${rel}`;
-const root = (rel: string): string => `${tree.root}/${rel}`;
+const { home, root, id } = treePaths(() => tree);
 const cache = (rel: string): string => home(`.claude/plugins/cache/marketplace-a/${rel}`);
 
 function entity(kind: string, path: string): Entity {

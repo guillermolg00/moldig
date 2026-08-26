@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { AuditIndex, Entity, HarnessCache } from "../index/types.js";
 import { audit, scan } from "../index.js";
-import { loadFixture, normaliseSnapshot, type FixtureTree } from "../testing/index.js";
+import { loadFixture, normaliseSnapshot, treePaths, type FixtureTree } from "../testing/index.js";
 import { dataDirFor, encodePath } from "./data-dir.js";
 import { plan } from "./plan.js";
 import { selectionFrom } from "./selection.js";
@@ -16,16 +16,9 @@ let tree: FixtureTree;
 let index: AuditIndex;
 let env: PlanEnv;
 
-const id = (kind: string, path: string): string => {
-  const hash = path.indexOf("#");
-  const file = hash === -1 ? path : path.slice(0, hash);
-  const keyPath = hash === -1 ? "" : path.slice(hash);
-  return `${kind}:${file.toLowerCase()}${keyPath}`;
-};
-const home = (rel: string): string => `${tree.home}/${rel}`;
-const root = (rel: string): string => `${tree.root}/${rel}`;
-const slug = (rel: string): string =>
-  `${tree.home}/.claude/projects/${tree.slug(tree.root)}-${rel}`;
+const { home, root, slugDir, rootSlug, id } = treePaths(() => tree);
+/** `~/.claude/projects/<root slug>-<name>/…` — the case's own slug directories. */
+const slug = (name: string, ...rest: string[]): string => slugDir(`${rootSlug()}-${name}`, ...rest);
 
 /**
  * The volume classification is injected, so a network mount is testable without one (15
@@ -152,16 +145,13 @@ afterAll(async () => {
 function everySelection(): Selection {
   return [
     ...selectionFrom(index),
-    { action: "clean", id: id("memory-file", slug("project-a/memory/MEMORY.md")) },
-    { action: "clean", id: id("memory-file", slug("project-a/memory/topic-a.md")) },
+    { action: "clean", id: id("memory-file", slug("project-a", "memory/MEMORY.md")) },
+    { action: "clean", id: id("memory-file", slug("project-a", "memory/topic-a.md")) },
     { action: "clean", id: id("harness-cache", home(".claude/history.jsonl")) },
     { action: "clean", id: LIVE_ID },
     {
       action: "clean",
-      locator: {
-        type: "dir",
-        path: `${tree.home}/.claude/projects/${tree.slug(tree.root)}-gone/memory`,
-      },
+      locator: { type: "dir", path: slug("gone", "memory") },
       label: "memory unit of the gone project",
     },
     {
@@ -206,7 +196,7 @@ describe("plan() over the breadcrumbs case", () => {
   it("preselects exactly what the audit marked", () => {
     const selection = selectionFrom(index);
     expect(selection.map((target) => target.id)).toEqual([
-      id("harness-cache", slug(`project-a-apps-web/${SESSION_B}.jsonl`)),
+      id("harness-cache", slug("project-a-apps-web", `${SESSION_B}.jsonl`)),
       id("harness-cache", home(".claude/shell-snapshots/snapshot-zsh-1700000000000-synth1.sh")),
       id(
         "harness-cache",
