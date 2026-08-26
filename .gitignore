@@ -1,6 +1,8 @@
-# Kept out of git for now (2026-08-25): planning scratch and docs stay local
+# Planning scratch stays local. So does the research: those notes describe this machine in
+# detail (directory layouts, counts, project names). The decisions and the agent conventions
+# are design documentation and are tracked, because the README links to them.
 /.scratch/
-/docs/
+/docs/research/
 
 # Agent worktrees (this session's subagents branch the repo into .claude/worktrees/<agent>)
 /.claude/worktrees/

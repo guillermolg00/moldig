@@ -1,0 +1,16 @@
+---
+status: accepted
+date: 2026-08-25
+---
+
+# Index v0: one entity per real thing, per-harness verdicts as edges, findings outside the index
+
+The index is the contract between the adapters, the CLI, the future app and every fixture snapshot (ADR-0002), so its unit of identity is the hardest thing to change later. The obvious shapes — one row per path a harness sees, one index per harness merged in the UI, findings embedded in the entities they concern — each mirror one harness faithfully and fall apart across six: on the reference machine 98 skills appear through some 600 paths (Vercel links one canonical directory into up to 16 harness directories), the same `AGENTS.md` is read by nine harnesses under different loading rules, one Claude Code session is six paths in five directories, and a ghost project is remembered by five harnesses at once. We decided that the index holds **one entity per real thing** — a skill per real directory (a link is a placement, not another skill), an MCP server per configuration entry, a memory file per file, a harness-cache row per unit the harness itself sweeps (a session, a plugin version, a clone, or a single file when that is what the harness sweeps; never split below that unit, never grouped above it), a plugin per install directory, a Project per real directory — that **every harness-specific verdict is an edge** (`loaded-by` says whether, how much and under which name a harness loads something; `shadows`, `duplicates`, `provided-by`, `originates-from` carry the rest, each with evidence and confidence), and that **findings live outside the index**, in their own array, produced by `audit` over a `scan` that stays free of judgement. The trade-off is index size and adapter effort against the unit of action the user ticks: a row per real thing is what `clean` and `delete` operate on, and any other shape would have to be re-folded in every consumer.
+
+## Consequences
+
+- `scan --json` is the index (harnesses, projects, breadcrumbs, entities, edges, warnings, totals); `audit --json` adds `findings[]` and `headline`. Ids are opaque, deterministic per machine and never parsed by consumers; cross-machine keys (content hashes, origins) are fields.
+- Numbers that depend on the reader — characters injected, tokens loaded under a cap, imports resolved, position in the chain, disabled invocation — live on the `loaded-by` edge; the file carries at most the documented portion it is subject to (the loaded slice of a memory index). The headline is computed from those edges for one Project and one harness at a time: the user-scope baseline every session pays plus what the focused Project adds.
+- A harness-cache unit is preselected only when the harness documents the sweep, the unit is older than the retention and a live guard was checked and found clear; undocumented cache is listed and never preselected (ADR-0004).
+- Skills and plugins reached through several paths stay one row; an MCP server is one row per configuration entry, with `shadows` and `duplicates` edges between entries. Removal offers the placement or the directory, the entry or the file, the plugin rather than what it bundles.
+- Growing the index means adding kinds, fields or edge kinds; the identity rule and the edge rule are not renegotiated per adapter. `schemaVersion` is 0 until the first tracer bullet ships.

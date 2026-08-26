@@ -59,12 +59,22 @@ export function bloatFindings(index: Index): Finding[] {
       (entity.kind === "memory-file" ? (entity.loadedPortion?.tokens ?? 0) : 0);
     const truncated = truncationOf(index, entity);
     if (loaded < MEDIUM_TOKENS && truncated === null) continue;
-    const harnessName = harnessNameOf(index, entity.harness);
+    // A file the shared stores own (an `AGENTS.md` several harnesses read) has no harness of its
+    // own, so the widest reader names the cost; with no reader either, the sentence stays true
+    // without naming anyone.
+    const readerName =
+      reader === null
+        ? null
+        : (index.harnesses.find((harness) => harness.id === reader.to)?.displayName ?? null);
+    const harnessName = entity.harness === null ? readerName : harnessNameOf(index, entity.harness);
     const evidence: Finding["evidence"] = [];
     if (reader !== null) evidence.push({ kind: "loading-rule", detail: reader.reason });
     evidence.push({
       kind: "token-count",
-      detail: `${loaded} o200k tokens loaded in full by ${harnessName}`,
+      detail:
+        harnessName === null
+          ? `${loaded} o200k tokens loaded in full`
+          : `${loaded} o200k tokens loaded in full by ${harnessName}`,
     });
     out.push({
       id: `finding:bloat:${entity.id}`,
@@ -72,9 +82,9 @@ export function bloatFindings(index: Index): Finding[] {
       severity: loaded >= HIGH_TOKENS ? "high" : "medium",
       container: containerOf(entity),
       targets: [{ id: entity.id, role: "subject" }],
-      message: `${entity.label} costs ${loaded} tokens in every ${harnessName} session${
-        truncated === null ? "" : ` (${truncated})`
-      }`,
+      message: `${entity.label} costs ${loaded} tokens in every ${
+        harnessName === null ? "session that loads it" : `${harnessName} session`
+      }${truncated === null ? "" : ` (${truncated})`}`,
       evidence,
       // D81: a count that fell back to `bytes/4` is an estimate, not a measurement.
       confidence: entity.metrics.tokens?.method === "bytes/4" ? "medium" : "certain",
