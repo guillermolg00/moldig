@@ -842,7 +842,7 @@
     {
       "id": "context-file:<ROOT>/project-a/agents.md",
       "kind": "context-file",
-      "harness": "opencode",
+      "harness": null,
       "producer": null,
       "project": "project:<ROOT>/project-a",
       "scope": "project",
@@ -924,7 +924,7 @@
     {
       "id": "context-file:<ROOT>/project-a/packages/api/agents.md",
       "kind": "context-file",
-      "harness": "opencode",
+      "harness": null,
       "producer": null,
       "project": "project:<ROOT>/project-a",
       "scope": "project",
@@ -2216,10 +2216,29 @@
       "contentHash": [
         {
           "algo": "sha256-folder",
-          "value": "b8d9e06b266de14f7afa8941269ef9f8845b1bdbd37887dd1b692f8ef63cb309"
+          "value": "e7bd27c9f3787f55f85fb16d70905f79c0579fa5e9ef7f2aaf3fae3607431486"
         }
       ],
-      "origin": null,
+      "origin": {
+        "installer": "vercel-skills",
+        "sourceType": "unknown",
+        "source": "<redacted>",
+        "sourceUrl": "<redacted>",
+        "ref": null,
+        "skillPath": "<redacted>",
+        "recordedHash": {
+          "algo": "unknown",
+          "value": "<redacted>"
+        },
+        "installedAt": "<redacted>",
+        "updatedAt": "<redacted>",
+        "lock": {
+          "type": "entry",
+          "file": "<HOME>/.agents/.skill-lock.json",
+          "format": "json",
+          "keyPath": ["skills", "find-skills"]
+        }
+      },
       "drift": "unknown"
     },
     {
@@ -3361,6 +3380,25 @@
       "countsTowardHeadline": true
     },
     {
+      "id": "edge:originates-from:skill:<HOME>/.agents/skills/find-skills:settings-file:<HOME>/.agents/.skill-lock.json",
+      "kind": "originates-from",
+      "from": "skill:<HOME>/.agents/skills/find-skills",
+      "to": "settings-file:<HOME>/.agents/.skill-lock.json",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "lock-entry",
+          "detail": "skills.find-skills",
+          "locator": {
+            "type": "entry",
+            "file": "<HOME>/.agents/.skill-lock.json",
+            "format": "json",
+            "keyPath": ["skills", "find-skills"]
+          }
+        }
+      ]
+    },
+    {
       "id": "edge:shadows:agent-definition:<ROOT>/project-a/.opencode/agents/agent-a.md:agent-definition:<HOME>/.config/opencode/agents/agent-a.md",
       "kind": "shadows",
       "from": "agent-definition:<ROOT>/project-a/.opencode/agents/agent-a.md",
@@ -3399,10 +3437,10 @@
     },
     {
       "code": "unsupported-shape",
-      "message": ".skill-lock.json declares version 1 with version-3 entry keys: skill origins are not read",
-      "harness": "opencode",
+      "message": ".skill-lock.json declares version 1; 3 is the documented version of this file — its entries are read by field name",
+      "harness": null,
       "path": "<HOME>/.agents/.skill-lock.json",
-      "effect": "partial"
+      "effect": "degraded"
     }
   ],
   "totals": {
@@ -3516,49 +3554,6 @@
       "flags": ["sensitive"],
       "action": {
         "kind": "clean",
-        "preselect": false,
-        "locator": null
-      }
-    },
-    {
-      "id": "finding:orphan:lock-entry:<HOME>/.agents/.skill-lock.json:find-skills",
-      "category": "orphan",
-      "severity": "low",
-      "container": "harness:claude-code",
-      "targets": [
-        {
-          "locator": {
-            "type": "dir",
-            "path": "<HOME>/.agents/skills/find-skills"
-          },
-          "role": "subject"
-        },
-        {
-          "locator": {
-            "type": "entry",
-            "file": "<HOME>/.agents/.skill-lock.json",
-            "format": "json",
-            "keyPath": ["skills", "find-skills"]
-          },
-          "role": "state"
-        }
-      ],
-      "message": "find-skills: a skill directory in the store no agent directory links",
-      "evidence": [
-        {
-          "kind": "name-only",
-          "detail": "<HOME>/.agents/skills/find-skills"
-        }
-      ],
-      "confidence": "certain",
-      "impact": {
-        "bytes": 0,
-        "tokens": null,
-        "files": 0
-      },
-      "flags": [],
-      "action": {
-        "kind": "open",
         "preselect": false,
         "locator": null
       }

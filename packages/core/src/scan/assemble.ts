@@ -5,7 +5,7 @@
  * two scans of one unchanged machine serialise identically.
  */
 import type { AdapterOutput } from "../adapters/adapter.js";
-import type { Edge, Entity, Placement, Skill } from "../index/types.js";
+import type { Confidence, DuplicatesEdge, Edge, Entity, Placement, Skill } from "../index/types.js";
 import type { DiscoveredProject } from "./discovery.js";
 import { isUnder } from "./paths.js";
 
@@ -112,15 +112,53 @@ export function mergeOutputs(
       output.harness === null ? [] : output.harness.userScope.paths.map((item) => item.path);
     return output.entities.map((entity) => ({ entity, ownPaths }));
   });
-  // Two adapters may justify one fact; the edge is written once.
-  const edges = new Map<string, Edge>();
-  for (const output of outputs) {
-    for (const edge of output.edges) if (!edges.has(edge.id)) edges.set(edge.id, edge);
-  }
   return {
     entities: mergeEntities(emitted, fold),
-    edges: [...edges.values()].toSorted(edgeOrder),
+    edges: oneEdgePerFact(outputs.flatMap((output) => output.edges)),
   };
+}
+
+/**
+ * Two adapters may justify one fact; the edge is written once. `duplicates` is symmetric (D148),
+ * so an unordered pair becomes one edge written from the smaller id to the larger, keeping the
+ * strongest evidence any adapter offered. Every other kind keeps the first emitter's edge.
+ */
+export function oneEdgePerFact(all: readonly Edge[]): Edge[] {
+  const edges = new Map<string, Edge>();
+  for (const edge of all) {
+    const one = edge.kind === "duplicates" ? undirected(edge) : edge;
+    const held = edges.get(one.id);
+    if (held === undefined) edges.set(one.id, one);
+    else if (one.kind === "duplicates" && held.kind === "duplicates" && stronger(one, held)) {
+      edges.set(one.id, one);
+    }
+  }
+  return [...edges.values()].toSorted(edgeOrder);
+}
+
+/**
+ * D148: "these two are the same thing" is a symmetric fact, so one unordered pair is one edge,
+ * written from the smaller id to the larger. Adapters that emit it in their own direction (or in
+ * both) converge here instead of leaving the index with a pair counted twice.
+ */
+function undirected(edge: DuplicatesEdge): DuplicatesEdge {
+  if (edge.to === null || edge.from <= edge.to) return edge;
+  return {
+    ...edge,
+    id: `edge:duplicates:${edge.to}:${edge.from}`,
+    from: edge.to,
+    to: edge.from,
+  };
+}
+
+const SAMENESS: readonly DuplicatesEdge["same"][] = ["name", "endpoint", "origin", "content"];
+const CERTAINTY: readonly Confidence[] = ["low", "medium", "high", "certain"];
+
+/** D148: the pair keeps its strongest evidence, then its highest confidence. */
+function stronger(one: DuplicatesEdge, held: DuplicatesEdge): boolean {
+  const sameness = SAMENESS.indexOf(one.same) - SAMENESS.indexOf(held.same);
+  if (sameness !== 0) return sameness > 0;
+  return CERTAINTY.indexOf(one.confidence) > CERTAINTY.indexOf(held.confidence);
 }
 
 /**

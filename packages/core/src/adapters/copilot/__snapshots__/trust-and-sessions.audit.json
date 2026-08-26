@@ -837,7 +837,7 @@
     {
       "id": "context-file:<ROOT>/project-a/agents.md",
       "kind": "context-file",
-      "harness": "copilot",
+      "harness": null,
       "producer": null,
       "project": "project:<ROOT>/project-a",
       "scope": "project",
@@ -921,7 +921,7 @@
     {
       "id": "context-file:<ROOT>/project-a/packages/api/agents.md",
       "kind": "context-file",
-      "harness": "copilot",
+      "harness": null,
       "producer": null,
       "project": "project:<ROOT>/project-a",
       "scope": "project",
@@ -2332,11 +2332,11 @@
       "contentHash": [
         {
           "algo": "sha256-folder",
-          "value": "eb4f47be33fa81b440dc8d2c3a3c226984999d1a817a583adc43792854ba7b1e"
+          "value": "feb27732be830be8941c75652ed485e57b4c76b17aeab030843f560861b7df19"
         }
       ],
       "origin": null,
-      "drift": "unknown"
+      "drift": "copies-differ"
     },
     {
       "id": "skill:<ROOT>/project-a/.github/prompts/x.prompt.md",
@@ -2473,7 +2473,7 @@
         }
       ],
       "origin": null,
-      "drift": "unknown"
+      "drift": "copies-differ"
     }
   ],
   "edges": [
@@ -2518,6 +2518,20 @@
         }
       ],
       "same": "endpoint"
+    },
+    {
+      "id": "edge:duplicates:skill:<HOME>/.agents/skills/skill-a:skill:<ROOT>/project-a/.github/skills/skill-a",
+      "kind": "duplicates",
+      "from": "skill:<HOME>/.agents/skills/skill-a",
+      "to": "skill:<ROOT>/project-a/.github/skills/skill-a",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "name-only",
+          "detail": "skill-a"
+        }
+      ],
+      "same": "name"
     },
     {
       "id": "edge:loaded-by:agent-definition:<ROOT>/project-a/.github/agents/planner.agent.md:harness:copilot:project:<ROOT>/project-a",
@@ -3111,6 +3125,44 @@
           "file": "<ROOT>/project-a/.github/mcp.json",
           "format": "json",
           "keyPath": ["mcpServers", "server-stdio"]
+        }
+      }
+    },
+    {
+      "id": "finding:duplicate:skill:<HOME>/.agents/skills/skill-a",
+      "category": "duplicate",
+      "severity": "low",
+      "container": "harness:unknown",
+      "targets": [
+        {
+          "id": "skill:<HOME>/.agents/skills/skill-a",
+          "role": "subject"
+        },
+        {
+          "id": "skill:<ROOT>/project-a/.github/skills/skill-a",
+          "role": "counterpart"
+        }
+      ],
+      "message": "skill-a is configured 2 times with the same name (user scope, project scope of project-a)",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "identical bytes"
+        }
+      ],
+      "confidence": "high",
+      "impact": {
+        "bytes": 570,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": [],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": {
+          "type": "dir",
+          "path": "<HOME>/.agents/skills/skill-a"
         }
       }
     },

@@ -30,7 +30,6 @@ import { collectSettingsFiles } from "./settings-files.js";
 import {
   collectProjectSkills,
   collectUserSkills,
-  readLocks,
   shadowByName,
   skillDuplicates,
 } from "./skills.js";
@@ -216,7 +215,6 @@ export function createOpenCodeAdapter(): Adapter {
           if (layer.present && !layer.parseError) await collectInstructions(state, layer, project);
         }
       }
-      await readLocks(state);
       await collectUserSkills(state);
       for (const project of projects) await collectProjectSkills(state, project);
       skillDuplicates(state);

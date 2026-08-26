@@ -13,6 +13,7 @@ import { fileURLToPath } from "node:url";
 import { createClaudeCodeAdapter } from "../adapters/claude-code/index.js";
 import { createCopilotAdapter } from "../adapters/copilot/index.js";
 import { createOpenCodeAdapter } from "../adapters/opencode/index.js";
+import { createSharedAdapter, withSharedSkillFacts } from "../adapters/shared/index.js";
 import type { Adapter, AdapterOutput } from "../adapters/adapter.js";
 import { gitVersion, repoGitStatus, type RepoGitStatus } from "../git/git-status.js";
 import type {
@@ -27,7 +28,7 @@ import type {
   Warning,
 } from "../index/types.js";
 import { loadTokenizer, MULTIPLIERS } from "../tokens/tokenizer.js";
-import { byId, mergeOutputs, parentIdOf } from "./assemble.js";
+import { byId, mergeOutputs, oneEdgePerFact, parentIdOf } from "./assemble.js";
 import { createContext, warning, type GitLookup, type ResolvedOptions } from "./context.js";
 import { createDiscovery, type DiscoveredProject } from "./discovery.js";
 import { isFile, isRecord, readText, realpathOrSelf } from "./fs.js";
@@ -238,9 +239,14 @@ export async function scan(options: ScanOptions): Promise<Index> {
   }
 
   const wanted = options.harnesses ?? Object.keys(ADAPTERS);
-  const adapters = wanted
-    .map((id) => ADAPTERS[id]?.())
-    .filter((adapter): adapter is Adapter => adapter !== undefined);
+  // D21: `--harness` selects harness adapters; the shared stores are not selectable and always
+  // run. First, so D38's merge gives it the ownership of `~/.agents/**`, `AGENTS.md` and the locks.
+  const adapters = [
+    createSharedAdapter(),
+    ...wanted
+      .map((id) => ADAPTERS[id]?.())
+      .filter((adapter): adapter is Adapter => adapter !== undefined),
+  ];
 
   for (const adapter of adapters) await adapter.discover(ctx);
   await discovery.walkRoots();
@@ -313,8 +319,13 @@ export async function scan(options: ScanOptions): Promise<Index> {
     );
   }
 
-  // D38: one entity per real thing, whatever number of adapters saw it.
-  const { entities, edges } = mergeOutputs(outputs, identity.fold);
+  // D38: one entity per real thing, whatever number of adapters saw it. D79/D80: the duplicate
+  // pairs and the copies-differ verdict need every adapter's skills at once, so they follow.
+  const merged = withSharedSkillFacts(mergeOutputs(outputs, identity.fold));
+  // D148: the shared stores adapter adds its own sameness edges after the merge, so the pairs are
+  // canonicalised once more here — one edge per unordered pair, strongest evidence kept.
+  const { entities } = merged;
+  const edges = oneEdgePerFact(merged.edges);
   const breadcrumbs = outputs.flatMap((output) => output.breadcrumbs).toSorted(byId);
   const loadedBy = edges.filter((edge): edge is LoadedByEdge => edge.kind === "loaded-by");
   const harnesses: Harness[] = outputs

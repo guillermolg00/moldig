@@ -1,0 +1,713 @@
+{
+  "schemaVersion": 0,
+  "generatedAt": "2026-08-26T12:00:00.000Z",
+  "moldig": {
+    "version": "0.0.0"
+  },
+  "scan": {
+    "home": "<HOME>",
+    "roots": ["<ROOT>"],
+    "cwd": "<ROOT>",
+    "platform": "darwin",
+    "caseFold": true,
+    "env": {},
+    "git": {
+      "available": false,
+      "version": null
+    },
+    "durationMs": 0
+  },
+  "tokenizer": {
+    "name": "gpt-tokenizer",
+    "version": "4.0.0",
+    "encoding": "o200k_base",
+    "fallbackUsed": false,
+    "multipliers": {
+      "openai": {
+        "low": 1,
+        "mid": 1,
+        "high": 1
+      },
+      "google": {
+        "low": 1,
+        "mid": 1,
+        "high": 1
+      },
+      "anthropic-46": {
+        "low": 1,
+        "mid": 1.15,
+        "high": 1.25
+      },
+      "anthropic-47plus": {
+        "low": 1.3,
+        "mid": 1.5,
+        "high": 1.65
+      }
+    }
+  },
+  "harnesses": [
+    {
+      "id": "harness:claude-code",
+      "harness": "claude-code",
+      "displayName": "Claude Code",
+      "surfaces": ["cli"],
+      "presence": "absent",
+      "version": null,
+      "effectiveModel": null,
+      "modelFamily": null,
+      "contextWindowTokens": null,
+      "capabilities": {
+        "memoryLocation": "file",
+        "memoryReadSignal": "exact",
+        "contextFileNames": ["CLAUDE.md", "CLAUDE.local.md"],
+        "sweepDocumented": true
+      },
+      "caps": {
+        "memoryIndexLines": 200,
+        "memoryIndexBytes": 25600,
+        "chainMaxBytes": null,
+        "skillDescriptionChars": 1536,
+        "importDepth": 4
+      },
+      "effectiveSettings": {},
+      "breadcrumbSources": [
+        {
+          "kind": "projects-entry",
+          "path": "<HOME>/.claude.json",
+          "readInV1": true
+        },
+        {
+          "kind": "slug-directory",
+          "path": "<HOME>/.claude/projects",
+          "readInV1": true
+        }
+      ],
+      "userScope": {
+        "paths": [
+          {
+            "path": "<HOME>/.claude",
+            "role": "data",
+            "source": "default",
+            "envVar": null
+          },
+          {
+            "path": "<HOME>/.claude.json",
+            "role": "state",
+            "source": "default",
+            "envVar": null
+          }
+        ],
+        "stray": [],
+        "baseline": {
+          "items": [],
+          "tokens": 0
+        }
+      }
+    }
+  ],
+  "projects": [
+    {
+      "id": "project:<ROOT>/monorepo",
+      "path": "<ROOT>/monorepo",
+      "displayName": "monorepo",
+      "kind": "repository",
+      "reachability": "present",
+      "unreachableReason": null,
+      "enclosesCwd": false,
+      "discoveredBy": ["marker-walk"],
+      "parent": null,
+      "members": [
+        {
+          "path": "<ROOT>/monorepo",
+          "role": "repository",
+          "name": null,
+          "gitdir": null,
+          "reachability": "present"
+        }
+      ],
+      "breadcrumbs": [],
+      "nestedMarkers": [
+        {
+          "relativePath": "apps/api/AGENTS.md",
+          "marker": "AGENTS.md",
+          "entity": "context-file:<ROOT>/monorepo/apps/api/agents.md"
+        },
+        {
+          "relativePath": "apps/web/CLAUDE.md",
+          "marker": "CLAUDE.md",
+          "entity": "context-file:<ROOT>/monorepo/apps/web/claude.md"
+        },
+        {
+          "relativePath": "packages/ui/.cursor",
+          "marker": ".cursor",
+          "entity": null
+        }
+      ],
+      "perHarness": {
+        "claude-code": {
+          "trusted": null,
+          "effectiveSettings": {},
+          "sessionLoad": {
+            "items": [
+              {
+                "entity": "context-file:<ROOT>/monorepo/claude.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/monorepo/claude.md:harness:claude-code:project:<ROOT>/monorepo",
+                "order": 0,
+                "tokens": 48
+              }
+            ],
+            "tokens": 48
+          }
+        }
+      }
+    },
+    {
+      "id": "project:<ROOT>/plain-with-markers",
+      "path": "<ROOT>/plain-with-markers",
+      "displayName": "plain-with-markers",
+      "kind": "plain-directory",
+      "reachability": "present",
+      "unreachableReason": null,
+      "enclosesCwd": false,
+      "discoveredBy": ["marker-walk"],
+      "parent": null,
+      "members": [
+        {
+          "path": "<ROOT>/plain-with-markers",
+          "role": "repository",
+          "name": null,
+          "gitdir": null,
+          "reachability": "present"
+        }
+      ],
+      "breadcrumbs": [],
+      "nestedMarkers": [],
+      "perHarness": {
+        "claude-code": {
+          "trusted": null,
+          "effectiveSettings": {},
+          "sessionLoad": {
+            "items": [
+              {
+                "entity": "context-file:<ROOT>/plain-with-markers/claude.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/plain-with-markers/claude.md:harness:claude-code:project:<ROOT>/plain-with-markers",
+                "order": 0,
+                "tokens": 30
+              }
+            ],
+            "tokens": 30
+          }
+        }
+      }
+    },
+    {
+      "id": "project:<ROOT>/wt-main",
+      "path": "<ROOT>/wt-main",
+      "displayName": "wt-main",
+      "kind": "repository",
+      "reachability": "present",
+      "unreachableReason": null,
+      "enclosesCwd": false,
+      "discoveredBy": ["marker-walk"],
+      "parent": null,
+      "members": [
+        {
+          "path": "<ROOT>/wt-main",
+          "role": "repository",
+          "name": null,
+          "gitdir": null,
+          "reachability": "present"
+        },
+        {
+          "path": "<ROOT>/wt-dead",
+          "role": "worktree",
+          "name": "dead",
+          "gitdir": "<ROOT>/wt-main/.git/worktrees/dead",
+          "reachability": "orphan"
+        },
+        {
+          "path": "<ROOT>/wt-feature",
+          "role": "worktree",
+          "name": "feature",
+          "gitdir": "<ROOT>/wt-main/.git/worktrees/feature",
+          "reachability": "present"
+        }
+      ],
+      "breadcrumbs": [],
+      "nestedMarkers": [],
+      "perHarness": {
+        "claude-code": {
+          "trusted": null,
+          "effectiveSettings": {},
+          "sessionLoad": {
+            "items": [],
+            "tokens": 0
+          }
+        }
+      }
+    }
+  ],
+  "breadcrumbs": [],
+  "entities": [
+    {
+      "id": "context-file:<ROOT>/monorepo/agents.md",
+      "kind": "context-file",
+      "harness": null,
+      "producer": null,
+      "project": "project:<ROOT>/monorepo",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/monorepo/AGENTS.md",
+      "relativePath": "AGENTS.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/monorepo/AGENTS.md"
+      },
+      "format": "md",
+      "label": "AGENTS.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 96,
+        "files": 1,
+        "lines": 6,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 36,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "AGENTS.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/monorepo/apps/api/agents.md",
+      "kind": "context-file",
+      "harness": null,
+      "producer": null,
+      "project": "project:<ROOT>/monorepo",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/monorepo/apps/api/AGENTS.md",
+      "relativePath": "apps/api/AGENTS.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/monorepo/apps/api/AGENTS.md"
+      },
+      "format": "md",
+      "label": "apps/api/AGENTS.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 80,
+        "files": 1,
+        "lines": 5,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 30,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "AGENTS.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/monorepo/apps/web/claude.md",
+      "kind": "context-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/monorepo",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/monorepo/apps/web/CLAUDE.md",
+      "relativePath": "apps/web/CLAUDE.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/monorepo/apps/web/CLAUDE.md"
+      },
+      "format": "md",
+      "label": "apps/web/CLAUDE.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 64,
+        "files": 1,
+        "lines": 4,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 24,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "CLAUDE.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/monorepo/claude.md",
+      "kind": "context-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/monorepo",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/monorepo/CLAUDE.md",
+      "relativePath": "CLAUDE.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/monorepo/CLAUDE.md"
+      },
+      "format": "md",
+      "label": "CLAUDE.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 128,
+        "files": 1,
+        "lines": 8,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 48,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "CLAUDE.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/plain-with-markers/claude.md",
+      "kind": "context-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/plain-with-markers",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/plain-with-markers/CLAUDE.md",
+      "relativePath": "CLAUDE.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/plain-with-markers/CLAUDE.md"
+      },
+      "format": "md",
+      "label": "CLAUDE.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 80,
+        "files": 1,
+        "lines": 5,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 30,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "CLAUDE.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/wt-feature/claude.md",
+      "kind": "context-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/wt-main",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/wt-feature/CLAUDE.md",
+      "relativePath": "../wt-feature/CLAUDE.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/wt-feature/CLAUDE.md"
+      },
+      "format": "md",
+      "label": "../wt-feature/CLAUDE.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 48,
+        "files": 1,
+        "lines": 3,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 18,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "CLAUDE.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "skill:<ROOT>/monorepo/.agents/skills/skill-a",
+      "kind": "skill",
+      "harness": null,
+      "producer": null,
+      "project": "project:<ROOT>/monorepo",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/monorepo/.agents/skills/skill-a",
+      "relativePath": ".agents/skills/skill-a",
+      "locator": {
+        "type": "dir",
+        "path": "<ROOT>/monorepo/.agents/skills/skill-a"
+      },
+      "format": "dir",
+      "label": "skill-a",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 272,
+        "files": 2,
+        "lines": 15,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 73,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-a",
+      "dirName": "skill-a",
+      "frontmatterName": "skill-a",
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<ROOT>/monorepo/.agents/skills/skill-a",
+          "harness": null,
+          "surface": null,
+          "scope": "project",
+          "project": "project:<ROOT>/monorepo",
+          "gitStatus": null,
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "skill-a",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "156a8351f9a807d8f9b043d3c763f7801b80e9d42d0c2b8881cfeda9a4cc69ab"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/monorepo/apps/web/claude.md:harness:claude-code:project:<ROOT>/monorepo",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/monorepo/apps/web/claude.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "subdirectory below the session directory: loaded when Claude reads files there"
+        }
+      ],
+      "project": "project:<ROOT>/monorepo",
+      "mode": "on-demand",
+      "reason": "subdirectory below the session directory: loaded when Claude reads files there",
+      "placement": "<ROOT>/monorepo/apps/web/CLAUDE.md",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 64,
+      "importsResolved": 0,
+      "tokensLoaded": 24,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/monorepo/claude.md:harness:claude-code:project:<ROOT>/monorepo",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/monorepo/claude.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "CLAUDE.md of the session directory"
+        }
+      ],
+      "project": "project:<ROOT>/monorepo",
+      "mode": "full",
+      "reason": "CLAUDE.md of the session directory",
+      "placement": "<ROOT>/monorepo/CLAUDE.md",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 128,
+      "importsResolved": 0,
+      "tokensLoaded": 48,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/plain-with-markers/claude.md:harness:claude-code:project:<ROOT>/plain-with-markers",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/plain-with-markers/claude.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "CLAUDE.md of the session directory"
+        }
+      ],
+      "project": "project:<ROOT>/plain-with-markers",
+      "mode": "full",
+      "reason": "CLAUDE.md of the session directory",
+      "placement": "<ROOT>/plain-with-markers/CLAUDE.md",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 80,
+      "importsResolved": 0,
+      "tokensLoaded": 30,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/wt-feature/claude.md:harness:claude-code:project:<ROOT>/wt-main",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/wt-feature/claude.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "in linked worktree feature: loaded by sessions started there"
+        }
+      ],
+      "project": "project:<ROOT>/wt-main",
+      "mode": "full",
+      "reason": "in linked worktree feature: loaded by sessions started there",
+      "placement": "<ROOT>/wt-feature/CLAUDE.md",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 48,
+      "importsResolved": 0,
+      "tokensLoaded": 18,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    }
+  ],
+  "warnings": [
+    {
+      "code": "git-missing",
+      "message": "git not run (git: false): git-tracked status unknown",
+      "harness": null,
+      "path": null,
+      "effect": "degraded"
+    }
+  ],
+  "totals": {
+    "entities": 7,
+    "files": 8,
+    "bytes": 768,
+    "harnessCacheBytes": 0,
+    "memoryBytes": 0,
+    "tokens": 259
+  },
+  "findings": [],
+  "headline": {
+    "scope": "user-controllable",
+    "focus": {
+      "project": "project:<ROOT>/monorepo",
+      "reason": "most-expensive"
+    },
+    "perHarness": [
+      {
+        "harness": "claude-code",
+        "modelFamily": null,
+        "contextWindowTokens": null,
+        "baseline": {
+          "low": 0,
+          "mid": 0,
+          "high": 0
+        },
+        "project": {
+          "low": 48,
+          "mid": 48,
+          "high": 48
+        },
+        "total": {
+          "low": 48,
+          "mid": 48,
+          "high": 48
+        },
+        "pctOfContext": null
+      }
+    ]
+  }
+}

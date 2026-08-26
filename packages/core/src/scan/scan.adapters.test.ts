@@ -1,7 +1,8 @@
 /**
  * D127: an adapter may return no Harness at all — the adapter of the stores several harnesses
- * share emits entities (`harness: null`) but is not a harness. The only registered adapter is
- * stubbed here so `scan` runs over exactly one such output.
+ * share emits entities (`harness: null`) but is not a harness. Both registered adapters are
+ * stubbed here (the real shared-stores adapter always runs, D21) so `scan` runs over exactly one
+ * such output.
  */
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { Adapter, AdapterOutput } from "../adapters/adapter.js";
@@ -10,20 +11,28 @@ import { loadFixture, type FixtureTree } from "../testing/index.js";
 
 const sharedOnly = vi.hoisted(() => ({ output: null as AdapterOutput | null }));
 
+const emptyOutput = (): AdapterOutput => ({
+  harness: null,
+  breadcrumbs: [],
+  entities: [],
+  edges: [],
+  projectFacts: new Map(),
+});
+
 vi.mock("../adapters/claude-code/index.js", () => ({
   createClaudeCodeAdapter: (): Adapter => ({
     id: "claude-code",
     discover: () => Promise.resolve(),
-    collect: () =>
-      Promise.resolve(
-        sharedOnly.output ?? {
-          harness: null,
-          breadcrumbs: [],
-          entities: [],
-          edges: [],
-          projectFacts: new Map(),
-        },
-      ),
+    collect: () => Promise.resolve(sharedOnly.output ?? emptyOutput()),
+  }),
+}));
+
+vi.mock("../adapters/shared/index.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../adapters/shared/index.js")>()),
+  createSharedAdapter: (): Adapter => ({
+    id: "shared",
+    discover: () => Promise.resolve(),
+    collect: () => Promise.resolve(emptyOutput()),
   }),
 }));
 

@@ -413,8 +413,14 @@ describe("copilot adapter over the trust-and-sessions case", () => {
       expect(item.usesInterpolation).toBe(false);
       expect(item.removal).toEqual({ method: "backup-edit" });
     }
-    // A server configured on both surfaces pairs by endpoint, never by name alone.
-    const duplicates = result.edges.filter((edge) => edge.kind === "duplicates");
+    // A server configured on both surfaces pairs by endpoint, never by name alone. Skill pairs
+    // belong to the shared stores adapter (ticket 22), so this counts MCP subjects only.
+    const servers = new Set(
+      result.entities.filter((item) => item.kind === "mcp-server").map((item) => item.id),
+    );
+    const duplicates = result.edges.filter(
+      (edge) => edge.kind === "duplicates" && servers.has(edge.from),
+    );
     expect(duplicates).toHaveLength(3);
     expect(duplicates.every((edge) => edge.kind === "duplicates" && edge.same === "endpoint")).toBe(
       true,
@@ -628,8 +634,18 @@ describe("copilot on a machine that never ran it", () => {
         now: NOW,
       });
       expect(index.harnesses).toEqual([]);
-      expect(index.entities).toEqual([]);
       expect(index.breadcrumbs).toEqual([]);
+      // The shared stores adapter always runs (D21), so `AGENTS.md` and the store's skills are
+      // still there; what must be absent is anything this harness owns or reaches.
+      expect(index.entities.every((item) => item.harness === null)).toBe(true);
+      expect(
+        index.entities.every(
+          (item) =>
+            item.kind !== "skill" ||
+            item.placements.every((placement) => placement.harness !== "copilot"),
+        ),
+      ).toBe(true);
+      expect(index.edges.every((edge) => edge.to !== "harness:copilot")).toBe(true);
       expect(index.projects.every((project) => project.perHarness["copilot"] === undefined)).toBe(
         true,
       );

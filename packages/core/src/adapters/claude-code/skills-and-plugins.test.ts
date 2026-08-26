@@ -354,10 +354,14 @@ describe("claude-code adapter over the skills-and-plugins case", () => {
       format: "json",
       keyPath: ["marketplace-gone"],
     });
-    // The store copy `skill-orphan` no agent directory links, and the lock row whose directory
-    // never existed: both locator-only targets (ticket 07 allows them).
-    const orphanStore = result.findings.find((item) => item.id.endsWith(":skill-orphan"));
-    expect(orphanStore?.message).toContain("no agent directory links");
+    // Ticket 06 §15: once the shared-stores adapter walks `~/.agents/skills`, `skill-orphan` is a
+    // Skill of its own with its lock origin — and no Orphan row: the canonical store is read
+    // directly by Codex, Cursor, Gemini CLI, Copilot and OpenCode, link or no link.
+    const orphanStore = skill(home(".agents/skills/skill-orphan"));
+    expect(orphanStore.origin?.installer).toBe("vercel-skills");
+    expect(orphanStore.placements.map((item) => item.harness)).toEqual([null]);
+    expect(result.findings.some((item) => item.id.endsWith(":skill-orphan"))).toBe(false);
+    // The lock row whose directory never existed stays a locator-only target (07 allows them).
     const missing = result.findings.find((item) => item.id.endsWith(":skill-missing"));
     expect(missing?.targets[0]?.locator).toEqual({
       type: "entry",

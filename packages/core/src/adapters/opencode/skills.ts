@@ -19,7 +19,6 @@ import type {
   ShadowsEdge,
   Skill,
 } from "../../index/types.js";
-import { warning } from "../../scan/context.js";
 import type { DiscoveredProject } from "../../scan/discovery.js";
 import {
   countLines,
@@ -27,7 +26,6 @@ import {
   isRecord,
   listDir,
   lstatOrNull,
-  readJsonObject,
   readText,
   realpathOrSelf,
   sha256,
@@ -35,13 +33,7 @@ import {
 } from "../../scan/fs.js";
 import { parseFrontmatter } from "../../scan/markdown.js";
 import { edgeId, isUnder } from "../../scan/paths.js";
-import {
-  layoutOf,
-  originOf,
-  readSkillLock,
-  storeOf,
-  type LockEntry,
-} from "../claude-code/locks.js";
+import { layoutOf, originOf, type LockEntry } from "../claude-code/locks.js";
 import { formatOfConfig } from "./config.js";
 import { addEdge, addEntity, baseEntity, evidence, loadedBy, type OpenCodeScan } from "./model.js";
 
@@ -636,50 +628,5 @@ export function shadowByName(scan: OpenCodeScan): void {
         }
       }
     }
-  }
-}
-
-/**
- * The Vercel skill locks, read only to fill `Origin` for skills this adapter owns (the shared
- * store itself is the shared-stores adapter's, ticket 22). The fixture's lock declares
- * `version: 1` with version-3 entry keys: one `unsupported-shape` warning, and its entries are
- * left alone rather than guessed at.
- */
-export async function readLocks(scan: OpenCodeScan): Promise<void> {
-  const files: string[] = [];
-  const xdg = scan.ctx.consultEnv("XDG_STATE_HOME");
-  if (xdg !== undefined) files.push(join(xdg, "skills", ".skill-lock.json"));
-  files.push(join(scan.paths.home, ".agents", ".skill-lock.json"));
-  for (const file of files) {
-    const raw = await readJsonObject(file);
-    if (raw === null) {
-      if (await isFile(file)) {
-        scan.ctx.warn(
-          warning("parse-error", ".skill-lock.json is not valid JSON", "opencode", file, "partial"),
-        );
-      }
-      continue;
-    }
-    // v3 records `skillFolderHash` per entry, v1 the `computedHash` it can reproduce. A version
-    // that disagrees with the keys is a shape moldig has not seen: report it, never guess.
-    const skills = raw["skills"];
-    const version = typeof raw["version"] === "number" ? raw["version"] : null;
-    const v3Keys =
-      isRecord(skills) &&
-      Object.values(skills).some((entry) => isRecord(entry) && "skillFolderHash" in entry);
-    if (version !== 3 && v3Keys) {
-      scan.ctx.warn(
-        warning(
-          "unsupported-shape",
-          `.skill-lock.json declares version ${version ?? "unknown"} with version-3 entry keys: skill origins are not read`,
-          "opencode",
-          file,
-          "partial",
-        ),
-      );
-      continue;
-    }
-    const lock = await readSkillLock(file, storeOf(file), "user", null);
-    if (lock.present && !lock.parseError) scan.locks.push(lock);
   }
 }

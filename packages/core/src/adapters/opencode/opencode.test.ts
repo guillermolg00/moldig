@@ -190,10 +190,11 @@ describe("opencode adapter over the db-and-config case", () => {
     ]);
     expect(harness?.userScope.paths.every((item) => item.source === "default")).toBe(true);
     expect(result.scan.env).toEqual({});
-    // The lock declares `version: 1` with v3 entry keys: reported, never guessed at.
+    // The lock declares `version: 1` with v3 entry keys: reported by the shared stores adapter
+    // (ticket 22 owns `~/.agents`), never by this one, and never guessed at.
     expect(result.warnings.map((item) => [item.code, item.harness])).toEqual([
       ["git-missing", null],
-      ["unsupported-shape", "opencode"],
+      ["unsupported-shape", null],
     ]);
     expect(result.warnings[1]?.path).toBe(home(".agents/.skill-lock.json"));
     expect(
@@ -471,16 +472,13 @@ describe("opencode adapter over the db-and-config case", () => {
         root("project-a/.claude/skills/web-design-guidelines"),
       ].map((path) => id("skill", path)),
     );
+    // The shared stores adapter pairs the same copies by origin and by name as well (ticket 22),
+    // so the three content pairs are asserted on their own rather than by the total.
     const duplicates = result.edges.filter(
-      (edge) => edge.kind === "duplicates" && copies.has(edge.from),
+      (edge) => edge.kind === "duplicates" && copies.has(edge.from) && edge.same === "content",
     );
     expect(duplicates).toHaveLength(3);
-    expect(
-      duplicates.every(
-        (edge) =>
-          edge.kind === "duplicates" && edge.same === "content" && edge.confidence === "certain",
-      ),
-    ).toBe(true);
+    expect(duplicates.every((edge) => edge.confidence === "certain")).toBe(true);
     // The `.claude/skills` copy carries both adapters' placements after the scan merge (D38).
     const shared = entity("skill", root("project-a/.claude/skills/web-design-guidelines"));
     if (shared.kind !== "skill") throw new Error("kind");
@@ -691,9 +689,10 @@ describe("opencode adapter over the branches the fixture does not carry", () => 
       const index = await scanTree(extra, {
         env: { OPENCODE_CONFIG: file, OPENCODE_CONFIG_CONTENT: '{"model":"x/y"}' },
       });
-      const shapes = index.warnings.filter((item) => item.code === "unsupported-shape");
+      const shapes = index.warnings.filter(
+        (item) => item.code === "unsupported-shape" && item.harness === "opencode",
+      );
       expect(shapes.map((item) => item.message).toSorted((a, b) => (a < b ? -1 : 1))).toEqual([
-        ".skill-lock.json declares version 1 with version-3 entry keys: skill origins are not read",
         "OPENCODE_CONFIG_CONTENT holds inline configuration: not read",
         "instructions entry is a URL: not fetched",
       ]);

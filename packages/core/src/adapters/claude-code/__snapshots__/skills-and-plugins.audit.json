@@ -1313,7 +1313,7 @@
       "contentHash": [
         {
           "algo": "sha256-folder",
-          "value": "ea2014dce6f3b8f37e49f6aef79d8a6bed9362b2515452e275e1f09732960d74"
+          "value": "3bfbba53cd539052016765a707198a0106530430bdbc29d14723ce83d7bd0f5d"
         }
       ],
       "origin": {
@@ -1334,6 +1334,93 @@
           "file": "<HOME>/.agents/.skill-lock.json",
           "format": "json",
           "keyPath": ["skills", "skill-a"]
+        }
+      },
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.agents/skills/skill-orphan",
+      "kind": "skill",
+      "harness": null,
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.agents/skills/skill-orphan",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.agents/skills/skill-orphan"
+      },
+      "format": "dir",
+      "label": "skill-orphan",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 582,
+        "files": 1,
+        "lines": 16,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 134,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-orphan",
+      "dirName": "skill-orphan",
+      "frontmatterName": "skill-orphan",
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<HOME>/.agents/skills/skill-orphan",
+          "harness": null,
+          "surface": null,
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "skill-orphan",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "1e80b145c4bb1d8dabae926ca8f138bac2e3d11b60014fc57377acb6f9750852"
+        }
+      ],
+      "origin": {
+        "installer": "vercel-skills",
+        "sourceType": "github",
+        "source": "<redacted>",
+        "sourceUrl": "<redacted>",
+        "ref": null,
+        "skillPath": "<redacted>",
+        "recordedHash": {
+          "algo": "unknown",
+          "value": "<redacted-hash>"
+        },
+        "installedAt": "2023-11-14T22:13:20.000Z",
+        "updatedAt": "2023-11-14T22:13:20.000Z",
+        "lock": {
+          "type": "entry",
+          "file": "<HOME>/.agents/.skill-lock.json",
+          "format": "json",
+          "keyPath": ["skills", "skill-orphan"]
         }
       },
       "drift": "unknown"
@@ -1826,7 +1913,7 @@
       "contentHash": [
         {
           "algo": "sha256-folder",
-          "value": "a498365dd039ab205a147f94eff6a341af07b2b994cdc915a5aa848b5bae2d4d"
+          "value": "7d4ff46c18b52b8efc9d7b44b19f7155d3732486d6ee994e9f975d7b793c70cd"
         }
       ],
       "origin": {
@@ -2272,6 +2359,25 @@
       ]
     },
     {
+      "id": "edge:originates-from:skill:<HOME>/.agents/skills/skill-orphan:settings-file:<HOME>/.agents/.skill-lock.json",
+      "kind": "originates-from",
+      "from": "skill:<HOME>/.agents/skills/skill-orphan",
+      "to": "settings-file:<HOME>/.agents/.skill-lock.json",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "lock-entry",
+          "detail": "skills.skill-orphan",
+          "locator": {
+            "type": "entry",
+            "file": "<HOME>/.agents/.skill-lock.json",
+            "format": "json",
+            "keyPath": ["skills", "skill-orphan"]
+          }
+        }
+      ]
+    },
+    {
       "id": "edge:originates-from:skill:<HOME>/.claude/skills/skill-dangling:settings-file:<HOME>/.agents/.skill-lock.json",
       "kind": "originates-from",
       "from": "skill:<HOME>/.claude/skills/skill-dangling",
@@ -2404,12 +2510,12 @@
     }
   ],
   "totals": {
-    "entities": 31,
-    "files": 42,
-    "bytes": 33119,
+    "entities": 32,
+    "files": 43,
+    "bytes": 33701,
     "harnessCacheBytes": 3310,
     "memoryBytes": 0,
-    "tokens": 4500
+    "tokens": 4634
   },
   "findings": [
     {
@@ -2504,49 +2610,6 @@
       "flags": [],
       "action": {
         "kind": "clean",
-        "preselect": false,
-        "locator": null
-      }
-    },
-    {
-      "id": "finding:orphan:lock-entry:<HOME>/.agents/.skill-lock.json:skill-orphan",
-      "category": "orphan",
-      "severity": "low",
-      "container": "harness:claude-code",
-      "targets": [
-        {
-          "locator": {
-            "type": "dir",
-            "path": "<HOME>/.agents/skills/skill-orphan"
-          },
-          "role": "subject"
-        },
-        {
-          "locator": {
-            "type": "entry",
-            "file": "<HOME>/.agents/.skill-lock.json",
-            "format": "json",
-            "keyPath": ["skills", "skill-orphan"]
-          },
-          "role": "state"
-        }
-      ],
-      "message": "skill-orphan: a skill directory in the store no agent directory links",
-      "evidence": [
-        {
-          "kind": "name-only",
-          "detail": "<HOME>/.agents/skills/skill-orphan"
-        }
-      ],
-      "confidence": "certain",
-      "impact": {
-        "bytes": 0,
-        "tokens": null,
-        "files": 0
-      },
-      "flags": [],
-      "action": {
-        "kind": "open",
         "preselect": false,
         "locator": null
       }
