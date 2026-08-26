@@ -632,6 +632,7 @@ describe.runIf(POSIX_FIXTURE_HOST)("opencode adapter over the db-and-config case
   it("matches the audit snapshot", async () => {
     const stable = normaliseSnapshot(result, tree);
     stable.scan.durationMs = 0;
+    stable.moldig.version = "<VERSION>";
     await expect(stableTimes(formattedJson(stable) + "\n")).toMatchFileSnapshot(
       "./__snapshots__/db-and-config.audit.json",
     );

@@ -775,6 +775,7 @@ describe.runIf(POSIX_FIXTURE_HOST)("cursor adapter over the workspaces case", ()
     skip(!caseInsensitiveHost, "the committed snapshot is the case-insensitive-volume answer");
     const stable = normaliseSnapshot(result, tree);
     stable.scan.durationMs = 0;
+    stable.moldig.version = "<VERSION>";
     await expect(stableTimes(formattedJson(stable) + "\n")).toMatchFileSnapshot(
       "./__snapshots__/workspaces.audit.json",
     );

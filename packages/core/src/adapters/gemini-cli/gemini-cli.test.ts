@@ -731,6 +731,7 @@ describe.runIf(POSIX_FIXTURE_HOST)("gemini-cli adapter over the from-docs case",
   it("matches the audit snapshot", async () => {
     const stable = normaliseSnapshot(result, tree);
     stable.scan.durationMs = 0;
+    stable.moldig.version = "<VERSION>";
     await expect(stableTimes(formattedJson(stable) + "\n")).toMatchFileSnapshot(
       "./__snapshots__/from-docs.audit.json",
     );
@@ -879,6 +880,7 @@ describe.runIf(POSIX_FIXTURE_HOST)("gemini-cli adapter over the zero-breadcrumbs
   it("matches the audit snapshot", async () => {
     const stable = normaliseSnapshot(result, tree);
     stable.scan.durationMs = 0;
+    stable.moldig.version = "<VERSION>";
     await expect(stableTimes(formattedJson(stable) + "\n")).toMatchFileSnapshot(
       "./__snapshots__/zero-breadcrumbs.audit.json",
     );

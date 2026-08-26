@@ -2,7 +2,7 @@
   "schemaVersion": 0,
   "generatedAt": "2026-08-26T12:00:00.000Z",
   "moldig": {
-    "version": "0.0.0"
+    "version": "<VERSION>"
   },
   "scan": {
     "home": "<HOME>",

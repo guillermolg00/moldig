@@ -273,6 +273,7 @@ describe.runIf(POSIX_FIXTURE_HOST)("the shared stores over the skill-layouts cas
   it("matches the audit snapshot", async () => {
     const stable = normaliseSnapshot(result, tree);
     stable.scan.durationMs = 0;
+    stable.moldig.version = "<VERSION>";
     await expect(stableTimes(formattedJson(stable) + "\n")).toMatchFileSnapshot(
       "./__snapshots__/skill-layouts.audit.json",
     );
@@ -356,6 +357,7 @@ describe("the shared stores over the root-tree case", () => {
   it("matches the audit snapshot", async () => {
     const stable = normaliseSnapshot(result, tree);
     stable.scan.durationMs = 0;
+    stable.moldig.version = "<VERSION>";
     await expect(stableTimes(formattedJson(stable) + "\n")).toMatchFileSnapshot(
       "./__snapshots__/root-tree.audit.json",
     );

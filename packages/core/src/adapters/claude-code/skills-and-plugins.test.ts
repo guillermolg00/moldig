@@ -434,6 +434,7 @@ describe.runIf(POSIX_FIXTURE_HOST)("claude-code adapter over the skills-and-plug
   it("matches the audit snapshot", async () => {
     const stable = normaliseSnapshot(result, tree);
     stable.scan.durationMs = 0;
+    stable.moldig.version = "<VERSION>";
     await expect(stableTimes(formattedJson(stable) + "\n")).toMatchFileSnapshot(
       "./__snapshots__/skills-and-plugins.audit.json",
     );

@@ -792,6 +792,7 @@ describe.runIf(POSIX_FIXTURE_HOST)("codex adapter over the trust-and-state case"
   it("matches the audit snapshot", async () => {
     const stable = normaliseSnapshot(result, tree);
     stable.scan.durationMs = 0;
+    stable.moldig.version = "<VERSION>";
     await expect(stableTimes(formattedJson(stable) + "\n")).toMatchFileSnapshot(
       "./__snapshots__/trust-and-state.audit.json",
     );
