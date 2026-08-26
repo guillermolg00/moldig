@@ -1,0 +1,3654 @@
+{
+  "schemaVersion": 0,
+  "generatedAt": "2026-08-26T12:00:00.000Z",
+  "moldig": {
+    "version": "0.0.0"
+  },
+  "scan": {
+    "home": "<HOME>",
+    "roots": ["<ROOT>"],
+    "cwd": "<ROOT>",
+    "platform": "darwin",
+    "caseFold": true,
+    "env": {},
+    "git": {
+      "available": false,
+      "version": null
+    },
+    "durationMs": 0
+  },
+  "tokenizer": {
+    "name": "gpt-tokenizer",
+    "version": "4.0.0",
+    "encoding": "o200k_base",
+    "fallbackUsed": false,
+    "multipliers": {
+      "openai": {
+        "low": 1,
+        "mid": 1,
+        "high": 1
+      },
+      "google": {
+        "low": 1,
+        "mid": 1,
+        "high": 1
+      },
+      "anthropic-46": {
+        "low": 1,
+        "mid": 1.15,
+        "high": 1.25
+      },
+      "anthropic-47plus": {
+        "low": 1.3,
+        "mid": 1.5,
+        "high": 1.65
+      }
+    }
+  },
+  "harnesses": [
+    {
+      "id": "harness:claude-code",
+      "harness": "claude-code",
+      "displayName": "Claude Code",
+      "surfaces": ["cli"],
+      "presence": "absent",
+      "version": null,
+      "effectiveModel": null,
+      "modelFamily": null,
+      "contextWindowTokens": null,
+      "capabilities": {
+        "memoryLocation": "file",
+        "memoryReadSignal": "exact",
+        "contextFileNames": ["CLAUDE.md", "CLAUDE.local.md"],
+        "sweepDocumented": true
+      },
+      "caps": {
+        "memoryIndexLines": 200,
+        "memoryIndexBytes": 25600,
+        "chainMaxBytes": null,
+        "skillDescriptionChars": 1536,
+        "importDepth": 4
+      },
+      "effectiveSettings": {},
+      "breadcrumbSources": [
+        {
+          "kind": "projects-entry",
+          "path": "<HOME>/.claude.json",
+          "readInV1": true
+        },
+        {
+          "kind": "slug-directory",
+          "path": "<HOME>/.claude/projects",
+          "readInV1": true
+        }
+      ],
+      "userScope": {
+        "paths": [
+          {
+            "path": "<HOME>/.claude",
+            "role": "data",
+            "source": "default",
+            "envVar": null
+          },
+          {
+            "path": "<HOME>/.claude.json",
+            "role": "state",
+            "source": "default",
+            "envVar": null
+          }
+        ],
+        "stray": [],
+        "baseline": {
+          "items": [],
+          "tokens": 0
+        }
+      }
+    },
+    {
+      "id": "harness:opencode",
+      "harness": "opencode",
+      "displayName": "OpenCode",
+      "surfaces": ["cli"],
+      "presence": "installed",
+      "version": "1.17.9",
+      "effectiveModel": null,
+      "modelFamily": null,
+      "contextWindowTokens": null,
+      "capabilities": {
+        "memoryLocation": "none",
+        "memoryReadSignal": "not-applicable",
+        "contextFileNames": ["AGENTS.md", "CLAUDE.md"],
+        "sweepDocumented": false
+      },
+      "caps": {
+        "memoryIndexLines": null,
+        "memoryIndexBytes": null,
+        "chainMaxBytes": null,
+        "skillDescriptionChars": null,
+        "importDepth": null
+      },
+      "effectiveSettings": {
+        "mcp": {
+          "server-local": {
+            "type": "local",
+            "command": ["<redacted>", "<redacted>"],
+            "cwd": "<redacted>",
+            "environment": {
+              "EXAMPLE_VAR": "<redacted>"
+            },
+            "enabled": true
+          },
+          "server-remote": {
+            "type": "remote",
+            "url": "<redacted>",
+            "headers": {
+              "Authorization": "<redacted>"
+            },
+            "enabled": true,
+            "timeout": 5000
+          }
+        },
+        "instructions": ["<HOME>/.config/opencode/rules/*.md", "<redacted>"]
+      },
+      "breadcrumbSources": [
+        {
+          "kind": "project-row",
+          "path": "<HOME>/.local/share/opencode/opencode.db",
+          "readInV1": true
+        },
+        {
+          "kind": "legacy-project-record",
+          "path": "<HOME>/.local/share/opencode/storage/project",
+          "readInV1": true
+        },
+        {
+          "kind": "workspace-record",
+          "path": "<HOME>/.local/share/opencode/opencode.db",
+          "readInV1": false
+        },
+        {
+          "kind": "session-cwd",
+          "path": "<HOME>/.local/share/opencode/opencode.db",
+          "readInV1": false
+        }
+      ],
+      "userScope": {
+        "paths": [
+          {
+            "path": "<HOME>/.config/opencode",
+            "role": "config",
+            "source": "default",
+            "envVar": null
+          },
+          {
+            "path": "<HOME>/.local/share/opencode",
+            "role": "data",
+            "source": "default",
+            "envVar": null
+          },
+          {
+            "path": "<HOME>/.cache/opencode",
+            "role": "cache",
+            "source": "default",
+            "envVar": null
+          },
+          {
+            "path": "<HOME>/.local/state/opencode",
+            "role": "state",
+            "source": "default",
+            "envVar": null
+          }
+        ],
+        "stray": [
+          "breadcrumb:opencode:<HOME>/.local/share/opencode/opencode.db#project/id/3333333333333333333333333333333333333333",
+          "breadcrumb:opencode:<HOME>/.local/share/opencode/opencode.db#project/id/global",
+          "breadcrumb:opencode:<HOME>/.local/share/opencode/storage/project/global.json"
+        ],
+        "baseline": {
+          "items": [
+            {
+              "entity": "context-file:<HOME>/.config/opencode/agents.md",
+              "edge": "edge:loaded-by:context-file:<HOME>/.config/opencode/agents.md:harness:opencode",
+              "order": 0,
+              "tokens": 120
+            },
+            {
+              "entity": "context-file:<HOME>/.config/opencode/rules/rule-a.md",
+              "edge": "edge:loaded-by:context-file:<HOME>/.config/opencode/rules/rule-a.md:harness:opencode",
+              "order": 1,
+              "tokens": 54
+            },
+            {
+              "entity": "context-file:<HOME>/.config/opencode/style.md",
+              "edge": "edge:loaded-by:context-file:<HOME>/.config/opencode/style.md:harness:opencode",
+              "order": 2,
+              "tokens": 32
+            },
+            {
+              "entity": "skill:<HOME>/.agents/skills/find-skills",
+              "edge": "edge:loaded-by:skill:<HOME>/.agents/skills/find-skills:harness:opencode",
+              "order": 3,
+              "tokens": 7
+            },
+            {
+              "entity": "skill:<HOME>/.config/opencode/skill/vercel-react-best-practices",
+              "edge": "edge:loaded-by:skill:<HOME>/.config/opencode/skill/vercel-react-best-practices:harness:opencode",
+              "order": 4,
+              "tokens": 11
+            },
+            {
+              "entity": "skill:<HOME>/.config/opencode/skill/web-design-guidelines",
+              "edge": "edge:loaded-by:skill:<HOME>/.config/opencode/skill/web-design-guidelines:harness:opencode",
+              "order": 5,
+              "tokens": 8
+            }
+          ],
+          "tokens": 232
+        }
+      }
+    }
+  ],
+  "projects": [
+    {
+      "id": "project:<ROOT>/gone",
+      "path": "<ROOT>/gone",
+      "displayName": "gone",
+      "kind": "unknown",
+      "reachability": "orphan",
+      "unreachableReason": null,
+      "enclosesCwd": false,
+      "discoveredBy": ["breadcrumb"],
+      "parent": null,
+      "members": [],
+      "breadcrumbs": [
+        "breadcrumb:opencode:<HOME>/.local/share/opencode/opencode.db#project/id/2222222222222222222222222222222222222222"
+      ],
+      "nestedMarkers": [],
+      "perHarness": {
+        "claude-code": {
+          "trusted": null,
+          "effectiveSettings": {},
+          "sessionLoad": {
+            "items": [],
+            "tokens": 0
+          }
+        },
+        "opencode": {
+          "trusted": null,
+          "effectiveSettings": {},
+          "sessionLoad": {
+            "items": [],
+            "tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "project:<ROOT>/project-a",
+      "path": "<ROOT>/project-a",
+      "displayName": "project-a",
+      "kind": "repository",
+      "reachability": "present",
+      "unreachableReason": null,
+      "enclosesCwd": false,
+      "discoveredBy": ["breadcrumb", "marker-walk"],
+      "parent": null,
+      "members": [
+        {
+          "path": "<ROOT>/project-a",
+          "role": "repository",
+          "name": null,
+          "gitdir": null,
+          "reachability": "present"
+        }
+      ],
+      "breadcrumbs": [
+        "breadcrumb:opencode:<HOME>/.local/share/opencode/opencode.db#project/id/1111111111111111111111111111111111111111",
+        "breadcrumb:opencode:<HOME>/.local/share/opencode/storage/project/1111111111111111111111111111111111111111.json"
+      ],
+      "nestedMarkers": [
+        {
+          "relativePath": "packages/api/AGENTS.md",
+          "marker": "AGENTS.md",
+          "entity": "context-file:<ROOT>/project-a/packages/api/agents.md"
+        }
+      ],
+      "perHarness": {
+        "claude-code": {
+          "trusted": null,
+          "effectiveSettings": {},
+          "sessionLoad": {
+            "items": [
+              {
+                "entity": "skill:<ROOT>/project-a/.claude/skills/web-design-guidelines",
+                "edge": "edge:loaded-by:skill:<ROOT>/project-a/.claude/skills/web-design-guidelines:harness:claude-code:project:<ROOT>/project-a",
+                "order": 0,
+                "tokens": 4
+              }
+            ],
+            "tokens": 4
+          }
+        },
+        "opencode": {
+          "trusted": null,
+          "effectiveSettings": {
+            "instructions": ["docs/*.md", "<redacted>"],
+            "mcp": {
+              "project-server": {
+                "type": "local",
+                "command": ["<redacted>"],
+                "enabled": true
+              }
+            },
+            "permission": {
+              "skill": "allow"
+            }
+          },
+          "sessionLoad": {
+            "items": [
+              {
+                "entity": "context-file:<ROOT>/project-a/agents.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/agents.md:harness:opencode:project:<ROOT>/project-a",
+                "order": 0,
+                "tokens": 240
+              },
+              {
+                "entity": "context-file:<ROOT>/project-a/docs/rules.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/docs/rules.md:harness:opencode:project:<ROOT>/project-a",
+                "order": 1,
+                "tokens": 72
+              },
+              {
+                "entity": "skill:<ROOT>/project-a/.opencode/skills/skill-a",
+                "edge": "edge:loaded-by:skill:<ROOT>/project-a/.opencode/skills/skill-a:harness:opencode:project:<ROOT>/project-a",
+                "order": 2,
+                "tokens": 6
+              },
+              {
+                "entity": "skill:<ROOT>/project-a/.opencode/skill/web-design-guidelines",
+                "edge": "edge:loaded-by:skill:<ROOT>/project-a/.opencode/skill/web-design-guidelines:harness:opencode:project:<ROOT>/project-a",
+                "order": 3,
+                "tokens": 8
+              },
+              {
+                "entity": "skill:<ROOT>/project-a/.claude/skills/web-design-guidelines",
+                "edge": "edge:loaded-by:skill:<ROOT>/project-a/.claude/skills/web-design-guidelines:harness:opencode:project:<ROOT>/project-a",
+                "order": 4,
+                "tokens": 8
+              }
+            ],
+            "tokens": 334
+          }
+        }
+      }
+    },
+    {
+      "id": "project:<ROOT>/project-b",
+      "path": "<ROOT>/project-b",
+      "displayName": "project-b",
+      "kind": "repository",
+      "reachability": "present",
+      "unreachableReason": null,
+      "enclosesCwd": false,
+      "discoveredBy": ["marker-walk"],
+      "parent": null,
+      "members": [
+        {
+          "path": "<ROOT>/project-b",
+          "role": "repository",
+          "name": null,
+          "gitdir": null,
+          "reachability": "present"
+        }
+      ],
+      "breadcrumbs": [],
+      "nestedMarkers": [],
+      "perHarness": {
+        "claude-code": {
+          "trusted": null,
+          "effectiveSettings": {},
+          "sessionLoad": {
+            "items": [
+              {
+                "entity": "context-file:<ROOT>/project-b/claude.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-b/claude.md:harness:claude-code:project:<ROOT>/project-b",
+                "order": 0,
+                "tokens": 100
+              }
+            ],
+            "tokens": 100
+          }
+        },
+        "opencode": {
+          "trusted": null,
+          "effectiveSettings": {
+            "instructions": ["CONTRIBUTING.md"]
+          },
+          "sessionLoad": {
+            "items": [
+              {
+                "entity": "context-file:<ROOT>/project-b/claude.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-b/claude.md:harness:opencode:project:<ROOT>/project-b",
+                "order": 0,
+                "tokens": 100
+              },
+              {
+                "entity": "context-file:<ROOT>/project-b/contributing.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-b/contributing.md:harness:opencode:project:<ROOT>/project-b",
+                "order": 1,
+                "tokens": 45
+              }
+            ],
+            "tokens": 145
+          }
+        }
+      }
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "id": "breadcrumb:opencode:<HOME>/.local/share/opencode/opencode.db#project/id/1111111111111111111111111111111111111111",
+      "harness": "opencode",
+      "kind": "project-row",
+      "raw": "<ROOT>/project-a",
+      "recordedForm": "path",
+      "path": "<ROOT>/project-a",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "sqlite",
+        "file": "<HOME>/.local/share/opencode/opencode.db",
+        "table": "project",
+        "keyColumn": "id",
+        "keyValue": "1111111111111111111111111111111111111111"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "2023-09-15T22:13:20.000Z",
+        "last": "2023-11-14T22:13:20.000Z"
+      },
+      "refs": {
+        "projectId": "1111111111111111111111111111111111111111"
+      },
+      "state": [
+        "harness-cache:<HOME>/.local/share/opencode/opencode.db#session/id/ses_synthetic0001",
+        "harness-cache:<HOME>/.local/share/opencode/opencode.db#session/id/ses_synthetic0002"
+      ]
+    },
+    {
+      "id": "breadcrumb:opencode:<HOME>/.local/share/opencode/opencode.db#project/id/2222222222222222222222222222222222222222",
+      "harness": "opencode",
+      "kind": "project-row",
+      "raw": "<ROOT>/gone",
+      "recordedForm": "path",
+      "path": "<ROOT>/gone",
+      "resolution": "direct",
+      "project": "project:<ROOT>/gone",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "orphan",
+      "locator": {
+        "type": "sqlite",
+        "file": "<HOME>/.local/share/opencode/opencode.db",
+        "table": "project",
+        "keyColumn": "id",
+        "keyValue": "2222222222222222222222222222222222222222"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "2023-04-28T22:13:20.000Z",
+        "last": "2023-06-17T22:13:20.000Z"
+      },
+      "refs": {
+        "projectId": "2222222222222222222222222222222222222222"
+      },
+      "state": [
+        "harness-cache:<HOME>/.local/share/opencode/opencode.db#session/id/ses_synthetic0003"
+      ]
+    },
+    {
+      "id": "breadcrumb:opencode:<HOME>/.local/share/opencode/opencode.db#project/id/3333333333333333333333333333333333333333",
+      "harness": "opencode",
+      "kind": "project-row",
+      "raw": "<HOME>",
+      "recordedForm": "path",
+      "path": "<HOME>",
+      "resolution": "direct",
+      "project": null,
+      "strayReason": "bare-directory",
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "sqlite",
+        "file": "<HOME>/.local/share/opencode/opencode.db",
+        "table": "project",
+        "keyColumn": "id",
+        "keyValue": "3333333333333333333333333333333333333333"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "2023-10-15T22:13:20.000Z",
+        "last": "2023-10-15T22:13:20.000Z"
+      },
+      "refs": {
+        "projectId": "3333333333333333333333333333333333333333"
+      },
+      "state": [
+        "harness-cache:<HOME>/.local/share/opencode/opencode.db#session/id/ses_synthetic0004"
+      ]
+    },
+    {
+      "id": "breadcrumb:opencode:<HOME>/.local/share/opencode/opencode.db#project/id/global",
+      "harness": "opencode",
+      "kind": "project-row",
+      "raw": "/",
+      "recordedForm": "path",
+      "path": "/",
+      "resolution": "direct",
+      "project": null,
+      "strayReason": "bare-directory",
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "sqlite",
+        "file": "<HOME>/.local/share/opencode/opencode.db",
+        "table": "project",
+        "keyColumn": "id",
+        "keyValue": "global"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "2023-07-17T22:13:20.000Z",
+        "last": "2023-11-09T22:13:20.000Z"
+      },
+      "refs": {
+        "projectId": "global"
+      },
+      "state": []
+    },
+    {
+      "id": "breadcrumb:opencode:<HOME>/.local/share/opencode/storage/project/1111111111111111111111111111111111111111.json",
+      "harness": "opencode",
+      "kind": "legacy-project-record",
+      "raw": "<ROOT>/project-a",
+      "recordedForm": "path",
+      "path": "<ROOT>/project-a",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.local/share/opencode/storage/project/1111111111111111111111111111111111111111.json"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "2023-11-14T22:13:20.000Z",
+        "last": "2023-11-14T22:13:20.000Z"
+      },
+      "refs": {
+        "projectId": "1111111111111111111111111111111111111111"
+      },
+      "state": ["harness-cache:<HOME>/.local/share/opencode/storage"]
+    },
+    {
+      "id": "breadcrumb:opencode:<HOME>/.local/share/opencode/storage/project/global.json",
+      "harness": "opencode",
+      "kind": "legacy-project-record",
+      "raw": "/",
+      "recordedForm": "path",
+      "path": "/",
+      "resolution": "direct",
+      "project": null,
+      "strayReason": "bare-directory",
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.local/share/opencode/storage/project/global.json"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": "2023-11-14T22:13:20.000Z",
+        "last": "2023-11-14T22:13:20.000Z"
+      },
+      "refs": {
+        "projectId": "global"
+      },
+      "state": ["harness-cache:<HOME>/.local/share/opencode/storage"]
+    }
+  ],
+  "entities": [
+    {
+      "id": "agent-definition:<HOME>/.config/opencode/agents/agent-a.md",
+      "kind": "agent-definition",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.config/opencode/agents/agent-a.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.config/opencode/agents/agent-a.md"
+      },
+      "format": "md",
+      "label": "agent-a",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 267,
+        "files": 1,
+        "lines": 11,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 71,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "name": "agent-a",
+      "form": "markdown",
+      "frontmatter": {
+        "description": "<redacted>",
+        "mode": "subagent",
+        "model": "<redacted>",
+        "temperature": 0.1
+      },
+      "hooks": []
+    },
+    {
+      "id": "agent-definition:<ROOT>/project-a/.opencode/agents/agent-a.md",
+      "kind": "agent-definition",
+      "harness": "opencode",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.opencode/agents/agent-a.md",
+      "relativePath": ".opencode/agents/agent-a.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.opencode/agents/agent-a.md"
+      },
+      "format": "md",
+      "label": "agent-a",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 290,
+        "files": 1,
+        "lines": 13,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 77,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "name": "agent-a",
+      "form": "markdown",
+      "frontmatter": {
+        "description": "<redacted>",
+        "mode": "primary",
+        "model": "<redacted>",
+        "permission": {
+          "edit": "ask"
+        },
+        "temperature": 0.2
+      },
+      "hooks": []
+    },
+    {
+      "id": "context-file:<HOME>/.config/opencode/agents.md",
+      "kind": "context-file",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.config/opencode/AGENTS.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.config/opencode/AGENTS.md"
+      },
+      "format": "md",
+      "label": "~/.config/opencode/AGENTS.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 531,
+        "files": 1,
+        "lines": 12,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 120,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "AGENTS.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<HOME>/.config/opencode/rules/rule-a.md",
+      "kind": "context-file",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.config/opencode/rules/rule-a.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.config/opencode/rules/rule-a.md"
+      },
+      "format": "md",
+      "label": "~/.config/opencode/rules/rule-a.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 222,
+        "files": 1,
+        "lines": 6,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 54,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "instructions",
+      "fileName": "rule-a.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<HOME>/.config/opencode/style.md",
+      "kind": "context-file",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.config/opencode/style.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.config/opencode/style.md"
+      },
+      "format": "md",
+      "label": "~/.config/opencode/style.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 120,
+        "files": 1,
+        "lines": 4,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 32,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "instructions",
+      "fileName": "style.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/agents.md",
+      "kind": "context-file",
+      "harness": "opencode",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/AGENTS.md",
+      "relativePath": "AGENTS.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/AGENTS.md"
+      },
+      "format": "md",
+      "label": "AGENTS.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 1071,
+        "files": 1,
+        "lines": 24,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 240,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "AGENTS.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/docs/rules.md",
+      "kind": "context-file",
+      "harness": "opencode",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/docs/rules.md",
+      "relativePath": "docs/rules.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/docs/rules.md"
+      },
+      "format": "md",
+      "label": "docs/rules.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 296,
+        "files": 1,
+        "lines": 8,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 72,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "instructions",
+      "fileName": "rules.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/packages/api/agents.md",
+      "kind": "context-file",
+      "harness": "opencode",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/packages/api/AGENTS.md",
+      "relativePath": "packages/api/AGENTS.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/packages/api/AGENTS.md"
+      },
+      "format": "md",
+      "label": "packages/api/AGENTS.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 222,
+        "files": 1,
+        "lines": 6,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 54,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "AGENTS.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-b/claude.md",
+      "kind": "context-file",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-b",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-b/CLAUDE.md",
+      "relativePath": "CLAUDE.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-b/CLAUDE.md"
+      },
+      "format": "md",
+      "label": "CLAUDE.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 441,
+        "files": 1,
+        "lines": 10,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 100,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "CLAUDE.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-b/contributing.md",
+      "kind": "context-file",
+      "harness": "opencode",
+      "producer": null,
+      "project": "project:<ROOT>/project-b",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-b/CONTRIBUTING.md",
+      "relativePath": "CONTRIBUTING.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-b/CONTRIBUTING.md"
+      },
+      "format": "md",
+      "label": "CONTRIBUTING.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 185,
+        "files": 1,
+        "lines": 5,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 45,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "instructions",
+      "fileName": "CONTRIBUTING.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "harness-cache:<HOME>/.cache/opencode",
+      "kind": "harness-cache",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.cache/opencode",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.cache/opencode"
+      },
+      "format": "dir",
+      "label": "opencode",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.config/opencode/context-mode",
+      "kind": "harness-cache",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.config/opencode/context-mode",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.config/opencode/context-mode"
+      },
+      "format": "dir",
+      "label": "context-mode",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.local/share/opencode/bin",
+      "kind": "harness-cache",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.local/share/opencode/bin",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.local/share/opencode/bin"
+      },
+      "format": "dir",
+      "label": "bin",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.local/share/opencode/log",
+      "kind": "harness-cache",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.local/share/opencode/log",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.local/share/opencode/log"
+      },
+      "format": "dir",
+      "label": "log",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "log",
+      "unit": "dir",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.local/share/opencode/opencode.db",
+      "kind": "harness-cache",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.local/share/opencode/opencode.db",
+      "relativePath": null,
+      "locator": {
+        "type": "paths",
+        "paths": [
+          "<HOME>/.local/share/opencode/opencode.db",
+          "<HOME>/.local/share/opencode/opencode.db-wal"
+        ]
+      },
+      "format": "sqlite",
+      "label": "opencode.db",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 16384,
+        "files": 2,
+        "lines": null,
+        "mtime": "2026-08-26T12:00:00.000Z",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "database",
+      "unit": "database",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": true
+      },
+      "userContent": false,
+      "members": {
+        "files": 2,
+        "bytes": 16384,
+        "oldest": "<COPY-TIME>",
+        "newest": "2026-08-26T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.local/share/opencode/opencode.db#session/id/ses_synthetic0001",
+      "kind": "harness-cache",
+      "harness": "opencode",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.local/share/opencode/opencode.db",
+      "relativePath": null,
+      "locator": {
+        "type": "sqlite",
+        "file": "<HOME>/.local/share/opencode/opencode.db",
+        "table": "session",
+        "keyColumn": "id",
+        "keyValue": "ses_synthetic0001"
+      },
+      "format": "sqlite",
+      "label": "session ses_synthetic0001 · 2023-11-14",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "delegate",
+        "command": "opencode session delete ses_synthetic0001"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": null,
+        "lines": null,
+        "mtime": "2023-11-14T22:13:20.000Z",
+        "ageDays": 1015,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": "cli",
+      "session": "ses_synthetic0001",
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": "2023-11-14T21:13:20.000Z",
+        "newest": "2023-11-14T22:13:20.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.local/share/opencode/opencode.db#session/id/ses_synthetic0002",
+      "kind": "harness-cache",
+      "harness": "opencode",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.local/share/opencode/opencode.db",
+      "relativePath": null,
+      "locator": {
+        "type": "sqlite",
+        "file": "<HOME>/.local/share/opencode/opencode.db",
+        "table": "session",
+        "keyColumn": "id",
+        "keyValue": "ses_synthetic0002"
+      },
+      "format": "sqlite",
+      "label": "session ses_synthetic0002 · 2023-11-14 · child of ses_synthetic0001",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "delegate",
+        "command": "opencode session delete ses_synthetic0002"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": null,
+        "lines": null,
+        "mtime": "2023-11-14T22:13:20.000Z",
+        "ageDays": 1015,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": "cli",
+      "session": "ses_synthetic0002",
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": "2023-11-14T21:43:20.000Z",
+        "newest": "2023-11-14T22:13:20.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.local/share/opencode/opencode.db#session/id/ses_synthetic0003",
+      "kind": "harness-cache",
+      "harness": "opencode",
+      "producer": null,
+      "project": "project:<ROOT>/gone",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.local/share/opencode/opencode.db",
+      "relativePath": null,
+      "locator": {
+        "type": "sqlite",
+        "file": "<HOME>/.local/share/opencode/opencode.db",
+        "table": "session",
+        "keyColumn": "id",
+        "keyValue": "ses_synthetic0003"
+      },
+      "format": "sqlite",
+      "label": "session ses_synthetic0003 · 2023-06-17",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "delegate",
+        "command": "opencode session delete ses_synthetic0003"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": null,
+        "lines": null,
+        "mtime": "2023-06-17T22:13:20.000Z",
+        "ageDays": 1165,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": "cli",
+      "session": "ses_synthetic0003",
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": "2023-06-17T22:13:20.000Z",
+        "newest": "2023-06-17T22:13:20.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.local/share/opencode/opencode.db#session/id/ses_synthetic0004",
+      "kind": "harness-cache",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.local/share/opencode/opencode.db",
+      "relativePath": null,
+      "locator": {
+        "type": "sqlite",
+        "file": "<HOME>/.local/share/opencode/opencode.db",
+        "table": "session",
+        "keyColumn": "id",
+        "keyValue": "ses_synthetic0004"
+      },
+      "format": "sqlite",
+      "label": "session ses_synthetic0004 · 2023-10-15 · archived",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "delegate",
+        "command": "opencode session delete ses_synthetic0004"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": null,
+        "lines": null,
+        "mtime": "2023-10-15T22:13:20.000Z",
+        "ageDays": 1045,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": "cli",
+      "session": "ses_synthetic0004",
+      "slug": null,
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": "2023-10-15T22:13:20.000Z",
+        "newest": "2023-10-15T22:13:20.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.local/share/opencode/repos",
+      "kind": "harness-cache",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.local/share/opencode/repos",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.local/share/opencode/repos"
+      },
+      "format": "dir",
+      "label": "repos",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.local/share/opencode/snapshot",
+      "kind": "harness-cache",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.local/share/opencode/snapshot",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.local/share/opencode/snapshot"
+      },
+      "format": "dir",
+      "label": "snapshot",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.local/share/opencode/storage",
+      "kind": "harness-cache",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.local/share/opencode/storage",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.local/share/opencode/storage"
+      },
+      "format": "dir",
+      "label": "legacy storage",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 905,
+        "files": 4,
+        "lines": null,
+        "mtime": "2026-03-24T12:00:00.000Z",
+        "ageDays": 155,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "dir",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 4,
+        "bytes": 905,
+        "oldest": "2026-03-24T12:00:00.000Z",
+        "newest": "2026-03-24T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.local/share/opencode/tool-output",
+      "kind": "harness-cache",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.local/share/opencode/tool-output",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.local/share/opencode/tool-output"
+      },
+      "format": "dir",
+      "label": "tool-output",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "mcp-server:<HOME>/.config/opencode/opencode.json#mcp/server-local",
+      "kind": "mcp-server",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.config/opencode/opencode.json",
+      "relativePath": null,
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.config/opencode/opencode.json",
+        "format": "json",
+        "keyPath": ["mcp", "server-local"]
+      },
+      "format": "json",
+      "label": "server-local",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 204,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-local",
+      "transport": "stdio",
+      "command": "<redacted>",
+      "args": ["<redacted>"],
+      "url": null,
+      "envKeys": ["EXAMPLE_VAR"],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": true,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "stdio:<redacted> <redacted>",
+      "rawKeys": ["type", "command", "cwd", "environment", "enabled"]
+    },
+    {
+      "id": "mcp-server:<HOME>/.config/opencode/opencode.json#mcp/server-remote",
+      "kind": "mcp-server",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.config/opencode/opencode.json",
+      "relativePath": null,
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.config/opencode/opencode.json",
+        "format": "json",
+        "keyPath": ["mcp", "server-remote"]
+      },
+      "format": "json",
+      "label": "server-remote",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 107,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-remote",
+      "transport": "remote",
+      "command": null,
+      "args": [],
+      "url": "<redacted>",
+      "envKeys": [],
+      "headerKeys": ["Authorization"],
+      "secretKeys": ["Authorization"],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": true,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "remote:<redacted>",
+      "rawKeys": ["type", "url", "headers", "enabled", "timeout"]
+    },
+    {
+      "id": "mcp-server:<ROOT>/project-a/opencode.json#mcp/project-server",
+      "kind": "mcp-server",
+      "harness": "opencode",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/opencode.json",
+      "relativePath": "opencode.json",
+      "locator": {
+        "type": "entry",
+        "file": "<ROOT>/project-a/opencode.json",
+        "format": "json",
+        "keyPath": ["mcp", "project-server"]
+      },
+      "format": "json",
+      "label": "project-server",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 56,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "project-server",
+      "transport": "stdio",
+      "command": "<redacted>",
+      "args": [],
+      "url": null,
+      "envKeys": [],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": true,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "stdio:<redacted>",
+      "rawKeys": ["type", "command", "enabled"]
+    },
+    {
+      "id": "settings-file:<HOME>/.agents/.skill-lock.json",
+      "kind": "settings-file",
+      "harness": null,
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.agents/.skill-lock.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.agents/.skill-lock.json"
+      },
+      "format": "json",
+      "label": "~/.agents/.skill-lock.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 399,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "skill-lock",
+      "topLevelKeys": ["version", "skills", "dismissed", "lastSelectedAgents"],
+      "entries": 1,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.config/opencode/opencode.json",
+      "kind": "settings-file",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.config/opencode/opencode.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.config/opencode/opencode.json"
+      },
+      "format": "json",
+      "label": "~/.config/opencode/opencode.json",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 810,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": ["$schema", "mcp", "instructions"],
+      "entries": 2,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.config/opencode/package.json",
+      "kind": "settings-file",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.config/opencode/package.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.config/opencode/package.json"
+      },
+      "format": "json",
+      "label": "~/.config/opencode/package.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 68,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "manifest",
+      "topLevelKeys": ["dependencies"],
+      "entries": 1,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<ROOT>/project-a/.opencode/package.json",
+      "kind": "settings-file",
+      "harness": "opencode",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.opencode/package.json",
+      "relativePath": ".opencode/package.json",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.opencode/package.json"
+      },
+      "format": "json",
+      "label": ".opencode/package.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 68,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "manifest",
+      "topLevelKeys": ["dependencies"],
+      "entries": 1,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<ROOT>/project-a/opencode.json",
+      "kind": "settings-file",
+      "harness": "opencode",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/opencode.json",
+      "relativePath": "opencode.json",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/opencode.json"
+      },
+      "format": "json",
+      "label": "opencode.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 370,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": ["$schema", "instructions", "mcp", "permission"],
+      "entries": 1,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<ROOT>/project-b/opencode.jsonc",
+      "kind": "settings-file",
+      "harness": "opencode",
+      "producer": null,
+      "project": "project:<ROOT>/project-b",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-b/opencode.jsonc",
+      "relativePath": "opencode.jsonc",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-b/opencode.jsonc"
+      },
+      "format": "jsonc",
+      "label": "opencode.jsonc",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 127,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": ["$schema", "instructions"],
+      "entries": 0,
+      "hooks": []
+    },
+    {
+      "id": "skill:<HOME>/.agents/skills/find-skills",
+      "kind": "skill",
+      "harness": null,
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.agents/skills/find-skills",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.agents/skills/find-skills"
+      },
+      "format": "dir",
+      "label": "find-skills",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 725,
+        "files": 1,
+        "lines": 22,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 176,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "find-skills",
+      "dirName": "find-skills",
+      "frontmatterName": "find-skills",
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<HOME>/.agents/skills/find-skills",
+          "harness": null,
+          "surface": null,
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        },
+        {
+          "path": "<HOME>/.config/opencode/skills/find-skills",
+          "harness": "opencode",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": true,
+          "linkTarget": "../../../.agents/skills/find-skills",
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "find-skills",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "b8d9e06b266de14f7afa8941269ef9f8845b1bdbd37887dd1b692f8ef63cb309"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.config/opencode/commands/command-a.md",
+      "kind": "skill",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.config/opencode/commands/command-a.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.config/opencode/commands/command-a.md"
+      },
+      "format": "md",
+      "label": "command-a",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 181,
+        "files": 1,
+        "lines": 9,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 50,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "command-file",
+      "name": "command-a",
+      "dirName": "command-a",
+      "frontmatterName": null,
+      "layout": "copy",
+      "placements": [
+        {
+          "path": "<HOME>/.config/opencode/commands/command-a.md",
+          "harness": "opencode",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "description": "<redacted>",
+        "agent": "agent-a",
+        "subtask": true
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "83aa44e99555f6095fc1b973931012d3ca88f34f7ce543f6444ba1b37d19f1c5"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.config/opencode/skill/vercel-react-best-practices",
+      "kind": "skill",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.config/opencode/skill/vercel-react-best-practices",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.config/opencode/skill/vercel-react-best-practices"
+      },
+      "format": "dir",
+      "label": "vercel-react-best-practices",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 75220,
+        "files": 6,
+        "lines": 121,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 1188,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "vercel-react-best-practices",
+      "dirName": "vercel-react-best-practices",
+      "frontmatterName": "vercel-react-best-practices",
+      "layout": "copy",
+      "placements": [
+        {
+          "path": "<HOME>/.config/opencode/skill/vercel-react-best-practices",
+          "harness": "opencode",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "vercel-react-best-practices",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "fc2e2c9bd904203d9239572be4460ef88a8a4f2a0e253a27dfae25c89d24d609"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.config/opencode/skill/web-design-guidelines",
+      "kind": "skill",
+      "harness": "opencode",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.config/opencode/skill/web-design-guidelines",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.config/opencode/skill/web-design-guidelines"
+      },
+      "format": "dir",
+      "label": "web-design-guidelines",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 1038,
+        "files": 1,
+        "lines": 36,
+        "mtime": "2026-02-07T12:00:00.000Z",
+        "ageDays": 200,
+        "tokens": {
+          "o200k": 271,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "web-design-guidelines",
+      "dirName": "web-design-guidelines",
+      "frontmatterName": "web-design-guidelines",
+      "layout": "copy",
+      "placements": [
+        {
+          "path": "<HOME>/.config/opencode/skill/web-design-guidelines",
+          "harness": "opencode",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "web-design-guidelines",
+        "description": "<redacted>",
+        "argument-hint": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "53cb36b87b25bf92f41eebd240bf5fd2d5215a321dfd18aabf070f55f2e65376"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<ROOT>/project-a/.claude/skills/web-design-guidelines",
+      "kind": "skill",
+      "harness": "claude-code",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.claude/skills/web-design-guidelines",
+      "relativePath": ".claude/skills/web-design-guidelines",
+      "locator": {
+        "type": "dir",
+        "path": "<ROOT>/project-a/.claude/skills/web-design-guidelines"
+      },
+      "format": "dir",
+      "label": "web-design-guidelines",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 1038,
+        "files": 1,
+        "lines": 36,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 271,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "web-design-guidelines",
+      "dirName": "web-design-guidelines",
+      "frontmatterName": "web-design-guidelines",
+      "layout": "copy",
+      "placements": [
+        {
+          "path": "<ROOT>/project-a/.claude/skills/web-design-guidelines",
+          "harness": "claude-code",
+          "surface": "cli",
+          "scope": "project",
+          "project": "project:<ROOT>/project-a",
+          "gitStatus": null,
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        },
+        {
+          "path": "<ROOT>/project-a/.claude/skills/web-design-guidelines",
+          "harness": "opencode",
+          "surface": "cli",
+          "scope": "project",
+          "project": "project:<ROOT>/project-a",
+          "gitStatus": null,
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "web-design-guidelines",
+        "description": "<redacted>",
+        "argument-hint": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "53cb36b87b25bf92f41eebd240bf5fd2d5215a321dfd18aabf070f55f2e65376"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<ROOT>/project-a/.opencode/commands/command-a.md",
+      "kind": "skill",
+      "harness": "opencode",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.opencode/commands/command-a.md",
+      "relativePath": ".opencode/commands/command-a.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.opencode/commands/command-a.md"
+      },
+      "format": "md",
+      "label": "command-a",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 200,
+        "files": 1,
+        "lines": 10,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 56,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "command-file",
+      "name": "command-a",
+      "dirName": "command-a",
+      "frontmatterName": null,
+      "layout": "copy",
+      "placements": [
+        {
+          "path": "<ROOT>/project-a/.opencode/commands/command-a.md",
+          "harness": "opencode",
+          "surface": "cli",
+          "scope": "project",
+          "project": "project:<ROOT>/project-a",
+          "gitStatus": null,
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "description": "<redacted>",
+        "agent": "agent-a",
+        "model": "<redacted>",
+        "subtask": false
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "fe50a3f53caae4d8f9d8fe4a2f11c53b17ca9fc0442281b1079e48138443ff0a"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<ROOT>/project-a/.opencode/skill/web-design-guidelines",
+      "kind": "skill",
+      "harness": "opencode",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.opencode/skill/web-design-guidelines",
+      "relativePath": ".opencode/skill/web-design-guidelines",
+      "locator": {
+        "type": "dir",
+        "path": "<ROOT>/project-a/.opencode/skill/web-design-guidelines"
+      },
+      "format": "dir",
+      "label": "web-design-guidelines",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 1038,
+        "files": 1,
+        "lines": 36,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 271,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "web-design-guidelines",
+      "dirName": "web-design-guidelines",
+      "frontmatterName": "web-design-guidelines",
+      "layout": "copy",
+      "placements": [
+        {
+          "path": "<ROOT>/project-a/.opencode/skill/web-design-guidelines",
+          "harness": "opencode",
+          "surface": "cli",
+          "scope": "project",
+          "project": "project:<ROOT>/project-a",
+          "gitStatus": null,
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "web-design-guidelines",
+        "description": "<redacted>",
+        "argument-hint": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "53cb36b87b25bf92f41eebd240bf5fd2d5215a321dfd18aabf070f55f2e65376"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<ROOT>/project-a/.opencode/skills/skill-a",
+      "kind": "skill",
+      "harness": "opencode",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.opencode/skills/skill-a",
+      "relativePath": ".opencode/skills/skill-a",
+      "locator": {
+        "type": "dir",
+        "path": "<ROOT>/project-a/.opencode/skills/skill-a"
+      },
+      "format": "dir",
+      "label": "skill-a",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 417,
+        "files": 1,
+        "lines": 14,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 103,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-a",
+      "dirName": "skill-a",
+      "frontmatterName": "skill-a",
+      "layout": "copy",
+      "placements": [
+        {
+          "path": "<ROOT>/project-a/.opencode/skills/skill-a",
+          "harness": "opencode",
+          "surface": "cli",
+          "scope": "project",
+          "project": "project:<ROOT>/project-a",
+          "gitStatus": null,
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "skill-a",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "2d19caa77f36472d04c3f5ab50f96dcfd39fa421d71ea8b909cd425e0a0ee987"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge:duplicates:skill:<HOME>/.config/opencode/skill/web-design-guidelines:skill:<ROOT>/project-a/.claude/skills/web-design-guidelines",
+      "kind": "duplicates",
+      "from": "skill:<HOME>/.config/opencode/skill/web-design-guidelines",
+      "to": "skill:<ROOT>/project-a/.claude/skills/web-design-guidelines",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "content-hash",
+          "detail": "sha256 53cb36b87b25"
+        }
+      ],
+      "same": "content"
+    },
+    {
+      "id": "edge:duplicates:skill:<HOME>/.config/opencode/skill/web-design-guidelines:skill:<ROOT>/project-a/.opencode/skill/web-design-guidelines",
+      "kind": "duplicates",
+      "from": "skill:<HOME>/.config/opencode/skill/web-design-guidelines",
+      "to": "skill:<ROOT>/project-a/.opencode/skill/web-design-guidelines",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "content-hash",
+          "detail": "sha256 53cb36b87b25"
+        }
+      ],
+      "same": "content"
+    },
+    {
+      "id": "edge:duplicates:skill:<ROOT>/project-a/.claude/skills/web-design-guidelines:skill:<ROOT>/project-a/.opencode/skill/web-design-guidelines",
+      "kind": "duplicates",
+      "from": "skill:<ROOT>/project-a/.claude/skills/web-design-guidelines",
+      "to": "skill:<ROOT>/project-a/.opencode/skill/web-design-guidelines",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "content-hash",
+          "detail": "sha256 53cb36b87b25"
+        }
+      ],
+      "same": "content"
+    },
+    {
+      "id": "edge:loaded-by:agent-definition:<HOME>/.config/opencode/agents/agent-a.md:harness:opencode",
+      "kind": "loaded-by",
+      "from": "agent-definition:<HOME>/.config/opencode/agents/agent-a.md",
+      "to": "harness:opencode",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "agent definitions are selected or delegated to, never preloaded"
+        }
+      ],
+      "project": null,
+      "mode": "on-demand",
+      "reason": "spawned on demand; no documented session cost",
+      "placement": "<HOME>/.config/opencode/agents/agent-a.md",
+      "effectiveName": "agent-a",
+      "order": null,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:agent-definition:<HOME>/.config/opencode/agents/agent-a.md:harness:opencode:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "agent-definition:<HOME>/.config/opencode/agents/agent-a.md",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "precedence-rule",
+          "detail": "project > user"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "shadowed",
+      "reason": "a project-scope definition of the same name wins",
+      "placement": null,
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 0,
+      "importsResolved": null,
+      "tokensLoaded": 0,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:agent-definition:<ROOT>/project-a/.opencode/agents/agent-a.md:harness:opencode:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "agent-definition:<ROOT>/project-a/.opencode/agents/agent-a.md",
+      "to": "harness:opencode",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "agent definitions are selected or delegated to, never preloaded"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "on-demand",
+      "reason": "spawned on demand; no documented session cost",
+      "placement": "<ROOT>/project-a/.opencode/agents/agent-a.md",
+      "effectiveName": "agent-a",
+      "order": null,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<HOME>/.config/opencode/agents.md:harness:opencode",
+      "kind": "loaded-by",
+      "from": "context-file:<HOME>/.config/opencode/agents.md",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "user rules: read in every session"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "user rules: read in every session",
+      "placement": "<HOME>/.config/opencode/AGENTS.md",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 531,
+      "importsResolved": null,
+      "tokensLoaded": 120,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<HOME>/.config/opencode/rules/rule-a.md:harness:opencode",
+      "kind": "loaded-by",
+      "from": "context-file:<HOME>/.config/opencode/rules/rule-a.md",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "listed in instructions[] of ~/.config/opencode/opencode.json"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "listed in instructions[] of ~/.config/opencode/opencode.json",
+      "placement": "<HOME>/.config/opencode/rules/rule-a.md",
+      "effectiveName": null,
+      "order": 1,
+      "charsLoaded": 222,
+      "importsResolved": null,
+      "tokensLoaded": 54,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<HOME>/.config/opencode/style.md:harness:opencode",
+      "kind": "loaded-by",
+      "from": "context-file:<HOME>/.config/opencode/style.md",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "listed in instructions[] of ~/.config/opencode/opencode.json"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "listed in instructions[] of ~/.config/opencode/opencode.json",
+      "placement": "<HOME>/.config/opencode/style.md",
+      "effectiveName": null,
+      "order": 2,
+      "charsLoaded": 120,
+      "importsResolved": null,
+      "tokensLoaded": 32,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/agents.md:harness:opencode:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/agents.md",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "AGENTS.md of the project root"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "AGENTS.md of the project root",
+      "placement": "<ROOT>/project-a/AGENTS.md",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 1071,
+      "importsResolved": null,
+      "tokensLoaded": 240,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/docs/rules.md:harness:opencode:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/docs/rules.md",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "listed in instructions[] of opencode.json"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "listed in instructions[] of opencode.json",
+      "placement": "<ROOT>/project-a/docs/rules.md",
+      "effectiveName": null,
+      "order": 1,
+      "charsLoaded": 296,
+      "importsResolved": null,
+      "tokensLoaded": 72,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/packages/api/agents.md:harness:opencode:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/packages/api/agents.md",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "loaded by sessions started in packages/api"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "loaded by sessions started in packages/api",
+      "placement": "<ROOT>/project-a/packages/api/AGENTS.md",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 222,
+      "importsResolved": null,
+      "tokensLoaded": 54,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-b/claude.md:harness:claude-code:project:<ROOT>/project-b",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-b/claude.md",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "CLAUDE.md of the session directory"
+        }
+      ],
+      "project": "project:<ROOT>/project-b",
+      "mode": "full",
+      "reason": "CLAUDE.md of the session directory",
+      "placement": "<ROOT>/project-b/CLAUDE.md",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 441,
+      "importsResolved": 0,
+      "tokensLoaded": 100,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-b/claude.md:harness:opencode:project:<ROOT>/project-b",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-b/claude.md",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "fallback: no AGENTS.md between the session directory and the project root"
+        }
+      ],
+      "project": "project:<ROOT>/project-b",
+      "mode": "full",
+      "reason": "fallback: no AGENTS.md between the session directory and the project root",
+      "placement": "<ROOT>/project-b/CLAUDE.md",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 441,
+      "importsResolved": null,
+      "tokensLoaded": 100,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-b/contributing.md:harness:opencode:project:<ROOT>/project-b",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-b/contributing.md",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "listed in instructions[] of opencode.jsonc"
+        }
+      ],
+      "project": "project:<ROOT>/project-b",
+      "mode": "full",
+      "reason": "listed in instructions[] of opencode.jsonc",
+      "placement": "<ROOT>/project-b/CONTRIBUTING.md",
+      "effectiveName": null,
+      "order": 1,
+      "charsLoaded": 185,
+      "importsResolved": null,
+      "tokensLoaded": 45,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<HOME>/.config/opencode/opencode.json#mcp/server-local:harness:opencode",
+      "kind": "loaded-by",
+      "from": "mcp-server:<HOME>/.config/opencode/opencode.json#mcp/server-local",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "user scope: available in every session"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "user scope: available in every session",
+      "placement": null,
+      "effectiveName": "server-local",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<HOME>/.config/opencode/opencode.json#mcp/server-remote:harness:opencode",
+      "kind": "loaded-by",
+      "from": "mcp-server:<HOME>/.config/opencode/opencode.json#mcp/server-remote",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "user scope: available in every session"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "user scope: available in every session",
+      "placement": null,
+      "effectiveName": "server-remote",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/opencode.json#mcp/project-server:harness:opencode:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "mcp-server:<ROOT>/project-a/opencode.json#mcp/project-server",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "project scope: sessions started in this Project"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "project scope: sessions started in this Project",
+      "placement": null,
+      "effectiveName": "project-server",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.agents/skills/find-skills:harness:opencode",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.agents/skills/find-skills",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "skill listed by name and description, SKILL.md on demand"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "user skill",
+      "placement": "<HOME>/.config/opencode/skills/find-skills",
+      "effectiveName": "find-skills",
+      "order": 3,
+      "charsLoaded": 22,
+      "importsResolved": null,
+      "tokensLoaded": 7,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.config/opencode/commands/command-a.md:harness:opencode",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.config/opencode/commands/command-a.md",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "slash commands are expanded when typed, never listed"
+        }
+      ],
+      "project": null,
+      "mode": "manual",
+      "reason": "slash command: expanded only when typed",
+      "placement": "<HOME>/.config/opencode/commands/command-a.md",
+      "effectiveName": "/command-a",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": 0,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.config/opencode/commands/command-a.md:harness:opencode:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.config/opencode/commands/command-a.md",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "precedence-rule",
+          "detail": "project > user"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "shadowed",
+      "reason": "a project-scope definition of the same name wins",
+      "placement": null,
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 0,
+      "importsResolved": null,
+      "tokensLoaded": 0,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.config/opencode/skill/vercel-react-best-practices:harness:opencode",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.config/opencode/skill/vercel-react-best-practices",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "skill listed by name and description, SKILL.md on demand"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "user skill",
+      "placement": "<HOME>/.config/opencode/skill/vercel-react-best-practices",
+      "effectiveName": "vercel-react-best-practices",
+      "order": 4,
+      "charsLoaded": 38,
+      "importsResolved": null,
+      "tokensLoaded": 11,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.config/opencode/skill/web-design-guidelines:harness:opencode",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.config/opencode/skill/web-design-guidelines",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "skill listed by name and description, SKILL.md on demand"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "user skill",
+      "placement": "<HOME>/.config/opencode/skill/web-design-guidelines",
+      "effectiveName": "web-design-guidelines",
+      "order": 5,
+      "charsLoaded": 32,
+      "importsResolved": null,
+      "tokensLoaded": 8,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<ROOT>/project-a/.claude/skills/web-design-guidelines:harness:claude-code:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "skill:<ROOT>/project-a/.claude/skills/web-design-guidelines",
+      "to": "harness:claude-code",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "description listed, body on demand"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "description-only",
+      "reason": "project skill",
+      "placement": "<ROOT>/project-a/.claude/skills/web-design-guidelines",
+      "effectiveName": "/web-design-guidelines",
+      "order": 0,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": false,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<ROOT>/project-a/.claude/skills/web-design-guidelines:harness:opencode:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "skill:<ROOT>/project-a/.claude/skills/web-design-guidelines",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "skill listed by name and description, SKILL.md on demand"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "description-only",
+      "reason": "project skill",
+      "placement": "<ROOT>/project-a/.claude/skills/web-design-guidelines",
+      "effectiveName": "web-design-guidelines",
+      "order": 4,
+      "charsLoaded": 32,
+      "importsResolved": null,
+      "tokensLoaded": 8,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<ROOT>/project-a/.opencode/commands/command-a.md:harness:opencode:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "skill:<ROOT>/project-a/.opencode/commands/command-a.md",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "slash commands are expanded when typed, never listed"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "manual",
+      "reason": "slash command: expanded only when typed",
+      "placement": "<ROOT>/project-a/.opencode/commands/command-a.md",
+      "effectiveName": "/command-a",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": 0,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:skill:<ROOT>/project-a/.opencode/skill/web-design-guidelines:harness:opencode:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "skill:<ROOT>/project-a/.opencode/skill/web-design-guidelines",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "skill listed by name and description, SKILL.md on demand"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "description-only",
+      "reason": "project skill",
+      "placement": "<ROOT>/project-a/.opencode/skill/web-design-guidelines",
+      "effectiveName": "web-design-guidelines",
+      "order": 3,
+      "charsLoaded": 32,
+      "importsResolved": null,
+      "tokensLoaded": 8,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<ROOT>/project-a/.opencode/skills/skill-a:harness:opencode:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "skill:<ROOT>/project-a/.opencode/skills/skill-a",
+      "to": "harness:opencode",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "skill listed by name and description, SKILL.md on demand"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "description-only",
+      "reason": "project skill",
+      "placement": "<ROOT>/project-a/.opencode/skills/skill-a",
+      "effectiveName": "skill-a",
+      "order": 2,
+      "charsLoaded": 18,
+      "importsResolved": null,
+      "tokensLoaded": 6,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:shadows:agent-definition:<ROOT>/project-a/.opencode/agents/agent-a.md:agent-definition:<HOME>/.config/opencode/agents/agent-a.md",
+      "kind": "shadows",
+      "from": "agent-definition:<ROOT>/project-a/.opencode/agents/agent-a.md",
+      "to": "agent-definition:<HOME>/.config/opencode/agents/agent-a.md",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "precedence-rule",
+          "detail": "a project definition of the same name wins over the user one"
+        }
+      ],
+      "rule": "project > user"
+    },
+    {
+      "id": "edge:shadows:skill:<ROOT>/project-a/.opencode/commands/command-a.md:skill:<HOME>/.config/opencode/commands/command-a.md",
+      "kind": "shadows",
+      "from": "skill:<ROOT>/project-a/.opencode/commands/command-a.md",
+      "to": "skill:<HOME>/.config/opencode/commands/command-a.md",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "precedence-rule",
+          "detail": "a project definition of the same name wins over the user one"
+        }
+      ],
+      "rule": "project > user"
+    }
+  ],
+  "warnings": [
+    {
+      "code": "git-missing",
+      "message": "git not run (git: false): git-tracked status unknown",
+      "harness": null,
+      "path": null,
+      "effect": "degraded"
+    },
+    {
+      "code": "unsupported-shape",
+      "message": ".skill-lock.json declares version 1 with version-3 entry keys: skill origins are not read",
+      "harness": "opencode",
+      "path": "<HOME>/.agents/.skill-lock.json",
+      "effect": "partial"
+    }
+  ],
+  "totals": {
+    "entities": 40,
+    "files": 35,
+    "bytes": 103000,
+    "harnessCacheBytes": 17289,
+    "memoryBytes": 0,
+    "tokens": 3251
+  },
+  "findings": [
+    {
+      "id": "finding:duplicate:skill:<HOME>/.config/opencode/skill/web-design-guidelines",
+      "category": "duplicate",
+      "severity": "low",
+      "container": "harness:opencode",
+      "targets": [
+        {
+          "id": "skill:<HOME>/.config/opencode/skill/web-design-guidelines",
+          "role": "subject"
+        },
+        {
+          "id": "skill:<ROOT>/project-a/.claude/skills/web-design-guidelines",
+          "role": "counterpart"
+        },
+        {
+          "id": "skill:<ROOT>/project-a/.opencode/skill/web-design-guidelines",
+          "role": "counterpart"
+        }
+      ],
+      "message": "web-design-guidelines has the same content as web-design-guidelines, web-design-guidelines",
+      "evidence": [
+        {
+          "kind": "content-hash",
+          "detail": "identical bytes"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 2076,
+        "tokens": null,
+        "files": 2
+      },
+      "flags": [],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": {
+          "type": "dir",
+          "path": "<HOME>/.config/opencode/skill/web-design-guidelines"
+        }
+      }
+    },
+    {
+      "id": "finding:harness-cache:harness:opencode:log",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "harness:opencode",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.local/share/opencode/log",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 log (0 B) OpenCode documents no sweep for",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "no documented sweep"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 0,
+        "tokens": null,
+        "files": 0
+      },
+      "flags": [],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:harness-cache:harness:opencode:transcript",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "harness:opencode",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.local/share/opencode/storage",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 session (905 B) OpenCode documents no sweep for",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "no documented sweep"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 905,
+        "tokens": null,
+        "files": 4
+      },
+      "flags": ["sensitive"],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:orphan:lock-entry:<HOME>/.agents/.skill-lock.json:find-skills",
+      "category": "orphan",
+      "severity": "low",
+      "container": "harness:claude-code",
+      "targets": [
+        {
+          "locator": {
+            "type": "dir",
+            "path": "<HOME>/.agents/skills/find-skills"
+          },
+          "role": "subject"
+        },
+        {
+          "locator": {
+            "type": "entry",
+            "file": "<HOME>/.agents/.skill-lock.json",
+            "format": "json",
+            "keyPath": ["skills", "find-skills"]
+          },
+          "role": "state"
+        }
+      ],
+      "message": "find-skills: a skill directory in the store no agent directory links",
+      "evidence": [
+        {
+          "kind": "name-only",
+          "detail": "<HOME>/.agents/skills/find-skills"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 0,
+        "tokens": null,
+        "files": 0
+      },
+      "flags": [],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:orphan:project:<ROOT>/gone",
+      "category": "orphan",
+      "severity": "medium",
+      "container": "project:<ROOT>/gone",
+      "targets": [
+        {
+          "id": "breadcrumb:opencode:<HOME>/.local/share/opencode/opencode.db#project/id/2222222222222222222222222222222222222222",
+          "role": "breadcrumb"
+        },
+        {
+          "id": "harness-cache:<HOME>/.local/share/opencode/opencode.db#session/id/ses_synthetic0003",
+          "role": "state",
+          "preselect": false
+        }
+      ],
+      "message": "gone: directory gone; 1 breadcrumb, 1 harness cache unit left behind by OpenCode",
+      "evidence": [
+        {
+          "kind": "path-missing",
+          "detail": "<ROOT>/gone"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 0,
+        "tokens": null,
+        "files": 0
+      },
+      "flags": ["sensitive"],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    }
+  ],
+  "headline": {
+    "scope": "user-controllable",
+    "focus": {
+      "project": "project:<ROOT>/project-a",
+      "reason": "most-expensive"
+    },
+    "perHarness": [
+      {
+        "harness": "claude-code",
+        "modelFamily": null,
+        "contextWindowTokens": null,
+        "baseline": {
+          "low": 0,
+          "mid": 0,
+          "high": 0
+        },
+        "project": {
+          "low": 4,
+          "mid": 4,
+          "high": 4
+        },
+        "total": {
+          "low": 4,
+          "mid": 4,
+          "high": 4
+        },
+        "pctOfContext": null
+      },
+      {
+        "harness": "opencode",
+        "modelFamily": null,
+        "contextWindowTokens": null,
+        "baseline": {
+          "low": 232,
+          "mid": 232,
+          "high": 232
+        },
+        "project": {
+          "low": 334,
+          "mid": 334,
+          "high": 334
+        },
+        "total": {
+          "low": 566,
+          "mid": 566,
+          "high": 566
+        },
+        "pctOfContext": null
+      }
+    ]
+  }
+}

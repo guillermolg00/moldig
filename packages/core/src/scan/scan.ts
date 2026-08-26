@@ -11,6 +11,7 @@ import { createRequire } from "node:module";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createClaudeCodeAdapter } from "../adapters/claude-code/index.js";
+import { createOpenCodeAdapter } from "../adapters/opencode/index.js";
 import type { Adapter, AdapterOutput } from "../adapters/adapter.js";
 import { gitVersion, repoGitStatus, type RepoGitStatus } from "../git/git-status.js";
 import type {
@@ -63,6 +64,7 @@ function processIsAlive(pid: number): boolean {
 
 const ADAPTERS: Record<string, () => Adapter> = {
   "claude-code": createClaudeCodeAdapter,
+  opencode: createOpenCodeAdapter,
 };
 
 let versionPromise: Promise<string> | undefined;
