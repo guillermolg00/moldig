@@ -107,6 +107,8 @@ export async function collectSettingsFiles(
     sensitive: true,
     entries: await serverCount(userMcp),
   });
+  // `argv.json` ships with a comment header (it is the editor's own JSONC file, like VS Code's),
+  // so reading it as strict JSON warns about a file that is exactly as its author intended.
   for (const name of ["cli-config.json", "argv.json"]) {
     await settingsEntity(scan, {
       path: join(configDir, name),
@@ -115,6 +117,7 @@ export async function collectSettingsFiles(
       project: null,
       ownership: "human",
       sensitive: false,
+      jsonc: name === "argv.json",
     });
   }
   await settingsEntity(scan, {
