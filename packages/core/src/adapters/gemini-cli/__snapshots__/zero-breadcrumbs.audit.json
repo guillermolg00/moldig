@@ -1,0 +1,1170 @@
+{
+  "schemaVersion": 0,
+  "generatedAt": "2026-08-26T12:00:00.000Z",
+  "moldig": {
+    "version": "0.0.0"
+  },
+  "scan": {
+    "home": "<HOME>",
+    "roots": ["<ROOT>"],
+    "cwd": "<ROOT>",
+    "platform": "darwin",
+    "caseFold": true,
+    "env": {},
+    "git": {
+      "available": false,
+      "version": null
+    },
+    "durationMs": 0
+  },
+  "tokenizer": {
+    "name": "gpt-tokenizer",
+    "version": "4.0.0",
+    "encoding": "o200k_base",
+    "fallbackUsed": false,
+    "multipliers": {
+      "openai": {
+        "low": 1,
+        "mid": 1,
+        "high": 1
+      },
+      "google": {
+        "low": 1,
+        "mid": 1,
+        "high": 1
+      },
+      "anthropic-46": {
+        "low": 1,
+        "mid": 1.15,
+        "high": 1.25
+      },
+      "anthropic-47plus": {
+        "low": 1.3,
+        "mid": 1.5,
+        "high": 1.65
+      }
+    }
+  },
+  "harnesses": [
+    {
+      "id": "harness:gemini-cli",
+      "harness": "gemini-cli",
+      "displayName": "Gemini CLI",
+      "surfaces": ["cli"],
+      "presence": "installed",
+      "version": null,
+      "effectiveModel": null,
+      "modelFamily": null,
+      "contextWindowTokens": null,
+      "capabilities": {
+        "memoryLocation": "file",
+        "memoryReadSignal": "unchecked",
+        "contextFileNames": ["GEMINI.md"],
+        "sweepDocumented": true
+      },
+      "caps": {
+        "memoryIndexLines": null,
+        "memoryIndexBytes": null,
+        "chainMaxBytes": null,
+        "skillDescriptionChars": null,
+        "importDepth": 5
+      },
+      "effectiveSettings": {
+        "ide": {
+          "hasSeenNudge": true
+        },
+        "security": {
+          "auth": {
+            "selectedType": "<redacted>"
+          }
+        },
+        "mcpServers": {
+          "server-a": {
+            "type": "<redacted>",
+            "url": "<redacted>",
+            "headers": {
+              "Authorization": "<redacted>"
+            }
+          }
+        }
+      },
+      "breadcrumbSources": [
+        {
+          "kind": "projects-entry",
+          "path": "<HOME>/.gemini/projects.json",
+          "readInV1": true
+        },
+        {
+          "kind": "trust-entry",
+          "path": "<HOME>/.gemini/trustedFolders.json",
+          "readInV1": true
+        },
+        {
+          "kind": "slug-directory",
+          "path": "<HOME>/.gemini/tmp",
+          "readInV1": true
+        },
+        {
+          "kind": "slug-directory",
+          "path": "<HOME>/.gemini/history",
+          "readInV1": true
+        }
+      ],
+      "userScope": {
+        "paths": [
+          {
+            "path": "<HOME>/.gemini",
+            "role": "data",
+            "source": "default",
+            "envVar": null
+          }
+        ],
+        "stray": [],
+        "baseline": {
+          "items": [
+            {
+              "entity": "context-file:<HOME>/.gemini/gemini.md",
+              "edge": "edge:loaded-by:context-file:<HOME>/.gemini/gemini.md:harness:gemini-cli",
+              "order": 0,
+              "tokens": 0
+            },
+            {
+              "entity": "skill:<HOME>/.agents/skills/find-skills",
+              "edge": "edge:loaded-by:skill:<HOME>/.agents/skills/find-skills:harness:gemini-cli",
+              "order": 1,
+              "tokens": 4
+            },
+            {
+              "entity": "skill:<HOME>/.agents/skills/next-best-practices",
+              "edge": "edge:loaded-by:skill:<HOME>/.agents/skills/next-best-practices:harness:gemini-cli",
+              "order": 2,
+              "tokens": 4
+            }
+          ],
+          "tokens": 8
+        }
+      }
+    }
+  ],
+  "projects": [
+    {
+      "id": "project:<ROOT>/project-a",
+      "path": "<ROOT>/project-a",
+      "displayName": "project-a",
+      "kind": "repository",
+      "reachability": "present",
+      "unreachableReason": null,
+      "enclosesCwd": false,
+      "discoveredBy": ["marker-walk"],
+      "parent": null,
+      "members": [
+        {
+          "path": "<ROOT>/project-a",
+          "role": "repository",
+          "name": null,
+          "gitdir": null,
+          "reachability": "present"
+        }
+      ],
+      "breadcrumbs": [],
+      "nestedMarkers": [],
+      "perHarness": {
+        "gemini-cli": {
+          "trusted": null,
+          "effectiveSettings": {
+            "ide": {
+              "hasSeenNudge": true
+            },
+            "security": {
+              "auth": {
+                "selectedType": "<redacted>"
+              }
+            },
+            "mcpServers": {
+              "server-a": {
+                "type": "<redacted>",
+                "url": "<redacted>",
+                "headers": {
+                  "Authorization": "<redacted>"
+                }
+              }
+            }
+          },
+          "sessionLoad": {
+            "items": [],
+            "tokens": 0
+          }
+        }
+      }
+    }
+  ],
+  "breadcrumbs": [],
+  "entities": [
+    {
+      "id": "context-file:<HOME>/.gemini/gemini.md",
+      "kind": "context-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/GEMINI.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/GEMINI.md"
+      },
+      "format": "md",
+      "label": "~/.gemini/GEMINI.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 1,
+        "lines": 0,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 0,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "GEMINI.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/agents.md",
+      "kind": "context-file",
+      "harness": null,
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/AGENTS.md",
+      "relativePath": "AGENTS.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/AGENTS.md"
+      },
+      "format": "md",
+      "label": "AGENTS.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 64,
+        "files": 1,
+        "lines": 4,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 24,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "AGENTS.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "harness-cache:<HOME>/.gemini/antigravity",
+      "kind": "harness-cache",
+      "harness": "gemini-cli",
+      "producer": {
+        "harness": "other-app",
+        "surface": "ide"
+      },
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/antigravity",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.gemini/antigravity"
+      },
+      "format": "dir",
+      "label": "antigravity",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 327,
+        "files": 4,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 4,
+        "bytes": 327,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.gemini/settings.json.orig",
+      "kind": "harness-cache",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/settings.json.orig",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/settings.json.orig"
+      },
+      "format": "other",
+      "label": "settings.json.orig",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 120,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-02-07T12:00:00.000Z",
+        "ageDays": 200,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "config-backup",
+      "unit": "file",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 120,
+        "oldest": "2026-02-07T12:00:00.000Z",
+        "newest": "2026-02-07T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "mcp-server:<HOME>/.gemini/settings.json#mcpServers/server-a",
+      "kind": "mcp-server",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/settings.json",
+      "relativePath": null,
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.gemini/settings.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-a"]
+      },
+      "format": "json",
+      "label": "server-a",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 81,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-a",
+      "transport": "sse",
+      "command": null,
+      "args": [],
+      "url": "<redacted>",
+      "envKeys": [],
+      "headerKeys": ["Authorization"],
+      "secretKeys": ["Authorization"],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "sse:<redacted>",
+      "rawKeys": ["type", "url", "headers"]
+    },
+    {
+      "id": "settings-file:<HOME>/.agents/.skill-lock.json",
+      "kind": "settings-file",
+      "harness": null,
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.agents/.skill-lock.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.agents/.skill-lock.json"
+      },
+      "format": "json",
+      "label": "~/.agents/.skill-lock.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 691,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "skill-lock",
+      "topLevelKeys": ["version", "skills", "dismissed", "lastSelectedAgents"],
+      "entries": 2,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.gemini/google_accounts.json",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/google_accounts.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/google_accounts.json"
+      },
+      "format": "json",
+      "label": "google_accounts.json",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "credentials",
+      "topLevelKeys": [],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.gemini/installation_id",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/installation_id",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/installation_id"
+      },
+      "format": "other",
+      "label": "installation_id",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 11,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "state",
+      "topLevelKeys": [],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.gemini/oauth_creds.json",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/oauth_creds.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/oauth_creds.json"
+      },
+      "format": "json",
+      "label": "oauth_creds.json",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "credentials",
+      "topLevelKeys": [],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.gemini/settings.json",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/settings.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/settings.json"
+      },
+      "format": "json",
+      "label": "settings.json",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 287,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": ["ide", "security", "mcpServers"],
+      "entries": 1,
+      "hooks": []
+    },
+    {
+      "id": "skill:<HOME>/.agents/skills/find-skills",
+      "kind": "skill",
+      "harness": null,
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.agents/skills/find-skills",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.agents/skills/find-skills"
+      },
+      "format": "dir",
+      "label": "find-skills",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 162,
+        "files": 1,
+        "lines": 13,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 55,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "find-skills",
+      "dirName": "find-skills",
+      "frontmatterName": "find-skills",
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<HOME>/.agents/skills/find-skills",
+          "harness": null,
+          "surface": null,
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        },
+        {
+          "path": "<HOME>/.gemini/skills/find-skills",
+          "harness": "gemini-cli",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": true,
+          "linkTarget": "../../.agents/skills/find-skills",
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "find-skills",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "e7f060bf3068b685c6770ac172c7d44de4c6140871cb425ed69bd2a33b29f589"
+        }
+      ],
+      "origin": {
+        "installer": "vercel-skills",
+        "sourceType": "unknown",
+        "source": "<redacted>",
+        "sourceUrl": "<redacted>",
+        "ref": null,
+        "skillPath": "<redacted>",
+        "recordedHash": {
+          "algo": "unknown",
+          "value": "<redacted>"
+        },
+        "installedAt": "<redacted>",
+        "updatedAt": "<redacted>",
+        "lock": {
+          "type": "entry",
+          "file": "<HOME>/.agents/.skill-lock.json",
+          "format": "json",
+          "keyPath": ["skills", "find-skills"]
+        }
+      },
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.agents/skills/next-best-practices",
+      "kind": "skill",
+      "harness": null,
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.agents/skills/next-best-practices",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.agents/skills/next-best-practices"
+      },
+      "format": "dir",
+      "label": "next-best-practices",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 226,
+        "files": 1,
+        "lines": 16,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 77,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "next-best-practices",
+      "dirName": "next-best-practices",
+      "frontmatterName": "next-best-practices",
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<HOME>/.agents/skills/next-best-practices",
+          "harness": null,
+          "surface": null,
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        },
+        {
+          "path": "<HOME>/.gemini/skills/next-best-practices",
+          "harness": "gemini-cli",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": true,
+          "linkTarget": "../../.agents/skills/next-best-practices",
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "next-best-practices",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "4f4be0f106a4bb7cbaf44942c7fbe6ba481d5b1cd3d3bd0dcc50a663d4216f9f"
+        }
+      ],
+      "origin": {
+        "installer": "vercel-skills",
+        "sourceType": "unknown",
+        "source": "<redacted>",
+        "sourceUrl": "<redacted>",
+        "ref": null,
+        "skillPath": "<redacted>",
+        "recordedHash": {
+          "algo": "unknown",
+          "value": "<redacted>"
+        },
+        "installedAt": "<redacted>",
+        "updatedAt": "<redacted>",
+        "lock": {
+          "type": "entry",
+          "file": "<HOME>/.agents/.skill-lock.json",
+          "format": "json",
+          "keyPath": ["skills", "next-best-practices"]
+        }
+      },
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.gemini/skills/skill-gone",
+      "kind": "skill",
+      "harness": null,
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/skills/skill-gone",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.gemini/skills/skill-gone"
+      },
+      "format": "dir",
+      "label": "skill-gone",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-gone",
+      "dirName": "skill-gone",
+      "frontmatterName": null,
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<HOME>/.gemini/skills/skill-gone",
+          "harness": "gemini-cli",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": true,
+          "linkTarget": "../../.agents/skills/skill-gone",
+          "dangling": true
+        }
+      ],
+      "frontmatter": {},
+      "sidecars": [],
+      "contentHash": [],
+      "origin": null,
+      "drift": "unknown"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge:loaded-by:context-file:<HOME>/.gemini/gemini.md:harness:gemini-cli",
+      "kind": "loaded-by",
+      "from": "context-file:<HOME>/.gemini/gemini.md",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "user scope: read in every session"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "user scope: read in every session",
+      "placement": "<HOME>/.gemini/GEMINI.md",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 0,
+      "importsResolved": 0,
+      "tokensLoaded": 0,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/agents.md:harness:gemini-cli:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/agents.md",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "file not read by the harness: context.fileName = [GEMINI.md]"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "never",
+      "reason": "file not read by the harness: context.fileName = [GEMINI.md]",
+      "placement": "<ROOT>/project-a/AGENTS.md",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 0,
+      "importsResolved": 0,
+      "tokensLoaded": 0,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<HOME>/.gemini/settings.json#mcpServers/server-a:harness:gemini-cli",
+      "kind": "loaded-by",
+      "from": "mcp-server:<HOME>/.gemini/settings.json#mcpServers/server-a",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "user scope: available in every session"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "user scope: available in every session",
+      "placement": null,
+      "effectiveName": "server-a",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.agents/skills/find-skills:harness:gemini-cli",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.agents/skills/find-skills",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "user .agents/skills skill: description listed, body on demand"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "user .agents/skills skill: description listed, body on demand",
+      "placement": "<HOME>/.agents/skills/find-skills",
+      "effectiveName": "/find-skills",
+      "order": 1,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.agents/skills/next-best-practices:harness:gemini-cli",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.agents/skills/next-best-practices",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "user .agents/skills skill: description listed, body on demand"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "user .agents/skills skill: description listed, body on demand",
+      "placement": "<HOME>/.agents/skills/next-best-practices",
+      "effectiveName": "/next-best-practices",
+      "order": 2,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:originates-from:skill:<HOME>/.agents/skills/find-skills:settings-file:<HOME>/.agents/.skill-lock.json",
+      "kind": "originates-from",
+      "from": "skill:<HOME>/.agents/skills/find-skills",
+      "to": "settings-file:<HOME>/.agents/.skill-lock.json",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "lock-entry",
+          "detail": "skills.find-skills",
+          "locator": {
+            "type": "entry",
+            "file": "<HOME>/.agents/.skill-lock.json",
+            "format": "json",
+            "keyPath": ["skills", "find-skills"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "edge:originates-from:skill:<HOME>/.agents/skills/next-best-practices:settings-file:<HOME>/.agents/.skill-lock.json",
+      "kind": "originates-from",
+      "from": "skill:<HOME>/.agents/skills/next-best-practices",
+      "to": "settings-file:<HOME>/.agents/.skill-lock.json",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "lock-entry",
+          "detail": "skills.next-best-practices",
+          "locator": {
+            "type": "entry",
+            "file": "<HOME>/.agents/.skill-lock.json",
+            "format": "json",
+            "keyPath": ["skills", "next-best-practices"]
+          }
+        }
+      ]
+    }
+  ],
+  "warnings": [
+    {
+      "code": "git-missing",
+      "message": "git not run (git: false): git-tracked status unknown",
+      "harness": null,
+      "path": null,
+      "effect": "degraded"
+    },
+    {
+      "code": "unsupported-shape",
+      "message": ".skill-lock.json declares version 1; 3 is the documented version of this file — its entries are read by field name",
+      "harness": null,
+      "path": "<HOME>/.agents/.skill-lock.json",
+      "effect": "degraded"
+    }
+  ],
+  "totals": {
+    "entities": 13,
+    "files": 14,
+    "bytes": 1969,
+    "harnessCacheBytes": 447,
+    "memoryBytes": 0,
+    "tokens": 156
+  },
+  "findings": [
+    {
+      "id": "finding:harness-cache:harness:gemini-cli:config-backup",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "harness:gemini-cli",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.gemini/settings.json.orig",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 config backup (120 B) Gemini CLI documents no sweep for",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "no documented sweep"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 120,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": ["sensitive"],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:orphan:skill:<HOME>/.gemini/skills/skill-gone",
+      "category": "orphan",
+      "severity": "low",
+      "container": "harness:claude-code",
+      "targets": [
+        {
+          "locator": {
+            "type": "dir",
+            "path": "<HOME>/.gemini/skills/skill-gone"
+          },
+          "role": "subject"
+        }
+      ],
+      "message": "skill-gone: a link points at a directory that is gone",
+      "evidence": [
+        {
+          "kind": "symlink-target",
+          "detail": "../../.agents/skills/skill-gone"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 0,
+        "tokens": null,
+        "files": 0
+      },
+      "flags": [],
+      "action": {
+        "kind": "delete",
+        "preselect": false,
+        "locator": {
+          "type": "dir",
+          "path": "<HOME>/.gemini/skills/skill-gone"
+        }
+      }
+    }
+  ],
+  "headline": {
+    "scope": "user-controllable",
+    "focus": {
+      "project": "project:<ROOT>/project-a",
+      "reason": "most-expensive"
+    },
+    "perHarness": [
+      {
+        "harness": "gemini-cli",
+        "modelFamily": null,
+        "contextWindowTokens": null,
+        "baseline": {
+          "low": 8,
+          "mid": 8,
+          "high": 8
+        },
+        "project": {
+          "low": 0,
+          "mid": 0,
+          "high": 0
+        },
+        "total": {
+          "low": 8,
+          "mid": 8,
+          "high": 8
+        },
+        "pctOfContext": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,6328 @@
+{
+  "schemaVersion": 0,
+  "generatedAt": "2026-08-26T12:00:00.000Z",
+  "moldig": {
+    "version": "0.0.0"
+  },
+  "scan": {
+    "home": "<HOME>",
+    "roots": ["<ROOT>"],
+    "cwd": "<ROOT>",
+    "platform": "darwin",
+    "caseFold": true,
+    "env": {},
+    "git": {
+      "available": false,
+      "version": null
+    },
+    "durationMs": 0
+  },
+  "tokenizer": {
+    "name": "gpt-tokenizer",
+    "version": "4.0.0",
+    "encoding": "o200k_base",
+    "fallbackUsed": false,
+    "multipliers": {
+      "openai": {
+        "low": 1,
+        "mid": 1,
+        "high": 1
+      },
+      "google": {
+        "low": 1,
+        "mid": 1,
+        "high": 1
+      },
+      "anthropic-46": {
+        "low": 1,
+        "mid": 1.15,
+        "high": 1.25
+      },
+      "anthropic-47plus": {
+        "low": 1.3,
+        "mid": 1.5,
+        "high": 1.65
+      }
+    }
+  },
+  "harnesses": [
+    {
+      "id": "harness:gemini-cli",
+      "harness": "gemini-cli",
+      "displayName": "Gemini CLI",
+      "surfaces": ["cli"],
+      "presence": "installed",
+      "version": null,
+      "effectiveModel": null,
+      "modelFamily": null,
+      "contextWindowTokens": null,
+      "capabilities": {
+        "memoryLocation": "file",
+        "memoryReadSignal": "unchecked",
+        "contextFileNames": ["GEMINI.md", "AGENTS.md"],
+        "sweepDocumented": true
+      },
+      "caps": {
+        "memoryIndexLines": null,
+        "memoryIndexBytes": null,
+        "chainMaxBytes": null,
+        "skillDescriptionChars": null,
+        "importDepth": 5
+      },
+      "effectiveSettings": {
+        "general": {
+          "checkpointing": {
+            "enabled": true
+          },
+          "sessionRetention": {}
+        },
+        "output": {},
+        "ui": {
+          "theme": "<redacted>",
+          "customThemes": {}
+        },
+        "ide": {
+          "hasSeenNudge": true
+        },
+        "privacy": {},
+        "telemetry": {
+          "enabled": false
+        },
+        "billing": {},
+        "model": {},
+        "modelConfigs": {},
+        "agents": {},
+        "context": {
+          "fileName": ["GEMINI.md", "AGENTS.md"],
+          "importFormat": "tree",
+          "includeDirectoryTree": true,
+          "discoveryMaxDirs": 200,
+          "memoryBoundaryMarkers": [".git"],
+          "includeDirectories": ["<redacted>"],
+          "loadMemoryFromIncludeDirectories": false,
+          "fileFiltering": {
+            "respectGitIgnore": true,
+            "respectGeminiIgnore": true,
+            "enableFileWatcher": false,
+            "enableRecursiveFileSearch": true,
+            "enableFuzzySearch": true,
+            "customIgnoreFilePaths": []
+          }
+        },
+        "tools": {},
+        "mcp": {
+          "allowed": ["server-a"],
+          "excluded": []
+        },
+        "useWriteTodos": false,
+        "security": {
+          "auth": {
+            "selectedType": "<redacted>"
+          }
+        },
+        "admin": {},
+        "advanced": {},
+        "experimental": {
+          "autoMemory": true
+        },
+        "extensions": {},
+        "skills": {
+          "enabled": true,
+          "disabled": ["skill-c"]
+        },
+        "hooksConfig": {},
+        "hooks": {
+          "BeforeTool": [
+            {
+              "matcher": "<redacted>",
+              "hooks": [
+                {
+                  "type": "command",
+                  "command": "<redacted>",
+                  "name": "<redacted>",
+                  "timeout": 30000
+                }
+              ]
+            }
+          ],
+          "SessionStart": [
+            {
+              "hooks": [
+                {
+                  "type": "command",
+                  "command": "<redacted>"
+                }
+              ]
+            }
+          ]
+        },
+        "contextManagement": {},
+        "mcpServers": {
+          "server-a": {
+            "command": "<redacted>",
+            "args": ["<redacted>", "<redacted>"],
+            "env": {
+              "VAR_A": "<redacted>"
+            },
+            "cwd": "<redacted>",
+            "timeout": 600000,
+            "trust": false,
+            "includeTools": ["<redacted>"],
+            "excludeTools": []
+          }
+        }
+      },
+      "breadcrumbSources": [
+        {
+          "kind": "projects-entry",
+          "path": "<HOME>/.gemini/projects.json",
+          "readInV1": true
+        },
+        {
+          "kind": "trust-entry",
+          "path": "<HOME>/.gemini/trustedFolders.json",
+          "readInV1": true
+        },
+        {
+          "kind": "slug-directory",
+          "path": "<HOME>/.gemini/tmp",
+          "readInV1": true
+        },
+        {
+          "kind": "slug-directory",
+          "path": "<HOME>/.gemini/history",
+          "readInV1": true
+        }
+      ],
+      "userScope": {
+        "paths": [
+          {
+            "path": "<HOME>/.gemini",
+            "role": "data",
+            "source": "default",
+            "envVar": null
+          }
+        ],
+        "stray": [
+          "breadcrumb:gemini-cli:<HOME>/.gemini/tmp/0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+        ],
+        "baseline": {
+          "items": [
+            {
+              "entity": "context-file:<HOME>/.gemini/gemini.md",
+              "edge": "edge:loaded-by:context-file:<HOME>/.gemini/gemini.md:harness:gemini-cli",
+              "order": 0,
+              "tokens": 59
+            },
+            {
+              "entity": "context-file:<HOME>/.gemini/extensions/ext-a/gemini.md",
+              "edge": "edge:loaded-by:context-file:<HOME>/.gemini/extensions/ext-a/gemini.md:harness:gemini-cli",
+              "order": 1,
+              "tokens": 30
+            },
+            {
+              "entity": "skill:<HOME>/.agents/skills/skill-d",
+              "edge": "edge:loaded-by:skill:<HOME>/.agents/skills/skill-d:harness:gemini-cli",
+              "order": 2,
+              "tokens": 4
+            },
+            {
+              "entity": "skill:<HOME>/.gemini/extensions/ext-a/skills/skill-b",
+              "edge": "edge:loaded-by:skill:<HOME>/.gemini/extensions/ext-a/skills/skill-b:harness:gemini-cli",
+              "order": 3,
+              "tokens": 4
+            }
+          ],
+          "tokens": 97
+        }
+      }
+    }
+  ],
+  "projects": [
+    {
+      "id": "project:<ROOT>/gone",
+      "path": "<ROOT>/gone",
+      "displayName": "gone",
+      "kind": "unknown",
+      "reachability": "orphan",
+      "unreachableReason": null,
+      "enclosesCwd": false,
+      "discoveredBy": ["breadcrumb"],
+      "parent": null,
+      "members": [],
+      "breadcrumbs": [
+        "breadcrumb:gemini-cli:<HOME>/.gemini/projects.json#projects/<ROOT>/gone",
+        "breadcrumb:gemini-cli:<HOME>/.gemini/tmp/gone",
+        "breadcrumb:gemini-cli:<HOME>/.gemini/trustedfolders.json#<ROOT>/gone"
+      ],
+      "nestedMarkers": [],
+      "perHarness": {
+        "gemini-cli": {
+          "trusted": true,
+          "effectiveSettings": {
+            "general": {
+              "checkpointing": {
+                "enabled": true
+              },
+              "sessionRetention": {}
+            },
+            "output": {},
+            "ui": {
+              "theme": "<redacted>",
+              "customThemes": {}
+            },
+            "ide": {
+              "hasSeenNudge": true
+            },
+            "privacy": {},
+            "telemetry": {
+              "enabled": false
+            },
+            "billing": {},
+            "model": {},
+            "modelConfigs": {},
+            "agents": {},
+            "context": {
+              "fileName": ["GEMINI.md", "AGENTS.md"],
+              "importFormat": "tree",
+              "includeDirectoryTree": true,
+              "discoveryMaxDirs": 200,
+              "memoryBoundaryMarkers": [".git"],
+              "includeDirectories": ["<redacted>"],
+              "loadMemoryFromIncludeDirectories": false,
+              "fileFiltering": {
+                "respectGitIgnore": true,
+                "respectGeminiIgnore": true,
+                "enableFileWatcher": false,
+                "enableRecursiveFileSearch": true,
+                "enableFuzzySearch": true,
+                "customIgnoreFilePaths": []
+              }
+            },
+            "tools": {},
+            "mcp": {
+              "allowed": ["server-a"],
+              "excluded": []
+            },
+            "useWriteTodos": false,
+            "security": {
+              "auth": {
+                "selectedType": "<redacted>"
+              }
+            },
+            "admin": {},
+            "advanced": {},
+            "experimental": {
+              "autoMemory": true
+            },
+            "extensions": {},
+            "skills": {
+              "enabled": true,
+              "disabled": ["skill-c"]
+            },
+            "hooksConfig": {},
+            "hooks": {
+              "BeforeTool": [
+                {
+                  "matcher": "<redacted>",
+                  "hooks": [
+                    {
+                      "type": "command",
+                      "command": "<redacted>",
+                      "name": "<redacted>",
+                      "timeout": 30000
+                    }
+                  ]
+                }
+              ],
+              "SessionStart": [
+                {
+                  "hooks": [
+                    {
+                      "type": "command",
+                      "command": "<redacted>"
+                    }
+                  ]
+                }
+              ]
+            },
+            "contextManagement": {},
+            "mcpServers": {
+              "server-a": {
+                "command": "<redacted>",
+                "args": ["<redacted>", "<redacted>"],
+                "env": {
+                  "VAR_A": "<redacted>"
+                },
+                "cwd": "<redacted>",
+                "timeout": 600000,
+                "trust": false,
+                "includeTools": ["<redacted>"],
+                "excludeTools": []
+              }
+            }
+          },
+          "sessionLoad": {
+            "items": [],
+            "tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "project:<ROOT>/nested/project-b",
+      "path": "<ROOT>/nested/project-b",
+      "displayName": "project-b",
+      "kind": "repository",
+      "reachability": "present",
+      "unreachableReason": null,
+      "enclosesCwd": false,
+      "discoveredBy": ["breadcrumb", "marker-walk"],
+      "parent": null,
+      "members": [
+        {
+          "path": "<ROOT>/nested/project-b",
+          "role": "repository",
+          "name": null,
+          "gitdir": null,
+          "reachability": "present"
+        }
+      ],
+      "breadcrumbs": [
+        "breadcrumb:gemini-cli:<HOME>/.gemini/projects.json#projects/<ROOT>/nested/project-b",
+        "breadcrumb:gemini-cli:<HOME>/.gemini/tmp/project-b-1",
+        "breadcrumb:gemini-cli:<HOME>/.gemini/trustedfolders.json#<ROOT>/nested/project-b"
+      ],
+      "nestedMarkers": [],
+      "perHarness": {
+        "gemini-cli": {
+          "trusted": true,
+          "effectiveSettings": {
+            "general": {
+              "checkpointing": {
+                "enabled": true
+              },
+              "sessionRetention": {}
+            },
+            "output": {},
+            "ui": {
+              "theme": "<redacted>",
+              "customThemes": {}
+            },
+            "ide": {
+              "hasSeenNudge": true
+            },
+            "privacy": {},
+            "telemetry": {
+              "enabled": false
+            },
+            "billing": {},
+            "model": {},
+            "modelConfigs": {},
+            "agents": {},
+            "context": {
+              "fileName": ["GEMINI.md", "AGENTS.md"],
+              "importFormat": "tree",
+              "includeDirectoryTree": true,
+              "discoveryMaxDirs": 200,
+              "memoryBoundaryMarkers": [".git"],
+              "includeDirectories": ["<redacted>"],
+              "loadMemoryFromIncludeDirectories": false,
+              "fileFiltering": {
+                "respectGitIgnore": true,
+                "respectGeminiIgnore": true,
+                "enableFileWatcher": false,
+                "enableRecursiveFileSearch": true,
+                "enableFuzzySearch": true,
+                "customIgnoreFilePaths": []
+              }
+            },
+            "tools": {},
+            "mcp": {
+              "allowed": ["server-a"],
+              "excluded": []
+            },
+            "useWriteTodos": false,
+            "security": {
+              "auth": {
+                "selectedType": "<redacted>"
+              }
+            },
+            "admin": {},
+            "advanced": {},
+            "experimental": {
+              "autoMemory": true
+            },
+            "extensions": {},
+            "skills": {
+              "enabled": true,
+              "disabled": ["skill-c"]
+            },
+            "hooksConfig": {},
+            "hooks": {
+              "BeforeTool": [
+                {
+                  "matcher": "<redacted>",
+                  "hooks": [
+                    {
+                      "type": "command",
+                      "command": "<redacted>",
+                      "name": "<redacted>",
+                      "timeout": 30000
+                    }
+                  ]
+                }
+              ],
+              "SessionStart": [
+                {
+                  "hooks": [
+                    {
+                      "type": "command",
+                      "command": "<redacted>"
+                    }
+                  ]
+                }
+              ]
+            },
+            "contextManagement": {},
+            "mcpServers": {
+              "server-a": {
+                "command": "<redacted>",
+                "args": ["<redacted>", "<redacted>"],
+                "env": {
+                  "VAR_A": "<redacted>"
+                },
+                "cwd": "<redacted>",
+                "timeout": 600000,
+                "trust": false,
+                "includeTools": ["<redacted>"],
+                "excludeTools": []
+              }
+            }
+          },
+          "sessionLoad": {
+            "items": [
+              {
+                "entity": "context-file:<ROOT>/nested/project-b/agents.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/nested/project-b/agents.md:harness:gemini-cli:project:<ROOT>/nested/project-b",
+                "order": 0,
+                "tokens": 18
+              }
+            ],
+            "tokens": 18
+          }
+        }
+      }
+    },
+    {
+      "id": "project:<ROOT>/project-a",
+      "path": "<ROOT>/project-a",
+      "displayName": "project-a",
+      "kind": "repository",
+      "reachability": "present",
+      "unreachableReason": null,
+      "enclosesCwd": false,
+      "discoveredBy": ["breadcrumb", "marker-walk"],
+      "parent": null,
+      "members": [
+        {
+          "path": "<ROOT>/project-a",
+          "role": "repository",
+          "name": null,
+          "gitdir": null,
+          "reachability": "present"
+        }
+      ],
+      "breadcrumbs": [
+        "breadcrumb:gemini-cli:<HOME>/.gemini/history/project-a",
+        "breadcrumb:gemini-cli:<HOME>/.gemini/projects.json#projects/<ROOT>/project-a",
+        "breadcrumb:gemini-cli:<HOME>/.gemini/tmp/project-a",
+        "breadcrumb:gemini-cli:<HOME>/.gemini/trustedfolders.json#<ROOT>/project-a"
+      ],
+      "nestedMarkers": [
+        {
+          "relativePath": "packages/sub-a/GEMINI.md",
+          "marker": "GEMINI.md",
+          "entity": "context-file:<ROOT>/project-a/packages/sub-a/gemini.md"
+        }
+      ],
+      "perHarness": {
+        "gemini-cli": {
+          "trusted": true,
+          "effectiveSettings": {
+            "general": {
+              "checkpointing": {
+                "enabled": true
+              },
+              "sessionRetention": {}
+            },
+            "output": {},
+            "ui": {
+              "theme": "<redacted>",
+              "customThemes": {}
+            },
+            "ide": {
+              "hasSeenNudge": true
+            },
+            "privacy": {},
+            "telemetry": {
+              "enabled": false
+            },
+            "billing": {},
+            "model": {},
+            "modelConfigs": {},
+            "agents": {},
+            "context": {
+              "fileName": "GEMINI.md",
+              "importFormat": "tree",
+              "includeDirectoryTree": true,
+              "discoveryMaxDirs": 200,
+              "memoryBoundaryMarkers": [".git"],
+              "includeDirectories": ["<redacted>"],
+              "loadMemoryFromIncludeDirectories": false,
+              "fileFiltering": {
+                "respectGitIgnore": true,
+                "respectGeminiIgnore": true,
+                "enableFileWatcher": false,
+                "enableRecursiveFileSearch": true,
+                "enableFuzzySearch": true,
+                "customIgnoreFilePaths": []
+              }
+            },
+            "tools": {},
+            "mcp": {
+              "allowed": ["server-a"],
+              "excluded": []
+            },
+            "useWriteTodos": false,
+            "security": {
+              "auth": {
+                "selectedType": "<redacted>"
+              }
+            },
+            "admin": {},
+            "advanced": {},
+            "experimental": {
+              "autoMemory": true
+            },
+            "extensions": {},
+            "skills": {
+              "enabled": true,
+              "disabled": ["skill-c"]
+            },
+            "hooksConfig": {},
+            "hooks": {
+              "BeforeTool": [
+                {
+                  "matcher": "<redacted>",
+                  "hooks": [
+                    {
+                      "type": "command",
+                      "command": "<redacted>",
+                      "name": "<redacted>",
+                      "timeout": 30000
+                    }
+                  ]
+                }
+              ],
+              "SessionStart": [
+                {
+                  "hooks": [
+                    {
+                      "type": "command",
+                      "command": "<redacted>"
+                    }
+                  ]
+                }
+              ],
+              "AfterTool": [
+                {
+                  "matcher": "<redacted>",
+                  "hooks": [
+                    {
+                      "type": "command",
+                      "command": "<redacted>",
+                      "timeout": 5000
+                    }
+                  ]
+                }
+              ]
+            },
+            "contextManagement": {},
+            "mcpServers": {
+              "server-a": {
+                "command": "<redacted>",
+                "args": ["<redacted>", "<redacted>"],
+                "env": {
+                  "VAR_A": "<redacted>"
+                },
+                "cwd": "<redacted>",
+                "timeout": 600000,
+                "trust": false,
+                "includeTools": ["<redacted>"],
+                "excludeTools": []
+              },
+              "server-b": {
+                "httpUrl": "<redacted>",
+                "headers": {
+                  "Authorization": "<redacted>"
+                },
+                "timeout": 600000,
+                "trust": false,
+                "oauth": {
+                  "enabled": "<redacted>",
+                  "clientId": "<redacted>",
+                  "clientSecret": "<redacted>",
+                  "authorizationUrl": "<redacted>",
+                  "tokenUrl": "<redacted>",
+                  "scopes": "<redacted>",
+                  "redirectUri": "<redacted>",
+                  "tokenParamName": "<redacted>",
+                  "audiences": "<redacted>"
+                }
+              },
+              "server-c": {
+                "url": "<redacted>",
+                "authProviderType": "<redacted>",
+                "targetAudience": "<redacted>",
+                "targetServiceAccount": "<redacted>"
+              }
+            }
+          },
+          "sessionLoad": {
+            "items": [
+              {
+                "entity": "context-file:<ROOT>/project-a/gemini.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/gemini.md:harness:gemini-cli:project:<ROOT>/project-a",
+                "order": 0,
+                "tokens": 55
+              },
+              {
+                "entity": "context-file:<ROOT>/project-a/docs/context-import.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-a/docs/context-import.md:harness:gemini-cli:project:<ROOT>/project-a",
+                "order": 1,
+                "tokens": 24
+              },
+              {
+                "entity": "memory-file:<HOME>/.gemini/tmp/project-a/memory/memory.md",
+                "edge": "edge:loaded-by:memory-file:<HOME>/.gemini/tmp/project-a/memory/memory.md:harness:gemini-cli:project:<ROOT>/project-a",
+                "order": 2,
+                "tokens": 52
+              },
+              {
+                "entity": "skill:<ROOT>/project-a/.agents/skills/skill-e",
+                "edge": "edge:loaded-by:skill:<ROOT>/project-a/.agents/skills/skill-e:harness:gemini-cli:project:<ROOT>/project-a",
+                "order": 3,
+                "tokens": 4
+              }
+            ],
+            "tokens": 135
+          }
+        }
+      }
+    },
+    {
+      "id": "project:<ROOT>/project-b",
+      "path": "<ROOT>/project-b",
+      "displayName": "project-b",
+      "kind": "repository",
+      "reachability": "present",
+      "unreachableReason": null,
+      "enclosesCwd": false,
+      "discoveredBy": ["breadcrumb", "marker-walk"],
+      "parent": null,
+      "members": [
+        {
+          "path": "<ROOT>/project-b",
+          "role": "repository",
+          "name": null,
+          "gitdir": null,
+          "reachability": "present"
+        }
+      ],
+      "breadcrumbs": [
+        "breadcrumb:gemini-cli:<HOME>/.gemini/projects.json#projects/<ROOT>/project-b",
+        "breadcrumb:gemini-cli:<HOME>/.gemini/tmp/project-b"
+      ],
+      "nestedMarkers": [],
+      "perHarness": {
+        "gemini-cli": {
+          "trusted": null,
+          "effectiveSettings": {
+            "general": {
+              "checkpointing": {
+                "enabled": true
+              },
+              "sessionRetention": {}
+            },
+            "output": {},
+            "ui": {
+              "theme": "<redacted>",
+              "customThemes": {}
+            },
+            "ide": {
+              "hasSeenNudge": true
+            },
+            "privacy": {},
+            "telemetry": {
+              "enabled": false
+            },
+            "billing": {},
+            "model": {},
+            "modelConfigs": {},
+            "agents": {},
+            "context": {
+              "fileName": "GEMINI.md",
+              "importFormat": "tree",
+              "includeDirectoryTree": true,
+              "discoveryMaxDirs": 200,
+              "memoryBoundaryMarkers": [".git"],
+              "includeDirectories": ["<redacted>"],
+              "loadMemoryFromIncludeDirectories": false,
+              "fileFiltering": {
+                "respectGitIgnore": true,
+                "respectGeminiIgnore": true,
+                "enableFileWatcher": false,
+                "enableRecursiveFileSearch": true,
+                "enableFuzzySearch": true,
+                "customIgnoreFilePaths": []
+              }
+            },
+            "tools": {},
+            "mcp": {
+              "allowed": ["server-a"],
+              "excluded": []
+            },
+            "useWriteTodos": false,
+            "security": {
+              "auth": {
+                "selectedType": "<redacted>"
+              }
+            },
+            "admin": {},
+            "advanced": {},
+            "experimental": {
+              "autoMemory": true
+            },
+            "extensions": {},
+            "skills": {
+              "enabled": true,
+              "disabled": ["skill-c"]
+            },
+            "hooksConfig": {},
+            "hooks": {
+              "BeforeTool": [
+                {
+                  "matcher": "<redacted>",
+                  "hooks": [
+                    {
+                      "type": "command",
+                      "command": "<redacted>",
+                      "name": "<redacted>",
+                      "timeout": 30000
+                    }
+                  ]
+                }
+              ],
+              "SessionStart": [
+                {
+                  "hooks": [
+                    {
+                      "type": "command",
+                      "command": "<redacted>"
+                    }
+                  ]
+                }
+              ]
+            },
+            "contextManagement": {},
+            "mcpServers": {
+              "server-a": {
+                "command": "<redacted>",
+                "args": ["<redacted>", "<redacted>"],
+                "env": {
+                  "VAR_A": "<redacted>"
+                },
+                "cwd": "<redacted>",
+                "timeout": 600000,
+                "trust": false,
+                "includeTools": ["<redacted>"],
+                "excludeTools": []
+              },
+              "server-d": {
+                "command": "<redacted>",
+                "args": ["<redacted>"]
+              }
+            },
+            "contextFileName": "GEMINI.md",
+            "theme": "<redacted>",
+            "checkpointing": {
+              "enabled": true
+            }
+          },
+          "sessionLoad": {
+            "items": [
+              {
+                "entity": "context-file:<ROOT>/project-b/gemini.md",
+                "edge": "edge:loaded-by:context-file:<ROOT>/project-b/gemini.md:harness:gemini-cli:project:<ROOT>/project-b",
+                "order": 0,
+                "tokens": 18
+              }
+            ],
+            "tokens": 18
+          }
+        }
+      }
+    },
+    {
+      "id": "project:<ROOT>/project-c",
+      "path": "<ROOT>/project-c",
+      "displayName": "project-c",
+      "kind": "repository",
+      "reachability": "present",
+      "unreachableReason": null,
+      "enclosesCwd": false,
+      "discoveredBy": ["breadcrumb", "marker-walk"],
+      "parent": null,
+      "members": [
+        {
+          "path": "<ROOT>/project-c",
+          "role": "repository",
+          "name": null,
+          "gitdir": null,
+          "reachability": "present"
+        }
+      ],
+      "breadcrumbs": ["breadcrumb:gemini-cli:<HOME>/.gemini/trustedfolders.json#<ROOT>/project-c"],
+      "nestedMarkers": [],
+      "perHarness": {
+        "gemini-cli": {
+          "trusted": false,
+          "effectiveSettings": {
+            "general": {
+              "checkpointing": {
+                "enabled": true
+              },
+              "sessionRetention": {}
+            },
+            "output": {},
+            "ui": {
+              "theme": "<redacted>",
+              "customThemes": {}
+            },
+            "ide": {
+              "hasSeenNudge": true
+            },
+            "privacy": {},
+            "telemetry": {
+              "enabled": false
+            },
+            "billing": {},
+            "model": {},
+            "modelConfigs": {},
+            "agents": {},
+            "context": {
+              "fileName": ["GEMINI.md", "AGENTS.md"],
+              "importFormat": "tree",
+              "includeDirectoryTree": true,
+              "discoveryMaxDirs": 200,
+              "memoryBoundaryMarkers": [".git"],
+              "includeDirectories": ["<redacted>"],
+              "loadMemoryFromIncludeDirectories": false,
+              "fileFiltering": {
+                "respectGitIgnore": true,
+                "respectGeminiIgnore": true,
+                "enableFileWatcher": false,
+                "enableRecursiveFileSearch": true,
+                "enableFuzzySearch": true,
+                "customIgnoreFilePaths": []
+              }
+            },
+            "tools": {},
+            "mcp": {
+              "allowed": ["server-a"],
+              "excluded": []
+            },
+            "useWriteTodos": false,
+            "security": {
+              "auth": {
+                "selectedType": "<redacted>"
+              }
+            },
+            "admin": {},
+            "advanced": {},
+            "experimental": {
+              "autoMemory": true
+            },
+            "extensions": {},
+            "skills": {
+              "enabled": true,
+              "disabled": ["skill-c"]
+            },
+            "hooksConfig": {},
+            "hooks": {
+              "BeforeTool": [
+                {
+                  "matcher": "<redacted>",
+                  "hooks": [
+                    {
+                      "type": "command",
+                      "command": "<redacted>",
+                      "name": "<redacted>",
+                      "timeout": 30000
+                    }
+                  ]
+                }
+              ],
+              "SessionStart": [
+                {
+                  "hooks": [
+                    {
+                      "type": "command",
+                      "command": "<redacted>"
+                    }
+                  ]
+                }
+              ]
+            },
+            "contextManagement": {},
+            "mcpServers": {
+              "server-a": {
+                "command": "<redacted>",
+                "args": ["<redacted>", "<redacted>"],
+                "env": {
+                  "VAR_A": "<redacted>"
+                },
+                "cwd": "<redacted>",
+                "timeout": 600000,
+                "trust": false,
+                "includeTools": ["<redacted>"],
+                "excludeTools": []
+              }
+            }
+          },
+          "sessionLoad": {
+            "items": [],
+            "tokens": 0
+          }
+        }
+      }
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "id": "breadcrumb:gemini-cli:<HOME>/.gemini/history/project-a",
+      "harness": "gemini-cli",
+      "kind": "slug-directory",
+      "raw": "project-a",
+      "recordedForm": "slug",
+      "path": "<ROOT>/project-a",
+      "resolution": "slug-by-key",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.gemini/history/project-a"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": ["harness-cache:<HOME>/.gemini/history/project-a"]
+    },
+    {
+      "id": "breadcrumb:gemini-cli:<HOME>/.gemini/projects.json#projects/<ROOT>/gone",
+      "harness": "gemini-cli",
+      "kind": "projects-entry",
+      "raw": "<ROOT>/gone",
+      "recordedForm": "path",
+      "path": "<ROOT>/gone",
+      "resolution": "direct",
+      "project": "project:<ROOT>/gone",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "orphan",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.gemini/projects.json",
+        "format": "json",
+        "keyPath": ["projects", "<ROOT>/gone"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {
+        "projectId": "gone"
+      },
+      "state": []
+    },
+    {
+      "id": "breadcrumb:gemini-cli:<HOME>/.gemini/projects.json#projects/<ROOT>/nested/project-b",
+      "harness": "gemini-cli",
+      "kind": "projects-entry",
+      "raw": "<ROOT>/nested/project-b",
+      "recordedForm": "path",
+      "path": "<ROOT>/nested/project-b",
+      "resolution": "direct",
+      "project": "project:<ROOT>/nested/project-b",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.gemini/projects.json",
+        "format": "json",
+        "keyPath": ["projects", "<ROOT>/nested/project-b"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {
+        "projectId": "project-b-1"
+      },
+      "state": []
+    },
+    {
+      "id": "breadcrumb:gemini-cli:<HOME>/.gemini/projects.json#projects/<ROOT>/project-a",
+      "harness": "gemini-cli",
+      "kind": "projects-entry",
+      "raw": "<ROOT>/project-a",
+      "recordedForm": "path",
+      "path": "<ROOT>/project-a",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.gemini/projects.json",
+        "format": "json",
+        "keyPath": ["projects", "<ROOT>/project-a"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {
+        "projectId": "project-a"
+      },
+      "state": []
+    },
+    {
+      "id": "breadcrumb:gemini-cli:<HOME>/.gemini/projects.json#projects/<ROOT>/project-b",
+      "harness": "gemini-cli",
+      "kind": "projects-entry",
+      "raw": "<ROOT>/project-b",
+      "recordedForm": "path",
+      "path": "<ROOT>/project-b",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-b",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.gemini/projects.json",
+        "format": "json",
+        "keyPath": ["projects", "<ROOT>/project-b"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {
+        "projectId": "project-b"
+      },
+      "state": []
+    },
+    {
+      "id": "breadcrumb:gemini-cli:<HOME>/.gemini/tmp/0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "harness": "gemini-cli",
+      "kind": "slug-directory",
+      "raw": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "recordedForm": "slug",
+      "path": null,
+      "resolution": "unresolved",
+      "project": null,
+      "strayReason": "unresolved-slug",
+      "relativePathInProject": null,
+      "reachability": "orphan",
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.gemini/tmp/0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": [
+        "harness-cache:<HOME>/.gemini/tmp/0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef/chats/session-2025-06-01t09-00-00-3d4e5f6a.json"
+      ]
+    },
+    {
+      "id": "breadcrumb:gemini-cli:<HOME>/.gemini/tmp/gone",
+      "harness": "gemini-cli",
+      "kind": "slug-directory",
+      "raw": "gone",
+      "recordedForm": "slug",
+      "path": "<ROOT>/gone",
+      "resolution": "slug-by-key",
+      "project": "project:<ROOT>/gone",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "orphan",
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.gemini/tmp/gone"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": [
+        "harness-cache:<HOME>/.gemini/tmp/gone/.project_root",
+        "harness-cache:<HOME>/.gemini/tmp/gone/chats/session-2026-04-01t09-00-00-2c3d4e5f.jsonl",
+        "memory-file:<HOME>/.gemini/tmp/gone/memory/gemini.md"
+      ]
+    },
+    {
+      "id": "breadcrumb:gemini-cli:<HOME>/.gemini/tmp/project-a",
+      "harness": "gemini-cli",
+      "kind": "slug-directory",
+      "raw": "project-a",
+      "recordedForm": "slug",
+      "path": "<ROOT>/project-a",
+      "resolution": "slug-by-key",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.gemini/tmp/project-a"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": [
+        "harness-cache:<HOME>/.gemini/tmp/project-a/.project_root",
+        "harness-cache:<HOME>/.gemini/tmp/project-a/00000000-0000-4000-8000-000000000001",
+        "harness-cache:<HOME>/.gemini/tmp/project-a/chats/00000000-0000-4000-8000-000000000001",
+        "harness-cache:<HOME>/.gemini/tmp/project-a/chats/session-2026-08-20t10-00-00-0a1b2c3d.jsonl",
+        "harness-cache:<HOME>/.gemini/tmp/project-a/checkpoint-tag-a.json",
+        "harness-cache:<HOME>/.gemini/tmp/project-a/checkpoints",
+        "harness-cache:<HOME>/.gemini/tmp/project-a/logs.json",
+        "harness-cache:<HOME>/.gemini/tmp/project-a/logs/session-00000000-0000-4000-8000-000000000001.jsonl",
+        "harness-cache:<HOME>/.gemini/tmp/project-a/shell_history",
+        "memory-file:<HOME>/.gemini/tmp/project-a/memory/.inbox/memory/0001.patch",
+        "memory-file:<HOME>/.gemini/tmp/project-a/memory/memory.md",
+        "memory-file:<HOME>/.gemini/tmp/project-a/memory/notes-a.md",
+        "memory-file:<HOME>/.gemini/tmp/project-a/memory/skills/skill-a/skill.md"
+      ]
+    },
+    {
+      "id": "breadcrumb:gemini-cli:<HOME>/.gemini/tmp/project-b",
+      "harness": "gemini-cli",
+      "kind": "slug-directory",
+      "raw": "project-b",
+      "recordedForm": "slug",
+      "path": "<ROOT>/project-b",
+      "resolution": "slug-by-key",
+      "project": "project:<ROOT>/project-b",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.gemini/tmp/project-b"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": ["harness-cache:<HOME>/.gemini/tmp/project-b/.project_root"]
+    },
+    {
+      "id": "breadcrumb:gemini-cli:<HOME>/.gemini/tmp/project-b-1",
+      "harness": "gemini-cli",
+      "kind": "slug-directory",
+      "raw": "project-b-1",
+      "recordedForm": "slug",
+      "path": "<ROOT>/nested/project-b",
+      "resolution": "slug-by-key",
+      "project": "project:<ROOT>/nested/project-b",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.gemini/tmp/project-b-1"
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": ["harness-cache:<HOME>/.gemini/tmp/project-b-1/.project_root"]
+    },
+    {
+      "id": "breadcrumb:gemini-cli:<HOME>/.gemini/trustedfolders.json#<ROOT>/gone",
+      "harness": "gemini-cli",
+      "kind": "trust-entry",
+      "raw": "<ROOT>/gone",
+      "recordedForm": "path",
+      "path": "<ROOT>/gone",
+      "resolution": "direct",
+      "project": "project:<ROOT>/gone",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "orphan",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.gemini/trustedFolders.json",
+        "format": "json",
+        "keyPath": ["<ROOT>/gone"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": []
+    },
+    {
+      "id": "breadcrumb:gemini-cli:<HOME>/.gemini/trustedfolders.json#<ROOT>/nested/project-b",
+      "harness": "gemini-cli",
+      "kind": "trust-entry",
+      "raw": "<ROOT>/nested/project-b",
+      "recordedForm": "path",
+      "path": "<ROOT>/nested/project-b",
+      "resolution": "direct",
+      "project": "project:<ROOT>/nested/project-b",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.gemini/trustedFolders.json",
+        "format": "json",
+        "keyPath": ["<ROOT>/nested/project-b"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": []
+    },
+    {
+      "id": "breadcrumb:gemini-cli:<HOME>/.gemini/trustedfolders.json#<ROOT>/project-a",
+      "harness": "gemini-cli",
+      "kind": "trust-entry",
+      "raw": "<ROOT>/project-a",
+      "recordedForm": "path",
+      "path": "<ROOT>/project-a",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-a",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.gemini/trustedFolders.json",
+        "format": "json",
+        "keyPath": ["<ROOT>/project-a"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": []
+    },
+    {
+      "id": "breadcrumb:gemini-cli:<HOME>/.gemini/trustedfolders.json#<ROOT>/project-c",
+      "harness": "gemini-cli",
+      "kind": "trust-entry",
+      "raw": "<ROOT>/project-c",
+      "recordedForm": "path",
+      "path": "<ROOT>/project-c",
+      "resolution": "direct",
+      "project": "project:<ROOT>/project-c",
+      "strayReason": null,
+      "relativePathInProject": null,
+      "reachability": "present",
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.gemini/trustedFolders.json",
+        "format": "json",
+        "keyPath": ["<ROOT>/project-c"]
+      },
+      "occurrences": {
+        "count": 1,
+        "first": null,
+        "last": null
+      },
+      "refs": {},
+      "state": []
+    }
+  ],
+  "entities": [
+    {
+      "id": "agent-definition:<HOME>/.gemini/agents/agent-b.md",
+      "kind": "agent-definition",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/agents/agent-b.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/agents/agent-b.md"
+      },
+      "format": "md",
+      "label": "agent-b",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 186,
+        "files": 1,
+        "lines": 13,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 62,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "name": "agent-b",
+      "form": "markdown",
+      "frontmatter": {
+        "name": "agent-b",
+        "description": "<redacted>",
+        "kind": "local",
+        "display_name": "<redacted>",
+        "tools": ["<redacted>"],
+        "model": "<redacted>"
+      },
+      "hooks": []
+    },
+    {
+      "id": "agent-definition:<HOME>/.gemini/extensions/ext-a/agents/agent-a.md",
+      "kind": "agent-definition",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/extensions/ext-a/agents/agent-a.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/extensions/ext-a/agents/agent-a.md"
+      },
+      "format": "md",
+      "label": "agent-a",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 186,
+        "files": 1,
+        "lines": 13,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 62,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "name": "agent-a",
+      "form": "markdown",
+      "frontmatter": {
+        "name": "agent-a",
+        "description": "<redacted>",
+        "kind": "local",
+        "display_name": "<redacted>",
+        "tools": ["<redacted>"],
+        "model": "<redacted>"
+      },
+      "hooks": []
+    },
+    {
+      "id": "agent-definition:<ROOT>/project-a/.gemini/agents/agent-c.md",
+      "kind": "agent-definition",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.gemini/agents/agent-c.md",
+      "relativePath": ".gemini/agents/agent-c.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.gemini/agents/agent-c.md"
+      },
+      "format": "md",
+      "label": "agent-c",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 186,
+        "files": 1,
+        "lines": 13,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 62,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "name": "agent-c",
+      "form": "markdown",
+      "frontmatter": {
+        "name": "agent-c",
+        "description": "<redacted>",
+        "kind": "local",
+        "display_name": "<redacted>",
+        "tools": ["<redacted>"],
+        "model": "<redacted>"
+      },
+      "hooks": []
+    },
+    {
+      "id": "context-file:<HOME>/.gemini/extensions/ext-a/gemini.md",
+      "kind": "context-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/extensions/ext-a/GEMINI.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/extensions/ext-a/GEMINI.md"
+      },
+      "format": "md",
+      "label": "~/.gemini/extensions/ext-a/GEMINI.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 80,
+        "files": 1,
+        "lines": 5,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 30,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "GEMINI.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<HOME>/.gemini/gemini.md",
+      "kind": "context-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/GEMINI.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/GEMINI.md"
+      },
+      "format": "md",
+      "label": "~/.gemini/GEMINI.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 171,
+        "files": 1,
+        "lines": 12,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 59,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "GEMINI.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": true
+    },
+    {
+      "id": "context-file:<ROOT>/nested/project-b/agents.md",
+      "kind": "context-file",
+      "harness": null,
+      "producer": null,
+      "project": "project:<ROOT>/nested/project-b",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/nested/project-b/AGENTS.md",
+      "relativePath": "AGENTS.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/nested/project-b/AGENTS.md"
+      },
+      "format": "md",
+      "label": "AGENTS.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 48,
+        "files": 1,
+        "lines": 3,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 18,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "AGENTS.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/agents.md",
+      "kind": "context-file",
+      "harness": null,
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/AGENTS.md",
+      "relativePath": "AGENTS.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/AGENTS.md"
+      },
+      "format": "md",
+      "label": "AGENTS.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 96,
+        "files": 1,
+        "lines": 6,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 36,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "AGENTS.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/docs/context-import.md",
+      "kind": "context-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/docs/context-import.md",
+      "relativePath": "docs/context-import.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/docs/context-import.md"
+      },
+      "format": "md",
+      "label": "docs/context-import.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 64,
+        "files": 1,
+        "lines": 4,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 24,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "context-import.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/gemini.md",
+      "kind": "context-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/GEMINI.md",
+      "relativePath": "GEMINI.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/GEMINI.md"
+      },
+      "format": "md",
+      "label": "GEMINI.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 156,
+        "files": 1,
+        "lines": 11,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 55,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "GEMINI.md",
+      "frontmatter": {},
+      "importCount": 1,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-a/packages/sub-a/gemini.md",
+      "kind": "context-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/packages/sub-a/GEMINI.md",
+      "relativePath": "packages/sub-a/GEMINI.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/packages/sub-a/GEMINI.md"
+      },
+      "format": "md",
+      "label": "packages/sub-a/GEMINI.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 64,
+        "files": 1,
+        "lines": 4,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 24,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "GEMINI.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-b/gemini.md",
+      "kind": "context-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-b",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-b/GEMINI.md",
+      "relativePath": "GEMINI.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-b/GEMINI.md"
+      },
+      "format": "md",
+      "label": "GEMINI.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 48,
+        "files": 1,
+        "lines": 3,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 18,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "GEMINI.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "context-file:<ROOT>/project-c/gemini.md",
+      "kind": "context-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-c",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-c/GEMINI.md",
+      "relativePath": "GEMINI.md",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-c/GEMINI.md"
+      },
+      "format": "md",
+      "label": "GEMINI.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 48,
+        "files": 1,
+        "lines": 3,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 18,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "context",
+      "fileName": "GEMINI.md",
+      "frontmatter": {},
+      "importCount": 0,
+      "containsMemorySection": false
+    },
+    {
+      "id": "harness-cache:<HOME>/.gemini/history/project-a",
+      "kind": "harness-cache",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/history/project-a",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.gemini/history/project-a"
+      },
+      "format": "dir",
+      "label": "project-a",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 93,
+        "files": 2,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "checkpoint",
+      "unit": "dir",
+      "surface": "cli",
+      "session": null,
+      "slug": "project-a",
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 2,
+        "bytes": 93,
+        "oldest": "2026-05-28T12:00:00.000Z",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.gemini/tmp/0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef/chats/session-2025-06-01t09-00-00-3d4e5f6a.json",
+      "kind": "harness-cache",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef/chats/session-2025-06-01T09-00-00-3d4e5f6a.json",
+      "relativePath": null,
+      "locator": {
+        "type": "paths",
+        "paths": [
+          "<HOME>/.gemini/tmp/0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef/chats/session-2025-06-01T09-00-00-3d4e5f6a.json"
+        ]
+      },
+      "format": "json",
+      "label": "session 3d4e5f6a · 2025-07-22",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 71,
+        "files": 1,
+        "lines": null,
+        "mtime": "2025-07-22T12:00:00.000Z",
+        "ageDays": 400,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": "cli",
+      "session": null,
+      "slug": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "rule": "swept",
+      "retention": {
+        "days": 30,
+        "bytes": null,
+        "count": null,
+        "source": "general.sessionRetention.maxAge"
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 71,
+        "oldest": "2025-07-22T12:00:00.000Z",
+        "newest": "2025-07-22T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.gemini/tmp/bin",
+      "kind": "harness-cache",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/bin",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.gemini/tmp/bin"
+      },
+      "format": "dir",
+      "label": "bin",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 0,
+        "lines": null,
+        "mtime": null,
+        "ageDays": null,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "dir",
+      "surface": "cli",
+      "session": null,
+      "slug": null,
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 0,
+        "bytes": 0,
+        "oldest": null,
+        "newest": null
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.gemini/tmp/gone/.project_root",
+      "kind": "harness-cache",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/gone",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/gone/.project_root",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/tmp/gone/.project_root"
+      },
+      "format": "other",
+      "label": ".project_root",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 89,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "file",
+      "surface": "cli",
+      "session": null,
+      "slug": "gone",
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 89,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.gemini/tmp/gone/chats/session-2026-04-01t09-00-00-2c3d4e5f.jsonl",
+      "kind": "harness-cache",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/gone",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/gone/chats/session-2026-04-01T09-00-00-2c3d4e5f.jsonl",
+      "relativePath": null,
+      "locator": {
+        "type": "paths",
+        "paths": ["<HOME>/.gemini/tmp/gone/chats/session-2026-04-01T09-00-00-2c3d4e5f.jsonl"]
+      },
+      "format": "jsonl",
+      "label": "session 2c3d4e5f · 2026-04-28",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 58,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-04-28T12:00:00.000Z",
+        "ageDays": 120,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": "cli",
+      "session": null,
+      "slug": "gone",
+      "rule": "swept",
+      "retention": {
+        "days": 30,
+        "bytes": null,
+        "count": null,
+        "source": "general.sessionRetention.maxAge"
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 58,
+        "oldest": "2026-04-28T12:00:00.000Z",
+        "newest": "2026-04-28T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.gemini/tmp/project-a/.project_root",
+      "kind": "harness-cache",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/project-a/.project_root",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/tmp/project-a/.project_root"
+      },
+      "format": "other",
+      "label": ".project_root",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 94,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "file",
+      "surface": "cli",
+      "session": null,
+      "slug": "project-a",
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 94,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.gemini/tmp/project-a/00000000-0000-4000-8000-000000000001",
+      "kind": "harness-cache",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/project-a/00000000-0000-4000-8000-000000000001",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.gemini/tmp/project-a/00000000-0000-4000-8000-000000000001"
+      },
+      "format": "dir",
+      "label": "00000000-0000-4000-8000-000000000001",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 72,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "plan",
+      "unit": "dir",
+      "surface": "cli",
+      "session": "00000000-0000-4000-8000-000000000001",
+      "slug": "project-a",
+      "rule": "undocumented",
+      "retention": {
+        "days": 30,
+        "bytes": null,
+        "count": null,
+        "source": "general.sessionRetention.maxAge"
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": true
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 72,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.gemini/tmp/project-a/chats/00000000-0000-4000-8000-000000000001",
+      "kind": "harness-cache",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/project-a/chats/00000000-0000-4000-8000-000000000001",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.gemini/tmp/project-a/chats/00000000-0000-4000-8000-000000000001"
+      },
+      "format": "dir",
+      "label": "00000000-0000-4000-8000-000000000001",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 89,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "subagent-transcript",
+      "unit": "dir",
+      "surface": "cli",
+      "session": "00000000-0000-4000-8000-000000000001",
+      "slug": "project-a",
+      "rule": "undocumented",
+      "retention": {
+        "days": 30,
+        "bytes": null,
+        "count": null,
+        "source": "general.sessionRetention.maxAge"
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": true
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 89,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.gemini/tmp/project-a/chats/session-2026-08-20t10-00-00-0a1b2c3d.jsonl",
+      "kind": "harness-cache",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/project-a/chats/session-2026-08-20T10-00-00-0a1b2c3d.jsonl",
+      "relativePath": null,
+      "locator": {
+        "type": "paths",
+        "paths": ["<HOME>/.gemini/tmp/project-a/chats/session-2026-08-20T10-00-00-0a1b2c3d.jsonl"]
+      },
+      "format": "jsonl",
+      "label": "session 0a1b2c3d · 2026-08-23",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 116,
+        "files": 1,
+        "lines": null,
+        "mtime": "2026-08-23T12:00:00.000Z",
+        "ageDays": 3,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "transcript",
+      "unit": "session",
+      "surface": "cli",
+      "session": null,
+      "slug": "project-a",
+      "rule": "swept",
+      "retention": {
+        "days": 30,
+        "bytes": null,
+        "count": null,
+        "source": "general.sessionRetention.maxAge"
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": false
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 116,
+        "oldest": "2026-08-23T12:00:00.000Z",
+        "newest": "2026-08-23T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.gemini/tmp/project-a/checkpoint-tag-a.json",
+      "kind": "harness-cache",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/project-a/checkpoint-tag-a.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/tmp/project-a/checkpoint-tag-a.json"
+      },
+      "format": "json",
+      "label": "checkpoint-tag-a.json",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 24,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "checkpoint",
+      "unit": "file",
+      "surface": "cli",
+      "session": null,
+      "slug": "project-a",
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": true,
+      "members": {
+        "files": 1,
+        "bytes": 24,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.gemini/tmp/project-a/checkpoints",
+      "kind": "harness-cache",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/project-a/checkpoints",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.gemini/tmp/project-a/checkpoints"
+      },
+      "format": "dir",
+      "label": "checkpoints",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 24,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "checkpoint",
+      "unit": "dir",
+      "surface": "cli",
+      "session": null,
+      "slug": "project-a",
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": true
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 24,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.gemini/tmp/project-a/logs.json",
+      "kind": "harness-cache",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/project-a/logs.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/tmp/project-a/logs.json"
+      },
+      "format": "json",
+      "label": "logs.json",
+      "sensitive": false,
+      "protection": "undocumented",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 3,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "log",
+      "unit": "file",
+      "surface": "cli",
+      "session": null,
+      "slug": "project-a",
+      "rule": "undocumented",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 3,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.gemini/tmp/project-a/logs/session-00000000-0000-4000-8000-000000000001.jsonl",
+      "kind": "harness-cache",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/project-a/logs/session-00000000-0000-4000-8000-000000000001.jsonl",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/tmp/project-a/logs/session-00000000-0000-4000-8000-000000000001.jsonl"
+      },
+      "format": "jsonl",
+      "label": "session-00000000-0000-4000-8000-000000000001.jsonl",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 44,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "log",
+      "unit": "file",
+      "surface": "cli",
+      "session": "00000000-0000-4000-8000-000000000001",
+      "slug": "project-a",
+      "rule": "undocumented",
+      "retention": {
+        "days": 30,
+        "bytes": null,
+        "count": null,
+        "source": "general.sessionRetention.maxAge"
+      },
+      "liveGuard": {
+        "kind": "recent-activity",
+        "alive": true
+      },
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 44,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.gemini/tmp/project-a/shell_history",
+      "kind": "harness-cache",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/project-a/shell_history",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/tmp/project-a/shell_history"
+      },
+      "format": "other",
+      "label": "shell_history",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 22,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "log",
+      "unit": "file",
+      "surface": "cli",
+      "session": null,
+      "slug": "project-a",
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 22,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.gemini/tmp/project-b-1/.project_root",
+      "kind": "harness-cache",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/nested/project-b",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/project-b-1/.project_root",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/tmp/project-b-1/.project_root"
+      },
+      "format": "other",
+      "label": ".project_root",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 101,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "file",
+      "surface": "cli",
+      "session": null,
+      "slug": "project-b-1",
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 101,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "harness-cache:<HOME>/.gemini/tmp/project-b/.project_root",
+      "kind": "harness-cache",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-b",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/project-b/.project_root",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/tmp/project-b/.project_root"
+      },
+      "format": "other",
+      "label": ".project_root",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 94,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "cacheKind": "undocumented",
+      "unit": "file",
+      "surface": "cli",
+      "session": null,
+      "slug": "project-b",
+      "rule": "kept",
+      "retention": {
+        "days": null,
+        "bytes": null,
+        "count": null,
+        "source": null
+      },
+      "liveGuard": null,
+      "userContent": false,
+      "members": {
+        "files": 1,
+        "bytes": 94,
+        "oldest": "<COPY-TIME>",
+        "newest": "<COPY-TIME>"
+      }
+    },
+    {
+      "id": "mcp-server:<HOME>/.gemini/extensions/ext-a/gemini-extension.json#mcpServers/ext-server",
+      "kind": "mcp-server",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/extensions/ext-a/gemini-extension.json",
+      "relativePath": null,
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.gemini/extensions/ext-a/gemini-extension.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "ext-server"]
+      },
+      "format": "json",
+      "label": "ext-server",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 63,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "ext-server",
+      "transport": "stdio",
+      "command": "<redacted>",
+      "args": ["${extensionPath}/<redacted>"],
+      "url": null,
+      "envKeys": [],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": true,
+      "enabled": false,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "stdio:<redacted> ${extensionPath}/<redacted>",
+      "rawKeys": ["command", "args"]
+    },
+    {
+      "id": "mcp-server:<HOME>/.gemini/settings.json#mcpServers/server-a",
+      "kind": "mcp-server",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/settings.json",
+      "relativePath": null,
+      "locator": {
+        "type": "entry",
+        "file": "<HOME>/.gemini/settings.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-a"]
+      },
+      "format": "json",
+      "label": "server-a",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 269,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-a",
+      "transport": "stdio",
+      "command": "<redacted>",
+      "args": ["<redacted>", "<redacted>"],
+      "url": null,
+      "envKeys": ["VAR_A"],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "stdio:<redacted> <redacted> <redacted>",
+      "rawKeys": [
+        "command",
+        "args",
+        "env",
+        "cwd",
+        "timeout",
+        "trust",
+        "includeTools",
+        "excludeTools"
+      ]
+    },
+    {
+      "id": "mcp-server:<ROOT>/project-a/.gemini/settings.json#mcpServers/server-b",
+      "kind": "mcp-server",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.gemini/settings.json",
+      "relativePath": ".gemini/settings.json",
+      "locator": {
+        "type": "entry",
+        "file": "<ROOT>/project-a/.gemini/settings.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-b"]
+      },
+      "format": "json",
+      "label": "server-b",
+      "sensitive": true,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 337,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-b",
+      "transport": "http",
+      "command": null,
+      "args": [],
+      "url": "<redacted>",
+      "envKeys": [],
+      "headerKeys": ["Authorization"],
+      "secretKeys": ["Authorization", "clientSecret"],
+      "hasOauth": true,
+      "usesInterpolation": false,
+      "enabled": false,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "http:<redacted>",
+      "rawKeys": ["httpUrl", "headers", "timeout", "trust", "oauth"]
+    },
+    {
+      "id": "mcp-server:<ROOT>/project-a/.gemini/settings.json#mcpServers/server-c",
+      "kind": "mcp-server",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.gemini/settings.json",
+      "relativePath": ".gemini/settings.json",
+      "locator": {
+        "type": "entry",
+        "file": "<ROOT>/project-a/.gemini/settings.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-c"]
+      },
+      "format": "json",
+      "label": "server-c",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 118,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-c",
+      "transport": "sse",
+      "command": null,
+      "args": [],
+      "url": "<redacted>",
+      "envKeys": [],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": false,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "sse:<redacted>",
+      "rawKeys": ["url", "authProviderType", "targetAudience", "targetServiceAccount"]
+    },
+    {
+      "id": "mcp-server:<ROOT>/project-b/.gemini/settings.json#mcpServers/server-d",
+      "kind": "mcp-server",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-b",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-b/.gemini/settings.json",
+      "relativePath": ".gemini/settings.json",
+      "locator": {
+        "type": "entry",
+        "file": "<ROOT>/project-b/.gemini/settings.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-d"]
+      },
+      "format": "json",
+      "label": "server-d",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 46,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-d",
+      "transport": "stdio",
+      "command": "<redacted>",
+      "args": ["<redacted>"],
+      "url": null,
+      "envKeys": [],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": false,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "stdio:<redacted> <redacted>",
+      "rawKeys": ["command", "args"]
+    },
+    {
+      "id": "mcp-server:<ROOT>/project-c/.gemini/settings.json#mcpServers/server-untrusted",
+      "kind": "mcp-server",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-c",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-c/.gemini/settings.json",
+      "relativePath": ".gemini/settings.json",
+      "locator": {
+        "type": "entry",
+        "file": "<ROOT>/project-c/.gemini/settings.json",
+        "format": "json",
+        "keyPath": ["mcpServers", "server-untrusted"]
+      },
+      "format": "json",
+      "label": "server-untrusted",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "backup-edit"
+      },
+      "metrics": {
+        "bytes": 24,
+        "files": null,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "name": "server-untrusted",
+      "transport": "stdio",
+      "command": "<redacted>",
+      "args": [],
+      "url": null,
+      "envKeys": [],
+      "headerKeys": [],
+      "secretKeys": [],
+      "hasOauth": false,
+      "usesInterpolation": false,
+      "enabled": null,
+      "approval": "not-applicable",
+      "invalid": null,
+      "endpointKey": "stdio:<redacted>",
+      "rawKeys": ["command"]
+    },
+    {
+      "id": "memory-file:<HOME>/.gemini/tmp/gone/memory/gemini.md",
+      "kind": "memory-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/gone",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/gone/memory/GEMINI.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/tmp/gone/memory/GEMINI.md"
+      },
+      "format": "md",
+      "label": "GEMINI.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 64,
+        "files": 1,
+        "lines": 4,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 24,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "role": "fact",
+      "unit": "<HOME>/.gemini/tmp/gone/memory",
+      "owner": "project",
+      "frontmatter": {},
+      "loadedPortion": null,
+      "reads": null,
+      "writes": null,
+      "neverRead": null,
+      "readSignal": {
+        "source": "none",
+        "exact": false,
+        "bashParsed": false
+      }
+    },
+    {
+      "id": "memory-file:<HOME>/.gemini/tmp/project-a/memory/.inbox/memory/0001.patch",
+      "kind": "memory-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/project-a/memory/.inbox/memory/0001.patch",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/tmp/project-a/memory/.inbox/memory/0001.patch"
+      },
+      "format": "other",
+      "label": ".inbox/memory/0001.patch",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 82,
+        "files": 1,
+        "lines": 5,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 37,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "role": "other",
+      "unit": "<HOME>/.gemini/tmp/project-a/memory",
+      "owner": "project",
+      "frontmatter": {},
+      "loadedPortion": null,
+      "reads": null,
+      "writes": null,
+      "neverRead": null,
+      "readSignal": {
+        "source": "none",
+        "exact": false,
+        "bashParsed": false
+      }
+    },
+    {
+      "id": "memory-file:<HOME>/.gemini/tmp/project-a/memory/memory.md",
+      "kind": "memory-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/project-a/memory/MEMORY.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/tmp/project-a/memory/MEMORY.md"
+      },
+      "format": "md",
+      "label": "MEMORY.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 144,
+        "files": 1,
+        "lines": 10,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 52,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "role": "index",
+      "unit": "<HOME>/.gemini/tmp/project-a/memory",
+      "owner": "project",
+      "frontmatter": {},
+      "loadedPortion": {
+        "lines": 10,
+        "bytes": 144,
+        "tokens": 52,
+        "confidence": "certain"
+      },
+      "reads": null,
+      "writes": null,
+      "neverRead": null,
+      "readSignal": {
+        "source": "none",
+        "exact": false,
+        "bashParsed": false
+      }
+    },
+    {
+      "id": "memory-file:<HOME>/.gemini/tmp/project-a/memory/notes-a.md",
+      "kind": "memory-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/project-a/memory/notes-a.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/tmp/project-a/memory/notes-a.md"
+      },
+      "format": "md",
+      "label": "notes-a.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 80,
+        "files": 1,
+        "lines": 5,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 30,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "role": "fact",
+      "unit": "<HOME>/.gemini/tmp/project-a/memory",
+      "owner": "project",
+      "frontmatter": {},
+      "loadedPortion": null,
+      "reads": null,
+      "writes": null,
+      "neverRead": null,
+      "readSignal": {
+        "source": "none",
+        "exact": false,
+        "bashParsed": false
+      }
+    },
+    {
+      "id": "memory-file:<HOME>/.gemini/tmp/project-a/memory/skills/skill-a/skill.md",
+      "kind": "memory-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/tmp/project-a/memory/skills/skill-a/SKILL.md",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/tmp/project-a/memory/skills/skill-a/SKILL.md"
+      },
+      "format": "md",
+      "label": "skills/skill-a/SKILL.md",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 106,
+        "files": 1,
+        "lines": 10,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 35,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "role": "other",
+      "unit": "<HOME>/.gemini/tmp/project-a/memory",
+      "owner": "project",
+      "frontmatter": {
+        "name": "skill-a",
+        "description": "<redacted>"
+      },
+      "loadedPortion": null,
+      "reads": null,
+      "writes": null,
+      "neverRead": null,
+      "readSignal": {
+        "source": "none",
+        "exact": false,
+        "bashParsed": false
+      }
+    },
+    {
+      "id": "plugin:<HOME>/.gemini/extensions/ext-a",
+      "kind": "plugin",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/extensions/ext-a",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.gemini/extensions/ext-a"
+      },
+      "format": "dir",
+      "label": "ext-a",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "delegate",
+        "command": "gemini extensions uninstall ext-a"
+      },
+      "metrics": {
+        "bytes": 1200,
+        "files": 8,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "pluginId": "ext-a",
+      "version": "1.0.0",
+      "marketplace": null,
+      "installs": [
+        {
+          "scope": "user",
+          "project": null,
+          "enabled": null
+        },
+        {
+          "scope": "project",
+          "project": "project:<ROOT>/gone",
+          "enabled": false
+        },
+        {
+          "scope": "project",
+          "project": "project:<ROOT>/nested/project-b",
+          "enabled": true
+        },
+        {
+          "scope": "project",
+          "project": "project:<ROOT>/project-a",
+          "enabled": true
+        },
+        {
+          "scope": "project",
+          "project": "project:<ROOT>/project-b",
+          "enabled": true
+        },
+        {
+          "scope": "project",
+          "project": "project:<ROOT>/project-c",
+          "enabled": true
+        }
+      ],
+      "origin": {
+        "installer": "gemini-extension",
+        "sourceType": "git",
+        "source": "<redacted>",
+        "sourceUrl": null,
+        "ref": "<redacted>",
+        "skillPath": null,
+        "recordedHash": null,
+        "installedAt": null,
+        "updatedAt": null,
+        "lock": {
+          "type": "file",
+          "path": "<HOME>/.gemini/extensions/ext-a/.gemini-extension-install.json"
+        }
+      },
+      "hooks": [
+        {
+          "event": "BeforeAgent",
+          "type": "command",
+          "command": "${extensionPath}/<redacted>",
+          "matcher": null
+        }
+      ]
+    },
+    {
+      "id": "plugin:<ROOT>/project-a/.gemini/extensions/legacy-ext",
+      "kind": "plugin",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.gemini/extensions/legacy-ext",
+      "relativePath": ".gemini/extensions/legacy-ext",
+      "locator": {
+        "type": "dir",
+        "path": "<ROOT>/project-a/.gemini/extensions/legacy-ext"
+      },
+      "format": "dir",
+      "label": "legacy-ext",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 80,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "pluginId": "legacy-ext",
+      "version": "0.1.0",
+      "marketplace": null,
+      "installs": [
+        {
+          "scope": "project",
+          "project": "project:<ROOT>/project-a",
+          "enabled": false
+        }
+      ],
+      "origin": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.gemini/.env",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/.env",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/.env"
+      },
+      "format": "other",
+      "label": ".env",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "credentials",
+      "topLevelKeys": [],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.gemini/acknowledgments/agents.json",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/acknowledgments/agents.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/acknowledgments/agents.json"
+      },
+      "format": "json",
+      "label": "agents.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 3,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "state",
+      "topLevelKeys": [],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.gemini/extensions/ext-a/.env",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/extensions/ext-a/.env",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/extensions/ext-a/.env"
+      },
+      "format": "other",
+      "label": ".env",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "credentials",
+      "topLevelKeys": [],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.gemini/extensions/ext-a/.gemini-extension-install.json",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/extensions/ext-a/.gemini-extension-install.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/extensions/ext-a/.gemini-extension-install.json"
+      },
+      "format": "json",
+      "label": ".gemini-extension-install.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 92,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "plugin-registry",
+      "topLevelKeys": ["source", "type", "ref", "autoUpdate"],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.gemini/extensions/ext-a/gemini-extension.json",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/extensions/ext-a/gemini-extension.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/extensions/ext-a/gemini-extension.json"
+      },
+      "format": "json",
+      "label": "gemini-extension.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 438,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "manifest",
+      "topLevelKeys": [
+        "name",
+        "version",
+        "description",
+        "mcpServers",
+        "contextFileName",
+        "excludeTools",
+        "settings"
+      ],
+      "entries": 1,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.gemini/extensions/ext-a/hooks/hooks.json",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/extensions/ext-a/hooks/hooks.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/extensions/ext-a/hooks/hooks.json"
+      },
+      "format": "json",
+      "label": "hooks.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 201,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "hooks",
+      "topLevelKeys": ["hooks"],
+      "entries": null,
+      "hooks": [
+        {
+          "event": "BeforeAgent",
+          "type": "command",
+          "command": "${extensionPath}/<redacted>",
+          "matcher": null
+        }
+      ]
+    },
+    {
+      "id": "settings-file:<HOME>/.gemini/extensions/extension-enablement.json",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/extensions/extension-enablement.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/extensions/extension-enablement.json"
+      },
+      "format": "json",
+      "label": "extension-enablement.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 243,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "state",
+      "topLevelKeys": ["ext-a"],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.gemini/google_accounts.json",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/google_accounts.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/google_accounts.json"
+      },
+      "format": "json",
+      "label": "google_accounts.json",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "credentials",
+      "topLevelKeys": [],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.gemini/installation_id",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/installation_id",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/installation_id"
+      },
+      "format": "other",
+      "label": "installation_id",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 11,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "state",
+      "topLevelKeys": [],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.gemini/keybindings.json",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/keybindings.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/keybindings.json"
+      },
+      "format": "json",
+      "label": "keybindings.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 3,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": [],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.gemini/mcp-oauth-tokens.json",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/mcp-oauth-tokens.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/mcp-oauth-tokens.json"
+      },
+      "format": "json",
+      "label": "mcp-oauth-tokens.json",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "credentials",
+      "topLevelKeys": [],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.gemini/oauth_creds.json",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/oauth_creds.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/oauth_creds.json"
+      },
+      "format": "json",
+      "label": "oauth_creds.json",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "credentials",
+      "topLevelKeys": [],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.gemini/projects.json",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/projects.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/projects.json"
+      },
+      "format": "json",
+      "label": "projects.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 478,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "state",
+      "topLevelKeys": ["projects"],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<HOME>/.gemini/settings.json",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/settings.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/settings.json"
+      },
+      "format": "json",
+      "label": "settings.json",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 2300,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": [
+        "general",
+        "output",
+        "ui",
+        "ide",
+        "privacy",
+        "telemetry",
+        "billing",
+        "model",
+        "modelConfigs",
+        "agents",
+        "context",
+        "tools",
+        "mcp",
+        "useWriteTodos",
+        "security",
+        "admin",
+        "advanced",
+        "experimental",
+        "extensions",
+        "skills",
+        "hooksConfig",
+        "hooks",
+        "contextManagement",
+        "mcpServers"
+      ],
+      "entries": 1,
+      "hooks": [
+        {
+          "event": "BeforeTool",
+          "type": "command",
+          "command": "<redacted>",
+          "matcher": "<redacted>"
+        },
+        {
+          "event": "SessionStart",
+          "type": "command",
+          "command": "<redacted>",
+          "matcher": null
+        }
+      ]
+    },
+    {
+      "id": "settings-file:<HOME>/.gemini/trustedfolders.json",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "harness",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/trustedFolders.json",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/trustedFolders.json"
+      },
+      "format": "json",
+      "label": "trustedFolders.json",
+      "sensitive": false,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 465,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "state",
+      "topLevelKeys": [
+        "<ROOT>/project-a",
+        "<ROOT>/gone",
+        "<ROOT>/project-c",
+        "<ROOT>/nested/project-b"
+      ],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<ROOT>/project-a/.gemini/.env",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.gemini/.env",
+      "relativePath": ".gemini/.env",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.gemini/.env"
+      },
+      "format": "other",
+      "label": ".env",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 0,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "credentials",
+      "topLevelKeys": [],
+      "entries": null,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<ROOT>/project-a/.gemini/settings.json",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.gemini/settings.json",
+      "relativePath": ".gemini/settings.json",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.gemini/settings.json"
+      },
+      "format": "json",
+      "label": "settings.json",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 1041,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": ["context", "mcpServers", "hooks"],
+      "entries": 2,
+      "hooks": [
+        {
+          "event": "AfterTool",
+          "type": "command",
+          "command": "<redacted>",
+          "matcher": "<redacted>"
+        }
+      ]
+    },
+    {
+      "id": "settings-file:<ROOT>/project-b/.gemini/settings.json",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-b",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-b/.gemini/settings.json",
+      "relativePath": ".gemini/settings.json",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-b/.gemini/settings.json"
+      },
+      "format": "json",
+      "label": "settings.json",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 231,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": ["contextFileName", "theme", "checkpointing", "mcpServers"],
+      "entries": 1,
+      "hooks": []
+    },
+    {
+      "id": "settings-file:<ROOT>/project-c/.gemini/settings.json",
+      "kind": "settings-file",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-c",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-c/.gemini/settings.json",
+      "relativePath": ".gemini/settings.json",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-c/.gemini/settings.json"
+      },
+      "format": "json",
+      "label": "settings.json",
+      "sensitive": true,
+      "protection": "never",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 88,
+        "files": 1,
+        "lines": null,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": null,
+        "lastUsed": null
+      },
+      "role": "settings",
+      "topLevelKeys": ["mcpServers"],
+      "entries": 1,
+      "hooks": []
+    },
+    {
+      "id": "skill:<HOME>/.agents/skills/skill-d",
+      "kind": "skill",
+      "harness": null,
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.agents/skills/skill-d",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.agents/skills/skill-d"
+      },
+      "format": "dir",
+      "label": "skill-d",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 154,
+        "files": 1,
+        "lines": 13,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 53,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-d",
+      "dirName": "skill-d",
+      "frontmatterName": "skill-d",
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<HOME>/.agents/skills/skill-d",
+          "harness": null,
+          "surface": null,
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        },
+        {
+          "path": "<HOME>/.gemini/skills/skill-d",
+          "harness": "gemini-cli",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": true,
+          "linkTarget": "../../.agents/skills/skill-d",
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "skill-d",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "47ffce9d937e373b30a9b196e90e357868353714a7ad22b40120f87d54d5a6cc"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.gemini/commands/cmd-a.toml",
+      "kind": "skill",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/commands/cmd-a.toml",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/commands/cmd-a.toml"
+      },
+      "format": "toml",
+      "label": "cmd-a",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 49,
+        "files": 1,
+        "lines": 2,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 12,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "command-file",
+      "name": "cmd-a",
+      "dirName": "cmd-a",
+      "frontmatterName": null,
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<HOME>/.gemini/commands/cmd-a.toml",
+          "harness": "gemini-cli",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "0f90abfdc78956f6b7a695947479100809304d11e81d2467d04c241baa846cbe"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.gemini/commands/ns/cmd-b.toml",
+      "kind": "skill",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/commands/ns/cmd-b.toml",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/commands/ns/cmd-b.toml"
+      },
+      "format": "toml",
+      "label": "cmd-b",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 49,
+        "files": 1,
+        "lines": 2,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 12,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "command-file",
+      "name": "cmd-b",
+      "dirName": "cmd-b",
+      "frontmatterName": null,
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<HOME>/.gemini/commands/ns/cmd-b.toml",
+          "harness": "gemini-cli",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "0f90abfdc78956f6b7a695947479100809304d11e81d2467d04c241baa846cbe"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.gemini/extensions/ext-a/commands/ext-cmd.toml",
+      "kind": "skill",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/extensions/ext-a/commands/ext-cmd.toml",
+      "relativePath": null,
+      "locator": {
+        "type": "file",
+        "path": "<HOME>/.gemini/extensions/ext-a/commands/ext-cmd.toml"
+      },
+      "format": "toml",
+      "label": "ext-cmd",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 49,
+        "files": 1,
+        "lines": 2,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 12,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "command-file",
+      "name": "ext-cmd",
+      "dirName": "ext-cmd",
+      "frontmatterName": null,
+      "layout": "plugin",
+      "placements": [
+        {
+          "path": "<HOME>/.gemini/extensions/ext-a/commands/ext-cmd.toml",
+          "harness": "gemini-cli",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "0f90abfdc78956f6b7a695947479100809304d11e81d2467d04c241baa846cbe"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.gemini/extensions/ext-a/skills/skill-b",
+      "kind": "skill",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/extensions/ext-a/skills/skill-b",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.gemini/extensions/ext-a/skills/skill-b"
+      },
+      "format": "dir",
+      "label": "skill-b",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "none"
+      },
+      "metrics": {
+        "bytes": 154,
+        "files": 1,
+        "lines": 13,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 53,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-b",
+      "dirName": "skill-b",
+      "frontmatterName": "skill-b",
+      "layout": "plugin",
+      "placements": [
+        {
+          "path": "<HOME>/.gemini/extensions/ext-a/skills/skill-b",
+          "harness": "gemini-cli",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "skill-b",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "67cd58937a846503a946ac8ec712fd70ffebfe823375fb08050e1fb1d4b48f6a"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<HOME>/.gemini/skills/skill-c",
+      "kind": "skill",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": null,
+      "scope": "user",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": "outside-repo",
+      "path": "<HOME>/.gemini/skills/skill-c",
+      "relativePath": null,
+      "locator": {
+        "type": "dir",
+        "path": "<HOME>/.gemini/skills/skill-c"
+      },
+      "format": "dir",
+      "label": "skill-c",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 154,
+        "files": 1,
+        "lines": 13,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 53,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-c",
+      "dirName": "skill-c",
+      "frontmatterName": "skill-c",
+      "layout": "copy",
+      "placements": [
+        {
+          "path": "<HOME>/.gemini/skills/skill-c",
+          "harness": "gemini-cli",
+          "surface": "cli",
+          "scope": "user",
+          "project": null,
+          "gitStatus": "outside-repo",
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "skill-c",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "81ee90cdf3f6769ec7e940f4890298af3b2245b01be6761a8cda641dcb51f5b2"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<ROOT>/project-a/.agents/skills/skill-e",
+      "kind": "skill",
+      "harness": null,
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.agents/skills/skill-e",
+      "relativePath": ".agents/skills/skill-e",
+      "locator": {
+        "type": "dir",
+        "path": "<ROOT>/project-a/.agents/skills/skill-e"
+      },
+      "format": "dir",
+      "label": "skill-e",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 170,
+        "files": 1,
+        "lines": 14,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 59,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-e",
+      "dirName": "skill-e",
+      "frontmatterName": "skill-e",
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<ROOT>/project-a/.agents/skills/skill-e",
+          "harness": null,
+          "surface": null,
+          "scope": "project",
+          "project": "project:<ROOT>/project-a",
+          "gitStatus": null,
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "skill-e",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "914ba1dc322d2f569ab7a2b3c000d0b9e83e9541ecaa7de99fc8bd0e4362c906"
+        }
+      ],
+      "origin": null,
+      "drift": "copies-differ"
+    },
+    {
+      "id": "skill:<ROOT>/project-a/.gemini/commands/proj-cmd.toml",
+      "kind": "skill",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.gemini/commands/proj-cmd.toml",
+      "relativePath": ".gemini/commands/proj-cmd.toml",
+      "locator": {
+        "type": "file",
+        "path": "<ROOT>/project-a/.gemini/commands/proj-cmd.toml"
+      },
+      "format": "toml",
+      "label": "proj-cmd",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 49,
+        "files": 1,
+        "lines": 2,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 12,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "command-file",
+      "name": "proj-cmd",
+      "dirName": "proj-cmd",
+      "frontmatterName": null,
+      "layout": "canonical",
+      "placements": [
+        {
+          "path": "<ROOT>/project-a/.gemini/commands/proj-cmd.toml",
+          "harness": "gemini-cli",
+          "surface": "cli",
+          "scope": "project",
+          "project": "project:<ROOT>/project-a",
+          "gitStatus": null,
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "0f90abfdc78956f6b7a695947479100809304d11e81d2467d04c241baa846cbe"
+        }
+      ],
+      "origin": null,
+      "drift": "unknown"
+    },
+    {
+      "id": "skill:<ROOT>/project-a/.gemini/skills/skill-e",
+      "kind": "skill",
+      "harness": "gemini-cli",
+      "producer": null,
+      "project": "project:<ROOT>/project-a",
+      "scope": "project",
+      "ownership": "human",
+      "shared": null,
+      "gitStatus": null,
+      "path": "<ROOT>/project-a/.gemini/skills/skill-e",
+      "relativePath": ".gemini/skills/skill-e",
+      "locator": {
+        "type": "dir",
+        "path": "<ROOT>/project-a/.gemini/skills/skill-e"
+      },
+      "format": "dir",
+      "label": "skill-e",
+      "sensitive": false,
+      "protection": "none",
+      "removal": {
+        "method": "trash"
+      },
+      "metrics": {
+        "bytes": 154,
+        "files": 1,
+        "lines": 13,
+        "mtime": "<COPY-TIME>",
+        "ageDays": 0,
+        "tokens": {
+          "o200k": 53,
+          "method": "o200k_base"
+        },
+        "lastUsed": null
+      },
+      "form": "skill-dir",
+      "name": "skill-e",
+      "dirName": "skill-e",
+      "frontmatterName": "skill-e",
+      "layout": "copy",
+      "placements": [
+        {
+          "path": "<ROOT>/project-a/.gemini/skills/skill-e",
+          "harness": "gemini-cli",
+          "surface": "cli",
+          "scope": "project",
+          "project": "project:<ROOT>/project-a",
+          "gitStatus": null,
+          "shared": null,
+          "isSymlink": false,
+          "linkTarget": null,
+          "dangling": false
+        }
+      ],
+      "frontmatter": {
+        "name": "skill-e",
+        "description": "<redacted>"
+      },
+      "sidecars": [],
+      "contentHash": [
+        {
+          "algo": "sha256-folder",
+          "value": "a4eb3971301cdc7654f8f81f54a0d00d291ac4bfd9564fe04f2fc0011eb0e247"
+        }
+      ],
+      "origin": null,
+      "drift": "copies-differ"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge:duplicates:skill:<ROOT>/project-a/.agents/skills/skill-e:skill:<ROOT>/project-a/.gemini/skills/skill-e",
+      "kind": "duplicates",
+      "from": "skill:<ROOT>/project-a/.agents/skills/skill-e",
+      "to": "skill:<ROOT>/project-a/.gemini/skills/skill-e",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "name-only",
+          "detail": "skill-e"
+        }
+      ],
+      "same": "name"
+    },
+    {
+      "id": "edge:imports:context-file:<ROOT>/project-a/gemini.md:context-file:<ROOT>/project-a/docs/context-import.md",
+      "kind": "imports",
+      "from": "context-file:<ROOT>/project-a/gemini.md",
+      "to": "context-file:<ROOT>/project-a/docs/context-import.md",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "import-statement",
+          "detail": "line 7: @./docs/context-import.md"
+        }
+      ],
+      "hop": 1,
+      "external": false,
+      "syntax": "at-import"
+    },
+    {
+      "id": "edge:loaded-by:agent-definition:<HOME>/.gemini/agents/agent-b.md:harness:gemini-cli",
+      "kind": "loaded-by",
+      "from": "agent-definition:<HOME>/.gemini/agents/agent-b.md",
+      "to": "harness:gemini-cli",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "agent definitions are spawned on demand"
+        }
+      ],
+      "project": null,
+      "mode": "on-demand",
+      "reason": "spawned on demand; no documented session cost",
+      "placement": "<HOME>/.gemini/agents/agent-b.md",
+      "effectiveName": "agent-b",
+      "order": null,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:agent-definition:<HOME>/.gemini/extensions/ext-a/agents/agent-a.md:harness:gemini-cli",
+      "kind": "loaded-by",
+      "from": "agent-definition:<HOME>/.gemini/extensions/ext-a/agents/agent-a.md",
+      "to": "harness:gemini-cli",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "agent definitions are spawned on demand"
+        }
+      ],
+      "project": null,
+      "mode": "on-demand",
+      "reason": "spawned on demand; no documented session cost",
+      "placement": "<HOME>/.gemini/extensions/ext-a/agents/agent-a.md",
+      "effectiveName": "agent-a",
+      "order": null,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:agent-definition:<ROOT>/project-a/.gemini/agents/agent-c.md:harness:gemini-cli:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "agent-definition:<ROOT>/project-a/.gemini/agents/agent-c.md",
+      "to": "harness:gemini-cli",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "agent definitions are spawned on demand"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "on-demand",
+      "reason": "spawned on demand; no documented session cost",
+      "placement": "<ROOT>/project-a/.gemini/agents/agent-c.md",
+      "effectiveName": "agent-c",
+      "order": null,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<HOME>/.gemini/extensions/ext-a/gemini.md:harness:gemini-cli",
+      "kind": "loaded-by",
+      "from": "context-file:<HOME>/.gemini/extensions/ext-a/gemini.md",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "plugin ext-a: read in every session it is enabled in"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "plugin ext-a: read in every session it is enabled in",
+      "placement": "<HOME>/.gemini/extensions/ext-a/GEMINI.md",
+      "effectiveName": null,
+      "order": 1,
+      "charsLoaded": 80,
+      "importsResolved": 0,
+      "tokensLoaded": 30,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<HOME>/.gemini/gemini.md:harness:gemini-cli",
+      "kind": "loaded-by",
+      "from": "context-file:<HOME>/.gemini/gemini.md",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "user scope: read in every session"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "user scope: read in every session",
+      "placement": "<HOME>/.gemini/GEMINI.md",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 171,
+      "importsResolved": 0,
+      "tokensLoaded": 59,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/nested/project-b/agents.md:harness:gemini-cli:project:<ROOT>/nested/project-b",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/nested/project-b/agents.md",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "AGENTS.md of the session directory"
+        }
+      ],
+      "project": "project:<ROOT>/nested/project-b",
+      "mode": "full",
+      "reason": "AGENTS.md of the session directory",
+      "placement": "<ROOT>/nested/project-b/AGENTS.md",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 48,
+      "importsResolved": 0,
+      "tokensLoaded": 18,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/agents.md:harness:gemini-cli:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/agents.md",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "file not read by the harness: context.fileName = [GEMINI.md]"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "never",
+      "reason": "file not read by the harness: context.fileName = [GEMINI.md]",
+      "placement": "<ROOT>/project-a/AGENTS.md",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 0,
+      "importsResolved": 0,
+      "tokensLoaded": 0,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/docs/context-import.md:harness:gemini-cli:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/docs/context-import.md",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "imported by <ROOT>/project-a/GEMINI.md (hop 1)"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "imported by <ROOT>/project-a/GEMINI.md (hop 1)",
+      "placement": "<ROOT>/project-a/docs/context-import.md",
+      "effectiveName": null,
+      "order": 1,
+      "charsLoaded": 64,
+      "importsResolved": 0,
+      "tokensLoaded": 24,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/gemini.md:harness:gemini-cli:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/gemini.md",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "GEMINI.md of the session directory"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "GEMINI.md of the session directory",
+      "placement": "<ROOT>/project-a/GEMINI.md",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 156,
+      "importsResolved": 1,
+      "tokensLoaded": 55,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-a/packages/sub-a/gemini.md:harness:gemini-cli:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-a/packages/sub-a/gemini.md",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "subdirectory below the session directory: loaded just-in-time when a tool touches a path there"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "on-demand",
+      "reason": "subdirectory below the session directory: loaded just-in-time when a tool touches a path there",
+      "placement": "<ROOT>/project-a/packages/sub-a/GEMINI.md",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 64,
+      "importsResolved": 0,
+      "tokensLoaded": 24,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-b/gemini.md:harness:gemini-cli",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-b/gemini.md",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "include directory: loadMemoryFromIncludeDirectories is false"
+        }
+      ],
+      "project": null,
+      "mode": "never",
+      "reason": "include directory: loadMemoryFromIncludeDirectories is false",
+      "placement": "<ROOT>/project-b/GEMINI.md",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 0,
+      "importsResolved": 0,
+      "tokensLoaded": 0,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-b/gemini.md:harness:gemini-cli:project:<ROOT>/project-b",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-b/gemini.md",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "GEMINI.md of the session directory"
+        }
+      ],
+      "project": "project:<ROOT>/project-b",
+      "mode": "full",
+      "reason": "GEMINI.md of the session directory",
+      "placement": "<ROOT>/project-b/GEMINI.md",
+      "effectiveName": null,
+      "order": 0,
+      "charsLoaded": 48,
+      "importsResolved": 0,
+      "tokensLoaded": 18,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:context-file:<ROOT>/project-c/gemini.md:harness:gemini-cli:project:<ROOT>/project-c",
+      "kind": "loaded-by",
+      "from": "context-file:<ROOT>/project-c/gemini.md",
+      "to": "harness:gemini-cli",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "untrusted project: context loading undocumented"
+        }
+      ],
+      "project": "project:<ROOT>/project-c",
+      "mode": "unknown",
+      "reason": "untrusted project: context loading undocumented",
+      "placement": "<ROOT>/project-c/GEMINI.md",
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 0,
+      "importsResolved": 0,
+      "tokensLoaded": 0,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<HOME>/.gemini/extensions/ext-a/gemini-extension.json#mcpServers/ext-server:harness:gemini-cli",
+      "kind": "loaded-by",
+      "from": "mcp-server:<HOME>/.gemini/extensions/ext-a/gemini-extension.json#mcpServers/ext-server",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "not in mcp.allowed"
+        }
+      ],
+      "project": null,
+      "mode": "disabled",
+      "reason": "not in mcp.allowed",
+      "placement": null,
+      "effectiveName": "ext-server",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<HOME>/.gemini/settings.json#mcpServers/server-a:harness:gemini-cli",
+      "kind": "loaded-by",
+      "from": "mcp-server:<HOME>/.gemini/settings.json#mcpServers/server-a",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "user scope: available in every session"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "user scope: available in every session",
+      "placement": null,
+      "effectiveName": "server-a",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.gemini/settings.json#mcpServers/server-b:harness:gemini-cli:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "mcp-server:<ROOT>/project-a/.gemini/settings.json#mcpServers/server-b",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "not in mcp.allowed"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "disabled",
+      "reason": "not in mcp.allowed",
+      "placement": null,
+      "effectiveName": "server-b",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-a/.gemini/settings.json#mcpServers/server-c:harness:gemini-cli:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "mcp-server:<ROOT>/project-a/.gemini/settings.json#mcpServers/server-c",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "not in mcp.allowed"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "disabled",
+      "reason": "not in mcp.allowed",
+      "placement": null,
+      "effectiveName": "server-c",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-b/.gemini/settings.json#mcpServers/server-d:harness:gemini-cli:project:<ROOT>/project-b",
+      "kind": "loaded-by",
+      "from": "mcp-server:<ROOT>/project-b/.gemini/settings.json#mcpServers/server-d",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "not in mcp.allowed"
+        }
+      ],
+      "project": "project:<ROOT>/project-b",
+      "mode": "disabled",
+      "reason": "not in mcp.allowed",
+      "placement": null,
+      "effectiveName": "server-d",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:mcp-server:<ROOT>/project-c/.gemini/settings.json#mcpServers/server-untrusted:harness:gemini-cli:project:<ROOT>/project-c",
+      "kind": "loaded-by",
+      "from": "mcp-server:<ROOT>/project-c/.gemini/settings.json#mcpServers/server-untrusted",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "untrusted project: .gemini/settings.json is ignored"
+        }
+      ],
+      "project": "project:<ROOT>/project-c",
+      "mode": "never",
+      "reason": "untrusted project: .gemini/settings.json is ignored",
+      "placement": null,
+      "effectiveName": "server-untrusted",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:memory-file:<HOME>/.gemini/tmp/gone/memory/gemini.md:harness:gemini-cli:project:<ROOT>/gone",
+      "kind": "loaded-by",
+      "from": "memory-file:<HOME>/.gemini/tmp/gone/memory/gemini.md",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "only the index is loaded at session start"
+        }
+      ],
+      "project": "project:<ROOT>/gone",
+      "mode": "on-demand",
+      "reason": "memory fact: read on demand, never at session start",
+      "placement": null,
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 64,
+      "importsResolved": null,
+      "tokensLoaded": 24,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:memory-file:<HOME>/.gemini/tmp/project-a/memory/.inbox/memory/0001.patch:harness:gemini-cli:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "memory-file:<HOME>/.gemini/tmp/project-a/memory/.inbox/memory/0001.patch",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "only the index is loaded at session start"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "on-demand",
+      "reason": "harness-written memory material: read on demand, never at session start",
+      "placement": null,
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 82,
+      "importsResolved": null,
+      "tokensLoaded": 37,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:memory-file:<HOME>/.gemini/tmp/project-a/memory/memory.md:harness:gemini-cli:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "memory-file:<HOME>/.gemini/tmp/project-a/memory/memory.md",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "the memory index is loaded with the hierarchical memory"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "full",
+      "reason": "project memory index: loaded with the hierarchical memory",
+      "placement": null,
+      "effectiveName": null,
+      "order": 2,
+      "charsLoaded": 144,
+      "importsResolved": null,
+      "tokensLoaded": 52,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:memory-file:<HOME>/.gemini/tmp/project-a/memory/notes-a.md:harness:gemini-cli:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "memory-file:<HOME>/.gemini/tmp/project-a/memory/notes-a.md",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "only the index is loaded at session start"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "on-demand",
+      "reason": "memory fact: read on demand, never at session start",
+      "placement": null,
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 80,
+      "importsResolved": null,
+      "tokensLoaded": 30,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:memory-file:<HOME>/.gemini/tmp/project-a/memory/skills/skill-a/skill.md:harness:gemini-cli:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "memory-file:<HOME>/.gemini/tmp/project-a/memory/skills/skill-a/skill.md",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "only the index is loaded at session start"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "on-demand",
+      "reason": "harness-written memory material: read on demand, never at session start",
+      "placement": null,
+      "effectiveName": null,
+      "order": null,
+      "charsLoaded": 106,
+      "importsResolved": null,
+      "tokensLoaded": 35,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:plugin:<HOME>/.gemini/extensions/ext-a:harness:gemini-cli",
+      "kind": "loaded-by",
+      "from": "plugin:<HOME>/.gemini/extensions/ext-a",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "manifest",
+          "detail": "plugin enablement overrides: <ROOT>/**, !<ROOT>/gone/**"
+        }
+      ],
+      "project": null,
+      "mode": "full",
+      "reason": "plugin enablement overrides: <ROOT>/**, !<ROOT>/gone/**",
+      "placement": "<HOME>/.gemini/extensions/ext-a",
+      "effectiveName": "ext-a",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:plugin:<ROOT>/project-a/.gemini/extensions/legacy-ext:harness:gemini-cli:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "plugin:<ROOT>/project-a/.gemini/extensions/legacy-ext",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "project plugins are not loaded; only ~/.gemini/extensions is"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "never",
+      "reason": "project plugins are not loaded; only ~/.gemini/extensions is",
+      "placement": "<ROOT>/project-a/.gemini/extensions/legacy-ext",
+      "effectiveName": "legacy-ext",
+      "order": null,
+      "charsLoaded": null,
+      "importsResolved": null,
+      "tokensLoaded": null,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.agents/skills/skill-d:harness:gemini-cli",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.agents/skills/skill-d",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "user .agents/skills skill: description listed, body on demand"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "user .agents/skills skill: description listed, body on demand",
+      "placement": "<HOME>/.agents/skills/skill-d",
+      "effectiveName": "/skill-d",
+      "order": 2,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.gemini/commands/cmd-a.toml:harness:gemini-cli",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.gemini/commands/cmd-a.toml",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "custom command: expanded when the user invokes /cmd-a"
+        }
+      ],
+      "project": null,
+      "mode": "manual",
+      "reason": "custom command: expanded when the user invokes /cmd-a",
+      "placement": "<HOME>/.gemini/commands/cmd-a.toml",
+      "effectiveName": "/cmd-a",
+      "order": null,
+      "charsLoaded": 0,
+      "importsResolved": null,
+      "tokensLoaded": 0,
+      "disableModelInvocation": true,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.gemini/commands/ns/cmd-b.toml:harness:gemini-cli",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.gemini/commands/ns/cmd-b.toml",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "custom command: expanded when the user invokes /ns:cmd-b"
+        }
+      ],
+      "project": null,
+      "mode": "manual",
+      "reason": "custom command: expanded when the user invokes /ns:cmd-b",
+      "placement": "<HOME>/.gemini/commands/ns/cmd-b.toml",
+      "effectiveName": "/ns:cmd-b",
+      "order": null,
+      "charsLoaded": 0,
+      "importsResolved": null,
+      "tokensLoaded": 0,
+      "disableModelInvocation": true,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.gemini/extensions/ext-a/commands/ext-cmd.toml:harness:gemini-cli",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.gemini/extensions/ext-a/commands/ext-cmd.toml",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "custom command: expanded when the user invokes /ext-cmd"
+        }
+      ],
+      "project": null,
+      "mode": "manual",
+      "reason": "custom command: expanded when the user invokes /ext-cmd",
+      "placement": "<HOME>/.gemini/extensions/ext-a/commands/ext-cmd.toml",
+      "effectiveName": "/ext-cmd",
+      "order": null,
+      "charsLoaded": 0,
+      "importsResolved": null,
+      "tokensLoaded": 0,
+      "disableModelInvocation": true,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.gemini/extensions/ext-a/skills/skill-b:harness:gemini-cli",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.gemini/extensions/ext-a/skills/skill-b",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "plugin skill: description listed, body on demand"
+        }
+      ],
+      "project": null,
+      "mode": "description-only",
+      "reason": "plugin skill: description listed, body on demand",
+      "placement": "<HOME>/.gemini/extensions/ext-a/skills/skill-b",
+      "effectiveName": "/skill-b",
+      "order": 3,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<HOME>/.gemini/skills/skill-c:harness:gemini-cli",
+      "kind": "loaded-by",
+      "from": "skill:<HOME>/.gemini/skills/skill-c",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "listed in skills.disabled"
+        }
+      ],
+      "project": null,
+      "mode": "disabled",
+      "reason": "listed in skills.disabled",
+      "placement": "<HOME>/.gemini/skills/skill-c",
+      "effectiveName": "/skill-c",
+      "order": null,
+      "charsLoaded": 0,
+      "importsResolved": null,
+      "tokensLoaded": 0,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:skill:<ROOT>/project-a/.agents/skills/skill-e:harness:gemini-cli:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "skill:<ROOT>/project-a/.agents/skills/skill-e",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "workspace .agents/skills skill: description listed, body on demand"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "description-only",
+      "reason": "workspace .agents/skills skill: description listed, body on demand",
+      "placement": "<ROOT>/project-a/.agents/skills/skill-e",
+      "effectiveName": "/skill-e",
+      "order": 3,
+      "charsLoaded": 10,
+      "importsResolved": null,
+      "tokensLoaded": 4,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": true
+    },
+    {
+      "id": "edge:loaded-by:skill:<ROOT>/project-a/.gemini/commands/proj-cmd.toml:harness:gemini-cli:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "skill:<ROOT>/project-a/.gemini/commands/proj-cmd.toml",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "custom command: expanded when the user invokes /proj-cmd"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "manual",
+      "reason": "custom command: expanded when the user invokes /proj-cmd",
+      "placement": "<ROOT>/project-a/.gemini/commands/proj-cmd.toml",
+      "effectiveName": "/proj-cmd",
+      "order": null,
+      "charsLoaded": 0,
+      "importsResolved": null,
+      "tokensLoaded": 0,
+      "disableModelInvocation": true,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:loaded-by:skill:<ROOT>/project-a/.gemini/skills/skill-e:harness:gemini-cli:project:<ROOT>/project-a",
+      "kind": "loaded-by",
+      "from": "skill:<ROOT>/project-a/.gemini/skills/skill-e",
+      "to": "harness:gemini-cli",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "listing-rule",
+          "detail": "workspace .gemini/skills skill: description listed, body on demand"
+        }
+      ],
+      "project": "project:<ROOT>/project-a",
+      "mode": "shadowed",
+      "reason": "a workspace .agents/skills skill of the same name wins",
+      "placement": "<ROOT>/project-a/.gemini/skills/skill-e",
+      "effectiveName": "/skill-e",
+      "order": null,
+      "charsLoaded": 0,
+      "importsResolved": null,
+      "tokensLoaded": 0,
+      "disableModelInvocation": null,
+      "countsTowardHeadline": false
+    },
+    {
+      "id": "edge:originates-from:plugin:<HOME>/.gemini/extensions/ext-a:settings-file:<HOME>/.gemini/extensions/ext-a/.gemini-extension-install.json",
+      "kind": "originates-from",
+      "from": "plugin:<HOME>/.gemini/extensions/ext-a",
+      "to": "settings-file:<HOME>/.gemini/extensions/ext-a/.gemini-extension-install.json",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "lock-entry",
+          "detail": "gemini-extension install record",
+          "locator": {
+            "type": "file",
+            "path": "<HOME>/.gemini/extensions/ext-a/.gemini-extension-install.json"
+          }
+        }
+      ]
+    },
+    {
+      "id": "edge:provided-by:agent-definition:<HOME>/.gemini/extensions/ext-a/agents/agent-a.md:plugin:<HOME>/.gemini/extensions/ext-a",
+      "kind": "provided-by",
+      "from": "agent-definition:<HOME>/.gemini/extensions/ext-a/agents/agent-a.md",
+      "to": "plugin:<HOME>/.gemini/extensions/ext-a",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "manifest",
+          "detail": "shipped by plugin ext-a"
+        }
+      ]
+    },
+    {
+      "id": "edge:provided-by:context-file:<HOME>/.gemini/extensions/ext-a/gemini.md:plugin:<HOME>/.gemini/extensions/ext-a",
+      "kind": "provided-by",
+      "from": "context-file:<HOME>/.gemini/extensions/ext-a/gemini.md",
+      "to": "plugin:<HOME>/.gemini/extensions/ext-a",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "manifest",
+          "detail": "shipped by plugin ext-a"
+        }
+      ]
+    },
+    {
+      "id": "edge:provided-by:mcp-server:<HOME>/.gemini/extensions/ext-a/gemini-extension.json#mcpServers/ext-server:plugin:<HOME>/.gemini/extensions/ext-a",
+      "kind": "provided-by",
+      "from": "mcp-server:<HOME>/.gemini/extensions/ext-a/gemini-extension.json#mcpServers/ext-server",
+      "to": "plugin:<HOME>/.gemini/extensions/ext-a",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "manifest",
+          "detail": "shipped by plugin ext-a"
+        }
+      ]
+    },
+    {
+      "id": "edge:provided-by:settings-file:<HOME>/.gemini/extensions/ext-a/.env:plugin:<HOME>/.gemini/extensions/ext-a",
+      "kind": "provided-by",
+      "from": "settings-file:<HOME>/.gemini/extensions/ext-a/.env",
+      "to": "plugin:<HOME>/.gemini/extensions/ext-a",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "manifest",
+          "detail": "shipped by plugin ext-a"
+        }
+      ]
+    },
+    {
+      "id": "edge:provided-by:settings-file:<HOME>/.gemini/extensions/ext-a/.gemini-extension-install.json:plugin:<HOME>/.gemini/extensions/ext-a",
+      "kind": "provided-by",
+      "from": "settings-file:<HOME>/.gemini/extensions/ext-a/.gemini-extension-install.json",
+      "to": "plugin:<HOME>/.gemini/extensions/ext-a",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "manifest",
+          "detail": "shipped by plugin ext-a"
+        }
+      ]
+    },
+    {
+      "id": "edge:provided-by:settings-file:<HOME>/.gemini/extensions/ext-a/gemini-extension.json:plugin:<HOME>/.gemini/extensions/ext-a",
+      "kind": "provided-by",
+      "from": "settings-file:<HOME>/.gemini/extensions/ext-a/gemini-extension.json",
+      "to": "plugin:<HOME>/.gemini/extensions/ext-a",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "manifest",
+          "detail": "shipped by plugin ext-a"
+        }
+      ]
+    },
+    {
+      "id": "edge:provided-by:settings-file:<HOME>/.gemini/extensions/ext-a/hooks/hooks.json:plugin:<HOME>/.gemini/extensions/ext-a",
+      "kind": "provided-by",
+      "from": "settings-file:<HOME>/.gemini/extensions/ext-a/hooks/hooks.json",
+      "to": "plugin:<HOME>/.gemini/extensions/ext-a",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "manifest",
+          "detail": "shipped by plugin ext-a"
+        }
+      ]
+    },
+    {
+      "id": "edge:provided-by:skill:<HOME>/.gemini/extensions/ext-a/commands/ext-cmd.toml:plugin:<HOME>/.gemini/extensions/ext-a",
+      "kind": "provided-by",
+      "from": "skill:<HOME>/.gemini/extensions/ext-a/commands/ext-cmd.toml",
+      "to": "plugin:<HOME>/.gemini/extensions/ext-a",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "manifest",
+          "detail": "shipped by plugin ext-a"
+        }
+      ]
+    },
+    {
+      "id": "edge:provided-by:skill:<HOME>/.gemini/extensions/ext-a/skills/skill-b:plugin:<HOME>/.gemini/extensions/ext-a",
+      "kind": "provided-by",
+      "from": "skill:<HOME>/.gemini/extensions/ext-a/skills/skill-b",
+      "to": "plugin:<HOME>/.gemini/extensions/ext-a",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "manifest",
+          "detail": "shipped by plugin ext-a"
+        }
+      ]
+    },
+    {
+      "id": "edge:shadows:skill:<ROOT>/project-a/.agents/skills/skill-e:skill:<ROOT>/project-a/.gemini/skills/skill-e",
+      "kind": "shadows",
+      "from": "skill:<ROOT>/project-a/.agents/skills/skill-e",
+      "to": "skill:<ROOT>/project-a/.gemini/skills/skill-e",
+      "confidence": "certain",
+      "evidence": [
+        {
+          "kind": "precedence-rule",
+          "detail": "a workspace .agents/skills skill of the same name wins over workspace .gemini/skills"
+        }
+      ],
+      "rule": "workspace > user > extension; .agents wins within a tier"
+    }
+  ],
+  "warnings": [
+    {
+      "code": "git-missing",
+      "message": "git not run (git: false): git-tracked status unknown",
+      "harness": null,
+      "path": null,
+      "effect": "degraded"
+    }
+  ],
+  "totals": {
+    "entities": 69,
+    "files": 70,
+    "bytes": 11516,
+    "harnessCacheBytes": 994,
+    "memoryBytes": 476,
+    "tokens": 965
+  },
+  "findings": [
+    {
+      "id": "finding:duplicate:skill:<ROOT>/project-a/.agents/skills/skill-e",
+      "category": "duplicate",
+      "severity": "low",
+      "container": "project:<ROOT>/project-a",
+      "targets": [
+        {
+          "id": "skill:<ROOT>/project-a/.agents/skills/skill-e",
+          "role": "subject"
+        },
+        {
+          "id": "skill:<ROOT>/project-a/.gemini/skills/skill-e",
+          "role": "counterpart"
+        }
+      ],
+      "message": "skill-e is configured 2 times with the same name (project scope of project-a)",
+      "evidence": [
+        {
+          "kind": "endpoint",
+          "detail": "identical bytes"
+        }
+      ],
+      "confidence": "high",
+      "impact": {
+        "bytes": 154,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": [],
+      "action": {
+        "kind": "open",
+        "preselect": false,
+        "locator": {
+          "type": "dir",
+          "path": "<ROOT>/project-a/.agents/skills/skill-e"
+        }
+      }
+    },
+    {
+      "id": "finding:harness-cache:harness:gemini-cli:transcript",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "harness:gemini-cli",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.gemini/tmp/0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef/chats/session-2025-06-01t09-00-00-3d4e5f6a.json",
+          "role": "subject",
+          "preselect": true
+        }
+      ],
+      "message": "1 session older than the 30-day retention Gemini CLI sweeps itself (1 session, 71 B)",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "general.sessionRetention.maxAge = 30; oldest unit 400 days old"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 71,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": ["sensitive"],
+      "action": {
+        "kind": "clean",
+        "preselect": true,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:harness-cache:project:<ROOT>/gone:transcript",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "project:<ROOT>/gone",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.gemini/tmp/gone/chats/session-2026-04-01t09-00-00-2c3d4e5f.jsonl",
+          "role": "subject",
+          "preselect": true
+        }
+      ],
+      "message": "1 session older than the 30-day retention Gemini CLI sweeps itself (1 session, 58 B)",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "general.sessionRetention.maxAge = 30; oldest unit 120 days old"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 58,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": ["sensitive"],
+      "action": {
+        "kind": "clean",
+        "preselect": true,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:harness-cache:project:<ROOT>/project-a:plan",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "project:<ROOT>/project-a",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.gemini/tmp/project-a/00000000-0000-4000-8000-000000000001",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 plan (72 B) within the 30-day retention Gemini CLI sweeps itself",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "general.sessionRetention.maxAge = 30; oldest unit 0 days old"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 72,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": ["sensitive", "live"],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:harness-cache:project:<ROOT>/project-a:subagent-transcript",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "project:<ROOT>/project-a",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.gemini/tmp/project-a/chats/00000000-0000-4000-8000-000000000001",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 subagent transcript (89 B) within the 30-day retention Gemini CLI sweeps itself",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "general.sessionRetention.maxAge = 30; oldest unit 0 days old"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 89,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": ["sensitive", "live"],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:harness-cache:project:<ROOT>/project-a:transcript",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "project:<ROOT>/project-a",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.gemini/tmp/project-a/chats/session-2026-08-20t10-00-00-0a1b2c3d.jsonl",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 session (116 B) within the 30-day retention Gemini CLI sweeps itself",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "general.sessionRetention.maxAge = 30; oldest unit 3 days old"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 116,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": ["sensitive"],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:harness-cache:project:<ROOT>/project-a:checkpoint",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "project:<ROOT>/project-a",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.gemini/tmp/project-a/checkpoints",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 checkpoint (24 B) Gemini CLI documents no sweep for",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "no documented sweep"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 24,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": ["live"],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:harness-cache:project:<ROOT>/project-a:log",
+      "category": "harness-cache",
+      "severity": "low",
+      "container": "project:<ROOT>/project-a",
+      "targets": [
+        {
+          "id": "harness-cache:<HOME>/.gemini/tmp/project-a/logs/session-00000000-0000-4000-8000-000000000001.jsonl",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 log (44 B) within the 30-day retention Gemini CLI sweeps itself",
+      "evidence": [
+        {
+          "kind": "retention-rule",
+          "detail": "general.sessionRetention.maxAge = 30; oldest unit 0 days old"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 44,
+        "tokens": null,
+        "files": 1
+      },
+      "flags": ["sensitive", "live"],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:orphan:project:<ROOT>/gone",
+      "category": "orphan",
+      "severity": "medium",
+      "container": "project:<ROOT>/gone",
+      "targets": [
+        {
+          "id": "breadcrumb:gemini-cli:<HOME>/.gemini/projects.json#projects/<ROOT>/gone",
+          "role": "breadcrumb"
+        },
+        {
+          "id": "breadcrumb:gemini-cli:<HOME>/.gemini/tmp/gone",
+          "role": "breadcrumb"
+        },
+        {
+          "id": "breadcrumb:gemini-cli:<HOME>/.gemini/trustedfolders.json#<ROOT>/gone",
+          "role": "breadcrumb"
+        },
+        {
+          "id": "harness-cache:<HOME>/.gemini/tmp/gone/.project_root",
+          "role": "state",
+          "preselect": false
+        },
+        {
+          "id": "harness-cache:<HOME>/.gemini/tmp/gone/chats/session-2026-04-01t09-00-00-2c3d4e5f.jsonl",
+          "role": "state",
+          "preselect": false
+        },
+        {
+          "id": "memory-file:<HOME>/.gemini/tmp/gone/memory/gemini.md",
+          "role": "state",
+          "preselect": false
+        }
+      ],
+      "message": "gone: directory gone; 3 breadcrumbs, 1 memory file, 2 harness cache units left behind by Gemini CLI",
+      "evidence": [
+        {
+          "kind": "path-missing",
+          "detail": "<ROOT>/gone"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 211,
+        "tokens": 24,
+        "files": 3
+      },
+      "flags": ["memory", "sensitive"],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:shadow-memory:memory-file:<HOME>/.gemini/tmp/gone/memory/gemini.md",
+      "category": "shadow-memory",
+      "severity": "medium",
+      "container": "project:<ROOT>/gone",
+      "targets": [
+        {
+          "id": "memory-file:<HOME>/.gemini/tmp/gone/memory/gemini.md",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 memory unit (1 file, 24 tokens) kept under Gemini CLI's user scope, invisible from gone",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "auto-memory unit <HOME>/.gemini/tmp/gone/memory lives under the harness's user scope, not in the repository"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 64,
+        "tokens": 24,
+        "files": 1
+      },
+      "flags": ["memory"],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    },
+    {
+      "id": "finding:shadow-memory:memory-file:<HOME>/.gemini/tmp/project-a/memory/memory.md",
+      "category": "shadow-memory",
+      "severity": "medium",
+      "container": "project:<ROOT>/project-a",
+      "targets": [
+        {
+          "id": "memory-file:<HOME>/.gemini/tmp/project-a/memory/memory.md",
+          "role": "subject",
+          "preselect": false
+        },
+        {
+          "id": "memory-file:<HOME>/.gemini/tmp/project-a/memory/.inbox/memory/0001.patch",
+          "role": "subject",
+          "preselect": false
+        },
+        {
+          "id": "memory-file:<HOME>/.gemini/tmp/project-a/memory/notes-a.md",
+          "role": "subject",
+          "preselect": false
+        },
+        {
+          "id": "memory-file:<HOME>/.gemini/tmp/project-a/memory/skills/skill-a/skill.md",
+          "role": "subject",
+          "preselect": false
+        }
+      ],
+      "message": "1 memory unit (4 files, 154 tokens) kept under Gemini CLI's user scope, invisible from project-a",
+      "evidence": [
+        {
+          "kind": "loading-rule",
+          "detail": "auto-memory unit <HOME>/.gemini/tmp/project-a/memory lives under the harness's user scope, not in the repository"
+        }
+      ],
+      "confidence": "certain",
+      "impact": {
+        "bytes": 412,
+        "tokens": 154,
+        "files": 4
+      },
+      "flags": ["memory"],
+      "action": {
+        "kind": "clean",
+        "preselect": false,
+        "locator": null
+      }
+    }
+  ],
+  "headline": {
+    "scope": "user-controllable",
+    "focus": {
+      "project": "project:<ROOT>/project-a",
+      "reason": "most-expensive"
+    },
+    "perHarness": [
+      {
+        "harness": "gemini-cli",
+        "modelFamily": null,
+        "contextWindowTokens": null,
+        "baseline": {
+          "low": 97,
+          "mid": 97,
+          "high": 97
+        },
+        "project": {
+          "low": 135,
+          "mid": 135,
+          "high": 135
+        },
+        "total": {
+          "low": 232,
+          "mid": 232,
+          "high": 232
+        },
+        "pctOfContext": null
+      }
+    ]
+  }
+}
