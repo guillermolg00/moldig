@@ -619,20 +619,36 @@ describe("copilot adapter over the trust-and-sessions case", () => {
   });
 });
 
-describe("copilot on a machine that never ran it", () => {
-  it("contributes no harness row, no entity and no placement", async () => {
+/**
+ * D147: an adapter that finds no trace of its harness emits nothing — no `Harness` row, no
+ * verdict on a shared `AGENTS.md` that no Copilot session can ever read, and no warnings. For a
+ * harness with two surfaces, "no trace" means neither `~/.copilot` nor anything of Copilot's on
+ * the VS Code side.
+ */
+describe("copilot on a machine that never ran it (D147)", () => {
+  async function scanBare(prepare?: (bare: FixtureTree) => Promise<void>): Promise<{
+    index: Awaited<ReturnType<typeof scan>>;
+    home: string;
+    cleanup: () => Promise<void>;
+  }> {
     const bare = await loadFixture("shared/root-tree", { now: NOW, platform: PLATFORM });
+    await prepare?.(bare);
+    const index = await scan({
+      home: bare.home,
+      roots: bare.roots,
+      cwd: bare.root,
+      platform: PLATFORM,
+      env: { COPILOT_HOME: join(bare.home, ".copilot") },
+      harnesses: ["copilot"],
+      git: false,
+      now: NOW,
+    });
+    return { index, home: bare.home, cleanup: () => bare.cleanup() };
+  }
+
+  it("contributes no harness row, no entity, no verdict and no warning", async () => {
+    const { index, home: bareHome, cleanup } = await scanBare();
     try {
-      const index = await scan({
-        home: bare.home,
-        roots: bare.roots,
-        cwd: bare.root,
-        platform: PLATFORM,
-        env: { COPILOT_HOME: join(bare.home, ".copilot") },
-        harnesses: ["copilot"],
-        git: false,
-        now: NOW,
-      });
       expect(index.harnesses).toEqual([]);
       expect(index.breadcrumbs).toEqual([]);
       // The shared stores adapter always runs (D21), so `AGENTS.md` and the store's skills are
@@ -649,10 +665,62 @@ describe("copilot on a machine that never ran it", () => {
       expect(index.projects.every((project) => project.perHarness["copilot"] === undefined)).toBe(
         true,
       );
-      // The override moldig honoured is still on the record, whatever it found behind it.
-      expect(index.scan.env).toEqual({ COPILOT_HOME: join(bare.home, ".copilot") });
+      // The case carries an `AGENTS.md`: it must not gain a verdict for a harness that is not here.
+      expect(index.warnings.every((warning) => warning.harness !== "copilot")).toBe(true);
+      // The override moldig honoured is still on the record: one env entry is not a harness.
+      expect(index.scan.env).toEqual({ COPILOT_HOME: join(bareHome, ".copilot") });
     } finally {
-      await bare.cleanup();
+      await cleanup();
+    }
+  });
+
+  it("a VS Code with no Copilot in it is still no trace", async () => {
+    const { index, cleanup } = await scanBare(async (bare) => {
+      // VS Code installed, with a workspace record and a global state database — but nothing of
+      // Copilot's anywhere in it.
+      const user = join(bare.home, "Library/Application Support/Code/User");
+      await mkdir(join(user, "workspaceStorage", "abc"), { recursive: true });
+      await writeFile(
+        join(user, "workspaceStorage", "abc", "workspace.json"),
+        JSON.stringify({ folder: `file://${bare.root}/monorepo` }),
+      );
+      await mkdir(join(user, "globalStorage"), { recursive: true });
+      await writeFile(join(user, "globalStorage", "state.vscdb"), "SQLite format 3 truncated");
+      await writeFile(join(user, "settings.json"), '{"editor.fontSize": 13}');
+    });
+    try {
+      expect(index.harnesses).toEqual([]);
+      // The shared stores adapter always runs (D21): what must be absent is Copilot's own.
+      expect(index.entities.every((item) => item.harness === null)).toBe(true);
+      expect(index.breadcrumbs).toEqual([]);
+      expect(index.warnings.every((warning) => warning.harness !== "copilot")).toBe(true);
+    } finally {
+      await cleanup();
+    }
+  });
+
+  it("one `chat.*` key in VS Code's settings is a trace, and the harness is shown", async () => {
+    const { index, cleanup } = await scanBare(async (bare) => {
+      const user = join(bare.home, "Library/Application Support/Code/User");
+      await mkdir(user, { recursive: true });
+      await writeFile(join(user, "settings.json"), '{"chat.useAgentsMdFile": false}');
+    });
+    try {
+      expect(index.harnesses.map((harness) => [harness.harness, harness.presence])).toEqual([
+        ["copilot", "config-only"],
+      ]);
+      expect(index.harnesses[0]?.effectiveSettings).toEqual({ "chat.useAgentsMdFile": false });
+      // The settings file the keys came from is Copilot's one row: no repository here carries a
+      // qualifying `.github/`, so nothing of any Project's is read. The rest of the index is the
+      // shared stores adapter's, which always runs (D21).
+      expect(
+        index.entities
+          .filter((item) => item.harness === "copilot")
+          .map((item) => [item.kind, item.path.endsWith("settings.json")]),
+      ).toEqual([["settings-file", true]]);
+      expect(index.breadcrumbs).toEqual([]);
+    } finally {
+      await cleanup();
     }
   });
 });

@@ -63,9 +63,23 @@ export interface WorkspaceRecord {
   remote: boolean;
 }
 
+/**
+ * D147: what of this harness is on disk at all. Copilot has two surfaces, so "no trace" is only
+ * true when neither the CLI home nor anything Copilot's on the VS Code side exists — and a
+ * repository's own `.github/` configuration is a third kind of trace, known only once Projects
+ * are discovered.
+ */
+export interface CopilotTrace {
+  /** `<COPILOT_HOME>` exists. */
+  cli: boolean;
+  /** VS Code holds Copilot's own material: `mcp.json`, its chat storage, `prompts/`, `chat.*` keys. */
+  vscode: boolean;
+}
+
 export interface CopilotScan {
   ctx: ScanContext;
   paths: CopilotPaths;
+  trace: CopilotTrace;
   config: CopilotConfig;
   /** The VS Code user `settings.json` layer (JSONC), read once in `discover`. */
   vscodeUserSettings: SettingsLayer;

@@ -298,7 +298,9 @@ export async function collectCache(scan: CopilotScan): Promise<void> {
     }
   }
 
-  for (const name of ["state.vscdb", "state.vscdb.backup"]) {
+  // D147: VS Code's global state is the editor's, not Copilot's — it is listed only when
+  // Copilot is shown to live on that surface at all.
+  for (const name of scan.trace.vscode ? ["state.vscdb", "state.vscdb.backup"] : []) {
     await databaseUnit(scan, join(paths.globalStorage, name), "vscode", {
       harness: "other-app",
       surface: "vscode",

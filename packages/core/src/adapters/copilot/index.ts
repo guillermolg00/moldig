@@ -27,20 +27,51 @@ import {
   qualifiesAsCopilot,
   readCopilotConfig,
   readJsoncLayer,
+  type SettingsLayer,
 } from "./config.js";
 import { collectMemberContextFiles, collectUserContextFiles } from "./context-files.js";
 import { collectMcp } from "./mcp.js";
-import { HARNESS, HARNESS_ID, type CopilotScan, type MemberScope } from "./model.js";
+import {
+  HARNESS,
+  HARNESS_ID,
+  type CopilotScan,
+  type CopilotTrace,
+  type MemberScope,
+} from "./model.js";
 import { copilotPaths, type CopilotPaths } from "./paths.js";
 import { readSessions, readWorkspaces, workspacePathOf } from "./records.js";
 import { collectSettingsFiles } from "./settings-files.js";
 import { collectMemberSkills, collectUserSkills } from "./skills.js";
 
-/** D70: the harness wrote state of its own → installed; only configuration → config-only. */
+/**
+ * D147: whether this harness left anything on this machine, decided **before** anything is read
+ * that could warn. The CLI half is simply whether `<COPILOT_HOME>` exists. The VS Code half is
+ * material that is Copilot's own — its user `mcp.json`, its chat storage, a `prompts/` directory
+ * or a settings file carrying `chat.*` / `github.copilot*` keys. VS Code merely being installed
+ * is not a trace of Copilot: its `workspaceStorage` belongs to the editor, not to this harness.
+ */
+async function traceOf(paths: CopilotPaths, vscodeSettings: SettingsLayer): Promise<CopilotTrace> {
+  const vscode = await Promise.all([
+    isFile(join(paths.vscodeUser, "mcp.json")),
+    isDirectory(join(paths.globalStorage, "github.copilot-chat")),
+    isDirectory(join(paths.vscodeUser, "prompts")),
+  ]);
+  return {
+    cli: await isDirectory(paths.cliHome),
+    vscode: vscode.includes(true) || Object.keys(copilotKeysOf(vscodeSettings)).length > 0,
+  };
+}
+
+/**
+ * D70: the harness wrote state of its own → `installed`; only configuration → `config-only`.
+ * D147: no trace at all → `absent`, which this adapter turns into an empty output — the row
+ * itself is never emitted, so a machine with two harnesses never reads as a machine with six.
+ */
 async function presenceOf(
-  paths: CopilotPaths,
+  scan: CopilotScan,
   members: readonly string[],
 ): Promise<Harness["presence"]> {
+  const { paths, trace } = scan;
   const wrote = await Promise.all([
     listDir(paths.sessionState).then((entries) => entries.length > 0),
     listDir(paths.logs).then((entries) => entries.length > 0),
@@ -49,11 +80,8 @@ async function presenceOf(
     isDirectory(join(paths.globalStorage, "github.copilot-chat")),
   ]);
   if (wrote.includes(true)) return "installed";
-  const configured = await Promise.all([
-    isDirectory(paths.cliHome),
-    isFile(join(paths.vscodeUser, "mcp.json")),
-  ]);
-  return configured.includes(true) || members.length > 0 ? "config-only" : "absent";
+  // A repository's own `.github/` configuration counts: a Copilot session can start there.
+  return trace.cli || trace.vscode || members.length > 0 ? "config-only" : "absent";
 }
 
 function harnessOf(scan: CopilotScan, presence: Harness["presence"]): Harness {
@@ -195,6 +223,27 @@ export function createCopilotAdapter(): Adapter {
 
     async discover(ctx: ScanContext) {
       const paths = copilotPaths(ctx);
+      // Read before the trace is known, because its `chat.*` keys are part of the answer — and
+      // warned about only once something of Copilot's is known to be here (D147: a harness with
+      // no trace emits no warnings either).
+      const vscodeUserSettings = await readJsoncLayer(join(paths.vscodeUser, "settings.json"));
+      const trace = await traceOf(paths, vscodeUserSettings);
+      if (vscodeUserSettings.parseError && (trace.cli || trace.vscode)) {
+        ctx.warn(
+          warning(
+            "parse-error",
+            "settings.json is not valid JSONC",
+            HARNESS,
+            vscodeUserSettings.path,
+            "partial",
+          ),
+        );
+      }
+      // Each surface is read only where that surface exists: no `<COPILOT_HOME>` means no
+      // sessions and no trusted folders, and VS Code's `workspaceStorage` belongs to the editor
+      // until Copilot is shown to live there.
+      // `config.json` lives inside `<COPILOT_HOME>`: without the directory there is nothing to
+      // read and nothing to warn about, so this needs no guard of its own.
       const config = await readCopilotConfig(join(paths.cliHome, "config.json"));
       if (config.parseError) {
         ctx.warn(
@@ -203,18 +252,6 @@ export function createCopilotAdapter(): Adapter {
             "config.json is not valid JSON: its trusted folders and model are skipped",
             HARNESS,
             config.path,
-            "partial",
-          ),
-        );
-      }
-      const vscodeUserSettings = await readJsoncLayer(join(paths.vscodeUser, "settings.json"));
-      if (vscodeUserSettings.parseError) {
-        ctx.warn(
-          warning(
-            "parse-error",
-            "settings.json is not valid JSONC",
-            HARNESS,
-            vscodeUserSettings.path,
             "partial",
           ),
         );
@@ -229,7 +266,7 @@ export function createCopilotAdapter(): Adapter {
       }
 
       const sessions = [];
-      for (const record of await readSessions(paths.sessionState, ctx)) {
+      for (const record of trace.cli ? await readSessions(paths.sessionState, ctx) : []) {
         if (record.cwd === null) {
           sessions.push(record);
           continue;
@@ -243,7 +280,7 @@ export function createCopilotAdapter(): Adapter {
       }
 
       const workspaces = [];
-      for (const record of await readWorkspaces(paths.workspaceStorage, ctx)) {
+      for (const record of trace.vscode ? await readWorkspaces(paths.workspaceStorage, ctx) : []) {
         const path = workspacePathOf(record);
         if (path === null) {
           workspaces.push(record);
@@ -257,6 +294,7 @@ export function createCopilotAdapter(): Adapter {
       scan = {
         ctx,
         paths,
+        trace,
         config,
         vscodeUserSettings,
         harnessSettings: { ...config.settings, ...copilotKeysOf(vscodeUserSettings) },
@@ -279,13 +317,15 @@ export function createCopilotAdapter(): Adapter {
       const members = await membersOf(scan, projects);
       for (const member of members) scan.qualified.add(ctx.identity.fold(member.path));
       const presence = await presenceOf(
-        scan.paths,
+        scan,
         members.map((member) => member.path),
       );
-      // A harness that left nothing on this machine contributes nothing at all — no row, no
-      // baseline, and above all no Placement claiming that a store several harnesses share is
-      // read by a Copilot that is not installed. `scan.env` still records `COPILOT_HOME` when
-      // it was set, so what moldig honoured is on the record either way.
+      // D147: an adapter that finds no trace of its harness emits nothing at all — no row, no
+      // baseline, no `loaded-by` verdict on an `AGENTS.md` no session can ever read, and above
+      // all no Placement claiming that a store several harnesses share is read by a Copilot that
+      // is not installed. `presence: "absent"` therefore never reaches the index in v1.
+      // `scan.env` still records `COPILOT_HOME` when it was set: what moldig honoured is on the
+      // record either way, and one env entry is not a harness.
       if (presence === "absent") {
         return {
           harness: null,

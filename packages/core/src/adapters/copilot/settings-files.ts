@@ -173,30 +173,34 @@ export async function collectSettingsFiles(
       ...(file.surface === "vscode" ? { producer: VSCODE_PRODUCER } : {}),
     });
   }
-  await settingsEntity(scan, {
-    path: join(paths.vscodeUser, "settings.json"),
-    role: "settings",
-    scope: "user",
-    project: null,
-    ownership: "human",
-    format: "jsonc",
-    entries: null,
-    sensitiveKeys: [],
-    producer: VSCODE_PRODUCER,
-  });
-  // `storage.json` carries VS Code's own path maps. D29 lists them as a `workspace-record`
-  // source with `readInV1: false`: the row is here, the rows inside it are not read.
-  await settingsEntity(scan, {
-    path: join(paths.globalStorage, "storage.json"),
-    role: "state",
-    scope: "user",
-    project: null,
-    ownership: "harness",
-    format: "json",
-    entries: null,
-    sensitiveKeys: ["telemetry.machineId", "telemetry.devDeviceId", "telemetry.sqmId"],
-    producer: VSCODE_PRODUCER,
-  });
+  // D147: both files are VS Code's own. They are Copilot's business only where Copilot lives on
+  // that surface; on a CLI-only machine the editor's settings are none of this harness's.
+  if (scan.trace.vscode) {
+    await settingsEntity(scan, {
+      path: join(paths.vscodeUser, "settings.json"),
+      role: "settings",
+      scope: "user",
+      project: null,
+      ownership: "human",
+      format: "jsonc",
+      entries: null,
+      sensitiveKeys: [],
+      producer: VSCODE_PRODUCER,
+    });
+    // `storage.json` carries VS Code's own path maps. D29 lists them as a `workspace-record`
+    // source with `readInV1: false`: the row is here, the rows inside it are not read.
+    await settingsEntity(scan, {
+      path: join(paths.globalStorage, "storage.json"),
+      role: "state",
+      scope: "user",
+      project: null,
+      ownership: "harness",
+      format: "json",
+      entries: null,
+      sensitiveKeys: ["telemetry.machineId", "telemetry.devDeviceId", "telemetry.sqmId"],
+      producer: VSCODE_PRODUCER,
+    });
+  }
 
   for (const scope of members) {
     await settingsEntity(scan, {
