@@ -22,6 +22,71 @@ export { audit, isPreselected } from "./audit/audit.js";
 export type { AuditOptions } from "./audit/audit.js";
 export { MULTIPLIERS, modelFamilyOf } from "./tokens/tokenizer.js";
 
+// The actions engine (ticket 24): pure planning here, executors injected by the CLI (D103).
+export { apply } from "./actions/apply.js";
+export {
+  backupDirFor,
+  backupPathFor,
+  dataDirFor,
+  encodePath,
+  locatorKey,
+  manifestPathFor,
+  runIdFor,
+} from "./actions/data-dir.js";
+export { delegateCwdFor, parseDelegate, updateDelegateFor } from "./actions/delegates.js";
+export type { DelegateCommand } from "./actions/delegates.js";
+export { removeJsonEntry, rewriteMemoryIndex } from "./actions/edits.js";
+export { plan } from "./actions/plan.js";
+export {
+  canDelete,
+  canUpdate,
+  inCleanUniverse,
+  isLive,
+  isPreselectedUnit,
+  isProtected,
+  isSizeOnly,
+  isTickable,
+  placementLinks,
+  selectionFrom,
+  tickableUnits,
+} from "./actions/selection.js";
+export type { SelectionOptions } from "./actions/selection.js";
+export { summaryLines } from "./actions/summary.js";
+export type { SummaryOptions } from "./actions/summary.js";
+export { updatePreview, UPDATE_PREVIEW_TIMEOUT_MS } from "./actions/update.js";
+export type { InstalledCopy, UpdateFetchers, UpdatePreview } from "./actions/update.js";
+export { ACTION_ORDER, ACTION_TITLES } from "./actions/types.js";
+export type {
+  Action,
+  ApplyOptions,
+  Badge,
+  Confirm,
+  ConfirmAnswer,
+  Device,
+  Disposition,
+  DispositionKind,
+  Executors,
+  ManifestGroup,
+  ManifestGroupSummary,
+  ManifestRow,
+  ManifestTarget,
+  Plan,
+  PlanBackup,
+  PlanEdit,
+  PlanEnv,
+  PlanGroup,
+  PlanRow,
+  PlanTarget,
+  RowStatus,
+  RunManifest,
+  Selection,
+  SelectionTarget,
+  SpawnResult,
+  StatResult,
+  TrashResult,
+  VolumeClass,
+} from "./actions/types.js";
+
 export type {
   AgentDefinition,
   AuditIndex,

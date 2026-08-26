@@ -1,0 +1,127 @@
+run 2026-08-26T12-00-00.000Z · command clean · moldig 0.0.0
+data dir <HOME>/.local/share/moldig
+backups <HOME>/.local/share/moldig/backups/2026-08-26T12-00-00.000Z
+manifest <HOME>/.local/share/moldig/runs/2026-08-26T12-00-00.000Z.json
+
+Clean (8) · 2427 bytes · tokens/session {"claude-code":77} · shared 0
+  refused: network volume
+    row harness-cache:<HOME>/.claude/shell-snapshots/snapshot-zsh-1700000000000-synth1.sh
+    harness-cache · claude-code · volume network · 1506 bytes
+    disposition refused · not runnable
+    reason network volume — no trash available
+    flags sensitive
+  → Trash
+    row harness-cache:<HOME>/.claude/projects/__ROOT__-project-a-apps-web/22222222-2222-4222-8222-222222222222.jsonl
+    harness-cache · claude-code · volume home · 967 bytes
+    disposition trash
+    trash <HOME>/.claude/projects/__ROOT__-project-a-apps-web/22222222-2222-4222-8222-222222222222.jsonl
+    flags sensitive
+  refused: live
+    row harness-cache:live-session
+    harness-cache · claude-code · volume — · 967 bytes
+    disposition refused · not runnable
+    reason live — a harness is using it right now
+    flags sensitive · live
+  → Trash
+    row memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/topic-a.md
+    memory-file · claude-code · volume home · 922 bytes
+    disposition trash
+    trash <HOME>/.claude/projects/__ROOT__-project-a/memory/topic-a.md
+    backup <HOME>/.claude/projects/__ROOT__-project-a/memory/MEMORY.md → <HOME>/.local/share/moldig/backups/2026-08-26T12-00-00.000Z/<HOME-ENCODED>%2F.claude%2Fprojects%2F__ROOT__-project-a%2Fmemory%2FMEMORY.md
+    edit <HOME>/.claude/projects/__ROOT__-project-a/memory/MEMORY.md # drop the lines listing topic-a.md
+    flags memory
+    badges never-read
+  refused: kept
+    row harness-cache:<HOME>/.claude/history.jsonl
+    harness-cache · claude-code · volume — · 451 bytes
+    disposition refused · not runnable
+    reason kept — the harness documents no sweep for this kept state; Delete only
+    flags sensitive · user-content
+    badges kept
+  → Trash
+    row memory-file:<HOME>/.claude/projects/__ROOT__-project-a/memory/memory.md
+    memory-file · claude-code · volume home · 432 bytes
+    disposition trash
+    trash <HOME>/.claude/projects/__ROOT__-project-a/memory/MEMORY.md
+    tokens/session {"claude-code":77}
+    flags memory
+  → Trash
+    row harness-cache:<HOME>/.claude/todos/11111111-1111-4111-8111-111111111111-agent-11111111-1111-4111-8111-111111111111.json
+    harness-cache · claude-code · volume local · 106 bytes
+    disposition trash
+    trash <HOME>/.claude/todos/11111111-1111-4111-8111-111111111111-agent-11111111-1111-4111-8111-111111111111.json
+  → Trash
+    row dir:<HOME>/.claude/projects/__ROOT__-gone/memory
+    memory-unit · no harness · volume home · 0 bytes
+    disposition trash
+    trash <HOME>/.claude/projects/__ROOT__-gone/memory
+
+Delete (9) · 1040 bytes · tokens/session {"claude-code":78} · shared 0
+  ⚠ holds user content — confirmed separately
+  extra confirmation: user content
+  refused: read-only volume
+    row agent-definition:<ROOT>/project-a/.claude/agents/reviewer.md
+    agent-definition · claude-code · volume read-only · 504 bytes
+    disposition refused · not runnable
+    reason read-only volume — nothing can be moved
+  → Trash
+    row harness-cache:<HOME>/.claude/history.jsonl
+    harness-cache · claude-code · volume home · 451 bytes
+    disposition trash
+    trash <HOME>/.claude/history.jsonl
+    flags sensitive · user-content
+    badges kept
+  refused: protected
+    row settings-file:<ROOT>/project-a/.mcp.json
+    settings-file · claude-code · volume — · 415 bytes
+    disposition refused · not runnable
+    reason protected — moldig never removes this file
+  → Trash
+    row context-file:<ROOT>/project-a/claude.md
+    context-file · claude-code · volume home · 390 bytes
+    disposition trash
+    trash <ROOT>/project-a/CLAUDE.md
+    tokens/session {"claude-code":78}
+  → claude mcp remove server-stdio -s user
+    row mcp-server:<HOME>/.claude.json#mcpServers/server-stdio
+    mcp-server · claude-code · volume — · 86 bytes
+    disposition delegate
+    argv ["claude","mcp","remove","server-stdio","-s","user"] in <HOME>
+    flags sensitive
+  refused: the project directory this entry is keyed by is gone
+    row mcp-server:<HOME>/.claude.json#projects/<ROOT>/gone/mcpServers/server-stdio
+    mcp-server · claude-code · volume — · 86 bytes
+    disposition refused · not runnable
+    reason the project directory this entry is keyed by is gone — the harness's own command has nowhere to run
+    flags sensitive
+  → backup + edit
+    row mcp-server:<ROOT>/project-a/.mcp.json#mcpServers/server-http
+    mcp-server · claude-code · volume home · 79 bytes
+    disposition backup-edit
+    backup <ROOT>/project-a/.mcp.json → <HOME>/.local/share/moldig/backups/2026-08-26T12-00-00.000Z/<ROOT-ENCODED>%2Fproject-a%2F.mcp.json
+    edit <ROOT>/project-a/.mcp.json # mcpServers / server-http
+    flags sensitive
+  → cd "<ROOT>/project-a" && claude mcp remove server-http -s local
+    row mcp-server:<HOME>/.claude.json#projects/<ROOT>/project-a/mcpServers/server-http
+    mcp-server · claude-code · volume — · 34 bytes
+    disposition delegate
+    argv ["claude","mcp","remove","server-http","-s","local"] in <ROOT>/project-a
+  → backup + edit
+    row entry:<ROOT>/project-b/skills-lock.json#skills/skill-missing
+    lock-entry · no harness · volume home · 0 bytes
+    disposition backup-edit
+    backup <ROOT>/project-b/skills-lock.json → <HOME>/.local/share/moldig/backups/2026-08-26T12-00-00.000Z/<ROOT-ENCODED>%2Fproject-b%2Fskills-lock.json
+    edit <ROOT>/project-b/skills-lock.json # skills / skill-missing
+
+Update (1) · 0 bytes · tokens/session {} · shared 0
+  refused: no installer recognised
+    row skill:<ROOT>/project-a/.claude/commands/x.md
+    skill · claude-code · volume — · 0 bytes
+    disposition refused · not runnable
+    reason no installer recognised
+
+Open (1) · 0 bytes · tokens/session {} · shared 0
+  → open in editor
+    row context-file:<HOME>/.claude/claude.md
+    context-file · claude-code · volume — · 0 bytes
+    disposition open · not runnable

@@ -1,11 +1,14 @@
 import { defineConfig, type UserConfig } from "tsdown";
 
-// `@moldig/core` is a devDependency on purpose: it is bundled into the CLI so
-// `npx moldig` ships one file with zero runtime dependencies. The custom
-// condition makes the bundle (and `tsdown --watch`) read core from source,
-// like tsc and Vitest do, instead of a possibly stale `dist/`.
+// `@moldig/core` is a devDependency on purpose: it is bundled into the CLI so `npx moldig`
+// ships one file and one runtime dependency (`trash`, D88). The custom condition makes the
+// bundle (and `tsdown --watch`) read core from source, like tsc and Vitest do, instead of a
+// possibly stale `dist/`.
 const config: UserConfig = defineConfig({
   entry: ["src/cli.ts", "src/main.ts"],
+  // `trash` ships native helpers (a Swift binary, `windows-trash.exe`) that cannot be bundled:
+  // it is the package's one runtime dependency and is required at run time (D88).
+  deps: { neverBundle: ["trash"] },
   platform: "node",
   format: ["esm"],
   fixedExtension: true,
