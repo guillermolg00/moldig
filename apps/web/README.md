@@ -20,3 +20,16 @@ the prerendered HTML. The commands and what each one does live in `src/data/comm
 
 `src/routeTree.gen.ts` is written by the Start plugin on every dev run and build. It is committed so
 `bun run typecheck` works on a fresh clone, and both oxlint and oxfmt skip `*.gen.ts`.
+
+## Deploying
+
+The site is static: `bun run build:web` prerenders every route into `dist/client`, and that is all
+Vercel serves. No functions, no server. `vercel.json` here carries the settings, so the dashboard
+needs nothing beyond a Root Directory of `apps/web`:
+
+- The install runs from the repository root, because the lockfile and the workspaces live there.
+- It pins Bun 1.4 through `npx`. Vercel ships Bun 1.3, which cannot parse a `lockfileVersion: 2`
+  lockfile and fails outright under `--frozen-lockfile`. Drop the `npx --yes bun@1.4.0` prefix once
+  Vercel's own Bun is new enough.
+- The output directory is `dist/client`, not `dist`: `dist/server` is the render pass, and pointing
+  Vercel at the parent serves a directory listing instead of the site.
