@@ -1,5 +1,13 @@
+import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
-import { applyMultiplier, loadTokenizer, modelFamilyOf, MULTIPLIERS } from "./tokenizer.js";
+import { isRecord } from "../scan/fs.js";
+import {
+  applyMultiplier,
+  loadTokenizer,
+  modelFamilyOf,
+  MULTIPLIERS,
+  TOKENIZER_VERSION,
+} from "./tokenizer.js";
 
 describe("tokenizer", () => {
   it("counts with o200k_base and reports gpt-tokenizer's version", async () => {
@@ -24,5 +32,15 @@ describe("tokenizer", () => {
       mid: 1500,
       high: 1650,
     });
+  });
+});
+
+describe("the version the index reports", () => {
+  it("matches the pin in the package manifest, so a bundle never invents one", async () => {
+    const manifest = new URL("../../package.json", import.meta.url);
+    const pkg: unknown = JSON.parse(await readFile(manifest, "utf8"));
+    const pinned =
+      isRecord(pkg) && isRecord(pkg["dependencies"]) ? pkg["dependencies"]["gpt-tokenizer"] : null;
+    expect(pinned).toBe(TOKENIZER_VERSION);
   });
 });

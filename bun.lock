@@ -41,7 +41,7 @@
       "name": "@moldig/core",
       "version": "0.0.0",
       "dependencies": {
-        "gpt-tokenizer": "^4.0.0",
+        "gpt-tokenizer": "4.0.0",
         "jsonc-parser": "3.3.1",
         "smol-toml": "1.8.0",
       },

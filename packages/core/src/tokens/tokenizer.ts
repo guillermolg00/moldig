@@ -71,6 +71,14 @@ function bytesOver4(text: string): number {
   return Math.ceil(Buffer.byteLength(text, "utf8") / 4);
 }
 
+/**
+ * D101: the CLI bundle carries the encoding but not the dependency's `package.json`, so the
+ * lookup below fails there. The pin in `@moldig/core`'s own manifest is the answer, inlined here
+ * and kept honest by a test; the lookup is still tried first, so a consumer who installs the
+ * package unbundled reports the version it actually resolved.
+ */
+export const TOKENIZER_VERSION = "4.0.0";
+
 function packageVersion(): string {
   try {
     const require = createRequire(import.meta.url);
@@ -82,7 +90,7 @@ function packageVersion(): string {
   } catch {
     // The version is informational; the count below does not depend on it.
   }
-  return "unknown";
+  return TOKENIZER_VERSION;
 }
 
 /** Loads the o200k encoding once; a load failure yields a tokenizer that counts `bytes/4`. */
