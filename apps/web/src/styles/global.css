@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  --animate-rise: rise 0.42s cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Inter, Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  --color-ink: #101416;
+  --color-ink-dark: #f2f5f6;
+  --color-muted: #5b6770;
+  --color-muted-dark: #9aa7b0;
+  --color-surface: #f6f8f9;
+  --color-surface-dark: #15181b;
+  --color-line: #e2e8ea;
+  --color-line-dark: #262b30;
+  --color-canvas: #ffffff;
+  --color-canvas-dark: #0c0e10;
+  --color-accent: #0b7285;
+  --color-accent-dark: #3bb3c9;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,5 +1,14 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "printWidth": 100,
-  "ignorePatterns": ["dist", "coverage", "fixtures", ".scratch", "docs", "bun.lock", "*.md"]
+  "ignorePatterns": [
+    "dist",
+    "coverage",
+    "fixtures",
+    ".scratch",
+    "docs",
+    "bun.lock",
+    "*.md",
+    "*.gen.ts"
+  ]
 }

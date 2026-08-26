@@ -19,3 +19,7 @@
 
 # Capture sources (real directory names of this machine; see fixtures/_capture/sources.example.json)
 /fixtures/_capture/sources.local.json
+
+# TanStack Start build artefacts (the route tree it generates is tracked; these are not)
+/apps/*/.tanstack/
+/apps/*/.output/

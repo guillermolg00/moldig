@@ -8,15 +8,17 @@
   "type": "module",
   "scripts": {
     "check": "bun run typecheck && bun run lint && bun run fmt:check",
-    "typecheck": "tsc --noEmit && bun run --filter './packages/*' typecheck",
+    "typecheck": "tsc --noEmit && bun run --filter './packages/*' --filter './apps/*' typecheck",
     "lint": "oxlint --type-aware --deny-warnings",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "test": "vitest run",
     "test:watch": "vitest",
     "dev": "bun run --filter moldig dev",
+    "dev:web": "bun run --filter @moldig/web dev",
+    "build:web": "bun run --filter @moldig/web build",
     "build": "bun run --filter './packages/*' build",
-    "clean": "rm -rf packages/*/dist coverage",
+    "clean": "rm -rf packages/*/dist apps/*/dist coverage",
     "release": "bumpp -r --execute 'bun install'"
   },
   "devDependencies": {

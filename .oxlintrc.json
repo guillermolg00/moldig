@@ -6,5 +6,5 @@
     "suspicious": "warn",
     "perf": "warn"
   },
-  "ignorePatterns": ["dist", "coverage", "fixtures", ".scratch", "docs"]
+  "ignorePatterns": ["dist", "coverage", "fixtures", ".scratch", "docs", "*.gen.ts"]
 }

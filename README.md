@@ -184,6 +184,7 @@ The index is a stable, harness-agnostic document ([`@moldig/core`](packages/core
 |---|---|
 | `packages/core` | the engine: the index, the adapters, the detectors, the actions engine, the graph. Free of terminal concerns (ADR-0003) |
 | `packages/cli` | the commands and the terminal experience. Bundles the engine; one runtime dependency, `trash`, whose native helpers cannot be bundled (ADR-0008) |
+| `apps/web` | the site: TanStack Start on Vite, Tailwind for styles, prerendered to static HTML |
 | `fixtures/` | anonymised copies of what the six harnesses leave on disk. Every test runs against them; no test ever touches a real home directory |
 | `packaging/homebrew/` | the formula generator |
 
