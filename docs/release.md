@@ -30,10 +30,15 @@ git push origin proto/interactive-flow   # the prototype, kept as the interactiv
 
 ### 2. Wait for CI on the three operating systems
 
-`ci.yml` runs five legs and `fail-fast: false`, so a failure on one still reports the others. A
-red Windows leg is fixed, not skipped: it is the only leg that exercises junctions, backslash
-escaping inside JSON and TOML fixtures, the `json_valid()`-branched SQLite rewrite, 8.3 short
-temp paths and drive-letter folding.
+`ci.yml` runs five legs and `fail-fast: false`, so a failure on one still reports the others.
+
+The Windows leg runs the typecheck, the lint, the build and every suite that does not assert a
+fixture tree byte for byte — a fixture case is a POSIX tree, and `fixtures/README.md` says why
+running one through a `platform: "darwin"` index on a Windows host proves nothing. What that leg
+does prove is that moldig builds and runs there, and that the win32 path rules hold:
+`pathEngine`, `pathIdentity`, `presenceOf` and the mount-root rule, the user-scope table and
+`discovery` all pin `platform: "win32"` over win32 spellings and run on every leg. A red Windows
+leg is still fixed, never skipped.
 
 ```sh
 gh run list --branch main --limit 5
