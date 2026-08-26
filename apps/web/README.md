@@ -31,5 +31,8 @@ needs nothing beyond a Root Directory of `apps/web`:
 - It pins Bun 1.4 through `npx`. Vercel ships Bun 1.3, which cannot parse a `lockfileVersion: 2`
   lockfile and fails outright under `--frozen-lockfile`. Drop the `npx --yes bun@1.4.0` prefix once
   Vercel's own Bun is new enough.
+- `<Analytics />` in the root route is Vercel Web Analytics. The script it pulls,
+  `/_vercel/insights/script.js`, is served by the platform, so it 404s anywhere else and collects
+  nothing until Web Analytics is switched on for the project in the dashboard.
 - The output directory is `dist/client`, not `dist`: `dist/server` is the render pass, and pointing
   Vercel at the parent serves a directory listing instead of the site.

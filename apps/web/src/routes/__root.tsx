@@ -1,4 +1,5 @@
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
+import { Analytics } from "@vercel/analytics/react";
 import type { ReactNode } from "react";
 import appCss from "../styles/global.css?url";
 
@@ -52,6 +53,9 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
       </head>
       <body className="bg-canvas text-ink antialiased dark:bg-canvas-dark dark:text-ink-dark">
         {children}
+        {/* Vercel Web Analytics. The script it loads only exists on Vercel, so it is inert
+            everywhere else. */}
+        <Analytics />
         <Scripts />
       </body>
     </html>
