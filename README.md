@@ -77,9 +77,10 @@ medium    drift      review at user scope differs from the copy at pr…   28.4 
 low       duplicate  writing-guide has the same content as writing-gu…   40.2 KB
 ```
 
-`moldig` with no command opens the same thing as a terminal experience: an overview, the projects,
-the items in each, a dependency graph of what names what, a selection panel and a confirmation
-before anything moves.
+`moldig` with no command opens a minimal cleanup menu: clean this Project, clean Harness state
+left by Projects whose directories are gone, clean all removable Harness state, or review the
+Findings and Projects. A bulk choice opens the selection and confirmation before anything moves;
+Human-owned items never enter that bulk cleanup.
 
 ## The commands
 

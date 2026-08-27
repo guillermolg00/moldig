@@ -1,7 +1,6 @@
 /**
- * The frame every screen renders in: the title, the two-number header (selected MB / total MB
- * and the same for tokens per session — npkill's "releasable / saved" pattern), the body, a
- * status line and the key footer. The help overlay replaces the body.
+ * The quiet frame every screen renders in: one title, an optional subtitle, the body, a status
+ * line and only the keys relevant to the current step. The help overlay replaces the body.
  */
 import { Box, Text, useWindowSize } from "ink";
 import type { ReactElement, ReactNode } from "react";
@@ -44,24 +43,23 @@ export function Frame({
   readonly children: ReactNode;
 }): ReactElement {
   const store = useStore();
-  const { rows, columns } = useSize();
+  const { columns } = useSize();
   return (
-    <Box flexDirection="column" width={columns} height={rows}>
-      <Box justifyContent="space-between">
+    <Box flexDirection="column" width={columns}>
+      <Box flexDirection="column" paddingBottom={1}>
         <Text>
           <Text bold color="cyan">
             moldig
           </Text>
-          <Text> · {title}</Text>
+          <Text dimColor> · {title}</Text>
         </Text>
-        <Text dimColor>{twoNumberHeader(store)}</Text>
+        {subtitle === undefined ? null : <Text dimColor>{subtitle}</Text>}
       </Box>
-      {subtitle === undefined ? null : <Text dimColor>{subtitle}</Text>}
-      <Box flexDirection="column" flexGrow={1} overflowY="hidden">
+      <Box flexDirection="column" overflowY="hidden">
         {store.helpOpen ? <HelpOverlay /> : children}
       </Box>
-      {store.status === null ? null : <Text color="green">{store.status}</Text>}
-      <Text dimColor>{store.helpOpen ? "any key closes help" : keys}</Text>
+      {store.status === null ? null : <Text color="yellow">{store.status}</Text>}
+      <Text dimColor>{store.helpOpen ? "press any key to close" : keys}</Text>
     </Box>
   );
 }

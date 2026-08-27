@@ -9,6 +9,7 @@ import type { ReactElement } from "react";
 import { Frame, listHeight, useSize } from "../components/Frame.js";
 import { formatBytes, formatTokens, pad, shortPath } from "../lib/format.js";
 import { isDown, isUp, useKeys } from "../lib/keys.js";
+import { bulkCleanupMarks, selectedTotals } from "../lib/selection.js";
 import { useStore } from "../lib/store.js";
 import { useList } from "../lib/use-list.js";
 
@@ -62,6 +63,12 @@ export function ProjectsScreen(): ReactElement {
     .toSorted((a, b) => cost(b) - cost(a));
   const gone = index.projects.filter((project) => project.reachability === "orphan");
   const unreachable = index.projects.filter((project) => project.reachability === "unreachable");
+  const goneMarks = bulkCleanupMarks(
+    index,
+    { projects: new Set(gone.map((project) => project.id)), includeKept: true },
+    store.refusal,
+  );
+  const goneBytes = selectedTotals(index, goneMarks).bytes;
   const mostExpensive = present[0]?.id;
 
   const projectRow = (project: Project, extraFlags: readonly string[]): ProjectRow => {
@@ -98,7 +105,10 @@ export function ProjectsScreen(): ReactElement {
     label: `Gone (${gone.length})`,
     project: null,
     container: null,
-    detail: "directory gone; what every harness left about it stays together",
+    detail:
+      goneMarks.size === 0
+        ? "directories gone; nothing safely removable"
+        : `${goneMarks.size} removable   ${formatBytes(goneBytes)}   space to review`,
     flags: [],
     expanded: goneOpen,
   });
@@ -163,6 +173,20 @@ export function ProjectsScreen(): ReactElement {
     (row) => row.kind !== "section",
   );
 
+  const startCleanup = (
+    projects: ReadonlySet<string>,
+    includeKept: boolean,
+    label: string,
+  ): void => {
+    const marks = bulkCleanupMarks(index, { projects, includeKept }, store.refusal);
+    if (marks.size === 0) {
+      store.setStatus(`${label}: nothing removable was found`);
+      return;
+    }
+    store.replaceMarks(marks);
+    store.push({ screen: "selection" });
+  };
+
   useKeys((input, key) => {
     const row = list.current;
     if (isUp(input, key)) list.move(-1);
@@ -173,7 +197,17 @@ export function ProjectsScreen(): ReactElement {
     else if (key.end) list.jump("end");
     else if (key.escape) store.pop();
     else if (row === undefined) return;
-    else if (key.return || key.rightArrow || key.leftArrow) {
+    else if (input === " ") {
+      if (row.key === GONE) {
+        startCleanup(new Set(gone.map((project) => project.id)), true, "missing projects");
+      } else if (row.project !== null && row.project.reachability !== "unreachable") {
+        startCleanup(
+          new Set([row.project.id]),
+          row.project.reachability === "orphan",
+          row.project.displayName,
+        );
+      }
+    } else if (key.return || key.rightArrow || key.leftArrow) {
       if (row.kind === "group") {
         store.setExpanded(row.key, key.leftArrow ? false : key.rightArrow ? true : !row.expanded);
       } else if (row.container !== null && key.return) {
@@ -187,10 +221,7 @@ export function ProjectsScreen(): ReactElement {
   const labelWidth = Math.max(12, Math.min(24, columns - 80));
 
   return (
-    <Frame
-      title="projects"
-      keys="↑↓ move · enter items · →/← expand · g graph · o open · esc back · ? help · q quit"
-    >
+    <Frame title="projects" keys="↑↓ navigate   enter open   space clean   esc back   ? shortcuts">
       <Box flexDirection="column">
         {list.hiddenAbove > 0 ? <Text dimColor>… {list.hiddenAbove} above</Text> : null}
         {list.visible.map((row, i) => {
@@ -204,12 +235,14 @@ export function ProjectsScreen(): ReactElement {
           }
           const caret = row.kind === "group" ? (row.expanded ? "▾ " : "▸ ") : "  ";
           return (
-            <Text key={row.key} inverse={current} dimColor={row.kind === "note"}>
-              {current ? "> " : "  "}
+            <Text
+              key={row.key}
+              {...(current ? { color: "cyan" as const } : {})}
+              dimColor={row.kind === "note"}
+            >
+              {current ? "› " : "  "}
               {caret}
-              <Text bold={row.kind === "project" || row.kind === "harness"}>
-                {pad(row.label, labelWidth)}
-              </Text>
+              <Text>{pad(row.label, labelWidth)}</Text>
               <Text dimColor={!current}> {row.detail}</Text>
               {row.flags.map((flag) => (
                 <Text

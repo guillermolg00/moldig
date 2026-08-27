@@ -237,13 +237,12 @@ describe("moldig without a command", () => {
     const { code, out } = await run(["--no-git", tree.root]);
     expect(code).toBe(0);
     expect(out).toContain("Headline number");
-    expect(out).toContain("moldig — project-a (cwd)");
-    expect(out).toContain("Nothing moved (preview):");
-    expect(out).toContain("Clean: 3 rows");
+    expect(out).toContain("moldig · project-a — No changes");
+    expect(out).toContain("3 items still selected");
     expect(out).not.toContain("ticket 26");
   });
 
-  it("opens the TUI on the scan screen in a terminal and prints the summary it hands back", async () => {
+  it("opens the TUI on the cleanup menu in a terminal and prints the summary it hands back", async () => {
     const seen: TuiRequest[] = [];
     const { code, out } = await run(["--no-git", tree.root], {
       isTTY: true,
@@ -252,7 +251,7 @@ describe("moldig without a command", () => {
     });
     expect(code).toBe(0);
     expect(seen).toHaveLength(1);
-    expect(seen[0]?.initialRoute).toBeUndefined(); // the TUI's own default: the Scan screen
+    expect(seen[0]?.initialRoute).toBeUndefined(); // the TUI's own default: the cleanup menu
     expect(seen[0]?.index.headline.focus.reason).toBe("cwd");
     expect(out).toBe("\nsummary from the TUI\n");
   });
@@ -334,7 +333,7 @@ describe("moldig clean refuses rather than guesses", () => {
     expect(err).toContain("no terminal to confirm in");
   });
 
-  it("opens the TUI on the selection panel in a terminal with a real Runner (D4)", async () => {
+  it("opens the TUI on the cleanup menu in a terminal with a real Runner (D4)", async () => {
     const seen: TuiRequest[] = [];
     const { code, out } = await run(["clean", tree.root], {
       isTTY: true,
@@ -342,7 +341,7 @@ describe("moldig clean refuses rather than guesses", () => {
       openTui: fakeTui(seen),
     });
     expect(code).toBe(0);
-    expect(seen[0]?.initialRoute).toEqual({ screen: "selection" });
+    expect(seen[0]?.initialRoute).toBeUndefined();
     expect(typeof seen[0]?.runner.plan).toBe("function");
     expect(out).toBe("\nsummary from the TUI\n");
   });

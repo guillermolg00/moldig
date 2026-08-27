@@ -2,7 +2,7 @@
  * Screen 4 — Items: everything moldig found for one container (a Project or a harness's user
  * scope), or the target rows of one Finding.
  *
- * Human-owned rows are advice: no checkbox, `o` opens them, `d`/`u` mark them. Harness-owned
+ * Human-owned rows have no checkbox: `o` opens them and `d`/`u` are explicit actions. Harness-owned
  * tickable rows carry a checkbox and start ticked only where a Finding preselected them. Memory
  * units and harness-cache groups expand; live and size-only rows are greyed; a refused row
  * carries the reason the actions engine gave.
@@ -14,7 +14,7 @@ import { Frame, listHeight, useSize } from "../components/Frame.js";
 import { plural, truncate } from "../lib/format.js";
 import { isDown, isUp, useKeys } from "../lib/keys.js";
 import { buildRows, containerLabel, type ItemRow } from "../lib/rows.js";
-import { type ActionKind, canDelete, canUpdate } from "../lib/selection.js";
+import { type ActionKind, canUpdate, unavailableReason } from "../lib/selection.js";
 import { useStore } from "../lib/store.js";
 import { useList } from "../lib/use-list.js";
 
@@ -77,14 +77,10 @@ export function ItemsScreen({
 
   const markRow = (row: ItemRow, action: ActionKind): void => {
     const entity = row.entity;
-    if (entity === null) return;
-    if (action === "delete" && !canDelete(entity, store.refusal)) {
-      const why = row.live ? "live" : (row.refused ?? entity.protection);
-      store.setStatus(`${entity.label}: cannot be deleted (${why})`);
-      return;
-    }
-    if (action === "update" && !canUpdate(entity)) {
-      store.setStatus(`${entity.label}: no installer recorded an origin; nothing to update`);
+    if (entity === null || action === "clean" || action === "open") return;
+    const why = unavailableReason(entity, action, store.refusal);
+    if (why !== null) {
+      store.setStatus(`${entity.label}: ${why}`);
       return;
     }
     store.toggleMark(entity.id, action);
@@ -93,16 +89,8 @@ export function ItemsScreen({
   const notSelectable = (row: ItemRow): void => {
     const entity = row.entity;
     if (entity === null) return;
-    const why = row.live
-      ? "live"
-      : row.refused !== null
-        ? `refused: ${row.refused}`
-        : row.sizeOnly
-          ? "size only — moldig cannot say what this is"
-          : entity.kind === "harness-cache" && entity.rule === "kept"
-            ? "kept by the harness — reach it with d (Delete)"
-            : "no action";
-    store.setStatus(`${row.label}: not selectable (${why})`);
+    const why = unavailableReason(entity, "clean", store.refusal) ?? "no clean action is available";
+    store.setStatus(`${row.label}: ${why}`);
   };
 
   useKeys((input, key) => {
@@ -136,7 +124,6 @@ export function ItemsScreen({
           store.setStatus(`${row.label}: nothing tickable in this group`);
         } else store.toggleMany(row.childIds, "clean");
       } else if (row.tickable && row.entity !== null) store.toggleMark(row.entity.id, "clean");
-      else if (row.humanOwned && row.entity !== null) store.toggleMark(row.entity.id, "open");
       else notSelectable(row);
     } else if (key.return) {
       if (row.kind === "group") store.toggleExpanded(row.key);
@@ -168,7 +155,7 @@ export function ItemsScreen({
       keys={
         editing
           ? "type to filter · enter keep · esc clear"
-          : "space toggle · a all · d delete · u update · enter open/expand · o open · g graph · / filter · h settings · esc back · ? help"
+          : "space select   a all   d delete   enter details   / filter   ? shortcuts"
       }
     >
       <Box flexDirection="column">
@@ -234,20 +221,18 @@ export function RowLine({
   const caret = row.expandable ? (row.expanded ? "▾ " : "▸ ") : "";
   const label = truncate(`${indent}${caret}${row.label}`, labelWidth);
   return (
-    <Text inverse={current} dimColor={row.live || row.sizeOnly}>
-      {current ? "> " : "  "}
-      <Text {...(row.humanOwned ? { color: "gray" } : {})}>{checkbox(row, marks)}</Text>{" "}
-      <Text bold={row.kind === "group"}>{label}</Text>
+    <Text {...(current ? { color: "cyan" as const } : {})} dimColor={row.live || row.sizeOnly}>
+      {current ? "› " : "  "}
+      <Text dimColor={row.humanOwned}>{checkbox(row, marks)}</Text>
+      {"   "}
+      <Text>{label}</Text>
       <Badges badges={row.badges} />
       {tag ? <Text color="magenta">{tag}</Text> : null}
-      {row.humanOwned && !tag ? <Text dimColor> advice · o open</Text> : null}
-      <Text dimColor>
-        {"  "}
+      <Text dimColor={!current}>
+        {"   "}
         {row.meta}
       </Text>
-      {row.refused === null ? null : (
-        <Text color="red"> refused: {row.refused} — no trash available</Text>
-      )}
+      {row.refused === null ? null : <Text color="red"> {row.refused}</Text>}
     </Text>
   );
 }

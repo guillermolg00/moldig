@@ -11,7 +11,17 @@
  * The TUI never classifies volumes. Whether a target sits on a network, read-only or
  * unclassifiable volume is the actions engine's call, injected here as `Refusal`.
  */
-import type { AuditIndex, Badge as CoreBadge, Entity, Flag } from "@moldig/core";
+import {
+  canDelete as coreCanDelete,
+  isLive as coreIsLive,
+  isProtected as coreIsProtected,
+  isSizeOnly as coreIsSizeOnly,
+  isTickable as coreIsTickable,
+  type AuditIndex,
+  type Badge as CoreBadge,
+  type Entity,
+  type Flag,
+} from "@moldig/core";
 
 export type ActionKind = "clean" | "delete" | "update" | "open";
 export const ACTION_ORDER: readonly ActionKind[] = ["clean", "delete", "update", "open"];
@@ -135,34 +145,93 @@ export const OPEN_DISPOSITION: Disposition = {
 };
 
 export function isLive(entity: Entity): boolean {
-  if (entity.protection === "live") return true;
-  return entity.kind === "harness-cache" && entity.liveGuard?.alive === true;
+  return coreIsLive(entity);
 }
 
 /** `protection: "undocumented"` — moldig cannot say what this is: bytes only, no checkbox. */
 export function isSizeOnly(entity: Entity): boolean {
-  return entity.protection === "undocumented";
+  return coreIsSizeOnly(entity);
 }
 
-/** Clean's universe plus the tickable rule (08 Answer). */
+/** Clean's universe plus the tickable rule, with the real volume refusal applied. */
 export function isTickable(entity: Entity, refusal: Refusal = noRefusal): boolean {
-  if (entity.ownership !== "harness" || entity.protection !== "none") return false;
-  if (entity.removal.method === "none") return false;
-  if (isLive(entity) || refusal(entity) !== null) return false;
-  if (entity.kind === "harness-cache") {
-    return entity.rule === "swept" || entity.rule === "undocumented";
-  }
-  return entity.kind === "memory-file";
+  return coreIsTickable(entity) && refusal(entity) === null;
 }
 
-/** Delete: one explicit selection at a time, human-owned and `rule: kept` state included. */
+/** Delete uses the engine's predicate, with the real volume refusal applied. */
 export function canDelete(entity: Entity, refusal: Refusal = noRefusal): boolean {
-  if (entity.protection !== "none" || entity.removal.method === "none") return false;
-  return !isLive(entity) && refusal(entity) === null;
+  return coreCanDelete(entity) && refusal(entity) === null;
 }
 
 export function canUpdate(entity: Entity): boolean {
   return updateDisposition(entity) !== null;
+}
+
+/** A concise reason for a disabled action. `null` means the action is available. */
+export function unavailableReason(
+  entity: Entity,
+  action: Exclude<ActionKind, "open">,
+  refusal: Refusal = noRefusal,
+): string | null {
+  const volume = refusal(entity);
+  if (volume !== null) return volume;
+  if (isLive(entity)) return "in use by a running harness";
+  if (isSizeOnly(entity)) return "only aggregate bytes are known; there is no safe removal unit";
+  if (entity.kind === "settings-file") {
+    return "settings files are containers; remove a specific entry instead";
+  }
+  if (coreIsProtected(entity)) return "protected harness or system state";
+
+  if (action === "clean") {
+    if (entity.ownership === "human") return "created or installed by you; use Delete explicitly";
+    if (entity.kind === "harness-cache" && entity.rule === "kept") {
+      return "kept by the harness; use Delete explicitly";
+    }
+    if (!coreIsTickable(entity)) return "no recoverable clean action is known";
+    return null;
+  }
+  if (action === "delete") {
+    return coreCanDelete(entity) ? null : "no recoverable delete action is known";
+  }
+  return canUpdate(entity) ? null : "no supported installer recorded an origin";
+}
+
+export interface BulkCleanupOptions {
+  /** `null` means every scope; otherwise only entities belonging to one of these Projects. */
+  readonly projects?: ReadonlySet<string> | null;
+  /** Gone Projects may explicitly send harness state the harness normally keeps to Delete. */
+  readonly includeKept?: boolean;
+}
+
+/**
+ * One explicit bulk choice, still inside ADR-0004: only harness-owned state is selected. Cleanable
+ * rows go to Clean; optionally, known removable `kept` cache goes to Delete. Human-owned rows,
+ * settings containers, Live rows, size-only rows and refused volumes never enter the result.
+ */
+export function bulkCleanupMarks(
+  index: Pick<AuditIndex, "entities">,
+  options: BulkCleanupOptions = {},
+  refusal: Refusal = noRefusal,
+): Map<string, ActionKind> {
+  const marks = new Map<string, ActionKind>();
+  const projects = options.projects ?? null;
+  for (const entity of index.entities) {
+    if (projects !== null && (entity.project === null || !projects.has(entity.project))) continue;
+    if (isTickable(entity, refusal)) {
+      marks.set(entity.id, "clean");
+      continue;
+    }
+    if (
+      options.includeKept === true &&
+      entity.ownership === "harness" &&
+      entity.kind === "harness-cache" &&
+      entity.rule === "kept" &&
+      canDelete(entity, refusal)
+    ) {
+      marks.set(entity.id, "delete");
+    }
+  }
+  return marks;
 }
 
 export function allowed(entity: Entity, action: ActionKind, refusal: Refusal = noRefusal): boolean {

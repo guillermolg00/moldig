@@ -322,7 +322,6 @@ export async function runCli(argv: readonly string[], io: Io): Promise<number> {
           ...context(audited, await moldigVersion()),
           prepare: (runPlan) => ensureDirFor(runPlan.manifestPath),
         }),
-        ...(options.command === "clean" ? { initialRoute: { screen: "selection" as const } } : {}),
       });
       for (const line of warnings) err(line);
       io.stdout(`\n${outcome.summary}`);

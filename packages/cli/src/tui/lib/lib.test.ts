@@ -2,7 +2,7 @@
  * The pure parts of the TUI: OSC 8 detection and URLs, the editor hand-off order, the selection
  * predicates and dispositions, and the shareable summary. No terminal, no React.
  */
-import type { HarnessCache, McpServer, Origin, Plugin, Skill } from "@moldig/core";
+import type { AuditIndex, HarnessCache, McpServer, Origin, Plugin, Skill } from "@moldig/core";
 import { describe, expect, it } from "vitest";
 import { formatAge, formatBytes, formatMb, formatTokens, shortPath, truncate } from "./format.js";
 import { clickHint, fileUrl, osc8, supportsHyperlinks } from "./hyperlink.js";
@@ -11,12 +11,14 @@ import { backupDirFor, dataDirFor, manifestPathFor, runIdFor } from "@moldig/cor
 import {
   allowed,
   badgesOf,
+  bulkCleanupMarks,
   canDelete,
   canUpdate,
   dispositionOf,
   installerCommand,
   isPermanentCommand,
   isTickable,
+  unavailableReason,
   updateDisposition,
 } from "./selection.js";
 
@@ -127,6 +129,44 @@ describe("the tickable rule", () => {
     // A settings file is never deletable: its entries are, the file is not (D142).
     const settings = cacheUnit({ protection: "never", removal: { method: "none" } });
     expect(canDelete(settings)).toBe(false);
+  });
+
+  it("explains why disabled actions stay disabled", () => {
+    expect(unavailableReason(cacheUnit({ rule: "kept" }), "clean")).toBe(
+      "kept by the harness; use Delete explicitly",
+    );
+    expect(unavailableReason(cacheUnit({ protection: "undocumented" }), "clean")).toBe(
+      "only aggregate bytes are known; there is no safe removal unit",
+    );
+    expect(unavailableReason(skill(), "clean")).toBe(
+      "created or installed by you; use Delete explicitly",
+    );
+    expect(unavailableReason(cacheUnit(), "clean", onNetwork)).toBe(
+      "network volume — no trash available",
+    );
+  });
+
+  it("bulk-selects only harness state and may route kept cache to Delete", () => {
+    const clean = cacheUnit({ id: "clean", project: "project:a" });
+    const kept = cacheUnit({ id: "kept", project: "project:a", rule: "kept" });
+    const unknown = cacheUnit({
+      id: "unknown",
+      project: "project:a",
+      protection: "undocumented",
+    });
+    const another = cacheUnit({ id: "another", project: "project:b" });
+    const human = skill({ id: "human", project: "project:a" });
+    const partial: Pick<AuditIndex, "entities"> = {
+      entities: [clean, kept, unknown, another, human],
+    };
+    const marks = bulkCleanupMarks(partial, {
+      projects: new Set(["project:a"]),
+      includeKept: true,
+    });
+    expect([...marks]).toEqual([
+      ["clean", "clean"],
+      ["kept", "delete"],
+    ]);
   });
 
   it("badges a live, user-content, kept unit in the fixed order", () => {

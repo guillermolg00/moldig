@@ -18,6 +18,7 @@ import type { Runner } from "./lib/runner.js";
 import { initialMarks, type ActionKind, type Refusal } from "./lib/selection.js";
 import { StoreContext, type Route, type Store } from "./lib/store.js";
 import { summaryText } from "./lib/summary.js";
+import { CategoriesScreen } from "./screens/CategoriesScreen.js";
 import { ConfirmScreen } from "./screens/ConfirmScreen.js";
 import { DetailScreen } from "./screens/DetailScreen.js";
 import { FindingsScreen } from "./screens/FindingsScreen.js";
@@ -49,9 +50,7 @@ export function App(props: AppProps): ReactElement {
   const { exit, suspendTerminal } = useApp();
   const { runner } = props;
   const refusal = useMemo<Refusal>(() => (entity) => runner.refusal(entity), [runner]);
-  const [stack, setStack] = useState<Route[]>(() => [
-    props.initialRoute ?? (interactive ? { screen: "scan" } : { screen: "overview" }),
-  ]);
+  const [stack, setStack] = useState<Route[]>(() => [props.initialRoute ?? { screen: "overview" }]);
   const [marks, setMarks] = useState<ReadonlyMap<string, ActionKind>>(
     () => props.initialMarks ?? initialMarks(index, refusal),
   );
@@ -95,6 +94,9 @@ export function App(props: AppProps): ReactElement {
         else next.set(id, action);
         return next;
       });
+    },
+    replaceMarks: (next) => {
+      setMarks(new Map(next));
     },
     toggleMark: (id, action) => {
       setMarks((current) => {
@@ -222,6 +224,9 @@ export function App(props: AppProps): ReactElement {
       break;
     case "overview":
       screen = <OverviewScreen />;
+      break;
+    case "categories":
+      screen = <CategoriesScreen />;
       break;
     case "projects":
       screen = <ProjectsScreen />;

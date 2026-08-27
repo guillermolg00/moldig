@@ -57,9 +57,7 @@ export function SelectionScreen(): ReactElement {
     else if (key.escape) store.pop();
     else if (key.return) {
       if (groups.length === 0) {
-        store.setStatus(
-          "nothing selected yet — space ticks harness-owned rows, d / u mark human-owned ones",
-        );
+        store.setStatus("nothing selected — go back and choose a cleanup scope");
       } else store.push({ screen: "confirm" });
     } else if (current === undefined || current.kind !== "row") return;
     else if (input === " " || input === "x") store.setMark(current.row.entity.id, null);
@@ -71,7 +69,8 @@ export function SelectionScreen(): ReactElement {
   return (
     <Frame
       title="selection"
-      keys="enter confirm · space/x unselect · o open · esc back · ? help · q quit"
+      subtitle={`${plural(marks.size, "item")} selected · ${formatBytes(groups.reduce((sum, group) => sum + group.bytes, 0))}`}
+      keys="↑↓ navigate   space remove   enter review   esc back   ? shortcuts"
     >
       <Box flexDirection="column">
         {groups.length === 0 ? <Text dimColor>nothing selected</Text> : null}
@@ -81,19 +80,21 @@ export function SelectionScreen(): ReactElement {
             const group = entry.group;
             return (
               <Box key={entry.key} flexDirection="column" paddingTop={i === 0 ? 0 : 1}>
-                <Text bold underline>
-                  {group.title} ({group.rows.length}) · {formatBytes(group.bytes)} ·{" "}
-                  {tokensText(index, group.tokens)}
+                <Text>
+                  {group.title} ({group.rows.length})
+                  <Text dimColor>
+                    {"   "}
+                    {formatBytes(group.bytes)} {tokensText(index, group.tokens)}
+                  </Text>
                 </Text>
                 {group.sharedCount > 0 ? (
                   <Text color="yellow">
-                    {" "}
-                    ⚠ {plural(group.sharedCount, "shared row")} — git-tracked, collaborators may
-                    rely on them
+                    {"  "}
+                    {plural(group.sharedCount, "shared row")} may affect collaborators.
                   </Text>
                 ) : null}
                 {group.extraConfirm === null ? null : (
-                  <Text color="magenta"> ⚠ holds {group.extraConfirm} — confirmed separately</Text>
+                  <Text color="magenta"> {group.extraConfirm} requires a second confirmation.</Text>
                 )}
               </Box>
             );
@@ -101,16 +102,17 @@ export function SelectionScreen(): ReactElement {
           const row = entry.row;
           const danger = row.disposition.kind === "refused" || row.disposition.permanent;
           return (
-            <Text key={entry.key} inverse={current}>
-              {current ? "> " : "  "}
+            <Text key={entry.key} {...(current ? { color: "cyan" as const } : {})}>
+              {current ? "› " : "  "}
               <Text>{truncate(row.entity.label, width).padEnd(width)}</Text>
-              <Text color={danger ? "red" : "green"}> {row.disposition.text}</Text>
+              <Text>{"   "}</Text>
+              <Text color={danger ? "red" : "green"}>{row.disposition.text}</Text>
               <Badges badges={row.badges} />
-              <Text dimColor>
-                {"  "}
+              <Text dimColor={!current}>
+                {"   "}
                 {formatBytes(row.bytes)}
                 {Object.keys(row.tokens).length > 0
-                  ? ` · ${Object.entries(row.tokens)
+                  ? `   ${Object.entries(row.tokens)
                       .map(
                         ([harness, count]) =>
                           `${formatTokens(count)} ${harnessName(index, harness)}`,

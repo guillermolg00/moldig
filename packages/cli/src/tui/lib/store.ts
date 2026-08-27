@@ -11,6 +11,7 @@ import type { ActionKind, Refusal } from "./selection.js";
 export type Route =
   | { readonly screen: "scan" }
   | { readonly screen: "overview" }
+  | { readonly screen: "categories" }
   | { readonly screen: "projects" }
   | {
       readonly screen: "items";
@@ -40,6 +41,7 @@ export interface Store {
 
   readonly marks: ReadonlyMap<string, ActionKind>;
   readonly setMark: (id: string, action: ActionKind | null) => void;
+  readonly replaceMarks: (marks: ReadonlyMap<string, ActionKind>) => void;
   readonly toggleMark: (id: string, action: ActionKind) => void;
   readonly toggleMany: (ids: readonly string[], action: ActionKind) => void;
 

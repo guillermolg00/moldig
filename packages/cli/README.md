@@ -67,25 +67,24 @@ moldig                # every project on this machine
 moldig ~/Work         # only the projects under ~/Work
 ```
 
-Nine screens on a navigation stack, on the alternate screen:
+The first screen is a quiet cleanup menu with three explicit scopes: **this Project**, **Harness
+state left by Projects whose directories are gone**, or **all removable Harness state**. Each
+choice selects the whole scope at once and opens a review; nothing moves before the grouped
+confirmation. Human-owned
+Context files, Skills, Agent definitions, Plugins and MCP servers never enter a bulk cleanup.
+Detailed Findings, Projects, Items, item details and the graph sit one level below the menu.
 
-**Scan** while the adapters run · **Overview** with the headline number and the eight categories
-· **Projects**, one row per project with what a session there loads · **Items** inside a project
-· **Category findings** · **Item detail** with its edges and its evidence · **Selection panel**,
-grouped Clean / Delete / Update / Open · **Confirm**, one confirmation per group · **Result**,
-one row per target with where it went.
+Keys: `↑↓` `j` `k` to navigate (`PgUp`/`PgDn`, `Home`/`End` jump), `enter` to choose or open,
+`space` to select removable Harness state or a whole cleanup group, `a` for every removable row
+in the filtered view, `d` for an explicit Delete, `u` to Update, `o` to open the path in your
+editor, `g` for the graph, `/` to filter, `r` for Finding categories, `p` for Projects, `s` for
+the selection, `esc` to go back, `?` for shortcuts and `q` to leave. Where the terminal supports
+OSC 8, paths are clickable links.
 
-Keys: `↑↓` `j` `k` to move (`PgUp`/`PgDn`, `Home`/`End` jump), `enter` to open a row, `→`/`←`
-to expand or collapse a memory unit or a cache group, `space` to tick a harness-owned row,
-`a` for every visible tickable row, `d` to mark for Delete, `u` to mark a skill or plugin for
-Update, `o` to open the path in your editor (`cursor -g`, `code -g`, `$VISUAL`, `$EDITOR`),
-`g` for the graph around the current row, `/` to filter, `h` to show or hide settings files,
-`p` for projects, `s` for the selection panel, `esc` to go back, `?` for the key map, `q` to
-leave. Where the terminal supports OSC 8, paths are clickable links.
-
-`q` gives the terminal back and prints a shareable summary on the primary screen. Outside a
-terminal — a pipe, a CI log, `TERM=dumb` — `moldig` prints the final frame plus that same
-summary and exits 0 without interacting. `moldig --json` prints the same document as
+`q` gives the terminal back and leaves one quiet summary line on the primary screen (a completed
+run keeps its recovery details). Outside a terminal — a pipe, a CI log, `TERM=dumb` — `moldig`
+prints the audit plus that same summary and exits 0 without interacting. `moldig --json` prints
+the same document as
 `audit --json`, terminal or not; it takes no `--fail-on`, so it always exits 0. Use
 `moldig audit` when you want an exit code that means something.
 

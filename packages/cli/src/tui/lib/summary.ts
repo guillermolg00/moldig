@@ -1,11 +1,7 @@
 /**
- * The shareable summary: what moldig writes on the primary screen once the alternate screen is
- * gone, so the last thing in the scrollback is screenshot-able (08 §4 wording).
- *
- * Plain text, no ANSI, every line ending in `\n`, paths `~`-shortened. The preview's numbers
- * come from the CLI's own `../format.js` — the same helpers `report.ts` prints `moldig audit`
- * with — and a finished run's from the engine's `summaryLines`, so the Result screen, this text
- * and an unattended `clean` all say the same thing (08 §4).
+ * The quiet summary moldig leaves in scrollback after the alternate screen closes. No run means
+ * one line; a finished run keeps the engine's recovery details. Plain text, no ANSI, paths
+ * `~`-shortened.
  */
 import { summaryLines, type AuditIndex, type RunManifest } from "@moldig/core";
 import { formatBytes, formatRange, formatTokens, plural } from "../../format.js";
@@ -59,37 +55,19 @@ export function headlineLines(index: AuditIndex): string[] {
   });
 }
 
-function tokensLine(index: AuditIndex, tokens: Readonly<Record<string, number>>): string {
-  const parts = Object.entries(tokens)
-    .filter(([, count]) => count > 0)
-    .map(([harness, count]) => `${formatTokens(count)} ${harnessName(index, harness)}`);
-  return parts.length > 0 ? parts.join(", ") : "none";
-}
-
 export function summaryText(input: SummaryInput): string {
   const { index, run } = input;
-  const lines: string[] = [`moldig — ${focusName(index)} (${index.headline.focus.reason})`];
-  for (const line of headlineLines(index)) lines.push(`  ${line}`);
+  const lines: string[] = [`moldig · ${focusName(index)}`];
 
   if (run === null) {
     const groups = groupSelection(index, input.marks, input.refusal ?? noRefusal);
     const bytes = groups.reduce((sum, group) => sum + group.bytes, 0);
-    const tokens: Record<string, number> = {};
-    for (const group of groups) {
-      for (const [harness, count] of Object.entries(group.tokens)) {
-        tokens[harness] = (tokens[harness] ?? 0) + count;
-      }
-    }
     const rows = groups.reduce((sum, group) => sum + group.rows.length, 0);
-    lines.push(
-      `Nothing moved (preview): ${plural(rows, "row")} selected · ${formatBytes(bytes)} would be freed · tokens/session: ${tokensLine(index, tokens)}`,
-    );
-    for (const group of groups) {
-      lines.push(
-        `  ${group.title}: ${plural(group.rows.length, "row")} · ${formatBytes(group.bytes)}`,
-      );
-    }
-    return `${lines.join("\n")}\n`;
+    const result =
+      rows === 0
+        ? "No changes."
+        : `No changes · ${plural(rows, "item")} still selected · ${formatBytes(bytes)}.`;
+    return `${lines[0]} — ${result}\n`;
   }
 
   // After a run the numbers come from the engine's own summary (08 §4), so the shareable text,

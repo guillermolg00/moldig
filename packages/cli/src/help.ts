@@ -90,7 +90,8 @@ const AUDIT = [
 const CLEAN = [
   "moldig clean [roots…] — scan, then remove the Harness-owned items you select.",
   "",
-  "In a terminal it opens the selection panel. Unattended it needs both --yes and a",
+  "In a terminal it opens the cleanup menu. Choose this project, state left by missing",
+  "Projects or all removable Harness state, then review. Unattended it needs both --yes and a",
   "filter (--category, --older-than or --harness), so a scheduled run can never remove",
   "more than it was told to. It only ever reaches what the audit preselected: Harness",
   "cache the Harness itself documents as safe to sweep, past its own retention, with no",

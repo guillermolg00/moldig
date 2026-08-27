@@ -19,7 +19,7 @@ export interface TuiRequest {
   readonly index: AuditIndex;
   readonly env: Env;
   readonly platform: string;
-  /** `moldig` opens on the Scan screen; `moldig clean` on the Selection panel (D4). */
+  /** Optional test or embedding override; normal interactive runs open on the cleanup menu. */
   readonly initialRoute?: Route;
   readonly runner: Runner;
   readonly stdout?: NodeJS.WriteStream;

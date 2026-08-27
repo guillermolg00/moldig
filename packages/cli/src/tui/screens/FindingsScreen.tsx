@@ -1,6 +1,6 @@
 /**
- * Screen 5 — Category findings: the Findings of one Category with severity, message, container
- * and impact; `enter` opens the target rows with the Items screen's mechanics.
+ * Category findings: one compact row per Finding. `enter` opens its targets with the Items
+ * screen's mechanics; the container and full evidence stay in the drill-down.
  *
  * The order is the one `moldig audit` prints — Category, then the pinned flags, then impact
  * descending (`displayOrder` in `report.ts`, D85). Severity is a badge, never the sort key.
@@ -13,7 +13,6 @@ import { Badges, SeverityBadge } from "../components/Badges.js";
 import { Frame, listHeight, useSize } from "../components/Frame.js";
 import { categoryLabel, formatBytes, formatTokens, plural, truncate } from "../lib/format.js";
 import { isDown, isUp, useKeys } from "../lib/keys.js";
-import { containerLabel } from "../lib/rows.js";
 import { type Badge, entityById, flagBadge } from "../lib/selection.js";
 import { useStore } from "../lib/store.js";
 import { useList } from "../lib/use-list.js";
@@ -59,12 +58,12 @@ export function FindingsScreen({ category }: { readonly category: Category }): R
     }
   }, !store.helpOpen);
 
-  const width = Math.max(30, columns - 46);
+  const width = Math.max(28, columns - 32);
 
   return (
     <Frame
       title={`${categoryLabel(category)} · ${plural(findings.length, "finding")}`}
-      keys="↑↓ move · enter targets · g graph · o open · esc back · ? help · q quit"
+      keys="↑↓ navigate   enter inspect   esc back   ? shortcuts"
     >
       <Box flexDirection="column">
         {findings.length === 0 ? <Text dimColor>no findings in this category</Text> : null}
@@ -73,27 +72,19 @@ export function FindingsScreen({ category }: { readonly category: Category }): R
           const badges = finding.flags
             .map(flagBadge)
             .filter((badge): badge is Badge => badge !== null);
-          const impact = [
-            finding.impact.bytes > 0 ? formatBytes(finding.impact.bytes) : null,
-            finding.impact.tokens ? `${formatTokens(finding.impact.tokens)} tokens/session` : null,
-            plural(finding.impact.files, "file"),
-            `action: ${finding.action.kind}`,
-          ]
-            .filter(Boolean)
-            .join(" · ");
+          const impact = finding.impact.tokens
+            ? `${formatTokens(finding.impact.tokens)} tok/session`
+            : finding.impact.bytes > 0
+              ? formatBytes(finding.impact.bytes)
+              : plural(finding.impact.files, "file");
           return (
-            <Box key={finding.id} flexDirection="column">
-              <Text inverse={current}>
-                {current ? "> " : "  "}
-                <SeverityBadge severity={finding.severity} />
-                <Text> {truncate(finding.message, width)}</Text>
-                <Badges badges={badges} />
-              </Text>
-              <Text dimColor>
-                {"           "}
-                {containerLabel(index, finding.container)} · {impact}
-              </Text>
-            </Box>
+            <Text key={finding.id} {...(current ? { color: "cyan" as const } : {})}>
+              {current ? "› " : "  "}
+              <SeverityBadge severity={finding.severity} />
+              <Text> {truncate(finding.message, width).padEnd(width)}</Text>
+              <Badges badges={badges} />
+              <Text dimColor={!current}> {impact}</Text>
+            </Text>
           );
         })}
         {list.hiddenBelow > 0 ? <Text dimColor>… {list.hiddenBelow} more</Text> : null}
