@@ -1,6 +1,6 @@
 {
   "name": "@moldig/core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The moldig engine: the index, adapters, detectors and graph for the files AI coding harnesses leave across your projects.",
   "license": "MIT",
   "repository": {
