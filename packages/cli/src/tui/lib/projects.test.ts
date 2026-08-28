@@ -1,7 +1,7 @@
 import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { audit, dataDirFor, scan, type AuditIndex } from "@moldig/core";
+import { audit, dataDirFor, locatorKey, scan, type AuditIndex } from "@moldig/core";
 import { loadFixture, type FixtureTree } from "@moldig/core/testing";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { createFakeExecutors } from "../../executors/fake.js";
@@ -98,19 +98,47 @@ describe("Project-level cleanup", () => {
   it("keeps a Live Project target as a refused manifest row and still asks twice", async () => {
     const gone = index.projects.find((project) => project.reachability === "orphan");
     if (gone === undefined) throw new Error("fixture has no missing Project");
-    const stateIds = new Set(
-      index.breadcrumbs
-        .filter((breadcrumb) => breadcrumb.project === gone.id)
-        .flatMap((breadcrumb) => breadcrumb.state),
+    const goneBreadcrumbs = index.breadcrumbs.filter(
+      (breadcrumb) => breadcrumb.project === gone.id,
     );
+    const stateIds = new Set(goneBreadcrumbs.flatMap((breadcrumb) => breadcrumb.state));
     const liveUnit = index.entities.find((entity) => stateIds.has(entity.id));
     if (liveUnit === undefined) throw new Error("fixture has no Project-owned state");
+    const preciseBreadcrumb = goneBreadcrumbs.find(
+      (breadcrumb) =>
+        breadcrumb.locator.type !== "file" &&
+        breadcrumb.locator.type !== "dir" &&
+        breadcrumb.locator.type !== "paths",
+    );
+    if (preciseBreadcrumb === undefined) throw new Error("fixture has no precise Project record");
     const live = { ...liveUnit, protection: "live" as const };
+    const safeDuplicate = {
+      ...preciseBreadcrumb,
+      id: `${preciseBreadcrumb.id}:safe-duplicate`,
+      state: [],
+    };
+    const livePrecise = {
+      ...preciseBreadcrumb,
+      state: [...new Set([...preciseBreadcrumb.state, liveUnit.id])],
+    };
     const liveIndex: AuditIndex = {
       ...index,
+      breadcrumbs: [
+        safeDuplicate,
+        ...index.breadcrumbs.map((breadcrumb) =>
+          breadcrumb.id === preciseBreadcrumb.id ? livePrecise : breadcrumb,
+        ),
+      ],
       entities: index.entities.map((entity) => (entity.id === liveUnit.id ? live : entity)),
     };
     const cleanup = projectCleanup(liveIndex, new Set([gone.id]));
+    const duplicateTargets = cleanup.selection.filter(
+      (target) =>
+        target.locator !== undefined &&
+        locatorKey(target.locator) === locatorKey(preciseBreadcrumb.locator),
+    );
+    expect(duplicateTargets).toHaveLength(1);
+    expect(duplicateTargets[0]?.refusal).toMatch(/^live —/u);
     const refusedSelection = cleanup.selection.filter((target) => target.refusal !== undefined);
     expect(cleanup.blocked).not.toEqual([]);
     expect(refusedSelection).not.toEqual([]);
