@@ -16,7 +16,7 @@ Run the suite once with a short `TMPDIR` too (`TMPDIR=/tmp bun run test`): a fix
 
 ### Issue tracker
 
-Local markdown under `.scratch/<effort>/` (current effort: `.scratch/moldig-v1/`). See `docs/agents/issue-tracker.md`.
+Local markdown under `.scratch/<effort>/` (current effort: `.scratch/moldig-daily-ritual/`). See `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 
