@@ -10,6 +10,12 @@ you say so.
 [![node](https://img.shields.io/badge/node-%E2%89%A522.18-0b7285)](https://nodejs.org)
 [![licence](https://img.shields.io/badge/licence-MIT-0b7285)](LICENSE)
 
+> [!WARNING]
+> **Early development — not recommended for regular use.** moldig is not stable yet and still
+> needs substantial testing and hardening before it can be relied on. Contributions, bug reports,
+> and feedback are welcome while it takes shape; [open an issue](https://github.com/guillermolg00/moldig/issues)
+> or [send a pull request](https://github.com/guillermolg00/moldig/pulls) if you want to help.
+
 ```sh
 npx moldig
 ```
