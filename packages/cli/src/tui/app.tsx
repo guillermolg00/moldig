@@ -13,21 +13,32 @@ import { GraphScreen, graphHelp } from "./graph/GraphScreen.js";
 import { shortPath } from "./lib/format.js";
 import { fileUrl, osc8, type Env } from "./lib/hyperlink.js";
 import { useKeys } from "./lib/keys.js";
+import { defaultCleanScope, recommendedCleanMarks } from "./lib/clean-plan.js";
 import { openWith, resolveOpener } from "./lib/open.js";
 import type { Runner } from "./lib/runner.js";
 import { initialMarks, type ActionKind, type Refusal } from "./lib/selection.js";
-import { StoreContext, type Route, type Store } from "./lib/store.js";
+import {
+  StoreContext,
+  type QuietResult,
+  type RefreshTui,
+  type Route,
+  type Store,
+  type TuiSession,
+} from "./lib/store.js";
 import { summaryText } from "./lib/summary.js";
 import { CategoriesScreen } from "./screens/CategoriesScreen.js";
 import { ConfirmScreen } from "./screens/ConfirmScreen.js";
 import { DetailScreen } from "./screens/DetailScreen.js";
 import { FindingsScreen } from "./screens/FindingsScreen.js";
 import { ItemsScreen } from "./screens/ItemsScreen.js";
+import { CleanPlanScreen } from "./screens/CleanPlanScreen.js";
 import { OverviewScreen } from "./screens/OverviewScreen.js";
+import { ProjectCleanupScreen } from "./screens/ProjectCleanupScreen.js";
 import { ProjectsScreen } from "./screens/ProjectsScreen.js";
 import { ResultScreen } from "./screens/ResultScreen.js";
 import { ScanScreen } from "./screens/ScanScreen.js";
 import { SelectionScreen } from "./screens/SelectionScreen.js";
+import { UpdatePlanScreen } from "./screens/UpdatePlanScreen.js";
 
 export interface AppProps {
   readonly index: AuditIndex;
@@ -37,6 +48,8 @@ export interface AppProps {
   readonly interactive: boolean;
   readonly linksSupported: boolean;
   readonly runner: Runner;
+  /** Rebuilds both the index and its index-bound Runner after a destructive run. */
+  readonly refresh?: RefreshTui;
   readonly initialRoute?: Route;
   readonly initialMarks?: ReadonlyMap<string, ActionKind>;
   /** Called with the summary on every state change, so the caller always holds the latest. */
@@ -46,25 +59,70 @@ export interface AppProps {
 }
 
 export function App(props: AppProps): ReactElement {
-  const { index, env, platform, hostname, interactive, linksSupported } = props;
+  const { env, platform, hostname, interactive, linksSupported } = props;
   const { exit, suspendTerminal } = useApp();
-  const { runner } = props;
+  const [session, setSession] = useState<TuiSession>(() => ({
+    index: props.index,
+    runner: props.runner,
+  }));
+  const { index, runner } = session;
   const refusal = useMemo<Refusal>(() => (entity) => runner.refusal(entity), [runner]);
-  const [stack, setStack] = useState<Route[]>(() => [props.initialRoute ?? { screen: "overview" }]);
-  const [marks, setMarks] = useState<ReadonlyMap<string, ActionKind>>(
-    () => props.initialMarks ?? initialMarks(index, refusal),
+  const inferredCleanScope = defaultCleanScope(props.index);
+  const defaultCleanMarks = recommendedCleanMarks(props.index, inferredCleanScope, (entity) =>
+    props.runner.refusal(entity),
   );
+  const initialRoute: Route =
+    props.initialRoute ??
+    (defaultCleanMarks.size > 0
+      ? { screen: "clean-plan", scope: inferredCleanScope }
+      : { screen: "overview" });
+  const [stack, setStack] = useState<Route[]>(() => [initialRoute]);
+  const [marks, setMarks] = useState<ReadonlyMap<string, ActionKind>>(() => {
+    if (props.initialMarks !== undefined) return props.initialMarks;
+    if (initialRoute.screen === "clean-plan") {
+      return recommendedCleanMarks(props.index, initialRoute.scope, (entity) =>
+        props.runner.refusal(entity),
+      );
+    }
+    if (
+      initialRoute.screen === "update-plan" ||
+      (initialRoute.screen === "project-cleanup" && initialRoute.standalone === true)
+    ) {
+      return new Map();
+    }
+    return initialMarks(props.index, (entity) => props.runner.refusal(entity));
+  });
   const [expanded, setExpandedSet] = useState<ReadonlySet<string>>(() => new Set());
   const [showSettings, setShowSettings] = useState(false);
   const [run, setRun] = useState<RunManifest | null>(null);
+  const [quietResult, setQuietResult] = useState<QuietResult>(null);
   const [status, setStatus] = useState<string | null>(null);
   const [helpOpen, setHelpOpen] = useState(false);
   const [filterEditing, setFilterEditing] = useState(false);
   const home = index.scan.home;
+  const rootRoute = stack[0];
+  const summaryLabel =
+    rootRoute?.screen === "clean-plan" && rootRoute.scope.kind === "global"
+      ? "moldig · all projects"
+      : rootRoute?.screen === "project-cleanup" && rootRoute.standalone === true
+        ? "moldig purge"
+        : rootRoute?.screen === "update-plan" && rootRoute.standalone === true
+          ? "moldig update"
+          : undefined;
 
   const summary = useMemo(
-    () => summaryText({ index, marks, run, home, platform, refusal }),
-    [index, marks, run, home, platform, refusal],
+    () =>
+      summaryText({
+        index,
+        marks,
+        run,
+        home,
+        platform,
+        refusal,
+        quiet: quietResult,
+        ...(summaryLabel === undefined ? {} : { label: summaryLabel }),
+      }),
+    [index, marks, run, home, platform, refusal, quietResult, summaryLabel],
   );
   const { onSummary, onRun } = props;
   useEffect(() => {
@@ -142,6 +200,8 @@ export function App(props: AppProps): ReactElement {
     },
     run,
     setRun,
+    quietResult,
+    setQuietResult,
     status,
     setStatus,
     route,
@@ -157,10 +217,24 @@ export function App(props: AppProps): ReactElement {
     replace: (next) => {
       setStack((current) => [...current.slice(0, -1), next]);
     },
+    reset: (next) => {
+      setStack([next]);
+    },
     goHome: () => {
       setStatus(null);
       setStack([{ screen: "overview" }]);
     },
+    refresh:
+      props.refresh === undefined
+        ? null
+        : async (onProgress) => {
+            const next = await props.refresh?.(onProgress);
+            if (next === undefined) throw new Error("refresh did not return an index");
+            setSession(next);
+            setMarks(initialMarks(next.index, (entity) => next.runner.refusal(entity)));
+            setExpandedSet(new Set());
+            return next;
+          },
     helpOpen,
     setHelpOpen,
     filterEditing,
@@ -203,8 +277,10 @@ export function App(props: AppProps): ReactElement {
     else if (input === "?") setHelpOpen(true);
     else if (
       input === "s" &&
+      route.screen !== "clean-plan" &&
       route.screen !== "selection" &&
       route.screen !== "confirm" &&
+      route.screen !== "project-cleanup" &&
       route.screen !== "scan"
     ) {
       store.push({ screen: "selection" });
@@ -222,6 +298,12 @@ export function App(props: AppProps): ReactElement {
         />
       );
       break;
+    case "clean-plan":
+      screen = <CleanPlanScreen scope={route.scope} />;
+      break;
+    case "update-plan":
+      screen = <UpdatePlanScreen standalone={route.standalone === true} />;
+      break;
     case "overview":
       screen = <OverviewScreen />;
       break;
@@ -230,6 +312,14 @@ export function App(props: AppProps): ReactElement {
       break;
     case "projects":
       screen = <ProjectsScreen />;
+      break;
+    case "project-cleanup":
+      screen = (
+        <ProjectCleanupScreen
+          {...(route.initialProject === undefined ? {} : { initialProject: route.initialProject })}
+          standalone={route.standalone === true}
+        />
+      );
       break;
     case "items":
       screen = (
@@ -251,10 +341,21 @@ export function App(props: AppProps): ReactElement {
       screen = <SelectionScreen />;
       break;
     case "confirm":
-      screen = <ConfirmScreen />;
+      screen = (
+        <ConfirmScreen
+          {...(route.runPlan === undefined ? {} : { runPlan: route.runPlan })}
+          {...(route.preconfirmedClean === undefined
+            ? {}
+            : { preconfirmedClean: route.preconfirmedClean })}
+          {...(route.afterRun === undefined ? {} : { afterRun: route.afterRun })}
+          {...(route.projectCount === undefined ? {} : { projectCount: route.projectCount })}
+        />
+      );
       break;
     case "result":
-      screen = <ResultScreen />;
+      screen = (
+        <ResultScreen {...(route.returnTo === undefined ? {} : { returnTo: route.returnTo })} />
+      );
       break;
     default:
       // The graph draws its own chrome, so the `?` overlay is rendered here with its own keys.

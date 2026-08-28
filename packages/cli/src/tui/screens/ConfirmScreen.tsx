@@ -1,23 +1,38 @@
 /**
  * Screen 8 — Confirm: one group at a time in the order Clean → Delete → Update, each applied
  * immediately after its own confirmation. A group holding user content or permanent rows asks
- * twice. `y` confirms, `n` skips this group, `esc` skips it and every remaining group (D128).
+ * twice, as does an aggregate orphan-Project Delete. `y` confirms, `n` skips this group, `esc`
+ * skips it and every remaining group (D128).
  * A failed row never aborts the run; the Open group is a reading list, never confirmed.
  *
  * The plan is built once at mount — every disposition decided before anything moves — and the
  * engine's own `apply(plan, executors, {confirm})` drives the sequence: this screen only
  * answers `run | skip | skip-rest` from the keys and renders the group it is being asked about.
  */
-import type { ConfirmAnswer, PlanGroup, PlanRow } from "@moldig/core";
+import type {
+  ApplyProgress,
+  ConfirmAnswer,
+  Plan,
+  PlanGroup,
+  PlanRow,
+  ScanProgress,
+} from "@moldig/core";
 import { Box, Text } from "ink";
 import { type ReactElement, useEffect, useRef, useState } from "react";
 import { Badges } from "../components/Badges.js";
 import { Frame, listHeight, useSize } from "../components/Frame.js";
 import { formatBytes, plural, truncate } from "../lib/format.js";
+import { isSafeCleanPlan, type CleanScope } from "../lib/clean-plan.js";
 import { useKeys } from "../lib/keys.js";
 import { badgesOfRow, groupSelection } from "../lib/selection.js";
 import { useStore } from "../lib/store.js";
 import { tokensText } from "./SelectionScreen.js";
+
+const ACTION_LABEL: Readonly<Record<string, string>> = {
+  clean: "Cleaning",
+  delete: "Deleting",
+  update: "Updating",
+};
 
 const HINT: Readonly<Record<string, string>> = {
   clean: "— every file goes to the OS trash; refused rows stay",
@@ -39,57 +54,128 @@ interface Step {
   readonly rows: number;
 }
 
-export function ConfirmScreen(): ReactElement {
+type Activity =
+  | { readonly kind: "running"; readonly progress: ApplyProgress | null }
+  | { readonly kind: "refreshing"; readonly progress: ScanProgress | null };
+
+export function ConfirmScreen({
+  runPlan: providedPlan,
+  preconfirmedClean,
+  afterRun,
+  projectCount,
+}: {
+  readonly runPlan?: Plan;
+  readonly preconfirmedClean?: CleanScope;
+  readonly afterRun?: "refresh-projects" | "purge-result" | "inventory";
+  readonly projectCount?: number;
+}): ReactElement {
   const store = useStore();
   const { index, marks } = store;
   const { rows: screenRows, columns } = useSize();
   // Frozen at mount: the plan the user confirms is the plan that runs.
-  const [runPlan] = useState(() =>
-    store.runner.plan(
-      groupSelection(index, marks, store.refusal).filter((group) => group.action !== "open"),
-    ),
+  const [runPlan] = useState(
+    () =>
+      providedPlan ??
+      store.runner.plan(
+        groupSelection(index, marks, store.refusal).filter((group) => group.action !== "open"),
+      ),
   );
   const groups = runPlan.groups.filter((group) => group.action !== "open");
+  const preconfirmed =
+    preconfirmedClean !== undefined && isSafeCleanPlan(runPlan, preconfirmedClean);
   const [question, setQuestion] = useState<Question | null>(null);
   const [steps, setSteps] = useState<Step[]>([]);
+  const [activity, setActivity] = useState<Activity>({ kind: "running", progress: null });
   const started = useRef(false);
 
   useEffect(() => {
     if (started.current) return;
     started.current = true;
+    store.setQuietResult(null);
     void store.runner
-      .apply(runPlan, (group, stage) => {
-        return new Promise<ConfirmAnswer>((resolve) => {
-          setQuestion({
-            group,
-            stage,
-            answer: (answer) => {
-              setQuestion(null);
-              if (answer !== "run" || !group.extraConfirmation.required || stage === "extra") {
-                setSteps((previous) => [
-                  ...previous,
-                  {
-                    title: group.title,
-                    skipped: answer !== "run",
-                    rows: group.rows.length,
-                  },
-                ]);
-              }
-              resolve(answer);
-            },
+      .apply(
+        runPlan,
+        (group, stage) => {
+          if (preconfirmed && stage === "ask" && group.action === "clean") {
+            return Promise.resolve<ConfirmAnswer>("run");
+          }
+          return new Promise<ConfirmAnswer>((resolve) => {
+            setQuestion({
+              group,
+              stage,
+              answer: (answer) => {
+                setQuestion(null);
+                if (answer !== "run" || !group.extraConfirmation.required || stage === "extra") {
+                  setSteps((previous) => [
+                    ...previous,
+                    {
+                      title: group.title,
+                      skipped: answer !== "run",
+                      rows: group.rows.length,
+                    },
+                  ]);
+                }
+                resolve(answer);
+              },
+            });
           });
-        });
-      })
-      .then((manifest) => {
+        },
+        (progress) => {
+          setActivity({ kind: "running", progress });
+        },
+      )
+      .then(async (manifest) => {
+        store.setQuietResult(preconfirmed ? { kind: "clean" } : null);
         store.setRun(manifest);
-        store.replace({ screen: "result" });
+        if (store.refresh === null) {
+          store.replace({ screen: "result" });
+          return manifest;
+        }
+        setActivity({ kind: "refreshing", progress: null });
+        await store.refresh((progress) => {
+          setActivity({ kind: "refreshing", progress });
+        });
+        const unresolved = manifest.rows.filter(
+          (row) => row.result.status === "failed" || row.result.status === "refused",
+        ).length;
+        if (afterRun === "purge-result") {
+          store.setQuietResult({ kind: "purge", projects: projectCount ?? 0 });
+          store.replace({ screen: "result" });
+          store.setStatus(
+            unresolved === 0
+              ? "projects and findings refreshed"
+              : `${plural(unresolved, "row")} needs review`,
+          );
+          return manifest;
+        }
+        if (afterRun === "inventory") {
+          if (unresolved > 0) {
+            store.replace({ screen: "result", returnTo: "inventory" });
+            store.setStatus(`${plural(unresolved, "updater run")} needs review`);
+            return manifest;
+          }
+          const updated = manifest.rows.filter((row) => row.result.status === "delegated").length;
+          store.reset({ screen: "categories" });
+          store.setStatus(`${plural(updated, "updater run")} finished · inventory refreshed`);
+          return manifest;
+        }
+        if (afterRun !== "refresh-projects") {
+          store.replace({ screen: "result" });
+          store.setStatus("projects and findings refreshed");
+          return manifest;
+        }
+        store.reset({ screen: "projects" });
+        store.setStatus(
+          `${plural(projectCount ?? 0, "missing project")} processed · projects and findings refreshed${unresolved === 0 ? "" : ` · ${plural(unresolved, "row")} needs review`}`,
+        );
         return manifest;
       })
       .catch((error: unknown) => {
         store.setStatus(error instanceof Error ? error.message : String(error));
         store.replace({ screen: "result" });
+        return null;
       });
-  }, [runPlan, store]);
+  }, [afterRun, preconfirmed, projectCount, runPlan, store]);
 
   useKeys((input, key) => {
     if (question === null) return;
@@ -100,9 +186,20 @@ export function ConfirmScreen(): ReactElement {
   }, !store.helpOpen);
 
   if (question === null) {
+    let message = groups.length === 0 ? "nothing to run" : "running…";
+    if (activity.kind === "running" && activity.progress !== null) {
+      const progress = activity.progress;
+      message = `${ACTION_LABEL[progress.action] ?? progress.action} ${progress.completed}/${progress.total} · ${progress.label}`;
+    } else if (activity.kind === "refreshing") {
+      const progress = activity.progress;
+      message =
+        progress === null
+          ? "refreshing projects and findings…"
+          : `refreshing ${progress.phase} ${progress.done}/${progress.total}`;
+    }
     return (
-      <Frame title="confirm" keys="">
-        <Text dimColor>{groups.length === 0 ? "nothing to run" : "running…"}</Text>
+      <Frame title={preconfirmed ? "cleaning" : "confirm"} keys="working…">
+        <Text dimColor>{message}</Text>
       </Frame>
     );
   }
@@ -155,8 +252,14 @@ export function ConfirmScreen(): ReactElement {
             </Text>
           ) : (
             <Text bold>
-              {verb} these {group.rows.length} rows? (y / n){" "}
-              <Text dimColor>{HINT[group.action] ?? ""}</Text>
+              {projectCount === undefined
+                ? `${verb} these ${group.rows.length} rows? (y / n) `
+                : `Delete all state for ${plural(projectCount, "missing project")}? (y / n) `}
+              <Text dimColor>
+                {group.action === "update" && afterRun === "inventory"
+                  ? "— runs each previewed updater; locally modified Skills remain untouched"
+                  : (HINT[group.action] ?? "")}
+              </Text>
             </Text>
           )}
           {steps.length > 0 ? (

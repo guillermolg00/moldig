@@ -30,6 +30,7 @@ export function CategoriesScreen(): ReactElement {
     else if (key.home) list.jump("home");
     else if (key.end) list.jump("end");
     else if (key.escape) store.pop();
+    else if (input === "u") store.push({ screen: "update-plan" });
     else if (key.return && list.current !== undefined) {
       store.push({ screen: "findings", category: list.current });
     }
@@ -39,7 +40,7 @@ export function CategoriesScreen(): ReactElement {
     <Frame
       title="findings"
       subtitle={`${plural(store.index.findings.length, "finding")} across eight categories.`}
-      keys="↑↓ navigate   enter open   esc back   ? shortcuts"
+      keys="↑↓ navigate   enter open   u update all   esc back   ? shortcuts"
     >
       <Box flexDirection="column">
         {categories.map((category, i) => {

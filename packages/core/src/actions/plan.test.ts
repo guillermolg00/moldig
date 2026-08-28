@@ -95,11 +95,21 @@ function renderRow(row: PlanRow): string[] {
     lines.push(`    backup ${backup.path}${backup.recursive ? " (recursive)" : ""} → ${backup.to}`);
   }
   for (const edit of row.edits) {
-    lines.push(
-      edit.kind === "json-entry"
-        ? `    edit ${edit.file} # ${edit.keyPath.join(" / ")}`
-        : `    edit ${edit.file} # drop the lines listing ${edit.fact}`,
-    );
+    switch (edit.kind) {
+      case "json-entry":
+      case "toml-table":
+        lines.push(`    edit ${edit.file} # ${edit.keyPath.join(" / ")}`);
+        break;
+      case "json-array-value":
+        lines.push(`    edit ${edit.file} # ${edit.keyPath.join(" / ")} -= ${edit.value}`);
+        break;
+      case "sqlite-rows":
+        lines.push(`    edit ${edit.file} # ${edit.table}.${edit.keyColumn} = ${edit.keyValue}`);
+        break;
+      case "memory-index":
+        lines.push(`    edit ${edit.file} # drop the lines listing ${edit.fact}`);
+        break;
+    }
   }
   if (Object.keys(row.tokensPerSession).length > 0) {
     lines.push(`    tokens/session ${JSON.stringify(row.tokensPerSession)}`);
@@ -263,6 +273,70 @@ describe.runIf(POSIX_FIXTURE_HOST)("plan() over the breadcrumbs case", () => {
       expect(row.backups).toEqual([]);
       expect(row.edits).toEqual([]);
     }
+  });
+
+  it("plans recoverable Project-state edits for JSON arrays, TOML tables and SQLite rows", () => {
+    const project = index.projects.find((entry) => entry.reachability === "orphan");
+    if (project === undefined) throw new Error("fixture has no missing Project");
+    const document = plan(
+      index,
+      [
+        {
+          action: "delete",
+          locator: {
+            type: "array-value",
+            file: home(".copilot/config.json"),
+            format: "json",
+            keyPath: ["trusted_folders"],
+            value: project.path,
+          },
+          label: "Copilot trust",
+          kind: "project-state",
+          project: project.id,
+        },
+        {
+          action: "delete",
+          locator: {
+            type: "entry",
+            file: home(".codex/config.toml"),
+            format: "toml",
+            keyPath: ["projects", project.path],
+          },
+          label: "Codex trust",
+          kind: "project-state",
+          project: project.id,
+        },
+        {
+          action: "delete",
+          locator: {
+            type: "sqlite",
+            file: home(".codex/state_5.sqlite"),
+            table: "threads",
+            keyColumn: "cwd",
+            keyValue: project.path,
+          },
+          label: "Codex threads",
+          kind: "project-state",
+          project: project.id,
+        },
+      ],
+      env,
+    );
+    const rows = document.groups[0]?.rows ?? [];
+    expect(rows.map((row) => row.target.kind)).toEqual([
+      "project-state",
+      "project-state",
+      "project-state",
+    ]);
+    expect(
+      rows
+        .flatMap((row) => row.edits)
+        .map((edit) => edit.kind)
+        .toSorted(),
+    ).toEqual(["json-array-value", "sqlite-rows", "toml-table"]);
+    const sqlite = rows.find((row) => row.edits.some((edit) => edit.kind === "sqlite-rows"));
+    expect(sqlite?.backups[0]?.sqlite).toBe(true);
+    expect(rows.every((row) => row.disposition.kind === "backup-edit")).toBe(true);
   });
 
   it("carries argv and a working directory for every delegate, never a shell (D87)", () => {

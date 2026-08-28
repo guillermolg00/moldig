@@ -6,7 +6,15 @@
  * A `.test.ts` without JSX because the Vitest include pattern is `*.test.ts`; `createElement`
  * does the same job.
  */
-import { audit, dataDirFor, scan, type AuditIndex, type Entity } from "@moldig/core";
+import {
+  audit,
+  dataDirFor,
+  scan,
+  type AuditIndex,
+  type Entity,
+  type McpServer,
+  type ScanProgress,
+} from "@moldig/core";
 import { loadFixture, POSIX_FIXTURE_HOST, type FixtureTree } from "@moldig/core/testing";
 import { join } from "node:path";
 import { PassThrough } from "node:stream";
@@ -22,6 +30,7 @@ import { ensureDirFor } from "../executors/files.js";
 import { App, type AppProps } from "./app.js";
 import { openTui } from "./index.js";
 import { twoNumberHeader } from "./components/Frame.js";
+import { isSafeCleanPlan, recommendedCleanMarks, type CleanScope } from "./lib/clean-plan.js";
 import { createRunner, type Runner } from "./lib/runner.js";
 import { groupSelection, initialMarks, type ActionKind } from "./lib/selection.js";
 import type { Route } from "./lib/store.js";
@@ -61,6 +70,7 @@ afterAll(async () => {
 });
 
 const settle = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 60));
+const noop = (): void => {};
 
 /**
  * A frame as the assertions below spell paths: forward slashes, and the tree's home written `~`.
@@ -84,7 +94,10 @@ interface Screen {
  * A Runner over the fake executors (08 §9): every disposition and every manifest is the real
  * engine's, nothing reaches the OS trash, and the data directory is the fixture's own home.
  */
-function fakeRunner(options: Partial<FakeExecutorOptions> = {}): {
+function fakeRunner(
+  options: Partial<FakeExecutorOptions> = {},
+  auditedIndex: AuditIndex = index,
+): {
   runner: Runner;
   fake: FakeExecutors;
 } {
@@ -95,7 +108,7 @@ function fakeRunner(options: Partial<FakeExecutorOptions> = {}): {
     ...options,
   });
   const runner = createRunner({
-    index,
+    index: auditedIndex,
     executors: fake.executors,
     // Scripted, so a refusal is testable without mounting anything (08 §9).
     deviceOf: () => ({ dev: 1, kind: "local" }),
@@ -154,6 +167,14 @@ function projectId(): string {
   return index.headline.focus.project ?? "";
 }
 
+function projectCleanScope(): CleanScope {
+  return { kind: "project", project: projectId() };
+}
+
+function projectCleanRoute(): Route {
+  return { screen: "clean-plan", scope: projectCleanScope() };
+}
+
 function harnessId(): string {
   return index.harnesses[0]?.id ?? "";
 }
@@ -162,6 +183,24 @@ function findEntity(match: (entity: Entity) => boolean): Entity {
   const found = index.entities.find(match);
   if (found === undefined) throw new Error("fixture entity not found");
   return found;
+}
+
+function dockerUpdateIndex(): AuditIndex {
+  const source = findEntity(
+    (entity) => entity.kind === "mcp-server" && entity.transport === "stdio",
+  );
+  if (source.kind !== "mcp-server") throw new Error("expected an MCP server");
+  const server: McpServer = {
+    ...source,
+    command: "docker",
+    args: ["run", "--rm", "ghcr.io/example/mcp:stable"],
+    endpointKey: "docker:ghcr.io/example/mcp:stable",
+    usesInterpolation: false,
+  };
+  return {
+    ...index,
+    entities: index.entities.map((entity) => (entity.id === source.id ? server : entity)),
+  };
 }
 
 /** The 45-day `apps/web` session the audit preselects, and the finding that holds it. */
@@ -177,14 +216,158 @@ function sessionFinding(): { id: string; targets: string[] } {
 describe("scan", () => {
   it("shows the mascot, the harness counts and the roots, then advances to the overview", async () => {
     const screen = open({ screen: "scan" });
-    await settle();
     expect(screen.frame()).toContain("moldig · scan");
     expect(screen.frame()).toContain("digging through what your harnesses left behind");
     expect(screen.frame()).toContain("Claude Code");
-    expect(screen.frame()).toContain("42 entities");
+    await vi.waitFor(() => expect(screen.frame()).toContain("42 entities"), {
+      timeout: 4000,
+      interval: 20,
+    });
     expect(screen.frame()).toContain("roots:");
     // The Scan screen replaces itself; it never sits on the navigation stack.
     await waitFor(screen, "moldig · overview");
+    screen.unmount();
+  });
+});
+
+describe("focused Project clean", () => {
+  it("opens on one trusted, aggregated plan instead of the cleanup menu", async () => {
+    const screen = open(projectCleanRoute());
+    const frame = screen.frame();
+    expect(frame).toContain("moldig · project-a");
+    expect(frame).toContain("this session pays ~365 tokens");
+    expect(frame).toContain("1021 B ready for Trash · 1 item · 1 group");
+    expect(frame).toContain("Claude Code · 1 session > 20 days");
+    expect(frame).toContain("Only old harness cache");
+    expect(frame).toContain("Your context files, skills, MCP");
+    expect(frame).toContain("servers and memory stay");
+    expect(frame).not.toContain("Clean all removable state");
+    expect(frame).not.toContain("MEMORY.md");
+
+    await screen.press("?");
+    expect(screen.frame()).toContain("exclude or restore the focused group or item");
+    expect(screen.frame()).not.toContain("mark a skill or plugin for Update");
+    screen.unmount();
+  });
+
+  it("groups many safe units by harness and cleanup decision instead of listing entities", () => {
+    const original = findEntity(
+      (entity) =>
+        entity.kind === "harness-cache" &&
+        entity.project === projectId() &&
+        entity.cacheKind === "transcript" &&
+        entity.metrics.ageDays === 45,
+    );
+    if (original.kind !== "harness-cache") throw new Error("expected harness cache");
+    const anotherSession = {
+      ...original,
+      id: `${original.id}:another`,
+      path: `${original.path}.another`,
+      locator: { type: "file" as const, path: `${original.path}.another` },
+      label: "session 33333333 · 2026-07-11",
+      metrics: { ...original.metrics, bytes: 2048, ageDays: 46 },
+    };
+    const shellSnapshot = {
+      ...original,
+      id: `${original.id}:shell`,
+      path: `${original.path}.shell`,
+      locator: { type: "file" as const, path: `${original.path}.shell` },
+      label: "shell snapshot 33333333",
+      cacheKind: "shell-snapshot",
+      metrics: { ...original.metrics, bytes: 1024 },
+    };
+    const screen = open(projectCleanRoute(), {
+      index: { ...index, entities: [...index.entities, anotherSession, shellSnapshot] },
+    });
+    const frame = screen.frame();
+    expect(frame).toContain("4 KB ready for Trash · 3 items · 2 groups");
+    expect(frame).toContain("Claude Code · 2 sessions > 20 days");
+    expect(frame).toContain("Claude Code · 1 shell snapshot > 20 days");
+    expect(frame).not.toContain("session 33333333");
+    screen.unmount();
+  });
+
+  it("tab enters Inventory without turning it into a peer of the default plan", async () => {
+    const screen = open(projectCleanRoute());
+    await screen.press("\t");
+    expect(screen.frame()).toContain("moldig · findings");
+    expect(screen.frame()).toContain("shadow memory");
+    await screen.press(ESC);
+    expect(screen.frame()).toContain("1021 B ready for Trash");
+    screen.unmount();
+  });
+
+  it("lets curiosity reveal paths and lets space exclude a whole group or one item", async () => {
+    const screen = open(projectCleanRoute());
+    await screen.press(" ");
+    expect(screen.frame()).toContain("Nothing selected");
+    await screen.press(" ", RIGHT);
+    expect(screen.frame()).toContain("session 22222222");
+    expect(screen.frame()).toContain("45 days");
+    await screen.press(DOWN, " ");
+    expect(screen.frame()).toContain("Nothing selected");
+    await screen.press(" ");
+    expect(screen.frame()).toContain("1021 B ready for Trash");
+    screen.unmount();
+  });
+
+  it("treats the reviewed plan as the only confirmation and closes on a quiet result", async () => {
+    const { runner, fake } = fakeRunner();
+    const screen = open(projectCleanRoute(), { runner });
+    await screen.press(ENTER);
+    await waitFor(screen, "moldig · done");
+    const frame = screen.frame();
+    expect(frame).toContain("Done · 1021 B to the OS Trash · 1 item");
+    expect(frame).toContain("Recover with Put Back · manifest");
+    expect(frame).toContain("q quit");
+    expect(frame).not.toContain("(y / n)");
+    expect(fake.trashed).toHaveLength(1);
+    expect(fake.trashed[0]).toHaveLength(1);
+    screen.unmount();
+  });
+
+  it("defends the one-Enter path with the final engine Plan, not only the screen model", () => {
+    const { runner } = fakeRunner();
+    const scope = projectCleanScope();
+    const marks = recommendedCleanMarks(index, scope, (entity) => runner.refusal(entity));
+    const runPlan = runner.plan(groupSelection(index, marks, (entity) => runner.refusal(entity)));
+    expect(isSafeCleanPlan(runPlan, scope)).toBe(true);
+    const group = runPlan.groups[0];
+    if (group === undefined) throw new Error("expected one Clean group");
+    expect(
+      isSafeCleanPlan(
+        {
+          ...runPlan,
+          groups: [
+            {
+              ...group,
+              extraConfirmation: { required: true, reason: "user content" },
+            },
+          ],
+        },
+        scope,
+      ),
+    ).toBe(false);
+  });
+});
+
+describe("global Clean plan", () => {
+  it("uses the same narrow one-Enter Plan across Projects and user scope", async () => {
+    const { runner, fake } = fakeRunner();
+    const scope: CleanScope = { kind: "global" };
+    const screen = open({ screen: "clean-plan", scope }, { runner });
+    const frame = screen.frame();
+    expect(frame).toContain("moldig · all safe cache");
+    expect(frame).toContain("1 harness · 1 Project + user scope");
+    expect(frame).toContain("3 KB ready for Trash · 3 items · 3 groups");
+    expect(frame).toContain("Claude Code · 1 session > 20 days · 1 Project");
+    expect(frame).toContain("Claude Code · 1 shell snapshot > 20 days · user scope");
+    expect(frame).not.toContain("MEMORY.md");
+
+    await screen.press(ENTER);
+    await waitFor(screen, "moldig · done");
+    expect(screen.frame()).toContain("Done · 3 KB to the OS Trash · 3 items");
+    expect(fake.trashed.flat()).toHaveLength(3);
     screen.unmount();
   });
 });
@@ -195,7 +378,7 @@ describe("overview", () => {
     const frame = screen.frame();
     expect(frame).toContain("project-a · 1 harness");
     expect(frame).toContain("Clean this project");
-    expect(frame).toContain("Clean state from missing projects");
+    expect(frame).toContain("Delete state from missing projects");
     expect(frame).toContain("Clean all removable state");
     expect(frame).toContain("Review findings");
     expect(frame).toContain("Browse projects");
@@ -208,7 +391,7 @@ describe("overview", () => {
     const screen = open({ screen: "overview" });
     await screen.press(ENTER);
     expect(screen.frame()).toContain("moldig · selection");
-    expect(screen.frame()).toContain("7 items selected");
+    expect(screen.frame()).toContain("1 item selected");
     await screen.press(ESC, "r");
     expect(screen.frame()).toContain("moldig · findings");
     expect(screen.frame()).toContain("shadow memory");
@@ -226,10 +409,112 @@ describe("overview", () => {
   it("? opens the compact shortcut reference and any key closes it", async () => {
     const screen = open({ screen: "overview" });
     await screen.press("?");
-    expect(screen.frame()).toContain("select every removable row in the filtered view");
+    expect(screen.frame()).toContain("select every removable row or missing Project in this view");
     expect(screen.frame()).toContain("press any key to close");
     await screen.press("x");
     expect(screen.frame()).toContain("Clean this project");
+    screen.unmount();
+  });
+});
+
+describe("update all", () => {
+  it("opens with u from Inventory, confirms once, refreshes and returns to the inbox", async () => {
+    const audited = dockerUpdateIndex();
+    const { runner, fake } = fakeRunner({}, audited);
+    let refreshes = 0;
+    const screen = open(
+      { screen: "categories" },
+      {
+        index: audited,
+        runner,
+        refresh: () => {
+          refreshes += 1;
+          return Promise.resolve({ index: audited, runner });
+        },
+      },
+    );
+
+    await screen.press("u");
+    await waitFor(screen, "moldig · update all");
+    expect(screen.frame()).toContain("1 updater run ready · 1 MCP server");
+    expect(screen.frame()).toContain("docker image pull");
+    expect(screen.frame()).toContain("enter continue");
+    await screen.press(DOWN);
+    expect(screen.frame()).toContain("items:");
+
+    await screen.press(ENTER);
+    await waitFor(screen, "confirm · Update (1/1)");
+    expect(screen.frame()).toContain("locally modified Skills remain untouched");
+    await screen.press("y");
+    await waitFor(screen, "moldig · findings");
+
+    expect(refreshes).toBe(1);
+    expect(fake.spawned).toEqual([
+      {
+        argv: ["docker", "image", "pull", "ghcr.io/example/mcp:stable"],
+        cwd: null,
+      },
+    ]);
+    expect(screen.frame()).toContain("1 updater run finished · inventory refreshed");
+    screen.unmount();
+  });
+
+  it("continues after updater failures, refreshes, and returns to Inventory after review", async () => {
+    const first = dockerUpdateIndex();
+    const source = first.entities.find(
+      (entity): entity is McpServer => entity.kind === "mcp-server" && entity.command === "docker",
+    );
+    if (source === undefined || source.locator.type !== "entry") {
+      throw new Error("expected the Docker MCP fixture entry");
+    }
+    const second: McpServer = {
+      ...source,
+      id: `${source.id}:second`,
+      name: `${source.name}-second`,
+      label: `${source.label} second`,
+      args: ["run", "ghcr.io/example/other-mcp:stable"],
+      endpointKey: "docker:ghcr.io/example/other-mcp:stable",
+      locator: {
+        ...source.locator,
+        keyPath: [...source.locator.keyPath.slice(0, -1), `${source.name}-second`],
+      },
+    };
+    const audited: AuditIndex = {
+      ...first,
+      entities: [...first.entities, second],
+      totals: { ...first.totals, entities: first.totals.entities + 1 },
+    };
+    const { runner, fake } = fakeRunner(
+      { exitCode: 7, stderr: "registry request failed: token=super-secret" },
+      audited,
+    );
+    let refreshes = 0;
+    const screen = open(
+      { screen: "update-plan", standalone: true },
+      {
+        index: audited,
+        runner,
+        refresh: () => {
+          refreshes += 1;
+          return Promise.resolve({ index: audited, runner });
+        },
+      },
+    );
+
+    await screen.press(ENTER);
+    await waitFor(screen, "confirm · Update (1/1)");
+    await screen.press("y");
+    await waitFor(screen, "moldig · result");
+
+    expect(fake.spawned).toHaveLength(2);
+    expect(refreshes).toBe(1);
+    expect(screen.frame()).toContain("2 failed");
+    expect(screen.frame()).toContain("token=<redacted>");
+    expect(screen.frame()).not.toContain("super-secret");
+    expect(screen.frame()).toContain("esc / enter inventory");
+
+    await screen.press(ENTER);
+    await waitFor(screen, "moldig · findings");
     screen.unmount();
   });
 });
@@ -242,7 +527,7 @@ describe("projects", () => {
     expect(frame).toContain("project-a");
     expect(frame).toContain("[cwd]");
     expect(frame).toContain("▸ Gone (1)");
-    expect(frame).toContain("2 removable   720 B   space to review");
+    expect(frame).toContain("2 harness records   720 B   space to select projects");
     expect(frame).toContain("▸ Unreachable (0)");
     expect(frame).toContain("User scope (paid in every session)");
     expect(frame).toContain("Claude Code · user");
@@ -263,16 +548,111 @@ describe("projects", () => {
     screen.unmount();
   });
 
-  it("space selects a Project or the whole Gone group without visiting every item", async () => {
+  it("space cleans a present Project but opens a Project-level selector for Gone", async () => {
     const project = open({ screen: "projects" });
     await project.press(" ");
-    expect(project.frame()).toContain("7 items selected");
+    expect(project.frame()).toContain("1 item selected");
     project.unmount();
 
     const gone = open({ screen: "projects" });
     await gone.press(DOWN, " ");
-    expect(gone.frame()).toContain("2 items selected");
+    expect(gone.frame()).toContain("moldig · missing projects");
+    expect(gone.frame()).toContain("1 project selected");
+    expect(gone.frame()).toContain("[x] gone");
+    expect(gone.frame()).not.toContain("MEMORY.md");
+    await gone.press("a");
+    expect(gone.frame()).toContain("0 projects selected");
+    await gone.press("a");
+    expect(gone.frame()).toContain("1 project selected");
     gone.unmount();
+  });
+
+  it("deletes selected missing Projects after two confirmations, refreshes and returns", async () => {
+    const { runner, fake } = fakeRunner({ move: false, write: false });
+    const missing = new Set(
+      index.projects
+        .filter((project) => project.reachability === "orphan")
+        .map((project) => project.id),
+    );
+    const refreshed: AuditIndex = {
+      ...index,
+      projects: index.projects.filter((project) => !missing.has(project.id)),
+      breadcrumbs: index.breadcrumbs.filter(
+        (breadcrumb) => breadcrumb.project === null || !missing.has(breadcrumb.project),
+      ),
+      entities: index.entities.filter(
+        (entity) => entity.project === null || !missing.has(entity.project),
+      ),
+      findings: index.findings.filter(
+        (finding) => finding.container === null || !missing.has(finding.container),
+      ),
+    };
+    const refresh = vi.fn<
+      (onProgress?: (event: ScanProgress) => void) => Promise<{ index: AuditIndex; runner: Runner }>
+    >((onProgress) => {
+      onProgress?.({ phase: "assemble", done: 1, total: 1 });
+      return Promise.resolve({ index: refreshed, runner });
+    });
+    const screen = open({ screen: "project-cleanup" }, { runner, refresh });
+    expect(screen.frame()).toContain("1 project selected");
+    await screen.press(ENTER);
+    await waitFor(screen, "Delete all state for 1 missing project? (y / n)");
+    await screen.press("y");
+    await waitFor(
+      screen,
+      "This group holds complete state for the selected missing projects. Confirm again?",
+    );
+    await screen.press("y");
+    await waitFor(screen, "moldig · projects");
+    expect(screen.frame()).toContain("Gone (0)");
+    expect(screen.frame()).toContain(
+      "1 missing project processed · projects and findings refreshed",
+    );
+    expect(refresh).toHaveBeenCalledOnce();
+    expect(fake.trashed).toHaveLength(1);
+    screen.unmount();
+  });
+
+  it("closes a standalone purge on a quiet Result after the same two confirmations", async () => {
+    const { runner, fake } = fakeRunner({ move: false, write: false });
+    const missing = new Set(
+      index.projects
+        .filter((project) => project.reachability === "orphan")
+        .map((project) => project.id),
+    );
+    const refreshed: AuditIndex = {
+      ...index,
+      projects: index.projects.filter((project) => !missing.has(project.id)),
+      breadcrumbs: index.breadcrumbs.filter(
+        (breadcrumb) => breadcrumb.project === null || !missing.has(breadcrumb.project),
+      ),
+      entities: index.entities.filter(
+        (entity) => entity.project === null || !missing.has(entity.project),
+      ),
+      findings: index.findings.filter(
+        (finding) => finding.container === null || !missing.has(finding.container),
+      ),
+    };
+    const refresh = vi.fn<
+      (onProgress?: (event: ScanProgress) => void) => Promise<{ index: AuditIndex; runner: Runner }>
+    >(() => Promise.resolve({ index: refreshed, runner }));
+    const screen = open({ screen: "project-cleanup", standalone: true }, { runner, refresh });
+    expect(screen.frame()).toContain("[x] gone");
+    await screen.press(ENTER);
+    await waitFor(screen, "Delete all state for 1 missing project? (y / n)");
+    await screen.press("y");
+    await waitFor(
+      screen,
+      "This group holds complete state for the selected missing projects. Confirm again?",
+    );
+    await screen.press("y");
+    await waitFor(screen, "moldig · done");
+    expect(screen.frame()).toContain("Done · state from 1 missing Project removed · 720 B");
+    expect(screen.frame()).toContain("Recover from the OS Trash and backups in the manifest");
+    expect(screen.frame()).toContain("q quit");
+    expect(refresh).toHaveBeenCalledOnce();
+    expect(fake.trashed).toHaveLength(1);
+    screen.unmount();
   });
 });
 
@@ -558,6 +938,22 @@ describe("confirm and result", () => {
     screen.unmount();
   });
 
+  it("shows row progress while a slow trash call is still running", async () => {
+    let release = noop;
+    const gate = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    const { runner } = fakeRunner({ beforeTrash: () => gate });
+    const screen = open({ screen: "confirm" }, { runner });
+    await settle();
+    await screen.press("y");
+    await waitFor(screen, "Cleaning 0/3");
+    expect(screen.frame()).not.toContain("running…");
+    release();
+    await waitFor(screen, "moldig · result");
+    screen.unmount();
+  });
+
   it("esc skips this group and every remaining one (D128)", async () => {
     const { runner, fake } = fakeRunner();
     const marked = new Map<string, ActionKind>([
@@ -733,7 +1129,7 @@ describe("leaving", () => {
     const outcome = await pending;
     expect(outcome.failedRows).toBe(0);
     expect(outcome.summary).toContain("moldig · project-a — No changes");
-    expect(outcome.summary).toContain("3 items still selected");
+    expect(outcome.summary).toContain("1 item still selected");
     expect(outcome.summary).not.toContain("every session pays");
     expect(outcome.summary).not.toMatch(/\[/u);
   });
@@ -750,7 +1146,7 @@ describe("leaving", () => {
       stdin,
     });
     expect(outcome.summary).toContain("moldig · project-a — No changes");
-    expect(stdout.frames.join("")).toContain("Clean this project");
+    expect(stdout.frames.join("")).toContain("1021 B ready for Trash");
   });
 });
 

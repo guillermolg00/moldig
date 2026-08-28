@@ -21,6 +21,7 @@ import { backupDirFor, backupPathFor, locatorKey, manifestPathFor, runIdFor } fr
 import {
   delegateCwdFor,
   parseDelegate,
+  updateBatchDelegateFor,
   updateDelegateFor,
   type DelegateCommand,
 } from "./delegates.js";
@@ -221,6 +222,74 @@ function edited(
   };
 }
 
+function editedArrayValue(
+  locator: Extract<Locator, { type: "array-value" }>,
+  backupDir: string,
+): Steps {
+  if (locator.format !== "json" && locator.format !== "jsonc") {
+    return emptySteps(refused(`moldig cannot edit ${locator.format} arrays`));
+  }
+  return {
+    disposition: editDisposition(),
+    paths: [],
+    backups: [
+      {
+        path: locator.file,
+        to: backupPathFor(backupDir, locator.file),
+        recursive: false,
+      },
+    ],
+    edits: [
+      {
+        kind: "json-array-value",
+        file: locator.file,
+        format: locator.format,
+        keyPath: [...locator.keyPath],
+        value: locator.value,
+      },
+    ],
+  };
+}
+
+function editedTomlTable(locator: Extract<Locator, { type: "entry" }>, backupDir: string): Steps {
+  return {
+    disposition: editDisposition(),
+    paths: [],
+    backups: [
+      {
+        path: locator.file,
+        to: backupPathFor(backupDir, locator.file),
+        recursive: false,
+      },
+    ],
+    edits: [{ kind: "toml-table", file: locator.file, keyPath: [...locator.keyPath] }],
+  };
+}
+
+function editedSqliteRows(locator: Extract<Locator, { type: "sqlite" }>, backupDir: string): Steps {
+  return {
+    disposition: editDisposition(),
+    paths: [],
+    backups: [
+      {
+        path: locator.file,
+        to: backupPathFor(backupDir, locator.file),
+        recursive: false,
+        sqlite: true,
+      },
+    ],
+    edits: [
+      {
+        kind: "sqlite-rows",
+        file: locator.file,
+        table: locator.table,
+        keyColumn: locator.keyColumn,
+        keyValue: locator.keyValue,
+      },
+    ],
+  };
+}
+
 /** Every lock entry that records a Skill: the Origin's own entry and every `originates-from`. */
 function lockEntriesOf(index: AuditIndex, skill: Skill): Extract<Locator, { type: "entry" }>[] {
   const out: Extract<Locator, { type: "entry" }>[] = [];
@@ -334,7 +403,7 @@ function dispositionFor(
     const delegate = parseDelegate(command, delegateCwdFor(index, entity, env.home));
     if (delegate === null) {
       return {
-        disposition: refused("moldig cannot run this command without a shell"),
+        disposition: refused("moldig cannot run this delegate safely"),
         paths: [],
         backups: [],
         edits: [],
@@ -388,7 +457,7 @@ function dispositionFor(
   };
 }
 
-/** A target a Finding names without an entity: a lock entry, or a whole memory unit (08 §2). */
+/** A locator-only target: a Finding target, or grouped state for explicitly chosen Projects. */
 function locatorSteps(locator: Locator, backupDir: string): Steps {
   if (locator.type === "dir" || locator.type === "file" || locator.type === "paths") {
     return { disposition: trashDisposition(), paths: pathsOf(locator), backups: [], edits: [] };
@@ -396,8 +465,13 @@ function locatorSteps(locator: Locator, backupDir: string): Steps {
   if (locator.type === "entry" && (locator.format === "json" || locator.format === "jsonc")) {
     return edited(locator.file, locator.keyPath, locator.format, backupDir);
   }
+  if (locator.type === "entry" && locator.format === "toml") {
+    return editedTomlTable(locator, backupDir);
+  }
+  if (locator.type === "array-value") return editedArrayValue(locator, backupDir);
+  if (locator.type === "sqlite") return editedSqliteRows(locator, backupDir);
   return {
-    disposition: refused("no editor and no delegate for this file"),
+    disposition: refused(`moldig cannot safely edit this ${locator.type} locator`),
     paths: [],
     backups: [],
     edits: [],
@@ -437,6 +511,37 @@ function targetOf(entity: Entity): PlanTarget {
   };
 }
 
+function rowForUpdateBatch(target: SelectionTarget, env: PlanEnv): PlanRow | null {
+  const batch = target.updateBatch;
+  if (target.action !== "update" || batch === undefined) return null;
+  const delegate = updateBatchDelegateFor(batch, env.home);
+  if (delegate === null) return null;
+  const locator = batch.kind === "vercel-skills" ? batch.lock : batch.locator;
+  return {
+    key: batch.key,
+    action: "update",
+    target: {
+      key: batch.key,
+      id: null,
+      locator,
+      label: batch.label,
+      kind: "update-batch",
+      harness: null,
+      project: target.project ?? null,
+    },
+    disposition: delegateDisposition(delegate, "update", false),
+    paths: [],
+    backups: [],
+    edits: [],
+    bytes: 0,
+    tokensPerSession: {},
+    flags: [],
+    badges: [],
+    volume: null,
+    finding: target.finding ?? null,
+  };
+}
+
 /**
  * Why an entity cannot be cleaned, deleted or updated — checked again here (08 §2). `null`
  * lets `dispositionFor` decide, including the precise reason a row with no removal method
@@ -468,6 +573,7 @@ function rowFor(
   backupDir: string,
   entityById: Map<string, Entity>,
 ): PlanRow | null {
+  if (target.updateBatch !== undefined) return rowForUpdateBatch(target, env);
   const entity = target.id === undefined ? undefined : entityById.get(target.id);
   const finding = target.finding ?? null;
   if (entity === undefined) {
@@ -489,15 +595,15 @@ function rowFor(
         id: null,
         locator,
         label: target.label ?? key,
-        kind: locator.type === "dir" ? "memory-unit" : "lock-entry",
-        harness: null,
-        project: null,
+        kind: target.kind ?? (locator.type === "dir" ? "memory-unit" : "lock-entry"),
+        harness: target.harness ?? null,
+        project: target.project ?? null,
       },
       disposition,
       paths: stopped ? [] : steps.paths,
       backups: stopped ? [] : steps.backups,
       edits: stopped ? [] : steps.edits,
-      bytes: 0,
+      bytes: target.bytes ?? 0,
       tokensPerSession: {},
       flags: [],
       badges: [],

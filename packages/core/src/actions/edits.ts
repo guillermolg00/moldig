@@ -1,12 +1,18 @@
 /**
- * The two edits moldig performs, both as pure `string → string | null` functions so they are
- * tested on strings before they are tested through `apply()` on a tree: removing an Entry from
- * a JSON / JSONC settings file, and the `MEMORY.md` index rewrite of ticket 08 §2.
+ * Recoverable text edits as pure `string → string | null` functions, tested on strings before
+ * `apply()` runs them on a tree: JSON / JSONC properties and array values, one TOML table, and the
+ * `MEMORY.md` index rewrite of ticket 08 §2.
  *
  * `null` means "nothing matched": the caller writes nothing and records why (08 §2, D98).
- * moldig never edits TOML (14 §1) — there is deliberately no function for it here.
  */
-import { applyEdits, findNodeAtLocation, modify, parseTree, type Edit } from "jsonc-parser";
+import {
+  applyEdits,
+  findNodeAtLocation,
+  getNodeValue,
+  modify,
+  parseTree,
+  type Edit,
+} from "jsonc-parser";
 
 const LEADING_SPACE = /^\s+/u;
 
@@ -40,6 +46,144 @@ export function removeJsonEntry(text: string, keyPath: readonly string[]): strin
   const edits = modify(text, path, undefined, {});
   if (edits.length === 0) return null;
   return applyEdits(text, repair(text, edits));
+}
+
+/** Remove one exact string from a JSON / JSONC array, preserving every sibling and comment. */
+export function removeJsonArrayValue(
+  text: string,
+  keyPath: readonly string[],
+  value: string,
+): string | null {
+  const tree = parseTree(text);
+  if (tree === undefined) return null;
+  const array = findNodeAtLocation(tree, [...keyPath]);
+  if (array?.type !== "array" || array.children === undefined) return null;
+  const index = array.children.findIndex((child) => getNodeValue(child) === value);
+  if (index < 0) return null;
+  const edits = modify(text, [...keyPath, index], undefined, {});
+  if (edits.length === 0) return null;
+  return applyEdits(text, repair(text, edits));
+}
+
+function basicString(text: string, start: number): { value: string; end: number } | null {
+  let escaped = false;
+  for (let index = start + 1; index < text.length; index += 1) {
+    const char = text[index];
+    if (escaped) {
+      escaped = false;
+      continue;
+    }
+    if (char === "\\") {
+      escaped = true;
+      continue;
+    }
+    if (char !== '"') continue;
+    const raw = text.slice(start, index + 1);
+    try {
+      const value: unknown = JSON.parse(raw);
+      return typeof value === "string" ? { value, end: index + 1 } : null;
+    } catch {
+      return null;
+    }
+  }
+  return null;
+}
+
+/** The subset of TOML dotted keys used by Codex's `[projects."<absolute path>"]` tables. */
+function dottedTomlKey(text: string): string[] | null {
+  const parts: string[] = [];
+  let index = 0;
+  while (index < text.length) {
+    while (/\s/u.test(text[index] ?? "")) index += 1;
+    if (index >= text.length) return parts.length > 0 ? parts : null;
+    const quote = text[index];
+    if (quote === '"') {
+      const found = basicString(text, index);
+      if (found === null) return null;
+      parts.push(found.value);
+      index = found.end;
+    } else if (quote === "'") {
+      const end = text.indexOf("'", index + 1);
+      if (end < 0) return null;
+      parts.push(text.slice(index + 1, end));
+      index = end + 1;
+    } else {
+      const start = index;
+      while (index < text.length && text[index] !== "." && !/\s/u.test(text[index] ?? "")) {
+        index += 1;
+      }
+      const part = text.slice(start, index);
+      if (part === "") return null;
+      parts.push(part);
+    }
+    while (/\s/u.test(text[index] ?? "")) index += 1;
+    if (index >= text.length) return parts;
+    if (text[index] !== ".") return null;
+    index += 1;
+  }
+  return parts.length > 0 ? parts : null;
+}
+
+/** A single-bracket TOML table header, without accepting array-of-table headers. */
+function tableHeader(line: string): string[] | null {
+  let index = 0;
+  while (/\s/u.test(line[index] ?? "") && line[index] !== "\n" && line[index] !== "\r") {
+    index += 1;
+  }
+  if (line[index] !== "[" || line[index + 1] === "[") return null;
+  const start = index + 1;
+  let quote: '"' | "'" | null = null;
+  let escaped = false;
+  for (index = start; index < line.length; index += 1) {
+    const char = line[index];
+    if (quote === '"') {
+      if (escaped) escaped = false;
+      else if (char === "\\") escaped = true;
+      else if (char === '"') quote = null;
+      continue;
+    }
+    if (quote === "'") {
+      if (char === "'") quote = null;
+      continue;
+    }
+    if (char === '"' || char === "'") {
+      quote = char;
+      continue;
+    }
+    if (char !== "]") continue;
+    const tail = line.slice(index + 1).trim();
+    if (tail !== "" && !tail.startsWith("#")) return null;
+    return dottedTomlKey(line.slice(start, index));
+  }
+  return null;
+}
+
+function samePath(left: readonly string[], right: readonly string[]): boolean {
+  return left.length === right.length && left.every((part, index) => part === right[index]);
+}
+
+function descendsFrom(path: readonly string[], parent: readonly string[]): boolean {
+  return path.length > parent.length && parent.every((part, index) => part === path[index]);
+}
+
+/**
+ * Remove one TOML table and any child tables. The surrounding bytes are untouched; this is the
+ * narrow orphan-Project exception to the normal rule that moldig never rewrites TOML.
+ */
+export function removeTomlTable(text: string, keyPath: readonly string[]): string | null {
+  const lines = text.match(/[^\r\n]*(?:\r\n|\n|\r|$)/gu)?.filter((line) => line !== "") ?? [];
+  const start = lines.findIndex((line) => {
+    const header = tableHeader(line);
+    return header !== null && samePath(header, keyPath);
+  });
+  if (start < 0) return null;
+  let end = start + 1;
+  while (end < lines.length) {
+    const header = tableHeader(lines[end] ?? "");
+    if (header !== null && !descendsFrom(header, keyPath)) break;
+    end += 1;
+  }
+  return [...lines.slice(0, start), ...lines.slice(end)].join("");
 }
 
 /** Basename of a markdown link target: `/` and `\` both separate, whatever the host. */

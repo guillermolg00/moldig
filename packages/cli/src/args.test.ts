@@ -21,6 +21,8 @@ describe("parseArgs", () => {
   it("takes the command from the first positional argument", () => {
     expect(ok(["scan"]).command).toBe("scan");
     expect(ok(["audit", "~/Work"])).toMatchObject({ command: "audit", roots: ["~/Work"] });
+    expect(ok(["purge", "~/Work"])).toMatchObject({ command: "purge", roots: ["~/Work"] });
+    expect(ok(["update", "~/Work"])).toMatchObject({ command: "update", roots: ["~/Work"] });
     expect(ok(["~/Work"])).toMatchObject({ command: "default", roots: ["~/Work"] });
   });
 
@@ -67,6 +69,13 @@ describe("parseArgs", () => {
   it("rejects a flag the command does not take", () => {
     expect(fails(["scan", "--fail-on", "high"])).toBe("--fail-on is not a flag of scan");
     expect(fails(["--yes"])).toContain("not of moldig without a command");
+  });
+
+  it("keeps purge and update interactive and aggregate by rejecting document and Harness filters", () => {
+    expect(fails(["purge", "--json"])).toBe("--json is not a flag of purge");
+    expect(fails(["purge", "--harness", "codex"])).toBe("--harness is not a flag of purge");
+    expect(fails(["update", "--json"])).toBe("--json is not a flag of update");
+    expect(fails(["update", "--harness", "codex"])).toBe("--harness is not a flag of update");
   });
 
   it("keeps an unattended clean to harness-cache (D16)", () => {

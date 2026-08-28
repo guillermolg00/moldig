@@ -5,7 +5,7 @@
  */
 import type { CommandName } from "./args.js";
 
-const SYNOPSIS = "usage: moldig [scan|audit|clean] [roots…] [flags]   (moldig --help)";
+const SYNOPSIS = "usage: moldig [scan|audit|clean|purge|update] [roots…] [flags]   (moldig --help)";
 
 export function usageSynopsis(): string {
   return `${SYNOPSIS}\n`;
@@ -29,10 +29,12 @@ const GLOBAL = [
   "Harness cache that AI coding harnesses leave across every Project on a machine.",
   "",
   "Usage",
-  "  moldig [roots…]          the interactive experience: scan, review, select, clean",
+  "  moldig [roots…]          review one trusted cache-to-Trash Plan, then Clean",
   "  moldig scan [roots…]     read what every Harness left and print what is there",
-  "  moldig audit [roots…]    scan, then print the Headline number and the Findings",
-  "  moldig clean [roots…]    scan, then remove the Harness-owned items you select",
+  "  moldig audit [roots…]    open Inventory in a TTY; print Findings otherwise",
+  "  moldig clean [roots…]    the same trusted Clean ritual, named explicitly",
+  "  moldig purge [roots…]    explicitly Delete state for missing Projects in a TTY",
+  "  moldig update [roots…]   Update recognised Skills, plugins and Docker MCP images",
   "",
   "Flags",
   ...SHARED_FLAGS,
@@ -47,7 +49,7 @@ const GLOBAL = [
   "",
   "Exit codes",
   "  0  the scan completed, or no Finding reached --fail-on",
-  "  1  a Finding reached --fail-on, or a clean row failed",
+  "  1  a Finding reached --fail-on, or an attempted action row failed",
   "  2  a usage or environment error, or clean refused to run",
   "",
   "The scan is read-only: it never runs a Harness, a sub-agent or an MCP server, and it",
@@ -88,15 +90,16 @@ const AUDIT = [
 ];
 
 const CLEAN = [
-  "moldig clean [roots…] — scan, then remove the Harness-owned items you select.",
+  "moldig clean [roots…] — review one trusted cache-to-Trash Plan, then Clean.",
   "",
-  "In a terminal it opens the cleanup menu. Choose this project, state left by missing",
-  "Projects or all removable Harness state, then review. Unattended it needs both --yes and a",
-  "filter (--category, --older-than or --harness), so a scheduled run can never remove",
-  "more than it was told to. It only ever reaches what the audit preselected: Harness",
-  "cache the Harness itself documents as safe to sweep, past its own retention, with no",
-  "live session on it. Memory files are never removed without an explicit selection,",
-  "and Human-owned items are never part of a clean.",
+  "In a Project, the Plan contains only that Project's audit-preselected Harness cache. Outside",
+  "a Project it contains the same safe cache across the scanned machine. The Plan is grouped by",
+  "Harness and cache kind; expand only for paths, or use space to exclude a group or item. Enter",
+  "is the confirmation. Memory files, Human-owned items, kept state, Live rows and non-Trash",
+  "dispositions never enter this Plan.",
+  "",
+  "Unattended it needs both --yes and a filter (--category, --older-than or --harness), so a",
+  "scheduled run can never remove more than it was told to.",
   "",
   "Flags",
   ...SHARED_FLAGS,
@@ -113,11 +116,52 @@ const CLEAN = [
   "usage or environment error.",
 ];
 
+const PURGE = [
+  "moldig purge [roots…] — explicitly Delete state for Projects whose directories are gone.",
+  "",
+  "Requires a terminal. Every missing Project starts selected as one human-scale Delete target;",
+  "space excludes individual Projects and `a` selects all or none. The preview shows Project and",
+  "Harness-record totals, then asks twice before anything runs. Files go to the OS trash and store",
+  "entries are backed up before precise edits. Live state stays. Purge is the command name; the",
+  "underlying Action remains Delete, never Clean.",
+  "",
+  "Flags",
+  "  [roots…]            limit missing Projects to these directories",
+  "  --no-git            never spawn git while rebuilding the Index",
+  "  --help, -h          print this page",
+  "  --version, -V       print the version",
+  "",
+  "Exit codes: 0 every attempted row succeeded · 1 a row failed · 2 no terminal, usage or",
+  "environment error.",
+];
+
+const UPDATE = [
+  "moldig update [roots…] — Update recognised Skills, plugins and Docker MCP images.",
+  "",
+  "Requires a terminal. Skills installed by the Vercel skills CLI are grouped by lock scope and",
+  "updated once per scope; locally modified or differing copies stay for an individual decision.",
+  "A plugin with one such Skill stays too. Plugin-owned MCP servers update with their parent plugin.",
+  "Remote servers and ephemeral npx/uvx launchers have no separate local update step. A Docker MCP",
+  "image is pulled once per trusted Docker command, context and platform target. Launcher version",
+  "pins, Docker digests, direct binaries and unknown launchers stay with a reason.",
+  "",
+  "Flags",
+  "  [roots…]            limit the machine-wide Update Plan to these directories",
+  "  --no-git            never spawn git while rebuilding the Index",
+  "  --help, -h          print this page",
+  "  --version, -V       print the version",
+  "",
+  "Exit codes: 0 every updater run succeeded · 1 an updater run failed · 2 no terminal, usage or",
+  "environment error.",
+];
+
 const PAGES: Record<CommandName, readonly string[]> = {
   default: GLOBAL,
   scan: SCAN,
   audit: AUDIT,
   clean: CLEAN,
+  purge: PURGE,
+  update: UPDATE,
 };
 
 export function helpPage(command: CommandName): string {

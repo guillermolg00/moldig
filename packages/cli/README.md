@@ -13,15 +13,16 @@ worth removing.
 npx moldig            # the interactive experience
 npx moldig scan       # what every harness left on this machine
 npx moldig audit      # the headline number and the findings
-npx moldig clean      # remove the harness-owned items you select
+npx moldig clean      # the explicit form of the trusted Clean ritual
+npx moldig purge      # Delete state left by missing Projects
+npx moldig update     # update recognised Skills, plugins and Docker MCP images
 ```
 
 Requires Node.js 22.18 or newer. macOS, Linux and Windows.
 
-> **Status at this version.** All six adapters, `scan`, `audit`, the interactive experience and
-> `clean` are here — the selection panel, the per-group confirmation and the unattended run
-> included. moldig always names the harnesses it read and never claims to have removed anything
-> it did not.
+> **Status at this version.** All six adapters, `scan`, `audit`, the focused Clean ritual,
+> missing-Project `purge` and machine-wide `update` are here, including unattended filtered Clean.
+> moldig always names the harnesses it read and never claims to have changed anything it did not.
 
 ## Install
 
@@ -67,17 +68,22 @@ moldig                # every project on this machine
 moldig ~/Work         # only the projects under ~/Work
 ```
 
-The first screen is a quiet cleanup menu with three explicit scopes: **this Project**, **Harness
-state left by Projects whose directories are gone**, or **all removable Harness state**. Each
-choice selects the whole scope at once and opens a review; nothing moves before the grouped
-confirmation. Human-owned
-Context files, Skills, Agent definitions, Plugins and MCP servers never enter a bulk cleanup.
-Detailed Findings, Projects, Items, item details and the graph sit one level below the menu.
+Inside a Project, the first screen is one narrow Plan containing only that Project's old,
+documented-sweepable Harness cache; outside every Project, it contains the same safe cache across
+the scanned Roots. Enter is the confirmation, while `space` can exclude a group or item and `tab`
+enters Inventory. Human-owned Context files, Skills, Agent definitions, plugins, MCP servers,
+Memory, kept cache and Live state never enter this trusted Clean Plan.
+
+Inventory is the Finding inbox for surgical decisions. From there, `u` opens the machine-wide
+Update Plan. `moldig purge` separately opens one compact missing-Project list: toggle Projects with
+`space`, use `a` for all/none, then Delete their complete Harness records after two confirmations.
+After any run, moldig scans and audits again before it returns.
 
 Keys: `↑↓` `j` `k` to navigate (`PgUp`/`PgDn`, `Home`/`End` jump), `enter` to choose or open,
-`space` to select removable Harness state or a whole cleanup group, `a` for every removable row
-in the filtered view, `d` for an explicit Delete, `u` to Update, `o` to open the path in your
-editor, `g` for the graph, `/` to filter, `r` for Finding categories, `p` for Projects, `s` for
+`space` to select removable Harness state, a cleanup group or one missing Project, `a` for every
+removable row or every missing Project in the current view, `d` for an explicit Delete, `u` for
+Update (or Update all from Inventory), `o` to open the path in your editor, `g` for the graph, `/`
+to filter, `r` for Finding categories, `p` for Projects, `s` for
 the selection, `esc` to go back, `?` for shortcuts and `q` to leave. Where the terminal supports
 OSC 8, paths are clickable links.
 
@@ -159,11 +165,10 @@ npx moldig audit --fail-on high    # fails the build on, say, a secret in a git-
 
 ### `moldig clean [roots…]`
 
-Scan, then remove the harness-owned items you select. In a terminal it opens the selection panel:
-the groups clean, delete, update and open, each confirmed and run on its own, then the result and
-a shareable summary. Unattended it needs **both** `--yes` and a filter, so a scheduled run can
-never remove more than it was told to, and it only ever reaches what the audit preselected;
-without them it prints why and exits 2.
+The named form of the same focused/global trusted Clean Plan described above. In a terminal, Enter
+moves the reviewed cache to the OS Trash without a second prompt. Unattended it needs **both**
+`--yes` and a filter, so a scheduled run can never remove more than it was told to, and it only
+ever reaches what the audit preselected; without them it prints why and exits 2.
 
 | Flag | |
 |---|---|
@@ -182,11 +187,33 @@ npx moldig clean --dry-run --json | jq .rows        # the plan as the run-manife
 An unattended clean can only ever narrow what the audit preselected: harness cache the harness
 itself documents as safe to sweep, past that harness's own retention, with no live session on
 it. Nothing widens that set. Memory files are never in it without an explicit selection, and
-human-owned items are never part of a clean at all — those go through Delete and Update in the
-interactive experience, one confirmation per group.
+human-owned items are never part of a Clean at all — inspect those from Inventory instead.
 
 Exit codes: `0` every attempted row ended moved, edited or delegated · `1` at least one row
 failed · `2` it refused to run, or a usage or environment error.
+
+### `moldig purge [roots…]`
+
+Requires a terminal. Every missing Project starts selected as one aggregate Delete target. Files go
+to the OS Trash; store entries are backed up before precise edits; Live state remains. The Plan asks
+twice, continues after row failures, re-scans, and then returns a recovery-aware Result.
+
+Only `[roots…]`, `--no-git`, help and version flags are accepted. Exit codes: `0` every attempted
+row succeeded · `1` a row failed · `2` no terminal, usage or environment error.
+
+### `moldig update [roots…]`
+
+Requires a terminal and opens one Update Plan over the complete scanned Index. Vercel Skills are
+grouped by lock scope and updated once per scope. Locally modified or divergent Skills stay; a
+plugin containing one stays too. Plugin-owned MCP servers follow their parent plugin. Remote servers
+and ephemeral npx/uvx launchers are shown as managed elsewhere or on launch, not falsely updated.
+Docker MCP images are pulled once per trusted Docker command, context and platform target. Launcher version
+pins, Docker digests, direct binaries and ambiguous launchers stay with a reason and item labels.
+
+Enter continues to one confirmation. Every updater runs as preserved argv + cwd without a shell;
+failures do not stop later batches. moldig then re-scans and returns to Inventory. Only `[roots…]`,
+`--no-git`, help and version flags are accepted. Exit codes: `0` every updater succeeded · `1` an
+updater failed · `2` no terminal, usage or environment error.
 
 ### Shared flags
 
@@ -206,7 +233,7 @@ failed · `2` it refused to run, or a usage or environment error.
 |---|---|
 | `0` | the scan completed, or no finding reached `--fail-on`, or every attempted row succeeded |
 | `1` | a finding reached `--fail-on`, or a row of a run failed |
-| `2` | a usage or environment error (an unknown flag, an unknown harness id, a root that is not a directory, a platform moldig does not run on, Node older than 22.18), or `clean` refusing to run |
+| `2` | a usage or environment error (an unknown flag, an unknown harness id, a root that is not a directory, a platform moldig does not run on, Node older than 22.18), `clean` refusing to run, or `purge`/`update` without a terminal |
 
 ### Output contract
 
@@ -260,8 +287,8 @@ where the harness writes it down; binaries are never run and `PATH` is never pro
 - **Nothing is ever written inside a repository.** No backups, no manifests, no cache files.
   moldig never dirties your git status, and every suggested action on a git-tracked item carries
   a warning because your collaborators may rely on it.
-- **The network is touched once, on demand**: the preview of what an Update would change.
-  Nothing else ever leaves the machine.
+- **Scan, audit and every removal stay offline.** Only a confirmed Update hands preserved argv to
+  recognised installers or Docker, whose normal network access is previewed before it runs.
 - **No telemetry, no account, no daemon, no update check, no configuration file.** The first run
   is `npx moldig` and nothing else.
 

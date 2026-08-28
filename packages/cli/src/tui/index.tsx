@@ -9,10 +9,11 @@ import type { AuditIndex, RunManifest } from "@moldig/core";
 import { render } from "ink";
 import { hostname } from "node:os";
 import { App } from "./app.js";
+import { recommendedCleanMarks } from "./lib/clean-plan.js";
 import { type Env, supportsHyperlinks } from "./lib/hyperlink.js";
 import { runTotals, type Runner } from "./lib/runner.js";
 import { initialMarks, type Refusal } from "./lib/selection.js";
-import { type Route } from "./lib/store.js";
+import { type RefreshTui, type Route } from "./lib/store.js";
 import { summaryText } from "./lib/summary.js";
 
 export interface TuiRequest {
@@ -22,6 +23,8 @@ export interface TuiRequest {
   /** Optional test or embedding override; normal interactive runs open on the cleanup menu. */
   readonly initialRoute?: Route;
   readonly runner: Runner;
+  /** Re-scan hook used after Project-level deletion. */
+  readonly refresh?: RefreshTui;
   readonly stdout?: NodeJS.WriteStream;
   readonly stdin?: NodeJS.ReadStream;
 }
@@ -43,14 +46,31 @@ export async function openTui(request: TuiRequest): Promise<TuiOutcome> {
   const { runner } = request;
   const refusal: Refusal = (entity) => runner.refusal(entity);
   const interactive = stdout.isTTY && stdin.isTTY;
+  const initialRoute = request.initialRoute;
+  const marks =
+    initialRoute?.screen === "clean-plan"
+      ? recommendedCleanMarks(index, initialRoute.scope, refusal)
+      : initialRoute?.screen === "update-plan" ||
+          (initialRoute?.screen === "project-cleanup" && initialRoute.standalone === true)
+        ? new Map()
+        : initialMarks(index, refusal);
+  const label =
+    initialRoute?.screen === "clean-plan" && initialRoute.scope.kind === "global"
+      ? "moldig · all projects"
+      : initialRoute?.screen === "project-cleanup" && initialRoute.standalone === true
+        ? "moldig purge"
+        : initialRoute?.screen === "update-plan" && initialRoute.standalone === true
+          ? "moldig update"
+          : undefined;
 
   let latest = summaryText({
     index,
-    marks: initialMarks(index, refusal),
+    marks,
     run: null,
     home: index.scan.home,
     platform,
     refusal,
+    ...(label === undefined ? {} : { label }),
   });
   let lastRun: RunManifest | null = null;
 
@@ -63,6 +83,7 @@ export async function openTui(request: TuiRequest): Promise<TuiOutcome> {
       interactive={interactive}
       linksSupported={supportsHyperlinks(env, stdout.isTTY)}
       runner={runner}
+      {...(request.refresh === undefined ? {} : { refresh: request.refresh })}
       {...(request.initialRoute === undefined ? {} : { initialRoute: request.initialRoute })}
       onSummary={(text) => {
         latest = text;

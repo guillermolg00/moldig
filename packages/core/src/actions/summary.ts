@@ -82,10 +82,12 @@ export function summaryLines(manifest: RunManifest, options: SummaryOptions = {}
   }
   if (manifest.mode === "dry-run") return lines;
   lines.push(`Manifest: ${manifest.manifestPath}`);
+  const backups = new Set<string>();
   for (const row of manifest.rows) {
     if (!freed.has(row.result.status)) continue;
-    for (const backup of row.target.backupPaths) lines.push(`Backup: ${backup}`);
+    for (const backup of row.target.backupPaths) backups.add(backup);
   }
+  for (const backup of backups) lines.push(`Backup: ${backup}`);
   lines.push(
     'recovery: OS trash "Put Back" + the backup paths in the manifest (no restore command in v1)',
   );

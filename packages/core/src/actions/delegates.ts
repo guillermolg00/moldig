@@ -4,7 +4,8 @@
  * beside it and no shell is ever spawned (D87). A command moldig cannot express as argv is
  * refused rather than handed to a shell.
  */
-import type { Entity, Index, Plugin } from "../index/types.js";
+import type { Entity, Index, Locator, Plugin } from "../index/types.js";
+import type { UpdateBatchTarget } from "./types.js";
 
 export interface DelegateCommand {
   argv: string[];
@@ -22,6 +23,7 @@ function permanentArgv(argv: readonly string[]): boolean {
 }
 
 const SHELL_CHARS = new Set(["&", "|", ";", "<", ">", "$", "`", "(", ")", "{", "}", "*", "?"]);
+const INSTALLER_NAME = /^[A-Za-z0-9][A-Za-z0-9._-]*$/u;
 
 /** Split a command into argv, honouring quotes and refusing anything that needs a shell. */
 function tokenise(command: string): string[] | null {
@@ -57,17 +59,55 @@ function tokenise(command: string): string[] | null {
 
 const CD_PREFIX = /^cd\s+"([^"]+)"\s+&&\s+/u;
 
+function safePluginSpecifier(value: string): boolean {
+  const at = value.lastIndexOf("@");
+  return (
+    at > 0 && INSTALLER_NAME.test(value.slice(0, at)) && INSTALLER_NAME.test(value.slice(at + 1))
+  );
+}
+
+/** Only adapter-owned command shapes may become executable argv. Config keys are identifiers. */
+function safeRemovalArgv(argv: readonly string[]): boolean {
+  if (
+    argv.length === 6 &&
+    argv[0] === "claude" &&
+    argv[1] === "mcp" &&
+    argv[2] === "remove" &&
+    INSTALLER_NAME.test(argv[3] ?? "") &&
+    argv[4] === "-s" &&
+    (argv[5] === "user" || argv[5] === "local")
+  ) {
+    return true;
+  }
+  if (
+    argv.length === 4 &&
+    argv[0] === "claude" &&
+    argv[1] === "plugin" &&
+    argv[2] === "uninstall"
+  ) {
+    return safePluginSpecifier(argv[3] ?? "");
+  }
+  return (
+    argv.length === 4 &&
+    INSTALLER_NAME.test(argv[3] ?? "") &&
+    ((argv[0] === "codex" && argv[1] === "mcp" && argv[2] === "remove") ||
+      (argv[0] === "gemini" && argv[1] === "extensions" && argv[2] === "uninstall") ||
+      (argv[0] === "opencode" && argv[1] === "session" && argv[2] === "delete"))
+  );
+}
+
 /**
  * `removal.command` is one string and the adapters write `cd "<dir>" && claude mcp remove …`
  * for a local-scope entry (the command acts on the entry of the directory it runs in). The
- * engine parses that prefix into `cwd` and never passes it to a shell (spec 08 open item 1).
+ * engine parses that prefix into `cwd`, accepts only known adapter-owned shapes and never passes
+ * it to a shell (spec 08 open item 1).
  */
 export function parseDelegate(command: string, fallbackCwd: string | null): DelegateCommand | null {
   const prefix = CD_PREFIX.exec(command);
   const cwd = prefix?.[1] ?? fallbackCwd;
   const rest = prefix === null ? command : command.slice(prefix[0].length);
   const argv = tokenise(rest);
-  if (argv === null) return null;
+  if (argv === null || !safeRemovalArgv(argv)) return null;
   return {
     argv,
     cwd,
@@ -81,6 +121,19 @@ export function parseDelegate(command: string, fallbackCwd: string | null): Dele
 function dirnameOf(path: string): string {
   const cut = Math.max(path.lastIndexOf("/"), path.lastIndexOf("\\"));
   return cut <= 0 ? path : path.slice(0, cut);
+}
+
+function fileOf(locator: Locator): string | null {
+  switch (locator.type) {
+    case "file":
+      return locator.path;
+    case "entry":
+    case "array-value":
+    case "sqlite":
+      return locator.file;
+    default:
+      return null;
+  }
 }
 
 function projectPath(index: Index, projectId: string | null): string | null {
@@ -102,6 +155,11 @@ function displayOf(argv: string[]): string {
   return argv.join(" ");
 }
 
+function safePluginId(plugin: Plugin): boolean {
+  if (plugin.origin?.installer === "gemini-extension") return INSTALLER_NAME.test(plugin.pluginId);
+  return safePluginSpecifier(plugin.pluginId);
+}
+
 /**
  * Where a Delete delegate runs (D93): the Project directory for a project or local install,
  * the home directory otherwise. A `cd "<dir>" && …` prefix in `removal.command` wins over it.
@@ -109,6 +167,55 @@ function displayOf(argv: string[]): string {
 export function delegateCwdFor(index: Index, entity: Entity, home: string): string {
   if (entity.kind === "plugin") return pluginCwd(index, entity, home);
   return projectPath(index, entity.project) ?? home;
+}
+
+/** A bulk Update command whose shape core recognised while building the machine-wide plan. */
+export function updateBatchDelegateFor(
+  batch: UpdateBatchTarget,
+  home: string,
+): DelegateCommand | null {
+  if (batch.kind === "vercel-skills") {
+    const file = fileOf(batch.lock);
+    if (
+      file === null ||
+      batch.names.length === 0 ||
+      batch.names.some((name) => !INSTALLER_NAME.test(name))
+    ) {
+      return null;
+    }
+    const argv = [
+      "npx",
+      "skills",
+      "update",
+      ...batch.names,
+      batch.scope === "global" ? "-g" : "-p",
+      "-y",
+    ];
+    return {
+      argv,
+      cwd: batch.scope === "global" ? home : dirnameOf(file),
+      display: displayOf(argv),
+      runnable: true,
+      permanent: false,
+      reason: null,
+    };
+  }
+  if (batch.image.includes("@sha256:") || batch.argvPrefix.length === 0) return null;
+  const argv = [
+    ...batch.argvPrefix,
+    "image",
+    "pull",
+    ...(batch.platform === null ? [] : ["--platform", batch.platform]),
+    batch.image,
+  ];
+  return {
+    argv,
+    cwd: null,
+    display: displayOf(argv),
+    runnable: true,
+    permanent: false,
+    reason: null,
+  };
 }
 
 /**
@@ -129,6 +236,7 @@ export function updateDelegateFor(
   // and belongs to another ticket, so the value is read as a string here.
   const installer: string = origin.installer;
   if (installer === "vercel-skills" && entity.kind === "skill") {
+    if (!INSTALLER_NAME.test(entity.name)) return null;
     const lockFile = origin.lock.type === "entry" ? origin.lock.file : null;
     const projectLock = lockFile !== null && lockFile.endsWith("skills-lock.json");
     const argv = ["npx", "skills", "update", entity.name, projectLock ? "-p" : "-g"];
@@ -142,6 +250,7 @@ export function updateDelegateFor(
     };
   }
   if (installer === "claude-plugin" && entity.kind === "plugin") {
+    if (!safePluginId(entity)) return null;
     const argv = ["claude", "plugin", "update", entity.pluginId];
     return {
       argv,
@@ -153,6 +262,7 @@ export function updateDelegateFor(
     };
   }
   if (installer === "gemini-extension" && entity.kind === "plugin") {
+    if (!safePluginId(entity)) return null;
     const argv = ["gemini", "extensions", "update", entity.pluginId];
     return {
       argv,

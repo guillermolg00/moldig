@@ -10,7 +10,7 @@
 import { HARNESSES } from "@moldig/core";
 import type { Category, HarnessId } from "@moldig/core";
 
-export type CommandName = "default" | "scan" | "audit" | "clean";
+export type CommandName = "default" | "scan" | "audit" | "clean" | "purge" | "update";
 export type Severity = "low" | "medium" | "high";
 export type FailOn = Severity | "never";
 
@@ -28,7 +28,7 @@ export const CATEGORIES = [
 
 const SEVERITIES = ["low", "medium", "high"] as const;
 const FAIL_ON = ["low", "medium", "high", "never"] as const;
-const COMMANDS = ["scan", "audit", "clean"] as const;
+const COMMANDS = ["scan", "audit", "clean", "purge", "update"] as const;
 
 export interface Options {
   command: CommandName;
@@ -63,6 +63,8 @@ const EXTRA: Record<CommandName, readonly string[]> = {
   scan: [],
   audit: ["--no-read-signal", "--fail-on", "--category", "--severity"],
   clean: ["--no-read-signal", "--dry-run", "--yes", "--category", "--older-than"],
+  purge: [],
+  update: [],
 };
 
 interface Flag {
@@ -143,7 +145,11 @@ export function parseArgs(argv: readonly string[]): ParseResult {
     version: false,
   };
 
-  const allowed = new Set([...SHARED, ...EXTRA[command]]);
+  const allowed = new Set(
+    command === "purge" || command === "update"
+      ? ["--no-git", "--help", "-h", "--version", "-V"]
+      : [...SHARED, ...EXTRA[command]],
+  );
   for (const { name, value } of flags) {
     if (!allowed.has(name)) {
       return {

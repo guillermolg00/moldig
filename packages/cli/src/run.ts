@@ -19,6 +19,7 @@ import {
   type Executors,
   type Finding,
   type Index,
+  type ScanProgress,
 } from "@moldig/core";
 import { parseArgs, severityRank, type Options } from "./args.js";
 import {
@@ -36,6 +37,7 @@ import { helpPage, usageSynopsis } from "./help.js";
 import { createPalette } from "./palette.js";
 import { auditReport, scanReport, type ReportStyle } from "./report.js";
 import type { OpenTui } from "./tui/index.js";
+import { recommendedCleanMarks, type CleanScope } from "./tui/lib/clean-plan.js";
 import { createRunner } from "./tui/lib/runner.js";
 import { initialMarks } from "./tui/lib/selection.js";
 import { summaryText } from "./tui/lib/summary.js";
@@ -56,6 +58,8 @@ export interface Io {
   platform?: NodeJS.Platform;
   /** Deterministic `generatedAt` and `ageDays`; defaults to the real clock. */
   now?: Date;
+  /** Test seam for the real-scan progress threshold; production waits 150 ms. */
+  progressDelayMs?: number;
   /** stdin's TTY-ness: the TUI needs both streams to be terminals; `isTTY` covers stdout only. */
   stdinIsTTY?: boolean;
   /**
@@ -85,6 +89,61 @@ function writer(sink: (chunk: string) => void): (line: string) => void {
   return (line) => {
     sink(`${line}\n`);
   };
+}
+
+const PROGRESS_HARNESS: Readonly<Record<string, string>> = {
+  "claude-code": "Claude Code",
+  codex: "Codex",
+  cursor: "Cursor",
+  "gemini-cli": "Gemini CLI",
+  copilot: "Copilot",
+  opencode: "OpenCode",
+};
+
+function scanProgressText(event: ScanProgress | null): string {
+  if (event === null) return "reading harness state";
+  if (event.harness !== undefined) {
+    const harness = PROGRESS_HARNESS[event.harness] ?? event.harness;
+    return `reading ${harness} · ${event.done}/${event.total}`;
+  }
+  const phase =
+    event.phase === "git"
+      ? "checking Projects"
+      : event.phase === "assemble"
+        ? "building the index"
+        : "reading harness state";
+  return `${phase} · ${event.done}/${event.total}`;
+}
+
+/** Real progress after a short threshold; a fast scan leaves no startup theatre behind. */
+async function scanWithDelayedProgress(
+  io: Pick<Io, "stderr" | "progressDelayMs">,
+  enabled: boolean,
+  run: (onProgress?: (event: ScanProgress) => void) => Promise<Index>,
+): Promise<Index> {
+  if (!enabled) return run();
+
+  let latest: ScanProgress | null = null;
+  let shown = false;
+  const timer = setTimeout(() => {
+    shown = true;
+    io.stderr(`moldig · ${scanProgressText(latest)}…\n`);
+  }, io.progressDelayMs ?? 150);
+
+  try {
+    const index = await run((event) => {
+      latest = event;
+    });
+    if (shown) {
+      const harnesses = index.harnesses.length;
+      io.stderr(
+        `moldig · scan complete · ${harnesses} ${harnesses === 1 ? "harness" : "harnesses"}\n`,
+      );
+    }
+    return index;
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 /** One line on stderr and the usage synopsis, exit 2 (spec § "Usage errors"). */
@@ -199,13 +258,20 @@ function canOpenPanel(io: Io, options: Options): boolean {
 }
 
 /**
- * D1/D4: `moldig` with no command and `moldig clean` open the TUI, but only on a real terminal
- * with both streams attached. `--json` is always the audit document (D14) and the unattended
- * `clean` flags stay on the printed path.
+ * `moldig`, interactive `audit`, `clean`, `purge` and `update` open the TUI only on a real terminal
+ * with both streams attached. `--json` is always a document and the unattended `clean` flags stay
+ * on the printed path.
  */
 function wantsTui(io: Io, options: Options): boolean {
   if (!canOpenPanel(io, options)) return false;
-  if (options.command === "default") return true;
+  if (
+    options.command === "default" ||
+    options.command === "audit" ||
+    options.command === "purge" ||
+    options.command === "update"
+  ) {
+    return true;
+  }
   return options.command === "clean" && !options.dryRun && !options.yes;
 }
 
@@ -263,20 +329,29 @@ export async function runCli(argv: readonly string[], io: Io): Promise<number> {
         return 2;
       }
     }
+    if ((options.command === "purge" || options.command === "update") && !interactive) {
+      io.stderr(
+        `moldig ${options.command}: requires an interactive terminal; unattended ${options.command} is not available.\n`,
+      );
+      return 2;
+    }
 
     const roots = await resolveRoots(io, options);
     if (!Array.isArray(roots)) return usageError(io, roots.error);
 
-    const index = await scan({
-      home: io.home,
-      roots,
-      cwd: io.cwd,
-      platform,
-      env: io.env,
-      git: options.git,
-      ...(options.harnesses.length > 0 ? { harnesses: options.harnesses } : {}),
-      ...(io.now === undefined ? {} : { now: io.now }),
-    });
+    const scanOnce = (onProgress?: (event: ScanProgress) => void) =>
+      scan({
+        home: io.home,
+        roots,
+        cwd: io.cwd,
+        platform,
+        env: io.env,
+        git: options.git,
+        ...(options.harnesses.length > 0 ? { harnesses: options.harnesses } : {}),
+        ...(io.now === undefined ? {} : { now: io.now }),
+        ...(onProgress === undefined ? {} : { onProgress }),
+      });
+    const index = await scanWithDelayedProgress(io, interactive, scanOnce);
 
     // `audit`, and `moldig` without a command. `audit()` can add a Warning of its own, so the
     // document is built before anything is written.
@@ -301,9 +376,11 @@ export async function runCli(argv: readonly string[], io: Io): Promise<number> {
     // directory, the same clock (08 §9). Nothing in it writes until a group is confirmed.
     const clock = io.now;
     const deviceOf = createDeviceProbe({ home: io.home, platform });
+    const executors =
+      io.executors ?? createExecutors(clock === undefined ? {} : { now: () => clock });
     const context = (auditedIndex: AuditIndex, version: string): CleanContext => ({
       index: auditedIndex,
-      executors: io.executors ?? createExecutors(clock === undefined ? {} : { now: () => clock }),
+      executors,
       dataDir: dataDirFor({ platform, env: io.env, home: io.home }),
       platform,
       home: io.home,
@@ -314,19 +391,70 @@ export async function runCli(argv: readonly string[], io: Io): Promise<number> {
 
     const openTui = io.openTui;
     if (interactive && audited !== null && openTui !== undefined) {
+      const version = await moldigVersion();
+      const runnerFor = (auditedIndex: AuditIndex) =>
+        createRunner({
+          ...context(auditedIndex, version),
+          prepare: (runPlan) => ensureDirFor(runPlan.manifestPath),
+        });
+      const tuiRunner = runnerFor(audited);
+      const focusedProject =
+        audited.headline.focus.reason === "cwd"
+          ? audited.projects.find((project) => project.id === audited.headline.focus.project)
+          : undefined;
+      const cleanScope: CleanScope =
+        focusedProject === undefined
+          ? { kind: "global" }
+          : { kind: "project", project: focusedProject.id };
+      const recommended = recommendedCleanMarks(audited, cleanScope, (entity) =>
+        tuiRunner.refusal(entity),
+      );
+      const cleaning = options.command === "default" || options.command === "clean";
+      if (cleaning && recommended.size === 0) {
+        for (const line of warnings) err(line);
+        io.stdout(
+          focusedProject === undefined
+            ? "moldig — Nothing safe to clean. Run moldig purge for missing Projects or moldig audit to inspect findings.\n"
+            : `moldig · ${focusedProject.displayName} — Nothing safe to clean in this project. Run moldig audit to inspect findings.\n`,
+        );
+        return 0;
+      }
+      const missingProjects = audited.projects.filter(
+        (project) => project.reachability === "orphan",
+      );
+      if (options.command === "purge" && missingProjects.length === 0) {
+        for (const line of warnings) err(line);
+        io.stdout("moldig purge — No missing Projects.\n");
+        return 0;
+      }
+      const initialRoute =
+        options.command === "audit"
+          ? ({ screen: "categories" } as const)
+          : options.command === "purge"
+            ? ({ screen: "project-cleanup", standalone: true } as const)
+            : options.command === "update"
+              ? ({ screen: "update-plan", standalone: true } as const)
+              : ({ screen: "clean-plan", scope: cleanScope } as const);
       const outcome = await openTui({
         index: audited,
         env: io.env,
         platform,
-        runner: createRunner({
-          ...context(audited, await moldigVersion()),
-          prepare: (runPlan) => ensureDirFor(runPlan.manifestPath),
-        }),
+        runner: tuiRunner,
+        ...(initialRoute === undefined ? {} : { initialRoute }),
+        refresh: async (onProgress) => {
+          const rescanned = await scanOnce(onProgress);
+          const reaudited = filtered(
+            await audit(rescanned, { readSignal: options.readSignal }),
+            options,
+          );
+          return { index: reaudited, runner: runnerFor(reaudited) };
+        },
       });
       for (const line of warnings) err(line);
       io.stdout(`\n${outcome.summary}`);
-      // D17: leaving is 0, even with nothing done; one failed row makes the run 1.
-      return outcome.failedRows > 0 ? 1 : 0;
+      if (outcome.failedRows > 0) return 1;
+      // Interactive audit keeps audit's Finding threshold; the daily Clean ritual exits 0.
+      return options.command === "audit" ? exitFor(audited, options) : 0;
     }
 
     if (options.command === "clean" && audited !== null) {

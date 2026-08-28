@@ -1,6 +1,6 @@
 # moldig
 
-CleanMyMac for your AI setup: a terminal tool that scans, shows and cleans the skills, MCP servers, context files and memories that AI coding harnesses leave across every project on a machine. Read `.scratch/moldig-v1/map.md` for where the effort stands (destination, decisions, open tickets) and `CONTEXT.md` for the vocabulary. `.scratch/` and `docs/research/` are local-only (gitignored): the research notes describe Guillermo's machine in detail. The decisions in `docs/adr/`, these agent conventions and `docs/release.md` are tracked. The original vision document (`moldig-plan.md`) is kept by Guillermo outside the repo.
+CleanMyMac for your AI setup: a terminal tool that scans, shows and cleans the skills, MCP servers, context files and memories that AI coding harnesses leave across every project on a machine. Read `.scratch/moldig-daily-ritual/map.md` for where the current effort stands (destination, decisions, open tickets) and `CONTEXT.md` for the vocabulary. `.scratch/` and `docs/research/` are local-only (gitignored): the research notes describe Guillermo's machine in detail. The decisions in `docs/adr/`, these agent conventions and `docs/release.md` are tracked. The original vision document (`moldig-plan.md`) is kept by Guillermo outside the repo.
 
 Conventions: repo docs, tickets, specs and code comments are written in English; conversation with Guillermo is in Spanish. Keep this file minimal — moldig's own thesis is that bloated context files hurt.
 

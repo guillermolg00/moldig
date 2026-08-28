@@ -14,9 +14,11 @@
 import {
   canDelete as coreCanDelete,
   isLive as coreIsLive,
+  isPreselectedUnit as coreIsPreselectedUnit,
   isProtected as coreIsProtected,
   isSizeOnly as coreIsSizeOnly,
   isTickable as coreIsTickable,
+  selectionFrom,
   type AuditIndex,
   type Badge as CoreBadge,
   type Entity,
@@ -204,9 +206,10 @@ export interface BulkCleanupOptions {
 }
 
 /**
- * One explicit bulk choice, still inside ADR-0004: only harness-owned state is selected. Cleanable
- * rows go to Clean; optionally, known removable `kept` cache goes to Delete. Human-owned rows,
- * settings containers, Live rows, size-only rows and refused volumes never enter the result.
+ * One explicit bulk choice, still inside ADR-0004: only audit-preselected harness cache enters
+ * Clean; optionally, known removable `kept` cache goes to Delete. Memory, undocumented cache,
+ * human-owned rows, settings containers, Live rows, size-only rows and refused volumes never enter
+ * the result.
  */
 export function bulkCleanupMarks(
   index: Pick<AuditIndex, "entities">,
@@ -217,7 +220,7 @@ export function bulkCleanupMarks(
   const projects = options.projects ?? null;
   for (const entity of index.entities) {
     if (projects !== null && (entity.project === null || !projects.has(entity.project))) continue;
-    if (isTickable(entity, refusal)) {
+    if (coreIsPreselectedUnit(entity) && isTickable(entity, refusal)) {
       marks.set(entity.id, "clean");
       continue;
     }
@@ -370,26 +373,16 @@ export function entityById(index: AuditIndex, id: string): Entity | undefined {
   return index.entities.find((entity) => entity.id === id);
 }
 
-/** Preselection (ADR-0004): only what a `clean` finding marks `preselect: true`. */
+/** Preselection (ADR-0004): core's canonical audit-derived cache selection, volume-refused rows out. */
 export function initialMarks(
   index: AuditIndex,
   refusal: Refusal = noRefusal,
 ): Map<string, ActionKind> {
   const marks = new Map<string, ActionKind>();
-  for (const finding of index.findings) {
-    if (finding.action.kind !== "clean") continue;
-    for (const target of finding.targets) {
-      const id = target.id;
-      if (id === undefined) continue;
-      const preselect =
-        target.preselect ?? (finding.targets.length === 1 && finding.action.preselect);
-      if (!preselect) continue;
-      const entity = entityById(index, id);
-      // Nothing human-owned and no memory file is ever preselected.
-      if (entity && isTickable(entity, refusal) && entity.kind !== "memory-file") {
-        marks.set(id, "clean");
-      }
-    }
+  for (const target of selectionFrom(index)) {
+    if (target.id === undefined) continue;
+    const entity = entityById(index, target.id);
+    if (entity !== undefined && refusal(entity) === null) marks.set(entity.id, "clean");
   }
   return marks;
 }

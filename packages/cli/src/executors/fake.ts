@@ -12,6 +12,7 @@ import { mkdir, rename } from "node:fs/promises";
 import { basename, join } from "node:path";
 import type { Executors, SpawnResult, TrashResult } from "@moldig/core";
 import { backup, readText, statPath, writeAtomic } from "./files.js";
+import { backupSqlite, deleteSqliteRows } from "./sqlite.js";
 
 export interface FakeExecutorOptions {
   /** Where a trashed path is renamed to; inside the test's temp tree, never an OS trash. */
@@ -20,11 +21,15 @@ export interface FakeExecutorOptions {
   readonly now?: Date;
   /** Paths the fake trash refuses to move, so a failed row is testable (08 §3). */
   readonly failing?: readonly string[];
+  /** Optional deterministic gate for progress and slow-executor tests. */
+  readonly beforeTrash?: () => Promise<void>;
   /**
    * `false` records the call and leaves the tree in place, so several tests can share one
    * fixture; `true` really renames into `trashDir`, which is what proves a run moved a unit.
    */
   readonly move?: boolean;
+  /** `false` records writes without changing source files; useful for shared render fixtures. */
+  readonly write?: boolean;
   /** The exit code every delegate answers with; a non-zero one fails its row (D92). */
   readonly exitCode?: number;
   readonly stderr?: string;
@@ -48,6 +53,7 @@ export function createFakeExecutors(options: FakeExecutorOptions): FakeExecutors
   let call = 0;
 
   const trash = async (paths: string[]): Promise<TrashResult> => {
+    await options.beforeTrash?.();
     trashed.push([...paths]);
     call += 1;
     const bin = join(options.trashDir, String(call));
@@ -80,13 +86,18 @@ export function createFakeExecutors(options: FakeExecutorOptions): FakeExecutors
   const executors: Executors = {
     trash,
     spawn,
-    backup: async (path, to) => {
+    backup: async (path, to, expectedIdentity) => {
       backedUp.push({ path, to });
-      await backup(path, to);
+      await backup(path, to, expectedIdentity);
     },
-    writeFile: async (path, text) => {
+    backupSqlite: async (path, to, expectedIdentity) => {
+      backedUp.push({ path, to });
+      await backupSqlite(path, to, expectedIdentity);
+    },
+    deleteSqliteRows,
+    writeFile: async (path, text, expectedIdentity) => {
       written.push(path);
-      await writeAtomic(path, text);
+      if (options.write !== false) await writeAtomic(path, text, expectedIdentity);
     },
     readFile: readText,
     stat: statPath,

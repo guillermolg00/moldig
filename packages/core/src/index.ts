@@ -42,8 +42,15 @@ export {
 } from "./actions/data-dir.js";
 export { delegateCwdFor, parseDelegate, updateDelegateFor } from "./actions/delegates.js";
 export type { DelegateCommand } from "./actions/delegates.js";
-export { removeJsonEntry, rewriteMemoryIndex } from "./actions/edits.js";
+export {
+  removeJsonArrayValue,
+  removeJsonEntry,
+  removeTomlTable,
+  rewriteMemoryIndex,
+} from "./actions/edits.js";
 export { plan } from "./actions/plan.js";
+export { projectCleanup } from "./actions/projects.js";
+export type { ProjectCleanup } from "./actions/projects.js";
 export {
   canDelete,
   canUpdate,
@@ -60,12 +67,22 @@ export {
 export type { SelectionOptions } from "./actions/selection.js";
 export { summaryLines } from "./actions/summary.js";
 export type { SummaryOptions } from "./actions/summary.js";
+export { mcpUpdateVerdict, updateAllSelection } from "./actions/update-all.js";
+export type {
+  McpUpdateVerdict,
+  UpdateAllCounts,
+  UpdateAllSelection,
+  UpdateNotice,
+  UpdateNoticeKind,
+  UpdateSubject,
+} from "./actions/update-all.js";
 export { updatePreview, UPDATE_PREVIEW_TIMEOUT_MS } from "./actions/update.js";
 export type { InstalledCopy, UpdateFetchers, UpdatePreview } from "./actions/update.js";
 export { ACTION_ORDER, ACTION_TITLES } from "./actions/types.js";
 export type {
   Action,
   ApplyOptions,
+  ApplyProgress,
   Badge,
   Confirm,
   ConfirmAnswer,
@@ -91,6 +108,7 @@ export type {
   SpawnResult,
   StatResult,
   TrashResult,
+  UpdateBatchTarget,
   VolumeClass,
 } from "./actions/types.js";
 

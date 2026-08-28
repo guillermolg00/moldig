@@ -6,7 +6,9 @@
 import { summaryLines, type AuditIndex, type RunManifest } from "@moldig/core";
 import { formatBytes, formatRange, formatTokens, plural } from "../../format.js";
 import { shortPath } from "./format.js";
+import { isQuietCleanRun, isQuietPurgeRun, runTotals } from "./runner.js";
 import { type ActionKind, groupSelection, type Refusal, noRefusal } from "./selection.js";
+import type { QuietResult } from "./store.js";
 
 export interface SummaryInput {
   readonly index: AuditIndex;
@@ -15,6 +17,8 @@ export interface SummaryInput {
   readonly home: string;
   readonly platform: string;
   readonly refusal?: Refusal;
+  readonly quiet?: QuietResult;
+  readonly label?: string;
 }
 
 /** `claude-code` and `harness:claude-code` alike answer `Claude Code` (08 §4 wording). */
@@ -57,7 +61,7 @@ export function headlineLines(index: AuditIndex): string[] {
 
 export function summaryText(input: SummaryInput): string {
   const { index, run } = input;
-  const lines: string[] = [`moldig · ${focusName(index)}`];
+  const lines: string[] = [input.label ?? `moldig · ${focusName(index)}`];
 
   if (run === null) {
     const groups = groupSelection(index, input.marks, input.refusal ?? noRefusal);
@@ -68,6 +72,17 @@ export function summaryText(input: SummaryInput): string {
         ? "No changes."
         : `No changes · ${plural(rows, "item")} still selected · ${formatBytes(bytes)}.`;
     return `${lines[0]} — ${result}\n`;
+  }
+
+  if (input.quiet?.kind === "clean" && isQuietCleanRun(run)) {
+    const totals = runTotals(run);
+    const manifest = shortPath(run.manifestPath, input.home, input.platform);
+    return `${lines[0]} — Done · ${formatBytes(totals.freedBytes)} to the OS Trash · ${plural(totals.counts.moved, "item")} · recover with Put Back · manifest ${manifest}\n`;
+  }
+  if (input.quiet?.kind === "purge" && isQuietPurgeRun(run)) {
+    const totals = runTotals(run);
+    const manifest = shortPath(run.manifestPath, input.home, input.platform);
+    return `${lines[0]} — Done · state from ${plural(input.quiet.projects, "missing Project")} removed · ${formatBytes(totals.freedBytes)} · recover from Trash/backups · manifest ${manifest}\n`;
   }
 
   // After a run the numbers come from the engine's own summary (08 §4), so the shareable text,

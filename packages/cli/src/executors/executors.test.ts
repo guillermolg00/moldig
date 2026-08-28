@@ -12,11 +12,14 @@ import {
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { DatabaseSync } from "node:sqlite";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
   backup,
+  backupSqlite,
   createDeviceProbe,
   createTrash,
+  deleteSqliteRows,
   spawnDelegate,
   statPath,
   writeAtomic,
@@ -43,6 +46,19 @@ describe("the filesystem executors", () => {
     // the mode always reads back 0o666, so the mode is only asserted where it means something.
     const mode = process.platform === "win32" ? 0o600 : (await stat(file)).mode & 0o777;
     expect(mode).toBe(0o600);
+    expect(await readdir(tree)).toEqual(["settings.json"]);
+  });
+
+  it("refuses to replace a file that changed after confirmation", async () => {
+    const file = join(tree, "settings.json");
+    await writeFile(file, "{}\n");
+    const before = await statPath(file);
+    await writeFile(file, '{"external": true}\n');
+
+    await expect(writeAtomic(file, '{"moldig": true}\n', before?.identity)).rejects.toThrow(
+      "changed after confirmation",
+    );
+    expect(await readFile(file, "utf8")).toBe('{"external": true}\n');
     expect(await readdir(tree)).toEqual(["settings.json"]);
   });
 
@@ -114,6 +130,42 @@ describe("the trash executor", () => {
     });
     expect(await trash([join(tree, "absent")])).toEqual({ moved: [], left: [], error: null });
     expect(called).toBe(false);
+  });
+});
+
+describe("the SQLite executors", () => {
+  it("backs up the committed database before deleting exact breadcrumb rows", async () => {
+    const file = join(tree, "state.sqlite");
+    const copy = join(tree, "backups/state.sqlite");
+    const database = new DatabaseSync(file);
+    database.exec("PRAGMA journal_mode = WAL");
+    database.exec("CREATE TABLE project (id TEXT PRIMARY KEY, worktree TEXT NOT NULL)");
+    database.prepare("INSERT INTO project VALUES (?, ?)").run("gone", "/gone");
+    database.prepare("INSERT INTO project VALUES (?, ?)").run("keep", "/keep");
+
+    await backupSqlite(file, copy);
+    expect(await deleteSqliteRows(file, "project", "id", "gone")).toBe(1);
+    database.close();
+
+    const current = new DatabaseSync(file, { readOnly: true });
+    expect(current.prepare("SELECT id FROM project ORDER BY id").all()).toEqual([{ id: "keep" }]);
+    current.close();
+    const original = new DatabaseSync(copy, { readOnly: true });
+    expect(original.prepare("SELECT id FROM project ORDER BY id").all()).toEqual([
+      { id: "gone" },
+      { id: "keep" },
+    ]);
+    original.close();
+  });
+
+  it("rejects identifiers instead of interpolating SQL", async () => {
+    const file = join(tree, "state.sqlite");
+    const database = new DatabaseSync(file);
+    database.exec("CREATE TABLE project (id TEXT PRIMARY KEY)");
+    database.close();
+    await expect(deleteSqliteRows(file, "project; DROP TABLE project", "id", "x")).rejects.toThrow(
+      "unsafe SQLite identifier",
+    );
   });
 });
 

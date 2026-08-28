@@ -146,18 +146,28 @@ describe("the tickable rule", () => {
     );
   });
 
-  it("bulk-selects only harness state and may route kept cache to Delete", () => {
-    const clean = cacheUnit({ id: "clean", project: "project:a" });
+  it("bulk-selects only audit-preselected cache and may route kept cache to Delete", () => {
+    const clean = cacheUnit({
+      id: "clean",
+      project: "project:a",
+      liveGuard: { kind: "pid", alive: false },
+    });
     const kept = cacheUnit({ id: "kept", project: "project:a", rule: "kept" });
     const unknown = cacheUnit({
       id: "unknown",
       project: "project:a",
       protection: "undocumented",
     });
+    const notPreselected = cacheUnit({
+      id: "not-preselected",
+      project: "project:a",
+      rule: "undocumented",
+      liveGuard: { kind: "pid", alive: false },
+    });
     const another = cacheUnit({ id: "another", project: "project:b" });
     const human = skill({ id: "human", project: "project:a" });
     const partial: Pick<AuditIndex, "entities"> = {
-      entities: [clean, kept, unknown, another, human],
+      entities: [clean, kept, unknown, notPreselected, another, human],
     };
     const marks = bulkCleanupMarks(partial, {
       projects: new Set(["project:a"]),

@@ -7,6 +7,7 @@ import type { ReactElement } from "react";
 import { Frame, useSize } from "../components/Frame.js";
 import { formatBytes, plural } from "../lib/format.js";
 import { isDown, isUp, useKeys } from "../lib/keys.js";
+import { projectCleanup } from "../lib/projects.js";
 import { bulkCleanupMarks, selectedTotals, type ActionKind } from "../lib/selection.js";
 import { useStore } from "../lib/store.js";
 import { focusName } from "../lib/summary.js";
@@ -33,11 +34,7 @@ export function OverviewScreen(): ReactElement {
   );
 
   const current = bulkCleanupMarks(index, { projects: currentProjects }, store.refusal);
-  const missing = bulkCleanupMarks(
-    index,
-    { projects: missingProjects, includeKept: true },
-    store.refusal,
-  );
+  const missing = projectCleanup(index, missingProjects);
   const everything = bulkCleanupMarks(index, {}, store.refusal);
 
   const cleanupDetail = (marks: ReadonlyMap<string, ActionKind>): string => {
@@ -65,13 +62,13 @@ export function OverviewScreen(): ReactElement {
     },
     {
       key: "missing",
-      label: "Clean state from missing projects",
+      label: "Delete state from missing projects",
       detail:
         missingProjects.size === 0
           ? "none found"
-          : `${plural(missingProjects.size, "project")}   ${cleanupDetail(missing)}`,
-      disabled: missing.size === 0,
-      choose: () => select(missing, "missing projects"),
+          : `${plural(missingProjects.size, "project")}   ${plural(missing.breadcrumbCount, "harness record")}   ${formatBytes(missing.bytes)}`,
+      disabled: missingProjects.size === 0 || missing.selection.length === 0,
+      choose: () => store.push({ screen: "project-cleanup" }),
     },
     {
       key: "all",

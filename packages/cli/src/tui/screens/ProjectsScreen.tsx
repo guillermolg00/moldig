@@ -9,7 +9,8 @@ import type { ReactElement } from "react";
 import { Frame, listHeight, useSize } from "../components/Frame.js";
 import { formatBytes, formatTokens, pad, shortPath } from "../lib/format.js";
 import { isDown, isUp, useKeys } from "../lib/keys.js";
-import { bulkCleanupMarks, selectedTotals } from "../lib/selection.js";
+import { projectCleanup } from "../lib/projects.js";
+import { bulkCleanupMarks } from "../lib/selection.js";
 import { useStore } from "../lib/store.js";
 import { useList } from "../lib/use-list.js";
 
@@ -63,12 +64,7 @@ export function ProjectsScreen(): ReactElement {
     .toSorted((a, b) => cost(b) - cost(a));
   const gone = index.projects.filter((project) => project.reachability === "orphan");
   const unreachable = index.projects.filter((project) => project.reachability === "unreachable");
-  const goneMarks = bulkCleanupMarks(
-    index,
-    { projects: new Set(gone.map((project) => project.id)), includeKept: true },
-    store.refusal,
-  );
-  const goneBytes = selectedTotals(index, goneMarks).bytes;
+  const goneCleanup = projectCleanup(index, new Set(gone.map((project) => project.id)));
   const mostExpensive = present[0]?.id;
 
   const projectRow = (project: Project, extraFlags: readonly string[]): ProjectRow => {
@@ -106,9 +102,9 @@ export function ProjectsScreen(): ReactElement {
     project: null,
     container: null,
     detail:
-      goneMarks.size === 0
+      goneCleanup.selection.length === 0
         ? "directories gone; nothing safely removable"
-        : `${goneMarks.size} removable   ${formatBytes(goneBytes)}   space to review`,
+        : `${goneCleanup.breadcrumbCount} harness records   ${formatBytes(goneCleanup.bytes)}   space to select projects`,
     flags: [],
     expanded: goneOpen,
   });
@@ -199,13 +195,11 @@ export function ProjectsScreen(): ReactElement {
     else if (row === undefined) return;
     else if (input === " ") {
       if (row.key === GONE) {
-        startCleanup(new Set(gone.map((project) => project.id)), true, "missing projects");
+        store.push({ screen: "project-cleanup" });
+      } else if (row.project?.reachability === "orphan") {
+        store.push({ screen: "project-cleanup", initialProject: row.project.id });
       } else if (row.project !== null && row.project.reachability !== "unreachable") {
-        startCleanup(
-          new Set([row.project.id]),
-          row.project.reachability === "orphan",
-          row.project.displayName,
-        );
+        startCleanup(new Set([row.project.id]), false, row.project.displayName);
       }
     } else if (key.return || key.rightArrow || key.leftArrow) {
       if (row.kind === "group") {

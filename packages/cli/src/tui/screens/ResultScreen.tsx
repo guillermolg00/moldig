@@ -10,7 +10,7 @@ import type { ReactElement } from "react";
 import { Frame, listHeight, useSize } from "../components/Frame.js";
 import { formatBytes, formatMb, plural, shortPath, truncate } from "../lib/format.js";
 import { useKeys } from "../lib/keys.js";
-import { rowsOf, runTotals } from "../lib/runner.js";
+import { isQuietCleanRun, isQuietPurgeRun, rowsOf, runTotals } from "../lib/runner.js";
 import { useStore } from "../lib/store.js";
 import { tokensText } from "./SelectionScreen.js";
 
@@ -23,7 +23,7 @@ const RESULT_COLOR: Readonly<Record<RowStatus, string>> = {
   failed: "red",
 };
 
-export function ResultScreen(): ReactElement {
+export function ResultScreen({ returnTo }: { readonly returnTo?: "inventory" }): ReactElement {
   const store = useStore();
   const { index, run, marks } = store;
   const { rows: screenRows, columns } = useSize();
@@ -32,10 +32,16 @@ export function ResultScreen(): ReactElement {
     .filter(([, action]) => action === "open")
     .map(([id]) => index.entities.find((entity) => entity.id === id))
     .filter((entity) => entity !== undefined);
+  const quietClean = store.quietResult?.kind === "clean" && run !== null && isQuietCleanRun(run);
+  const quietPurge = store.quietResult?.kind === "purge" && run !== null && isQuietPurgeRun(run);
+  const quiet = quietClean || quietPurge;
 
   useKeys((input, key) => {
-    if (key.escape || key.return) store.goHome();
-    else if (input === "o") {
+    if (quiet) return;
+    if (key.escape || key.return) {
+      if (returnTo === "inventory") store.reset({ screen: "categories" });
+      else store.goHome();
+    } else if (input === "o") {
       const first = toOpen[0];
       if (first === undefined) store.setStatus("nothing marked for Open");
       else store.openPath(first.path);
@@ -51,6 +57,26 @@ export function ResultScreen(): ReactElement {
   }
 
   const totals = runTotals(run);
+  if (quiet) {
+    const purgeProjects = store.quietResult?.kind === "purge" ? store.quietResult.projects : null;
+    return (
+      <Frame title="done" keys="q quit">
+        <Box flexDirection="column">
+          <Text bold color="green">
+            {purgeProjects === null
+              ? `Done · ${formatBytes(totals.freedBytes)} to the OS Trash · ${plural(totals.counts.moved, "item")}`
+              : `Done · state from ${plural(purgeProjects, "missing Project")} removed · ${formatBytes(totals.freedBytes)}`}
+          </Text>
+          <Text dimColor>
+            {purgeProjects === null
+              ? "Recover with Put Back"
+              : "Recover from the OS Trash and backups in the manifest"}{" "}
+            · manifest {store.link(run.manifestPath, shortPath(run.manifestPath, home, platform))}
+          </Text>
+        </Box>
+      </Frame>
+    );
+  }
   const height = listHeight(screenRows, 8 + run.groups.length * 2);
   const width = Math.max(24, Math.min(44, columns - 60));
   const allRows = run.groups.flatMap((group) =>
@@ -60,7 +86,7 @@ export function ResultScreen(): ReactElement {
   return (
     <Frame
       title="result"
-      keys="o open the first Open row · esc / enter overview · q quit (prints the summary)"
+      keys={`o open the first Open row · esc / enter ${returnTo === "inventory" ? "inventory" : "overview"} · q quit (prints the summary)`}
     >
       <Box flexDirection="column">
         <Text>

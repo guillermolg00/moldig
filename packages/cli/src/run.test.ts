@@ -47,6 +47,7 @@ function findingsOf(text: string): Record<string, unknown>[] {
 }
 
 let tree: FixtureTree;
+let updateTree: FixtureTree;
 
 interface Run {
   code: number;
@@ -125,10 +126,15 @@ beforeAll(async () => {
     now: NOW,
     platform: PLATFORM,
   });
+  updateTree = await loadFixture("claude-code/skills-and-plugins", {
+    cwd: "root/project-b",
+    now: NOW,
+    platform: PLATFORM,
+  });
 });
 
 afterAll(async () => {
-  await tree.cleanup();
+  await Promise.all([tree.cleanup(), updateTree.cleanup()]);
 });
 
 describe.runIf(POSIX_FIXTURE_HOST)("moldig scan", () => {
@@ -230,6 +236,31 @@ describe("moldig audit", () => {
     const { err } = await run(["audit", "--no-git", "--no-read-signal", tree.root]);
     expect(err).toContain("warning read-signal-skipped: memory read signal not computed");
   });
+
+  it("opens Inventory in a TTY while preserving audit's Finding exit code", async () => {
+    const seen: TuiRequest[] = [];
+    const { code, out } = await run(["audit", "--no-git", tree.root], {
+      isTTY: true,
+      stdinIsTTY: true,
+      openTui: fakeTui(seen),
+    });
+    expect(code).toBe(1);
+    expect(seen).toHaveLength(1);
+    expect(seen[0]?.initialRoute).toEqual({ screen: "categories" });
+    expect(out).toBe("\nsummary from the TUI\n");
+  });
+
+  it("keeps audit --json on the document path even in a TTY", async () => {
+    const seen: TuiRequest[] = [];
+    const { code, out } = await run(["audit", "--no-git", "--json", tree.root], {
+      isTTY: true,
+      stdinIsTTY: true,
+      openTui: fakeTui(seen),
+    });
+    expect(code).toBe(1);
+    expect(seen).toHaveLength(0);
+    expect(jsonOf(out)).toMatchObject({ headline: { scope: "user-controllable" } });
+  });
 });
 
 describe("moldig without a command", () => {
@@ -242,7 +273,7 @@ describe("moldig without a command", () => {
     expect(out).not.toContain("ticket 26");
   });
 
-  it("opens the TUI on the cleanup menu in a terminal and prints the summary it hands back", async () => {
+  it("opens the focused Project plan in a terminal and prints the summary it hands back", async () => {
     const seen: TuiRequest[] = [];
     const { code, out } = await run(["--no-git", tree.root], {
       isTTY: true,
@@ -251,9 +282,87 @@ describe("moldig without a command", () => {
     });
     expect(code).toBe(0);
     expect(seen).toHaveLength(1);
-    expect(seen[0]?.initialRoute).toBeUndefined(); // the TUI's own default: the cleanup menu
+    expect(seen[0]?.initialRoute).toEqual({
+      screen: "clean-plan",
+      scope: { kind: "project", project: expect.any(String) },
+    });
     expect(seen[0]?.index.headline.focus.reason).toBe("cwd");
+    const refresh = seen[0]?.refresh;
+    expect(refresh).toBeTypeOf("function");
+    const progress: string[] = [];
+    const refreshed = await refresh?.((event) => progress.push(event.phase));
+    expect(refreshed?.index.headline.focus.reason).toBe("cwd");
+    expect(typeof refreshed?.runner.planSelection).toBe("function");
+    expect(progress).toContain("assemble");
     expect(out).toBe("\nsummary from the TUI\n");
+  });
+
+  it("opens one machine-wide safe Plan when cwd is outside every Project", async () => {
+    const seen: TuiRequest[] = [];
+    const { code } = await run(["--no-git", tree.root], {
+      cwd: tree.root,
+      isTTY: true,
+      stdinIsTTY: true,
+      openTui: fakeTui(seen),
+    });
+    expect(code).toBe(0);
+    expect(seen).toHaveLength(1);
+    expect(seen[0]?.initialRoute).toEqual({
+      screen: "clean-plan",
+      scope: { kind: "global" },
+    });
+  });
+
+  it("shows real scan progress only after the startup threshold", async () => {
+    const slow = await run(["--no-git", tree.root], {
+      isTTY: true,
+      stdinIsTTY: true,
+      openTui: fakeTui([]),
+      progressDelayMs: 0,
+    });
+    expect(slow.err).toContain("moldig · ");
+    expect(slow.err).toContain("scan complete · 1 harness");
+    expect(slow.err).not.toContain("digging through what your harnesses left behind");
+
+    const fast = await run(["--no-git", tree.root], {
+      isTTY: true,
+      stdinIsTTY: true,
+      openTui: fakeTui([]),
+      progressDelayMs: 60_000,
+    });
+    expect(fast.err).not.toContain("scan complete");
+    expect(fast.err).not.toContain("reading Claude Code");
+  });
+
+  it("exits in one line instead of opening an empty TUI when this Project has no safe plan", async () => {
+    const seen: TuiRequest[] = [];
+    const { code, out } = await run(["--no-git", tree.root], {
+      isTTY: true,
+      stdinIsTTY: true,
+      openTui: fakeTui(seen),
+      now: new Date("2026-07-20T12:00:00.000Z"),
+    });
+    expect(code).toBe(0);
+    expect(seen).toHaveLength(0);
+    expect(out).toBe(
+      "moldig · project-a — Nothing safe to clean in this project. Run moldig audit to inspect findings.\n",
+    );
+  });
+
+  it("exits in one line when the machine-wide safe Plan is empty", async () => {
+    const seen: TuiRequest[] = [];
+    const { code, out } = await run(["--no-git", tree.root], {
+      cwd: tree.root,
+      isTTY: true,
+      stdinIsTTY: true,
+      openTui: fakeTui(seen),
+      now: new Date("2026-07-20T12:00:00.000Z"),
+    });
+    expect(code).toBe(0);
+    expect(seen).toHaveLength(0);
+    expect(out).toBe(
+      "moldig — Nothing safe to clean. Run moldig purge for missing Projects or moldig audit to inspect findings.\n",
+    );
   });
 
   it("stays on the printed path without a terminal on stdin", async () => {
@@ -289,6 +398,69 @@ describe("moldig without a command", () => {
     expect(code).toBe(0);
     expect(findingsOf(out).length).toBeGreaterThan(0);
     expect(jsonOf(out)).toMatchObject({ headline: { scope: "user-controllable" } });
+  });
+});
+
+describe("moldig purge", () => {
+  it("refuses without a terminal before scanning", async () => {
+    const { code, out, err } = await run(["purge", tree.root]);
+    expect(code).toBe(2);
+    expect(out).toBe("");
+    expect(err).toContain("requires an interactive terminal");
+    expect(err).toContain("unattended purge is not available");
+  });
+
+  it("opens the all-selected missing-Project picker directly in a terminal", async () => {
+    const seen: TuiRequest[] = [];
+    const { code, out } = await run(["purge", "--no-git", tree.root], {
+      isTTY: true,
+      stdinIsTTY: true,
+      openTui: fakeTui(seen),
+    });
+    expect(code).toBe(0);
+    expect(seen).toHaveLength(1);
+    expect(seen[0]?.initialRoute).toEqual({ screen: "project-cleanup", standalone: true });
+    expect(out).toBe("\nsummary from the TUI\n");
+  });
+});
+
+describe("moldig update", () => {
+  it("refuses without a terminal before scanning", async () => {
+    const { code, out, err } = await run(["update", tree.root]);
+    expect(code).toBe(2);
+    expect(out).toBe("");
+    expect(err).toContain("requires an interactive terminal");
+    expect(err).toContain("unattended update is not available");
+  });
+
+  it("opens one machine-wide Update Plan directly in a terminal", async () => {
+    const seen: TuiRequest[] = [];
+    const { code, out } = await run(["update", "--no-git", updateTree.root], {
+      cwd: updateTree.cwd,
+      home: updateTree.home,
+      isTTY: true,
+      stdinIsTTY: true,
+      openTui: fakeTui(seen),
+    });
+    expect(code).toBe(0);
+    expect(seen).toHaveLength(1);
+    expect(seen[0]?.initialRoute).toEqual({ screen: "update-plan", standalone: true });
+    expect(seen[0]?.runner.planUpdateAll().counts.batches).toBeGreaterThan(0);
+    expect(out).toBe("\nsummary from the TUI\n");
+  });
+
+  it("still opens the explanatory Update Plan when no updater is runnable", async () => {
+    const seen: TuiRequest[] = [];
+    const { code, out } = await run(["update", "--no-git", tree.root], {
+      isTTY: true,
+      stdinIsTTY: true,
+      openTui: fakeTui(seen),
+    });
+    expect(code).toBe(0);
+    expect(seen).toHaveLength(1);
+    expect(seen[0]?.initialRoute).toEqual({ screen: "update-plan", standalone: true });
+    expect(seen[0]?.runner.planUpdateAll().counts.batches).toBe(0);
+    expect(out).toBe("\nsummary from the TUI\n");
   });
 });
 
@@ -333,7 +505,7 @@ describe("moldig clean refuses rather than guesses", () => {
     expect(err).toContain("no terminal to confirm in");
   });
 
-  it("opens the TUI on the cleanup menu in a terminal with a real Runner (D4)", async () => {
+  it("opens the focused Project plan in a terminal with a real Runner (D4)", async () => {
     const seen: TuiRequest[] = [];
     const { code, out } = await run(["clean", tree.root], {
       isTTY: true,
@@ -341,7 +513,10 @@ describe("moldig clean refuses rather than guesses", () => {
       openTui: fakeTui(seen),
     });
     expect(code).toBe(0);
-    expect(seen[0]?.initialRoute).toBeUndefined();
+    expect(seen[0]?.initialRoute).toEqual({
+      screen: "clean-plan",
+      scope: { kind: "project", project: expect.any(String) },
+    });
     expect(typeof seen[0]?.runner.plan).toBe("function");
     expect(out).toBe("\nsummary from the TUI\n");
   });
@@ -555,11 +730,13 @@ describe("--help and --version (D13)", () => {
     expect(code).toBe(0);
     expect(out).toContain("moldig — CleanMyMac for your AI setup.");
     expect(out).toContain("moldig scan [roots…]");
+    expect(out).toContain("moldig purge [roots…]");
+    expect(out).toContain("moldig update [roots…]");
     expect(out).toContain("Exit codes");
   });
 
   it("prints a page per command", async () => {
-    const commands = ["scan", "audit", "clean"];
+    const commands = ["scan", "audit", "clean", "purge", "update"];
     const pages = await Promise.all(commands.map((command) => run([command, "--help"])));
     for (const [i, page] of pages.entries()) {
       expect(page.code).toBe(0);

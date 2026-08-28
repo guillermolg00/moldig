@@ -10,6 +10,7 @@
 import {
   apply,
   plan,
+  type ApplyProgress,
   type AuditIndex,
   type Confirm,
   type Device,
@@ -22,10 +23,24 @@ import {
   type PlanEnv,
   type RowStatus,
   type RunManifest,
+  updateAllSelection,
   type Selection,
   type SelectionTarget,
+  type UpdateAllSelection,
 } from "@moldig/core";
 import type { SelectionGroup } from "./selection.js";
+
+/** A Project-level Delete always asks twice, even when no row independently carries user content. */
+export function withExtraConfirmation(runPlan: Plan, reason: string): Plan {
+  return {
+    ...runPlan,
+    groups: runPlan.groups.map((group) => ({
+      ...group,
+      warnings: [...group.warnings, `⚠ holds ${reason} — confirmed separately`],
+      extraConfirmation: { required: true, reason },
+    })),
+  };
+}
 
 /** D89, verbatim: why a volume refuses a row. A row shows the half before the em dash. */
 const VOLUME_REASONS: Readonly<Record<Exclude<Device["kind"], "local">, string>> = {
@@ -64,13 +79,25 @@ export function selectionOf(groups: readonly SelectionGroup[]): Selection {
   return targets;
 }
 
+export interface UpdateAllPlan extends UpdateAllSelection {
+  readonly plan: Plan;
+}
+
 export interface Runner {
   /** The volume verdict a screen greys a row with; `null` when the row can move. */
   refusal(entity: Entity): string | null;
   /** Every disposition, backup path and delegate decided before anything moves (08 §3). */
   plan(groups: readonly SelectionGroup[]): Plan;
+  /** Locator targets used by explicit Project-level deletion, without an item review detour. */
+  planSelection(selection: Selection): Plan;
+  /** One deduplicated machine-wide updater Plan plus every honest skip/managed reason. */
+  planUpdateAll(): UpdateAllPlan;
   /** Applies the Plan group by group, asking `confirm`; a failed row never aborts (08 §7). */
-  apply(runPlan: Plan, confirm: Confirm): Promise<RunManifest>;
+  apply(
+    runPlan: Plan,
+    confirm: Confirm,
+    onProgress?: (event: ApplyProgress) => void,
+  ): Promise<RunManifest>;
 }
 
 export interface RunnerOptions {
@@ -102,9 +129,17 @@ export function createRunner(options: RunnerOptions): Runner {
   return {
     refusal: (entity) => refusalFor(entity, options.deviceOf),
     plan: (groups) => plan(options.index, selectionOf(groups), environment()),
-    apply: async (runPlan, confirm) => {
+    planSelection: (selection) => plan(options.index, selection, environment()),
+    planUpdateAll: () => {
+      const preview = updateAllSelection(options.index);
+      return { ...preview, plan: plan(options.index, preview.selection, environment()) };
+    },
+    apply: async (runPlan, confirm, onProgress) => {
       await options.prepare?.(runPlan);
-      return apply(runPlan, options.executors, { confirm });
+      return apply(runPlan, options.executors, {
+        confirm,
+        ...(onProgress === undefined ? {} : { onProgress }),
+      });
     },
   };
 }
@@ -140,7 +175,9 @@ export function runTotals(manifest: RunManifest): RunTotals {
       row.result.status === "edited" ||
       row.result.status === "delegated";
     if (!applied) continue;
-    for (const backup of row.target.backupPaths) backups.push(backup);
+    for (const backup of row.target.backupPaths) {
+      if (!backups.includes(backup)) backups.push(backup);
+    }
     const action = actionOf.get(row.target.key);
     if (action !== "clean" && action !== "delete") continue;
     freedBytes += row.target.bytes;
@@ -157,4 +194,32 @@ export function rowsOf(manifest: RunManifest, group: ManifestGroup): ManifestRow
   return group.rows
     .map((key) => byKey.get(key))
     .filter((row): row is ManifestRow => row !== undefined);
+}
+
+/** A boring successful sweep earns a quiet close; anything else keeps the detailed engine report. */
+export function isQuietCleanRun(manifest: RunManifest): boolean {
+  if (manifest.mode !== "run" || manifest.groups.length !== 1 || manifest.rows.length === 0) {
+    return false;
+  }
+  const group = manifest.groups[0];
+  return (
+    group?.action === "clean" &&
+    group.status === "ran" &&
+    !group.confirmation.extraRequired &&
+    manifest.rows.every((row) => row.disposition.kind === "trash" && row.result.status === "moved")
+  );
+}
+
+export function isQuietPurgeRun(manifest: RunManifest): boolean {
+  if (manifest.mode !== "run" || manifest.groups.length !== 1 || manifest.rows.length === 0) {
+    return false;
+  }
+  const group = manifest.groups[0];
+  const completed = new Set<RowStatus>(["moved", "edited", "delegated"]);
+  return (
+    group?.action === "delete" &&
+    group.status === "ran" &&
+    group.confirmation.extraRequired &&
+    manifest.rows.every((row) => completed.has(row.result.status))
+  );
 }

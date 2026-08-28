@@ -1,11 +1,13 @@
 /**
  * The executors `@moldig/core` runs the actions engine through (D88, D103): the OS trash, a
- * backup copier, an atomic write, a shell-free spawn, and the two fetchers the Update preview
- * needs. Assembling them is all this file does — every rule lives in core.
+ * backup copiers (files and live SQLite), exact SQLite row edits, an atomic text write, a
+ * shell-free spawn, and the two fetchers the Update preview needs. Assembling them is all this
+ * file does — every rule lives in core.
  */
 import type { Executors, UpdateFetchers } from "@moldig/core";
 import { backup, readText, statPath, writeAtomic } from "./files.js";
 import { spawnDelegate } from "./spawn.js";
+import { backupSqlite, deleteSqliteRows } from "./sqlite.js";
 import { createTrash, type Mover } from "./trash.js";
 
 export { createDeviceProbe } from "./volumes.js";
@@ -14,6 +16,7 @@ export { createTrash } from "./trash.js";
 export type { Mover } from "./trash.js";
 export { backup, ensureDirFor, readText, statPath, writeAtomic } from "./files.js";
 export { spawnDelegate } from "./spawn.js";
+export { backupSqlite, deleteSqliteRows } from "./sqlite.js";
 
 export interface ExecutorOptions {
   /** Deterministic clock for the tests; defaults to the real one. */
@@ -26,6 +29,8 @@ export function createExecutors(options: ExecutorOptions = {}): Executors {
   return {
     trash: createTrash(options.mover),
     backup,
+    backupSqlite,
+    deleteSqliteRows,
     writeFile: writeAtomic,
     spawn: spawnDelegate,
     readFile: readText,

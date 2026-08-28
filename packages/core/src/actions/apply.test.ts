@@ -1,4 +1,4 @@
-import { mkdir, mkdtemp, readFile, rename, rm, writeFile } from "node:fs/promises";
+import { lstat, mkdir, mkdtemp, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { basename, dirname, join } from "node:path";
@@ -134,6 +134,21 @@ function index(rows: Entity[]): AuditIndex {
   };
 }
 
+async function statPath(path: string): ReturnType<Executors["stat"]> {
+  try {
+    const found = await lstat(path, { bigint: true });
+    return {
+      exists: true,
+      bytes: Number(found.size),
+      identity: [found.dev, found.ino, found.size, found.mtimeNs, found.ctimeNs].join(":"),
+    };
+  } catch (error) {
+    const code =
+      typeof error === "object" && error !== null && "code" in error ? error.code : undefined;
+    return code === "ENOENT" ? { exists: false, bytes: 0, identity: null } : null;
+  }
+}
+
 /** The fake trash renames into `<tree>/.trash/<n>/` and records the call (spec 08 §10). */
 function executors(): Executors {
   return {
@@ -158,6 +173,11 @@ function executors(): Executors {
       await mkdir(dirname(to), { recursive: true });
       await writeFile(to, await readFile(path));
     },
+    backupSqlite: async (path, to) => {
+      await mkdir(dirname(to), { recursive: true });
+      await writeFile(to, await readFile(path));
+    },
+    deleteSqliteRows: () => Promise.resolve(1),
     writeFile: async (path, text) => {
       await mkdir(dirname(path), { recursive: true });
       await writeFile(path, text);
@@ -171,7 +191,7 @@ function executors(): Executors {
         (text) => text,
         () => null,
       ),
-    stat: (path) => Promise.resolve(existsSync(path) ? { exists: true, bytes: 1 } : null),
+    stat: statPath,
     now: () => NOW,
   };
 }
@@ -373,6 +393,36 @@ describe("apply() over a temp tree with fake executors", () => {
     expect(saved).toContain(MCP);
   });
 
+  it("keeps the first backup when several selected entries share one settings file", async () => {
+    const file = join(repo, ".mcp.json");
+    const document = planned([
+      {
+        action: "delete",
+        locator: {
+          type: "entry",
+          file,
+          format: "jsonc",
+          keyPath: ["mcpServers", "server-a"],
+        },
+      },
+      {
+        action: "delete",
+        locator: {
+          type: "entry",
+          file,
+          format: "jsonc",
+          keyPath: ["mcpServers", "server-b"],
+        },
+      },
+    ]);
+    await apply(document, executors());
+    const backup = document.groups[0]?.rows[0]?.backups[0]?.to;
+    expect(backup).toBeDefined();
+    expect(await readFile(backup ?? "", "utf8")).toBe(MCP);
+    expect(await readFile(file, "utf8")).not.toContain("server-a");
+    expect(await readFile(file, "utf8")).not.toContain("server-b");
+  });
+
   it("writes the manifest after every group and rewrites it at the end (D91)", async () => {
     const document = planned();
     const manifest = await apply(document, executors());
@@ -400,6 +450,21 @@ describe("apply() over a temp tree with fake executors", () => {
     expect(statusOf(manifest, "mcp:delegated")).toBe("delegated");
   });
 
+  it("refuses a path that changes after the confirmation snapshot", async () => {
+    const target = join(home, ".claude/projects/slug/session.jsonl");
+    const manifest = await apply(planned([{ action: "clean", id: "cache:session" }]), executors(), {
+      confirm: async () => {
+        await writeFile(target, "replacement with different bytes\n");
+        return "run";
+      },
+    });
+
+    expect(statusOf(manifest, "cache:session")).toBe("failed");
+    expect(manifest.rows[0]?.result.reason).toContain("changed after confirmation");
+    expect(await readFile(target, "utf8")).toBe("replacement with different bytes\n");
+    expect(trashed).toEqual([]);
+  });
+
   it("reports the exit code and the last line of stderr of a failed delegate (D92)", async () => {
     const document = planned([{ action: "delete", id: "mcp:delegated" }]);
     const row = document.groups[0]?.rows[0];
@@ -415,6 +480,28 @@ describe("apply() over a temp tree with fake executors", () => {
     expect(statusOf(manifest, "mcp:delegated")).toBe("failed");
     expect(manifest.rows[0]?.result.reason).toBe("exit 3: command not found: claude");
     expect(manifest.rows[0]?.result.exitCode).toBe(3);
+  });
+
+  it("redacts credentials from failed delegate stderr before writing the manifest", async () => {
+    const document = planned([{ action: "delete", id: "mcp:delegated" }]);
+    const row = document.groups[0]?.rows[0];
+    if (row === undefined) throw new Error("no delegate row");
+    row.disposition.argv = ["claude", "boom"];
+    const bareToken = "A".repeat(32);
+    const manifest = await apply(document, {
+      ...executors(),
+      spawn: () =>
+        Promise.resolve({
+          exitCode: 3,
+          stderr: `request failed: https://user:secret-token@example.test/private ${bareToken}`,
+        }),
+    });
+    const reason = manifest.rows[0]?.result.reason ?? "";
+    expect(reason).toBe(
+      "exit 3: request failed: https://<redacted>@example.test/private <redacted>",
+    );
+    expect(JSON.stringify(manifest)).not.toContain("secret-token");
+    expect(JSON.stringify(manifest)).not.toContain(bareToken);
   });
 
   it("never spawns a delegate whose group was skipped", async () => {
@@ -441,6 +528,49 @@ describe("apply() over a temp tree with fake executors", () => {
     expect(manifest.groups.map((group) => group.confirmation.answer)).toEqual([
       "skip-rest",
       "skip-rest",
+    ]);
+  });
+
+  it("hands every selected Project's on-disk state to the trash in one call", async () => {
+    const first = join(home, "project-one-state");
+    const second = join(home, "project-two-state");
+    await writeFile(first, "one");
+    await writeFile(second, "two");
+    const document = planned([
+      {
+        action: "delete",
+        locator: { type: "file", path: first },
+        label: "project one",
+        kind: "project-state",
+        project: "project:one",
+      },
+      {
+        action: "delete",
+        locator: { type: "file", path: second },
+        label: "project two",
+        kind: "project-state",
+        project: "project:two",
+      },
+    ]);
+    const manifest = await apply(document, executors());
+    expect(trashed).toEqual([[first, second]]);
+    expect(manifest.rows.map((row) => row.result.status)).toEqual(["moved", "moved"]);
+  });
+
+  it("reports the current row before it starts and after it settles", async () => {
+    const events: {
+      action: string;
+      completed: number;
+      total: number;
+      label: string;
+      status: string | null;
+    }[] = [];
+    await apply(planned([{ action: "clean", id: "cache:session" }]), executors(), {
+      onProgress: (event) => events.push(event),
+    });
+    expect(events).toEqual([
+      { action: "clean", completed: 0, total: 1, label: "session.jsonl", status: null },
+      { action: "clean", completed: 1, total: 1, label: "session.jsonl", status: "moved" },
     ]);
   });
 

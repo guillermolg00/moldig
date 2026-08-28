@@ -63,8 +63,12 @@ Where a removed item goes, decided before anything moves: the trash, a backup fo
 _Avoid_: destination, strategy, mode
 
 **Delete**:
-Removing one explicitly selected item, human-owned included, after confirmation; always recoverable: the trash for files, directories and links, a backup before a config or lock entry is edited, or the harness's own command when moldig never edits that file. Removing a skill for one harness trashes that link; removing the skill takes every link and its lock entry with it.
+Removing one explicitly selected item, human-owned included, after confirmation; always recoverable: the trash for files, directories and links, a backup before a config or lock entry is edited, or the harness's own command when moldig never edits that file. Removing a skill for one harness trashes that link; removing the skill takes every link and its lock entry with it. An orphan Project is also one explicit Delete target: its complete harness records are removed after a second confirmation, then the Index is rebuilt.
 _Avoid_: remove, clean, uninstall
+
+**Purge**:
+The interactive CLI command for selecting orphan Projects and applying one aggregate Delete to each. Every Project starts selected, the user may exclude Projects, and the Delete still asks twice. Purge is a command name, never an Action and never a synonym for Clean.
+_Avoid_: purge action, purge sweep, clean missing projects
 
 **Update**:
 Bringing an installed skill or plugin to its origin's current state by delegating to its installer, with a preview of what changes; a locally modified copy is backed up first.
@@ -121,7 +125,7 @@ State a harness keeps for its own operation — session transcripts, tool result
 _Avoid_: junk, temp files, logs, state, leftovers
 
 **Project**:
-A directory on disk that a harness has worked in and that is a git repository (or a worktree of one) or carries its own harness configuration. One project per real directory, whichever harnesses name it. Configuration nested inside a repository, outside any nested repository, belongs to the repository's project; a nested repository is a project of its own; a linked worktree belongs to its main repository's project. A bare directory such as the home directory is never a project, even when a harness has worked there. A project whose directory is gone remains a Project, marked orphan, so what every harness left about it stays together.
+A directory on disk that a harness has worked in and that is a git repository (or a worktree of one) or carries its own harness configuration. One project per real directory, whichever harnesses name it. Configuration nested inside a repository, outside any nested repository, belongs to the repository's project; a nested repository is a project of its own; a linked worktree belongs to its main repository's project. A bare directory such as the home directory is never a project, even when a harness has worked there. A project whose directory is gone remains a Project, marked orphan, so what every harness left about it stays together and can be selected as one aggregate Delete target.
 _Avoid_: repo, workspace, codebase, folder
 
 **Breadcrumb**:

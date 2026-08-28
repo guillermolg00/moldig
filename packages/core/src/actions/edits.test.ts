@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { removeJsonEntry, rewriteMemoryIndex } from "./edits.js";
+import {
+  removeJsonArrayValue,
+  removeJsonEntry,
+  removeTomlTable,
+  rewriteMemoryIndex,
+} from "./edits.js";
 
 /** The three hook shapes ticket 08 §2 names, plus what must survive byte for byte. */
 const INDEX = `# Memory
@@ -121,5 +126,31 @@ describe("removing an Entry from a JSON / JSONC settings file (14 §1)", () => {
     const out = removeJsonEntry(tabbed, ["mcpServers", "a"]);
     expect(out).toContain("\t\t");
     expect(out).not.toContain('"a"');
+  });
+
+  it("removes one exact array value and keeps its siblings", () => {
+    const text = `{\n  // project trust\n  "trusted_folders": ["/one", "/gone", "/two"],\n  "other": true\n}\n`;
+    const out = removeJsonArrayValue(text, ["trusted_folders"], "/gone");
+    expect(out).toBe(
+      `{\n  // project trust\n  "trusted_folders": ["/one", "/two"],\n  "other": true\n}\n`,
+    );
+    expect(removeJsonArrayValue(text, ["trusted_folders"], "/absent")).toBeNull();
+  });
+});
+
+describe("removing one TOML Project table", () => {
+  const toml = `model = "gpt"\n\n[projects."/one"]\ntrust_level = "trusted"\n\n[projects."/gone"]\ntrust_level = "trusted"\n\n[projects."/gone".nested]\nkept_inside_target = true\n\n[projects."C:\\\\work\\\\two"]\ntrust_level = "trusted"\n`;
+
+  it("drops the exact table and its children without regenerating the file", () => {
+    expect(removeTomlTable(toml, ["projects", "/gone"])).toBe(
+      `model = "gpt"\n\n[projects."/one"]\ntrust_level = "trusted"\n\n[projects."C:\\\\work\\\\two"]\ntrust_level = "trusted"\n`,
+    );
+  });
+
+  it("matches escaped basic-string keys and leaves absent tables alone", () => {
+    const out = removeTomlTable(toml, ["projects", "C:\\work\\two"]);
+    expect(out).not.toContain("C:\\\\work");
+    expect(out).toContain('[projects."/gone"]');
+    expect(removeTomlTable(toml, ["projects", "/absent"])).toBeNull();
   });
 });
