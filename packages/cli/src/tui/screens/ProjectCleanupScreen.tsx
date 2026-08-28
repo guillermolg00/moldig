@@ -5,7 +5,6 @@ import { Frame, listHeight, useSize } from "../components/Frame.js";
 import { formatBytes, pad, plural, shortPath } from "../lib/format.js";
 import { isDown, isUp, useKeys } from "../lib/keys.js";
 import { projectCleanup } from "../lib/projects.js";
-import { withExtraConfirmation } from "../lib/runner.js";
 import { useStore } from "../lib/store.js";
 import { useList } from "../lib/use-list.js";
 
@@ -70,10 +69,7 @@ export function ProjectCleanupScreen({
         store.setStatus("the selected projects have no safely removable state");
         return;
       }
-      const runPlan = withExtraConfirmation(
-        store.runner.planSelection(cleanup.selection),
-        "complete state for the selected missing projects",
-      );
+      const runPlan = store.runner.planSelection(cleanup.selection);
       store.push({
         screen: "confirm",
         runPlan,

@@ -552,9 +552,43 @@ describe("apply() over a temp tree with fake executors", () => {
         project: "project:two",
       },
     ]);
-    const manifest = await apply(document, executors());
+    expect(document.groups[0]?.extraConfirmation).toEqual({
+      required: true,
+      reason: "complete state for the selected missing projects",
+    });
+    const stages: string[] = [];
+    const manifest = await apply(document, executors(), {
+      confirm: (_group, stage) => {
+        stages.push(stage);
+        return Promise.resolve("run");
+      },
+    });
+    expect(stages).toEqual(["ask", "extra"]);
     expect(trashed).toEqual([[first, second]]);
     expect(manifest.rows.map((row) => row.result.status)).toEqual(["moved", "moved"]);
+  });
+
+  it("does not report a batched Project trash error as success", async () => {
+    const target = join(home, "project-state-with-ambiguous-error");
+    await writeFile(target, "state");
+    const document = planned([
+      {
+        action: "delete",
+        locator: { type: "file", path: target },
+        label: "project state",
+        kind: "project-state",
+        project: "project:gone",
+      },
+    ]);
+    const manifest = await apply(document, {
+      ...executors(),
+      trash: (paths) =>
+        Promise.resolve({ moved: [...paths], left: [], error: "trash helper failed" }),
+    });
+    expect(manifest.rows[0]?.result).toMatchObject({
+      status: "failed",
+      reason: "trash helper failed",
+    });
   });
 
   it("reports the current row before it starts and after it settles", async () => {

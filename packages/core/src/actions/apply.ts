@@ -250,10 +250,12 @@ async function runProjectTrashRows(
       continue;
     }
     const rowLeft = present.filter((path) => left.has(path));
-    if (rowLeft.length > 0) {
+    const ambiguousFailure = result.error !== null && result.left.length === 0;
+    if (rowLeft.length > 0 || ambiguousFailure) {
+      const leftText = rowLeft.length === 0 ? "" : `; still in place: ${rowLeft.join(", ")}`;
       outcomes.set(row.key, {
         status: "failed",
-        reason: `${result.error ?? "the trash left files behind"}; still in place: ${rowLeft.join(", ")}`,
+        reason: `${result.error ?? "the trash left files behind"}${leftText}`,
         exitCode: null,
       });
       continue;

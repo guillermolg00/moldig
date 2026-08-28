@@ -30,18 +30,6 @@ import {
 } from "@moldig/core";
 import type { SelectionGroup } from "./selection.js";
 
-/** A Project-level Delete always asks twice, even when no row independently carries user content. */
-export function withExtraConfirmation(runPlan: Plan, reason: string): Plan {
-  return {
-    ...runPlan,
-    groups: runPlan.groups.map((group) => ({
-      ...group,
-      warnings: [...group.warnings, `⚠ holds ${reason} — confirmed separately`],
-      extraConfirmation: { required: true, reason },
-    })),
-  };
-}
-
 /** D89, verbatim: why a volume refuses a row. A row shows the half before the em dash. */
 const VOLUME_REASONS: Readonly<Record<Exclude<Device["kind"], "local">, string>> = {
   network: "network volume — no trash available",

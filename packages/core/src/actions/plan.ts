@@ -580,9 +580,35 @@ function rowFor(
     // A locator-only target: a lock entry whose directory is gone, or a whole memory unit.
     const locator = target.locator;
     if (locator === undefined) return null;
+    const key = locatorKey(locator);
+    const planTarget: PlanTarget = {
+      key,
+      id: null,
+      locator,
+      label: target.label ?? key,
+      kind: target.kind ?? (locator.type === "dir" ? "memory-unit" : "lock-entry"),
+      harness: target.harness ?? null,
+      project: target.project ?? null,
+    };
+    if (target.refusal !== undefined) {
+      return {
+        key,
+        action: target.action,
+        target: planTarget,
+        disposition: refused(target.refusal),
+        paths: [],
+        backups: [],
+        edits: [],
+        bytes: target.bytes ?? 0,
+        tokensPerSession: {},
+        flags: [],
+        badges: [],
+        volume: null,
+        finding,
+      };
+    }
     const steps =
       target.action === "open" ? emptySteps(openDisposition()) : locatorSteps(locator, backupDir);
-    const key = locatorKey(locator);
     const classified = [...steps.paths, ...steps.backups.map((backup) => backup.path)];
     const volume = volumeOf(classified, env);
     const disposition = volume.reason === null ? steps.disposition : refused(volume.reason);
@@ -590,15 +616,7 @@ function rowFor(
     return {
       key,
       action: target.action,
-      target: {
-        key,
-        id: null,
-        locator,
-        label: target.label ?? key,
-        kind: target.kind ?? (locator.type === "dir" ? "memory-unit" : "lock-entry"),
-        harness: target.harness ?? null,
-        project: target.project ?? null,
-      },
+      target: planTarget,
       disposition,
       paths: stopped ? [] : steps.paths,
       backups: stopped ? [] : steps.backups,
@@ -612,7 +630,7 @@ function rowFor(
     };
   }
 
-  const blocked = eligibility(entity, target.action);
+  const blocked = target.refusal ?? eligibility(entity, target.action);
   const weighted = target.action === "clean" || target.action === "delete";
   // One placement of a Skill is a row of its own ("remove for <harness>", 14 §1).
   const rowKey = target.placement === undefined ? entity.id : `${entity.id}#${target.placement}`;
@@ -711,6 +729,7 @@ function groupFor(action: Action, rows: PlanRow[]): PlanGroup {
     mergeTokens(tokens, row.tokensPerSession);
     if (row.flags.includes("shared")) shared += 1;
   }
+  const projectState = sorted.some((row) => row.target.kind === "project-state");
   const userContent = actionable.some((row) => row.flags.includes("user-content"));
   const permanent = actionable.some((row) => row.badges.includes("permanent"));
   const warnings: string[] = [];
@@ -719,14 +738,12 @@ function groupFor(action: Action, rows: PlanRow[]): PlanGroup {
       `⚠ ${shared} shared ${shared === 1 ? "row" : "rows"} — git-tracked, collaborators may rely on them`,
     );
   }
-  const reason =
-    userContent && permanent
-      ? "user content and permanent rows"
-      : userContent
-        ? "user content"
-        : permanent
-          ? "permanent rows"
-          : null;
+  const reasons = [
+    projectState ? "complete state for the selected missing projects" : null,
+    userContent ? "user content" : null,
+    permanent ? "permanent rows" : null,
+  ].filter((item): item is string => item !== null);
+  const reason = reasons.length === 0 ? null : reasons.join(" and ");
   if (reason !== null) warnings.push(`⚠ holds ${reason} — confirmed separately`);
   return {
     action,

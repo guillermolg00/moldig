@@ -66,6 +66,8 @@ export interface SelectionTarget {
   bytes?: number;
   /** One pre-aggregated, core-recognised Update invocation. */
   updateBatch?: UpdateBatchTarget;
+  /** A core-derived refusal that must remain visible in the Plan and run manifest. */
+  refusal?: string;
   /** The Finding that proposed the row, when it came from one. */
   finding?: string;
 }

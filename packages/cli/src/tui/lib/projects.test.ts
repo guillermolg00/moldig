@@ -7,7 +7,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { createFakeExecutors } from "../../executors/fake.js";
 import { ensureDirFor } from "../../executors/files.js";
 import { projectCleanup } from "./projects.js";
-import { createRunner, withExtraConfirmation } from "./runner.js";
+import { createRunner } from "./runner.js";
 
 const NOW = new Date("2026-08-26T12:00:00.000Z");
 let tree: FixtureTree;
@@ -69,10 +69,7 @@ describe("Project-level cleanup", () => {
       command: "moldig",
       prepare: (runPlan) => ensureDirFor(runPlan.manifestPath),
     });
-    const runPlan = withExtraConfirmation(
-      runner.planSelection(cleanup.selection),
-      "complete state for the selected missing projects",
-    );
+    const runPlan = runner.planSelection(cleanup.selection);
     expect(runPlan.groups).toHaveLength(1);
     expect(runPlan.groups[0]?.extraConfirmation).toEqual({
       required: true,
@@ -97,6 +94,59 @@ describe("Project-level cleanup", () => {
     const original: unknown = JSON.parse(await readFile(backup ?? "", "utf8"));
     expect(original).toMatchObject({ projects: { [gone.path]: expect.any(Object) } });
   }, 60_000);
+
+  it("keeps a Live Project target as a refused manifest row and still asks twice", async () => {
+    const gone = index.projects.find((project) => project.reachability === "orphan");
+    if (gone === undefined) throw new Error("fixture has no missing Project");
+    const stateIds = new Set(
+      index.breadcrumbs
+        .filter((breadcrumb) => breadcrumb.project === gone.id)
+        .flatMap((breadcrumb) => breadcrumb.state),
+    );
+    const liveUnit = index.entities.find((entity) => stateIds.has(entity.id));
+    if (liveUnit === undefined) throw new Error("fixture has no Project-owned state");
+    const live = { ...liveUnit, protection: "live" as const };
+    const liveIndex: AuditIndex = {
+      ...index,
+      entities: index.entities.map((entity) => (entity.id === liveUnit.id ? live : entity)),
+    };
+    const cleanup = projectCleanup(liveIndex, new Set([gone.id]));
+    const refusedSelection = cleanup.selection.filter((target) => target.refusal !== undefined);
+    expect(cleanup.blocked).not.toEqual([]);
+    expect(refusedSelection).not.toEqual([]);
+
+    const fake = createFakeExecutors({
+      trashDir: join(tree.dir, "fake-trash-live"),
+      now: NOW,
+      move: false,
+    });
+    const runner = createRunner({
+      index: liveIndex,
+      executors: fake.executors,
+      deviceOf: () => ({ dev: 1, kind: "local" }),
+      dataDir: dataDirFor({ platform: "darwin", env: {}, home: tree.home }),
+      platform: "darwin",
+      home: tree.home,
+      version: "0.0.0",
+      command: "moldig purge",
+      prepare: (runPlan) => ensureDirFor(runPlan.manifestPath),
+    });
+    const runPlan = runner.planSelection(refusedSelection);
+    expect(runPlan.groups[0]?.extraConfirmation).toEqual({
+      required: true,
+      reason: "complete state for the selected missing projects",
+    });
+    const stages: string[] = [];
+    const manifest = await runner.apply(runPlan, (_group, stage) => {
+      stages.push(stage);
+      return Promise.resolve("run");
+    });
+    expect(stages).toEqual(["ask", "extra"]);
+    expect(manifest.rows.length).toBeGreaterThan(0);
+    expect(manifest.rows.every((row) => row.result.status === "refused")).toBe(true);
+    expect(manifest.rows.every((row) => row.result.reason?.startsWith("live —"))).toBe(true);
+    expect(fake.trashed).toEqual([]);
+  });
 
   it.each([
     "codex/trust-and-state",
@@ -130,12 +180,8 @@ describe("Project-level cleanup", () => {
           command: "moldig",
           prepare: (runPlan) => ensureDirFor(runPlan.manifestPath),
         });
-        const manifest = await runner.apply(
-          withExtraConfirmation(
-            runner.planSelection(cleanup.selection),
-            "complete state for the selected missing projects",
-          ),
-          () => Promise.resolve("run"),
+        const manifest = await runner.apply(runner.planSelection(cleanup.selection), () =>
+          Promise.resolve("run"),
         );
         expect(
           manifest.rows.filter(

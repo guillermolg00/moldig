@@ -72,16 +72,22 @@ export function projectCleanup(
   const blockedLabels = new Set<string>();
   const candidates: PathCandidate[] = [];
   const precise: SelectionTarget[] = [];
-  const seenPrecise = new Set<string>();
+  const preciseIndex = new Map<string, number>();
+
+  const addPrecise = (key: string, target: SelectionTarget): void => {
+    const position = preciseIndex.get(key);
+    if (position === undefined) {
+      preciseIndex.set(key, precise.length);
+      precise.push(target);
+    } else if (target.refusal !== undefined) {
+      // A Live child wins when two breadcrumbs resolve to the same enclosing store target.
+      precise[position] = target;
+    }
+  };
 
   const addEntity = (entity: Entity): void => {
     if (seenEntities.has(entity.id)) return;
     seenEntities.add(entity.id);
-    if (blocked(entity)) {
-      blockedLabels.add(entity.label);
-      for (const path of pathsOf(entity.locator)) blockedPaths.push(path);
-      return;
-    }
     const paths = pathsOf(entity.locator);
     for (const path of paths) {
       if (entity.project !== null) candidates.push({ path, project: entity.project });
@@ -98,11 +104,28 @@ export function projectCleanup(
     const state = breadcrumb.state
       .map((id) => entityById.get(id))
       .filter((entity): entity is Entity => entity !== undefined);
-    for (const entity of state) addEntity(entity);
-    if (state.some(blocked)) {
-      blockedLabels.add(`${project.displayName} · ${harnessName(index, breadcrumb.harness)}`);
+    const label = `${project.displayName} · ${harnessName(index, breadcrumb.harness)} · ${breadcrumb.kind.replaceAll("-", " ")}`;
+    const live = state.filter(blocked);
+    if (live.length > 0) {
+      for (const entity of state) seenEntities.add(entity.id);
+      for (const entity of live) {
+        for (const path of pathsOf(entity.locator)) blockedPaths.push(path);
+      }
+      blockedLabels.add(label);
+      const key = locatorKey(breadcrumb.locator);
+      addPrecise(key, {
+        action: "delete",
+        locator: breadcrumb.locator,
+        label,
+        kind: "project-state",
+        harness: breadcrumb.harness,
+        project: project.id,
+        bytes: state.reduce((sum, entity) => sum + entity.metrics.bytes, 0),
+        refusal: "live — a harness is using it right now",
+      });
       continue;
     }
+    for (const entity of state) addEntity(entity);
 
     const paths = pathsOf(breadcrumb.locator);
     if (paths.length > 0) {
@@ -110,12 +133,10 @@ export function projectCleanup(
       continue;
     }
     const key = locatorKey(breadcrumb.locator);
-    if (seenPrecise.has(key)) continue;
-    seenPrecise.add(key);
-    precise.push({
+    addPrecise(key, {
       action: "delete",
       locator: breadcrumb.locator,
-      label: `${project.displayName} · ${harnessName(index, breadcrumb.harness)} · ${breadcrumb.kind.replaceAll("-", " ")}`,
+      label,
       kind: "project-state",
       harness: breadcrumb.harness,
       project: project.id,
@@ -152,7 +173,8 @@ export function projectCleanup(
     );
   };
   const targets = precise.filter(
-    (target) => target.locator === undefined || !covered(target.locator),
+    (target) =>
+      target.refusal !== undefined || target.locator === undefined || !covered(target.locator),
   );
   const bytes = [...seenEntities]
     .map((id) => entityById.get(id)?.metrics.bytes ?? 0)

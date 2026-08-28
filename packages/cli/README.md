@@ -74,9 +74,10 @@ the scanned Roots. Enter is the confirmation, while `space` can exclude a group 
 enters Inventory. Human-owned Context files, Skills, Agent definitions, plugins, MCP servers,
 Memory, kept cache and Live state never enter this trusted Clean Plan.
 
-Inventory is the Finding inbox for surgical decisions. From there, `u` opens the machine-wide
-Update Plan. `moldig purge` separately opens one compact missing-Project list: toggle Projects with
-`space`, use `a` for all/none, then Delete their complete Harness records after two confirmations.
+Inventory contains the Finding categories and existing surgical views. From there, `u` opens the
+machine-wide Update Plan. `moldig purge` separately opens one compact missing-Project list: toggle
+Projects with `space`, use `a` for all/none, then Delete their complete Harness records after two
+confirmations.
 After any run, moldig scans and audits again before it returns.
 
 Keys: `↑↓` `j` `k` to navigate (`PgUp`/`PgDn`, `Home`/`End` jump), `enter` to choose or open,
